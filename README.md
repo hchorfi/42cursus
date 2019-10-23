@@ -1,2 +1,2 @@
 # 1337
-1337 project
+1337 projects
