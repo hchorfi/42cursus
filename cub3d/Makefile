@@ -6,13 +6,13 @@
 #    By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/31 20:36:35 by hchorfi           #+#    #+#              #
-#    Updated: 2020/10/14 14:26:23 by hchorfi          ###   ########.fr        #
+#    Updated: 2020/10/15 12:48:37 by hchorfi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
 
-LIBFT_PATH = ./libft
+LIBFT_PATH = ../libft
 LIBFT_LIB = ft
 
 MLX_PATH = /usr/local/lib

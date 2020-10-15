@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 20:28:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/14 18:35:04 by hchorfi          ###   ########.fr       */
+/*   Updated: 2020/10/15 12:50:38 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -654,7 +654,7 @@ int		readfile2(int fd, char *line, int check)
 				stock_map_line(line);
 	}
 	printf("check : %d -- gnl : %d", check, get_next_line(fd, &line));
-	return (check);
+	return (1);
 }
 
 int		readfile(char **av)

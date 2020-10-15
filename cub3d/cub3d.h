@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 20:52:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/14 14:16:45 by hchorfi          ###   ########.fr       */
+/*   Updated: 2020/10/15 12:50:01 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "mlx.h"
 # include "get_next_line.h"
-# include "libft/libft.h"
+# include "../libft/libft.h"
 //# include "ft_printf.h"
 # include <stdio.h>
 # include <math.h>
