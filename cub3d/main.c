@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hakuna <hakuna@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 20:28:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/16 19:43:55 by hchorfi          ###   ########.fr       */
+/*   Updated: 2020/10/16 22:43:59 by hakuna           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ void    draw_square(int square_i, int square_j, int square_color)
 
 void    draw_player()
 {
-	int	j ;
-	int i;
+	//int	j ;
+	//int i;
 
-	j = 0;
-	i = 0;
+	//j = 0;
+	//i = 0;
   
     double x1, y1;
 	double r;
@@ -657,7 +657,7 @@ int		stock_map_line(char *line)
 		//{
 		//	last_list = 
 		//}
-		printf("\n-----%s------\n", map_info.line_list->content);
+		printf("\n-----%p------\n", map_info.line_list->content);
 	}
 	printf("Map height : %d | %s\n", map_info.rows, line);
 	return 1;

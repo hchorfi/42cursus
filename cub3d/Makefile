@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+         #
+#    By: hakuna <hakuna@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/31 20:36:35 by hchorfi           #+#    #+#              #
-#    Updated: 2020/10/16 19:00:45 by hchorfi          ###   ########.fr        #
+#    Updated: 2020/10/16 22:49:53 by hakuna           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,10 @@ re: fclean all
 	
 #Render the project
 rlinux:
-	gcc -g -I /usr/local/include *.c -L. -lftprintf -lft -L /usr/local/lib -lmlx -lm -lbsd -lX11 -lXext
+	gcc $(FLAGS) -c $(SRCS)
+	make -C $(LIBFT_PATH)
+	gcc -I /usr/local/include $(OBJS) -L $(MLX_PATH) -l$(MLX_LIB) -L $(LIBFT_PATH) -l$(LIBFT_LIB) -lm -lbsd -lX11 -lXext -g -fsanitize=address
+	#gcc -g -I /usr/local/include *.c -L. -lftprintf -lft -L /usr/local/lib -lmlx -lm -lbsd -lX11 -lXext
 
 rmac:
 	gcc -g -I /usr/local/include *.c -L. -lftprintf -lft -L /usr/local/lib -lmlx -framework OpenGL -framework Appkit
