@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 20:28:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/15 12:50:38 by hchorfi          ###   ########.fr       */
+/*   Updated: 2020/10/16 19:43:55 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_textures()
 	void	*img7;
 	int		tab[5];
 	char 	*file;
-	file = "brick.xpm";
+	file = "brick2.xpm";
 	
 	img7 = mlx_xpm_file_to_image(mlx_ptr, file, &tab[0], &tab[1]);
 	txt.txt_1 = (unsigned int *)mlx_get_data_addr(img7, &tab[2], &tab[3], &tab[4]);
@@ -624,37 +624,57 @@ int		check_map_line(char *line, int check)
 	i = 0;
 	while (line[i])
 	{
+		while (line[i] == ' ' || line[i] == '\t')
+			i++;
 		if (char_chr(line[i], "NWSE"))
 		{
-			if (!(check = set_player(line[i],i,map_info.m_height)))
+			if (!(check = set_player(line[i],i,map_info.rows)))
 			{
 				return (err_print("one player allowed"));
 			}
 		}
+		else if (!(char_chr(line[i], "01")))
+		{
+			return (err_print("Only 0,1,2,N,W,S,E character accepted in he map"));
+		}
 		i++;
 	}
-	map_info.m_height++;
-	printf("%d Map height : %d | %s\n", check, map_info.m_height, line);
+	map_info.rows++;
 	return (check);
 }
 
 int		stock_map_line(char *line)
 {
-	line = NULL;
+	t_list *new_list;
+	//t_list *last_list;
+	if ((new_list = ft_lstnew(line)) != NULL && map_info.line_list == NULL)
+	{
+		map_info.line_list = new_list; 
+	}
+	if (map_info.line_list != NULL)
+	{
+		//while (map_info.line_list)
+		//{
+		//	last_list = 
+		//}
+		printf("\n-----%s------\n", map_info.line_list->content);
+	}
+	printf("Map height : %d | %s\n", map_info.rows, line);
 	return 1;
 }
 
 int		readfile2(int fd, char *line, int check)
 {
-	while (check == 1)
+	int gnl_check = 1;
+	while (gnl_check == 1 && check == 1)
 	{
-		check = get_next_line(fd, &line);
+		gnl_check = get_next_line(fd, &line);
 		if (line[0] != '\0')
 			if ((check = check_map_line(line, 1)))
 				stock_map_line(line);
 	}
-	printf("check : %d -- gnl : %d", check, get_next_line(fd, &line));
-	return (1);
+	printf("check : %d -- gnl : %d\n", check, get_next_line(fd, &line));
+	return (check);
 }
 
 int		readfile(char **av)
@@ -688,10 +708,11 @@ void init_val(void)
 	player.turn_direction = 0;
 	player.walk_direction = 0;
 	player.rotation_angle = (PI / 2)*3;
-	player.walk_speed = 2;
-	player.turn_speed = 2 * (PI / 180);
-	map_info.m_height = 0;
+	player.walk_speed = 10;
+	player.turn_speed = 5 * (PI / 180);
+	map_info.rows = 0;
 	map_info.check_pose = 0;
+	map_info.line_list = NULL;
 }
 
 int     main(int ac,char **av)

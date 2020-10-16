@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 16:04:39 by hchorfi           #+#    #+#             */
-/*   Updated: 2019/10/21 22:36:07 by hchorfi          ###   ########.fr       */
+/*   Updated: 2020/10/16 19:03:37 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	t_list	*ft_lstnew(void *content)
+t_list	*ft_lstnew(void *content)
 {
 	t_list *list;
 

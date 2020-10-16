@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 20:52:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/15 12:50:01 by hchorfi          ###   ########.fr       */
+/*   Updated: 2020/10/16 18:58:05 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 
 //constants
 
-#define tile_size 24
+#define tile_size 64
 #define map_cols 29
 #define map_rows 14
 #define	max_w_width 1920
 #define	max_w_height 1080
-#define win_width 720
-#define win_height 576
+#define win_width 1920
+#define win_height 1080
 #define num_rays win_width
 #define PI 3.1415926535
 #define	fov_angle 60 * (PI / 180)
@@ -83,15 +83,16 @@ typedef struct {
 t_ray		ray[num_rays];
 
 typedef struct s_map_info{
+	t_list	*line_list;
 	int		x;
 	int		y;
-	int		m_width;
-	int		m_height;
+	int		cols;
+	int		rows;
 	int		check_pose;
 }			t_map;
 t_map		map_info;
 
-typedef struct	{
+typedef struct {
     void	*img;
     int     *addr;
     int     bits_per_pixel;
@@ -148,12 +149,5 @@ typedef struct  s_wall_3d
 	int         wal_bot;
 }               t_wall_3d;
 t_wall_3d       wall_3d;
-
-typedef struct  s_file
-{
-    int			col;
-	int			len;
-}               t_file;
-t_file       file;
 
 #endif
