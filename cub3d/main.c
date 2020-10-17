@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hakuna <hakuna@student.42.fr>              +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 20:28:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/16 22:43:59 by hakuna           ###   ########.fr       */
+/*   Updated: 2020/10/17 19:24:22 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	ft_textures()
 	void	*img7;
 	int		tab[5];
 	char 	*file;
-	file = "brick2.xpm";
+	file = "brick.xpm";
 	
 	img7 = mlx_xpm_file_to_image(mlx_ptr, file, &tab[0], &tab[1]);
 	txt.txt_1 = (unsigned int *)mlx_get_data_addr(img7, &tab[2], &tab[3], &tab[4]);
@@ -469,7 +469,8 @@ int		update()
 
 int 	init_win()
 {
-	
+	map_info.width = map_info.cols * tile_size;
+	map_info.height = map_info.rows * tile_size;
 	mlx_ptr = mlx_init();
     win_ptr = mlx_new_window(mlx_ptr, mlx_data.w_width, mlx_data.w_height, "Cub 3D");
 	mlx_data.img = mlx_new_image(mlx_ptr, win_width, win_height);
@@ -646,26 +647,28 @@ int		check_map_line(char *line, int check)
 int		stock_map_line(char *line)
 {
 	t_list *new_list;
+	//char *new_line;
+	int line_len;
+	
+	line_len = ft_strlen(line);
+	//new_line = line;
 	//t_list *last_list;
-	if ((new_list = ft_lstnew(line)) != NULL && map_info.line_list == NULL)
-	{
-		map_info.line_list = new_list; 
-	}
-	if (map_info.line_list != NULL)
-	{
-		//while (map_info.line_list)
-		//{
-		//	last_list = 
-		//}
-		printf("\n-----%p------\n", map_info.line_list->content);
-	}
-	printf("Map height : %d | %s\n", map_info.rows, line);
+	new_list = ft_lstnew(line);
+	if (map_info.line_list == NULL)
+		map_info.line_list = new_list;
+	else
+		ft_lstadd_back(&map_info.line_list, new_list);
+	if (line_len > map_info.cols)
+		map_info.cols = line_len;
+	printf("line-list    : %d | %s\n", map_info.rows, ft_lstlast(map_info.line_list)->content);
+
 	return 1;
 }
 
 int		readfile2(int fd, char *line, int check)
 {
 	int gnl_check = 1;
+
 	while (gnl_check == 1 && check == 1)
 	{
 		gnl_check = get_next_line(fd, &line);
@@ -673,7 +676,10 @@ int		readfile2(int fd, char *line, int check)
 			if ((check = check_map_line(line, 1)))
 				stock_map_line(line);
 	}
-	printf("check : %d -- gnl : %d\n", check, get_next_line(fd, &line));
+	printf("check : %d -- gnl : %d\nmap_rows : %d\nmap_cols : %d\n", check, get_next_line(fd, &line), map_info.rows, map_info.cols);
+	//char **map_lines;
+	
+	
 	return (check);
 }
 
@@ -711,6 +717,7 @@ void init_val(void)
 	player.walk_speed = 10;
 	player.turn_speed = 5 * (PI / 180);
 	map_info.rows = 0;
+	map_info.cols = 0;
 	map_info.check_pose = 0;
 	map_info.line_list = NULL;
 }
