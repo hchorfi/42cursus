@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 20:28:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/17 19:24:22 by hchorfi          ###   ########.fr       */
+/*   Updated: 2020/10/19 13:15:36 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ void    draw_square(int square_i, int square_j, int square_color)
     int j;
 
     j = 0;
-    while (j < tile_size)
+    while (j < map_info.tile)
     {
         i = 0;
-        while (i < tile_size)
+        while (i < map_info.tile)
         {
             my_mlx_pixel_put(
 						 ((i + square_i) * minimap_sf),
@@ -342,23 +342,25 @@ void    render_map()
     j = 0;
     square_i = 0;
     square_j = 0;
-    while (j < map_rows)
+    while (j < map_info.rows)
     {
         i = 0;
         square_i = 0;
-        while (i < map_cols)
+        while (i < map_info.cols)
         {
-            if (map[j][i] == 1)
+			printf("%c", map_info.lines[j][i]);
+            if (map_info.lines[j][i] == '1')
                 draw_square(square_i, square_j, 0xffffff);
-            if (map[j][i] == 0 || map[j][i] == 3)
+            if (map_info.lines[j][i] == '0' || map_info.lines[j][i] == 3)
                 draw_square(square_i, square_j, 0x000000);
             i++;
-            square_i += tile_size;
+            square_i += map_info.tile;
         }
+		printf(": %d\n", ft_strlen(map_info.lines[j]));
         j++;
-        square_j += tile_size;
+        square_j += map_info.tile;
     }
-
+	printf("\nmap_info.tile = %d\n", map_info.tile);
 }
 
 int   	render_player()
@@ -398,10 +400,10 @@ void	render_all_rays()
 int    render()
 {
 	//blackscreen();
-	render_3d_walls();
+	//render_3d_walls();
     render_map();
-	render_player();
-	render_all_rays();
+	//render_player();
+	//render_all_rays();
 	return 0;
 }
 
@@ -469,16 +471,14 @@ int		update()
 
 int 	init_win()
 {
-	map_info.width = map_info.cols * tile_size;
-	map_info.height = map_info.rows * tile_size;
+	map_info.tile = mlx_data.w_width / map_info.cols;
 	mlx_ptr = mlx_init();
     win_ptr = mlx_new_window(mlx_ptr, mlx_data.w_width, mlx_data.w_height, "Cub 3D");
-	mlx_data.img = mlx_new_image(mlx_ptr, win_width, win_height);
+	mlx_data.img = mlx_new_image(mlx_ptr, mlx_data.w_width, mlx_data.w_height);
 	mlx_data.addr = (int*)mlx_get_data_addr(mlx_data.img, &mlx_data.bits_per_pixel, &mlx_data.line_length,
                                  &mlx_data.endian);												
 	return (1);
 }
-
 void 	setup()
 {
 	int j;
@@ -646,13 +646,10 @@ int		check_map_line(char *line, int check)
 
 int		stock_map_line(char *line)
 {
-	t_list *new_list;
-	//char *new_line;
-	int line_len;
+	t_list 	*new_list;
+	int 	line_len;
 	
 	line_len = ft_strlen(line);
-	//new_line = line;
-	//t_list *last_list;
 	new_list = ft_lstnew(line);
 	if (map_info.line_list == NULL)
 		map_info.line_list = new_list;
@@ -661,25 +658,73 @@ int		stock_map_line(char *line)
 	if (line_len > map_info.cols)
 		map_info.cols = line_len;
 	printf("line-list    : %d | %s\n", map_info.rows, ft_lstlast(map_info.line_list)->content);
+	return 1;
+}
 
+int		fill_map()
+{
+	int		i;
+	int		j;
+	char 	*str;
+	int 	len;
+
+	i = 0;
+	if (!(map_info.lines = malloc(map_info.rows * sizeof(char*))))
+		return (0);
+	while (i < map_info.rows)
+	{
+		j = 0;
+		str = map_info.line_list->content;
+		len = ft_strlen(str);
+		if (!(map_info.lines[i] = malloc((map_info.cols) * sizeof(char))))
+			return (0);
+		while (j < len)
+		{
+			map_info.lines[i][j] = str[j];
+			j++;
+		}
+		while (j < map_info.cols)
+		{
+			map_info.lines[i][j] = ' ';
+			j++;
+		}
+		
+		map_info.lines[i][j] = '\0';
+		printf("%d\n", ft_strlen(str));
+		printf("line %d : j= %d cols= %d len= %d line= %d\n", i , j, map_info.cols, len , ft_strlen(map_info.lines[i]));
+		map_info.line_list = map_info.line_list->next;
+		i++;
+	}
+	
+	i = 0;
+	j = 0;
+	while (i < map_info.rows)
+	{
+		while (j < map_info.cols)
+		{
+			printf("%c", map_info.lines[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+		j = 0;
+	}
 	return 1;
 }
 
 int		readfile2(int fd, char *line, int check)
 {
 	int gnl_check = 1;
-
 	while (gnl_check == 1 && check == 1)
 	{
 		gnl_check = get_next_line(fd, &line);
 		if (line[0] != '\0')
 			if ((check = check_map_line(line, 1)))
-				stock_map_line(line);
+				check = stock_map_line(line);
 	}
 	printf("check : %d -- gnl : %d\nmap_rows : %d\nmap_cols : %d\n", check, get_next_line(fd, &line), map_info.rows, map_info.cols);
-	//char **map_lines;
-	
-	
+	if (check == 1)
+		check = fill_map();
 	return (check);
 }
 

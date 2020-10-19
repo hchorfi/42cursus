@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 20:52:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/17 18:49:54 by hchorfi          ###   ########.fr       */
+/*   Updated: 2020/10/19 13:12:03 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 //constants
 
-#define tile_size 32
+#define tile_size 17
 #define map_cols 29
 #define map_rows 14
 #define	max_w_width 1920
@@ -84,8 +84,10 @@ t_ray		ray[num_rays];
 
 typedef struct s_map_info{
 	t_list	*line_list;
+	char	**lines;
 	int		x;
 	int		y;
+	int		tile;
 	int		cols;
 	int		rows;
 	int		width;
