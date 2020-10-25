@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   old.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 20:28:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/19 13:15:36 by hchorfi          ###   ########.fr       */
+/*   Updated: 2020/10/23 19:11:58 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*mlx_ptr;
 void	*win_ptr;
 
-const   int map[map_rows][map_cols] = {
+/*const   int map[map_rows][map_cols] = {
     {5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
@@ -30,7 +30,7 @@ const   int map[map_rows][map_cols] = {
     {1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1},
     {1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 3, 0, 1},
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-};
+};*/
 
 void            my_mlx_pixel_put(int x, int y, int color)
 {
@@ -44,10 +44,10 @@ void	blackscreen()
 {
 	int y = 0;
 	int x;
-	while (y < win_height)
+	while (y < mlx_data.w_height)
 	{
 		x = 0;
-		while (x < win_width)
+		while (x < mlx_data.w_width)
 		{
 			my_mlx_pixel_put(x,y,0x000000);
 			x++;
@@ -127,36 +127,36 @@ void	render_3d_walls()
 	int y;
 	i = 0;
 	
-	while (i < num_rays)
+	while (i < mlx_data.w_width)
 	{
 		wall_3d.wal_3d_distance = ray[i].distance * cosf(ray[i].angle - player.rotation_angle);
-		wall_3d.distance_pro_plan = (win_width / 2) / tan(fov_angle / 2);
-		wall_3d.pro_wall_hie = (tile_size / wall_3d.wal_3d_distance) * wall_3d.distance_pro_plan;
+		wall_3d.distance_pro_plan = (mlx_data.w_width / 2) / tan(fov_angle / 2);
+		wall_3d.pro_wall_hie = (map_info.tile / wall_3d.wal_3d_distance) * wall_3d.distance_pro_plan;
 
 		wall_3d.wall_strip_hie =(int)wall_3d.pro_wall_hie;
 
-		wall_3d.wal_top = (win_height / 2) - (wall_3d.wall_strip_hie / 2);
+		wall_3d.wal_top = (mlx_data.w_height / 2) - (wall_3d.wall_strip_hie / 2);
 		wall_3d.wal_top = wall_3d.wal_top < 0 ? 0: wall_3d.wal_top;
 	
-		wall_3d.wal_bot = (win_height / 2) + (wall_3d.wall_strip_hie / 2);
-		wall_3d.wal_bot = wall_3d.wal_bot > win_height ? win_height : wall_3d.wal_bot;
-		txt.x = ray[i].vertical_hit == 1 ? fmod(ray[i].wall_hity,tile_size) : fmod(ray[i].wall_hitx,tile_size);
+		wall_3d.wal_bot = (mlx_data.w_height / 2) + (wall_3d.wall_strip_hie / 2);
+		wall_3d.wal_bot = wall_3d.wal_bot > mlx_data.w_height ? mlx_data.w_height : wall_3d.wal_bot;
+		txt.x = ray[i].vertical_hit == 1 ? fmod(ray[i].wall_hity,map_info.tile) : fmod(ray[i].wall_hitx,map_info.tile);
 		y = 0;
 		while (y < wall_3d.wal_top)
 		{
-			mlx_data.addr[i + y * win_width] = 0x73c2fb;
+			mlx_data.addr[i + y * mlx_data.w_width] = 0x73c2fb;
 			y++;
 		}
 		while (y < wall_3d.wal_bot)
 		{
-			int distance_from_top = y + ( wall_3d.wall_strip_hie / 2) - (win_height / 2);
-			txt.y = (int)((distance_from_top * tile_size) / wall_3d.wall_strip_hie);
-			mlx_data.addr[i + y * win_width] = txt.txt_1[txt.x + (tile_size * txt.y)];
+			int distance_from_top = y + ( wall_3d.wall_strip_hie / 2) - (mlx_data.w_height / 2);
+			txt.y = (int)((distance_from_top * map_info.tile) / wall_3d.wall_strip_hie);
+			mlx_data.addr[i + y * mlx_data.w_width] = txt.txt_1[txt.x + (map_info.tile * txt.y)];
 			y++;
 		}
-		while (y < win_height)
+		while (y < mlx_data.w_height)
 		{
-			mlx_data.addr[i + y * win_width] = 0x300e1c;
+			mlx_data.addr[i + y * mlx_data.w_width] = 0x300e1c;
 			y++;
 		}
 		i++;
@@ -182,18 +182,17 @@ float distanceBetweenPoints(float x1, float y1, float x2, float y2)
 
 int		wall_collision(float npx, float npy)
 {
-	if (npx < 0 || npx > win_width || npy < 0 || npy > win_height)
+	if (npx < 0 || npx > mlx_data.w_width || npy < 0 || npy > mlx_data.w_height)
 		return (1);
-	map_info.x = (int)(npx / tile_size);
-	map_info.y = (int)(npy / tile_size);
-	return (map[map_info.y][map_info.x] == 1 ? 1 : 0);
+	map_info.x = (int)(npx / map_info.tile);
+	map_info.y = (int)(npy / map_info.tile);
+	return (map_info.lines[map_info.y][map_info.x] == 1 ? 1 : 0);
 }
 
 void	cast_ray(float ray_angle, int strip_id)
 {
 	
 	ray_angle = normalize(ray_angle);
-
 	data.face_down = ray_angle > 0 && ray_angle < PI;
 	data.face_up = !data.face_down;
 	data.face_right = ray_angle < 0.5 * PI || ray_angle > 1.5 * PI;
@@ -209,23 +208,23 @@ void	cast_ray(float ray_angle, int strip_id)
 	data.hor_wal_content = 0;
 
 
-	data.y_intercept = floor(player.y / tile_size) * tile_size;
-	data.y_intercept += data.face_down ? tile_size : 0;
+	data.y_intercept = floor(player.y / map_info.tile) * map_info.tile;
+	data.y_intercept += data.face_down ? map_info.tile : 0;
 	
 	data.x_intercept =	player.x + (data.y_intercept - player.y) / tanf(ray_angle);
 
-	data.y_step = tile_size;
+	data.y_step = map_info.tile;
 	data.y_step *= data.face_up ? -1 : 1;
 
-	data.x_step = tile_size / tanf(ray_angle);
+	data.x_step = map_info.tile / tanf(ray_angle);
 	data.x_step *= (data.face_left && data.x_step > 0) ? -1 : 1;
 	data.x_step *= (data.face_right && data.x_step < 0) ? -1 : 1;
 
 	data.next_hor_touch_x = data.x_intercept;
 	data.next_hor_touch_y = data.y_intercept;
-	
+
 	// increment xstep and ystep until we find a wall	
-	while (data.next_hor_touch_x >= 0 && data.next_hor_touch_x <= win_width && data.next_hor_touch_y >= 0 && data.next_hor_touch_y <= win_height)
+	while (data.next_hor_touch_x >= 0 && data.next_hor_touch_x <= mlx_data.w_width && data.next_hor_touch_y >= 0 && data.next_hor_touch_y <= mlx_data.w_height)
 	{
 		data.x_to_check = data.next_hor_touch_x;
 		data.y_to_check = data.next_hor_touch_y + (data.face_up ? -1 : 0);
@@ -234,7 +233,7 @@ void	cast_ray(float ray_angle, int strip_id)
             // found a wall hit
             data.hor_wal_hit_x = data.next_hor_touch_x;
             data.hor_wal_hit_y = data.next_hor_touch_y;
-            data.hor_wal_content = map[(int)floor(data.y_to_check / tile_size)][(int)floor(data.x_to_check / tile_size)];
+            //data.hor_wal_content = map_info.lines[(int)floor(data.y_to_check / map_info.tile)][(int)floor(data.x_to_check / map_info.tile)];
             data.found_hor_wal_hit = 1;
             break;
         } else {
@@ -253,15 +252,15 @@ void	cast_ray(float ray_angle, int strip_id)
 	data.ver_wal_content = 0;
 
 
-	data.x_intercept = floor(player.x / tile_size) * tile_size;
-	data.x_intercept += data.face_right ? tile_size : 0;
+	data.x_intercept = floor(player.x / map_info.tile) * map_info.tile;
+	data.x_intercept += data.face_right ? map_info.tile : 0;
 	
 	data.y_intercept =	player.y + (data.x_intercept - player.x) * tanf(ray_angle);
 
-	data.x_step = tile_size;
+	data.x_step = map_info.tile;
 	data.x_step *= data.face_left ? -1 : 1;
 
-	data.y_step = tile_size * tanf(ray_angle);
+	data.y_step = map_info.tile * tanf(ray_angle);
 	data.y_step *= (data.face_up && data.y_step > 0) ? -1 : 1;
 	data.y_step *= (data.face_down && data.y_step < 0) ? -1 : 1;
 
@@ -269,7 +268,7 @@ void	cast_ray(float ray_angle, int strip_id)
 	data.next_ver_touch_y = data.y_intercept;
 	
 	// increment xstep and ystep until we find a wall
-	while (data.next_ver_touch_x >= 0 && data.next_ver_touch_x <= win_width && data.next_ver_touch_y >= 0 && data.next_ver_touch_y <= win_height)
+	while (data.next_ver_touch_x >= 0 && data.next_ver_touch_x <= mlx_data.w_width && data.next_ver_touch_y >= 0 && data.next_ver_touch_y <= mlx_data.w_height)
 	{
 		data.x_to_check = data.next_ver_touch_x + (data.face_left ? -1 : 0);
 		data.y_to_check = data.next_ver_touch_y;
@@ -278,7 +277,8 @@ void	cast_ray(float ray_angle, int strip_id)
             // found a wall hit
             data.ver_wal_hit_x = data.next_ver_touch_x;
             data.ver_wal_hit_y = data.next_ver_touch_y;
-            data.ver_wal_content = map[(int)floor(data.y_to_check / tile_size)][(int)floor(data.x_to_check / tile_size)];
+			//printf("%c\n", map_info.lines[(int)floor(data.y_to_check / map_info.tile)][(int)floor(data.x_to_check / map_info.tile)]);
+            //data.ver_wal_content = map_info.lines[(int)floor(data.y_to_check / map_info.tile)][(int)floor(data.x_to_check / map_info.tile)];
             data.found_ver_wal_hit = 1;
             break;
         } else {
@@ -286,6 +286,7 @@ void	cast_ray(float ray_angle, int strip_id)
             data.next_ver_touch_y += data.y_step;
         }
 	}
+	
 	// Calculate both horizontal and vertical hit distances and choose the smallest one
     data.hor_hit_distance = data.found_hor_wal_hit
         ? distanceBetweenPoints(player.x, player.y, data.hor_wal_hit_x, data.hor_wal_hit_y)
@@ -322,10 +323,10 @@ void	cast_all_rays()
 	
 	ray_angle = player.rotation_angle - (fov_angle / 2);
 	strip_id = 0;
-	while (strip_id < num_rays)
+	while (strip_id < 1)
 	{
 		cast_ray(ray_angle, strip_id);
-		ray_angle += fov_angle / num_rays;
+		ray_angle += fov_angle / mlx_data.w_width;
 		strip_id++;
 		
 	}
@@ -348,7 +349,7 @@ void    render_map()
         square_i = 0;
         while (i < map_info.cols)
         {
-			printf("%c", map_info.lines[j][i]);
+			//printf("%c", map_info.lines[j][i]);
             if (map_info.lines[j][i] == '1')
                 draw_square(square_i, square_j, 0xffffff);
             if (map_info.lines[j][i] == '0' || map_info.lines[j][i] == 3)
@@ -356,11 +357,11 @@ void    render_map()
             i++;
             square_i += map_info.tile;
         }
-		printf(": %d\n", ft_strlen(map_info.lines[j]));
+		//printf("\n");
         j++;
         square_j += map_info.tile;
     }
-	printf("\nmap_info.tile = %d\n", map_info.tile);
+	//printf("\nmap_info.tile = %d\n", map_info.tile);
 }
 
 int   	render_player()
@@ -379,7 +380,7 @@ void	render_all_rays()
 	j = 0;
 	i = 0;
 	k = 0;
-	while (k < num_rays)
+	while (k < 1)
 	{
 		while (j < ray[k].distance)
 		{
@@ -400,10 +401,10 @@ void	render_all_rays()
 int    render()
 {
 	//blackscreen();
-	//render_3d_walls();
+	render_3d_walls();
     render_map();
-	//render_player();
-	//render_all_rays();
+	render_player();
+	render_all_rays();
 	return 0;
 }
 
@@ -424,9 +425,6 @@ int		player_update()
 		player.x = npx;
 		player.y = npy;
 	}
-	
-	
-	
 	return (0);
 }
 
@@ -462,7 +460,7 @@ int		update()
 	//mlx_hook(win_ptr, 2, (1L << 0), key_pressed, (void*)0);
 	//mlx_hook(win_ptr, 3, (2L << 0), key_released, (void*)0);
 	player_update();
-	cast_all_rays();
+	//cast_all_rays();
 	render();
 	mlx_clear_window (mlx_ptr, win_ptr);
 	mlx_put_image_to_window(mlx_ptr, win_ptr, mlx_data.img, 0, 0);
@@ -471,6 +469,9 @@ int		update()
 
 int 	init_win()
 {
+	/*if (!(ray = malloc(mlx_data.w_width * sizeof (struct s_ray))))
+		return (0);
+	printf("%d\n", ray[1].wall_content);*/
 	map_info.tile = mlx_data.w_width / map_info.cols;
 	mlx_ptr = mlx_init();
     win_ptr = mlx_new_window(mlx_ptr, mlx_data.w_width, mlx_data.w_height, "Cub 3D");
@@ -490,10 +491,10 @@ void 	setup()
         i = 0;
         while (i < map_cols)
         {
-            if (map[j][i] == 3)
+            if (map_info.lines[j][i] == 118)
             {
-				player.x = i * tile_size + (tile_size / 2);
-				player.y = j * tile_size + (tile_size / 2);
+				player.x = i * map_info.tile + (map_info.tile / 2);
+				player.y = j * map_info.tile + (map_info.tile / 2);
 			}
             i++;
         }
@@ -612,6 +613,8 @@ int		set_player(char c, int x, int y)
 	if (map_info.check_pose == 0)
 	{
 		printf("Player posetion : %c @ (%d,%d) \n", c, x+1, y+1);
+		player.x = x * map_info.tile + (map_info.tile / 2);
+		player.y = y * map_info.tile + (map_info.tile / 2);
 		map_info.check_pose = 1;
 		return (1);
 	}
@@ -631,7 +634,8 @@ int		check_map_line(char *line, int check)
 		{
 			if (!(check = set_player(line[i],i,map_info.rows)))
 			{
-				return (err_print("one player allowed"));
+				perror("Error\none player allowed");
+				return (0);
 			}
 		}
 		else if (!(char_chr(line[i], "01")))
@@ -669,18 +673,18 @@ int		fill_map()
 	int 	len;
 
 	i = 0;
-	if (!(map_info.lines = malloc(map_info.rows * sizeof(char*))))
+	if (!(map_info.lines = malloc(map_info.rows * sizeof(int*))))
 		return (0);
 	while (i < map_info.rows)
 	{
 		j = 0;
 		str = map_info.line_list->content;
 		len = ft_strlen(str);
-		if (!(map_info.lines[i] = malloc((map_info.cols) * sizeof(char))))
+		if (!(map_info.lines[i] = malloc((map_info.cols) * sizeof(int))))
 			return (0);
 		while (j < len)
 		{
-			map_info.lines[i][j] = str[j];
+			map_info.lines[i][j] = (int)str[j];
 			j++;
 		}
 		while (j < map_info.cols)
@@ -688,10 +692,9 @@ int		fill_map()
 			map_info.lines[i][j] = ' ';
 			j++;
 		}
-		
-		map_info.lines[i][j] = '\0';
+		//map_info.lines[i][j] = '\0';
 		printf("%d\n", ft_strlen(str));
-		printf("line %d : j= %d cols= %d len= %d line= %d\n", i , j, map_info.cols, len , ft_strlen(map_info.lines[i]));
+		printf("line %d : j= %d cols= %d len= %d", i , j, map_info.cols, len);
 		map_info.line_list = map_info.line_list->next;
 		i++;
 	}

@@ -6,14 +6,14 @@
 /*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 20:52:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/19 13:12:03 by hchorfi          ###   ########.fr       */
+/*   Updated: 2020/10/25 20:02:52 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "mlx.h"
+# include <mlx.h>
 # include "get_next_line.h"
 # include "../libft/libft.h"
 //# include "ft_printf.h"
@@ -23,17 +23,21 @@
 
 //constants
 
-#define tile_size 17
-#define map_cols 29
-#define map_rows 14
+//#define tile_size 17
+//#define map_cols 29
+//#define map_rows 14
 #define	max_w_width 1920
 #define	max_w_height 1080
 #define win_width 1920
-#define win_height 1080
+//#define win_height 1080
 #define num_rays win_width
 #define PI 3.1415926535
 #define	fov_angle 60 * (PI / 180)
-#define minimap_sf 0.30
+#define minimap_sf 0.3
+#define	NO 0
+#define SO 1
+#define WE 2
+#define EA 3
 
 #ifdef __linux__
 	#define W 119
@@ -55,8 +59,7 @@
 typedef struct {
 	float	x;
 	float	y;
-	float	width;
-	float	height;
+	float		r;
 	int		turn_direction;
 	int		walk_direction;
 	float	rotation_angle;
@@ -99,6 +102,8 @@ t_map		map_info;
 typedef struct {
     void	*img;
     int     *addr;
+	void	*mlx_ptr;
+	void	*win_ptr;
     int     bits_per_pixel;
     int     line_length;
     int     endian;
@@ -108,7 +113,12 @@ typedef struct {
 t_mlx_data		mlx_data;
 
 typedef struct  s_texture {
-    unsigned int	*txt_1;
+    unsigned int	*txt[4];
+	char			*file[4];
+	void			*img[4];
+	int				tmp[5];
+	int				tile;
+	int				type;
 	int				x;
 	int				y;
 }               t_texture;
@@ -139,7 +149,6 @@ typedef struct {
 	float	    y_to_check;
 	float	    hor_hit_distance;
 	float	    ver_hit_distance;
-
 }			    t_data;
 t_data		    data;
 

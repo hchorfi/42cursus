@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hakuna <hakuna@student.42.fr>              +#+  +:+       +#+         #
+#    By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/31 20:36:35 by hchorfi           #+#    #+#              #
-#    Updated: 2020/10/16 22:49:53 by hakuna           ###   ########.fr        #
+#    Updated: 2020/10/24 19:12:13 by hchorfi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,11 @@ LIBFT_LIB = ft
 MLX_PATH = /usr/local/lib
 MLX_LIB = mlx
 
-SRCS = main.c get_next_line.c get_next_line_utils.c
+SRCS = cub3d.c get_next_line.c get_next_line_utils.c
 
 OBJS = $(SRCS:.c=.o)
 
-FLAGS = -Werror -Wextra -Wall
+FLAGS = 
 
 $(NAME) :
 	gcc $(FLAGS) -c $(SRCS)
