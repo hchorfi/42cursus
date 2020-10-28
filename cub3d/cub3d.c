@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/20 10:45:06 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/25 20:38:26 by hchorfi          ###   ########.fr       */
+/*   Updated: 2020/10/27 14:22:34 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ void	ft_textures()
 	txt.txt[2] = (unsigned int *)mlx_get_data_addr(img[2], &tab[2], &tab[3], &tab[4]);
 	txt.txt[3] = (unsigned int *)mlx_get_data_addr(img[3], &tab[2], &tab[3], &tab[4]);
 	*/
-	while (txt.type < 4)
+	while (txt.type < 5)
 	{
 		txt.img[txt.type] = mlx_xpm_file_to_image(mlx_data.mlx_ptr, txt.file[txt.type], &txt.tmp[0], &txt.tmp[1]);
 		txt.txt[txt.type] = (unsigned int *)mlx_get_data_addr(txt.img[txt.type], &txt.tmp[2], &txt.tmp[3], &txt.tmp[4]);
 		txt.type++;
+		//printf("%s\n", txt.file[txt.type]);
 	}
 }
 
@@ -180,7 +181,7 @@ int		check_map_line(char *line, int check)
 				return (check);
 			}
 		}
-		else if (!(check = char_chr(line[i], "01")))
+		else if (!(check = char_chr(line[i], "012")))
 		{
 			perror("Eror\nOnly 0,1,2,N,W,S,E character accepted in he map");
 			return (check);
@@ -282,9 +283,9 @@ int		set_player()
 		map_info.tile = mlx_data.w_width / map_info.cols;
 	else
 		map_info.tile = mlx_data.w_height / map_info.rows;
-	player.x = player.x * map_info.tile + (map_info.tile / 2);
-	player.y = player.y * map_info.tile + (map_info.tile / 2);
-	printf("player x : %f player y : %f tile : %d\n", player.x, player.y , map_info.tile);
+	player.x = player.x * tile_size + (tile_size / 2);
+	player.y = player.y * tile_size + (tile_size / 2);
+	printf("player x : %f player y : %f tile : %d\n", player.x, player.y , tile_size);
 	return (1);
 }
 
@@ -360,6 +361,49 @@ int		stock_txt(char *line)
 	return (1);
 }
 
+int		check_sprite(char *line)
+{
+	while (*line == ' ')
+		line++;
+	if (ft_strncmp(line, "S ", 2) == 0)
+		txt.type = SP;
+	else
+	{
+		//perror("Error\nplease check your sprite parametres\n");
+		return (0);
+	}
+	return (1);
+}
+
+int		stock_sprite(char *line)
+{
+	char	**tab;
+	int		len;
+
+	tab = ft_split(line, ' ');
+	len = 0;
+	while(tab[len])
+		len++;
+	if (len == 2)
+	{
+		txt.file[txt.type] = ft_substr(tab[1], 0, ft_strlen(tab[1]));
+		//printf("%s\n", txt.file[txt.type]);
+		txt.type = -1;
+	}
+	else
+	{
+		perror("Error\n Please check your sprite path\n");
+		return (0);
+	}
+	while(len > 0)
+	{
+		free(tab[len]);
+		len--;
+	}
+	free(tab);
+	return (1);
+}
+
 int		readfile1(int fd)
 {
 	int		check;
@@ -379,6 +423,8 @@ int		readfile1(int fd)
 				check = stock_resolution(line);
 			else if (check_txt(line))
 				check = stock_txt(line);
+			else if (check_sprite(line))
+				check = (stock_sprite(line));
 		}
 		n_line++;
 		free(line);
@@ -420,14 +466,14 @@ void init_val(void)
 	player.turn_direction = 0;
 	player.walk_direction = 0;
 	player.rotation_angle = (PI / 2)*3;
-	player.walk_speed = 2;
-	player.turn_speed = 2 * (PI / 180);
+	player.walk_speed = 4;
+	player.turn_speed = 3 * (PI / 180);
 	map_info.rows = 0;
 	map_info.cols = 0;
 	map_info.check_pose = 0;
 	map_info.line_list = NULL;
 	txt.type = -1;
-	txt.tile = 32;
+	txt.tile = 64;
 }
 
 void    draw_square(int square_i, int square_j, int square_color)
@@ -459,7 +505,7 @@ void    render_player()
 
 	/*j = 0;
 	i = 0;
-   while (j < map_info.tile)
+   while (j < tile_size)
     {
         my_mlx_pixel_put(
 					 ((player.x + (i * cos(player.rotation_angle))) * minimap_sf),
@@ -521,7 +567,7 @@ void    render_map()
         j++;
         square_j += map_info.tile;
     }
-	//printf("\nmap_info.tile = %d\n", map_info.tile);
+	//printf("\ntile_size = %d\n", tile_size);
 }
 
 void	render_all_rays()
@@ -560,8 +606,8 @@ void	render_3d_walls()
 	while (i < mlx_data.w_width)
 	{
 		wall_3d.wal_3d_distance = ray[i].distance * cosf(ray[i].angle - player.rotation_angle);
-		wall_3d.distance_pro_plan = (mlx_data.w_width / 3) / tan(fov_angle / 2);
-		wall_3d.pro_wall_hie = (map_info.tile / wall_3d.wal_3d_distance) * wall_3d.distance_pro_plan;
+		wall_3d.distance_pro_plan = (mlx_data.w_width / 2) / tan(fov_angle / 2);
+		wall_3d.pro_wall_hie = (tile_size / wall_3d.wal_3d_distance) * wall_3d.distance_pro_plan;
 
 		wall_3d.wall_strip_hie =(int)wall_3d.pro_wall_hie;
 
@@ -577,17 +623,20 @@ void	render_3d_walls()
 			mlx_data.addr[i + y * mlx_data.w_width] = 0x73c2fb;
 			y++;
 		}
+		y = wall_3d.wal_top;
 		while (y < wall_3d.wal_bot)
 		{
 			int distance_from_top = y + ( wall_3d.wall_strip_hie / 2) - (mlx_data.w_height / 2);
-			txt.y = (int)((distance_from_top * 32) / wall_3d.wall_strip_hie);
+			txt.y = (int)((distance_from_top * txt.tile) / wall_3d.wall_strip_hie);
+			//if (ray[i].wall_content == 2)
+				//mlx_data.addr[i + y * mlx_data.w_width] = txt.txt[4][txt.x + (txt.tile * txt.y)];
 			if (ray[i].vertical_hit && ray[i].face_right)
 				mlx_data.addr[i + y * mlx_data.w_width] = txt.txt[0][txt.x + (txt.tile * txt.y)];
-			if (ray[i].vertical_hit && ray[i].face_left)
+			else if (ray[i].vertical_hit && ray[i].face_left)
 				mlx_data.addr[i + y * mlx_data.w_width] = txt.txt[1][txt.x + (txt.tile * txt.y)];
-			if (!ray[i].vertical_hit && ray[i].face_up)
+			else if (!ray[i].vertical_hit && ray[i].face_up)
 				mlx_data.addr[i + y * mlx_data.w_width] = txt.txt[2][txt.x + (txt.tile * txt.y)];
-			if (!ray[i].vertical_hit && ray[i].face_down)
+			else if (!ray[i].vertical_hit && ray[i].face_down)
 				mlx_data.addr[i + y * mlx_data.w_width] = txt.txt[3][txt.x + (txt.tile * txt.y)];
 			y++;
 		}
@@ -600,13 +649,48 @@ void	render_3d_walls()
 	}
 }
 
+void	render_sprite()
+{
+	int i;
+	int y;
+	i = 0;
+	
+	while (i < mlx_data.w_width)
+	{
+		wall_3d.wal_3d_distance = ray[i].distance * cosf(ray[i].angle - player.rotation_angle);
+		wall_3d.distance_pro_plan = (mlx_data.w_width / 2) / tan(fov_angle / 2);
+		wall_3d.pro_wall_hie = (tile_size / wall_3d.wal_3d_distance) * wall_3d.distance_pro_plan;
+
+		wall_3d.wall_strip_hie =(int)wall_3d.pro_wall_hie;
+
+		wall_3d.wal_top = (mlx_data.w_height / 2) - (wall_3d.wall_strip_hie / 2);
+		wall_3d.wal_top = wall_3d.wal_top < 0 ? 0: wall_3d.wal_top;
+	
+		wall_3d.wal_bot = (mlx_data.w_height / 2) + (wall_3d.wall_strip_hie / 2);
+		wall_3d.wal_bot = wall_3d.wal_bot > mlx_data.w_height ? mlx_data.w_height : wall_3d.wal_bot;
+		txt.x = ray[i].vertical_hit == 1 ? fmod(ray[i].wall_hity,txt.tile) : fmod(ray[i].wall_hitx,txt.tile);
+		
+		y = wall_3d.wal_top;
+		while (y < wall_3d.wal_bot)
+		{
+			int distance_from_top = y + ( wall_3d.wall_strip_hie / 2) - (mlx_data.w_height / 2);
+			txt.y = (int)((distance_from_top * txt.tile) / wall_3d.wall_strip_hie);
+			if (ray[i].wall_content == 2 && !ray[i].vertical_hit)
+				mlx_data.addr[i + y * mlx_data.w_width] = txt.txt[4][txt.x + (txt.tile * txt.y)];
+			y++;
+		}
+		i++;
+	}
+}
+
 int    render()
 {
 	//blackscreen();
 	render_3d_walls();
-    render_map();
-	render_player();
-	render_all_rays();
+	render_sprite();
+    //render_map();
+	//render_player();
+	//render_all_rays();
 	return 0;
 }
 
@@ -615,8 +699,8 @@ int		wall_collision(float npx, float npy)
 	//printf("npx %f: npy %f\n", npx, npy);
 	if (npx < 0 || npx > map_info.width || npy < 0 || npy > map_info.height)
 		return (1);
-	map_info.x = floor(npx / map_info.tile);
-	map_info.y = floor(npy / map_info.tile);
+	map_info.x = floor(npx / tile_size);
+	map_info.y = floor(npy / tile_size);
 	//printf("%d : %d = '%d'\n", map_info.y,map_info.x,map_info.lines[map_info.y][map_info.x]);
 	if (map_info.lines[map_info.y][map_info.x] - '0' == 0)
 		return (0);
@@ -664,15 +748,15 @@ void	cast_ray(float ray_angle, int strip_id)
 	data.hor_wal_content = 0;
 
 
-	data.y_intercept = floor(player.y / map_info.tile) * map_info.tile;
-	data.y_intercept += data.face_down ? map_info.tile : 0;
+	data.y_intercept = floor(player.y / tile_size) * tile_size;
+	data.y_intercept += data.face_down ? tile_size : 0;
 	
 	data.x_intercept =	player.x + (data.y_intercept - player.y) / tanf(ray_angle);
 
-	data.y_step = map_info.tile;
+	data.y_step = tile_size;
 	data.y_step *= data.face_up ? -1 : 1;
 
-	data.x_step = map_info.tile / tanf(ray_angle);
+	data.x_step = tile_size / tanf(ray_angle);
 	data.x_step *= (data.face_left && data.x_step > 0) ? -1 : 1;
 	data.x_step *= (data.face_right && data.x_step < 0) ? -1 : 1;
 
@@ -683,7 +767,7 @@ void	cast_ray(float ray_angle, int strip_id)
 		//data.next_hor_touch_y--;
 
 	// increment xstep and ystep until we find a wall	
-	while (data.next_hor_touch_x >= 0 && data.next_hor_touch_x <= mlx_data.w_width && data.next_hor_touch_y >= 0 && data.next_hor_touch_y <= mlx_data.w_height)
+	while (data.next_hor_touch_x >= 0 && data.next_hor_touch_x <= map_info.width && data.next_hor_touch_y >= 0 && data.next_hor_touch_y <= map_info.height)
 	{
 		data.x_to_check = data.next_hor_touch_x;
 		data.y_to_check = data.next_hor_touch_y + (data.face_up ? -1 : 0);
@@ -692,7 +776,7 @@ void	cast_ray(float ray_angle, int strip_id)
             // found a wall hit
             data.hor_wal_hit_x = data.next_hor_touch_x;
             data.hor_wal_hit_y = data.next_hor_touch_y;
-            data.hor_wal_content = map_info.lines[(int)floor(data.y_to_check / map_info.tile)][(int)floor(data.x_to_check / map_info.tile)] - '0';
+            data.hor_wal_content = map_info.lines[(int)floor(data.y_to_check / tile_size)][(int)floor(data.x_to_check / tile_size)] - '0';
             data.found_hor_wal_hit = 1;
             break;
         } else {
@@ -710,15 +794,15 @@ void	cast_ray(float ray_angle, int strip_id)
 	data.ver_wal_content = 0;
 
 
-	data.x_intercept = floor(player.x / map_info.tile) * map_info.tile;
-	data.x_intercept += data.face_right ? map_info.tile : 0;
+	data.x_intercept = floor(player.x / tile_size) * tile_size;
+	data.x_intercept += data.face_right ? tile_size : 0;
 	
 	data.y_intercept =	player.y + (data.x_intercept - player.x) * tanf(ray_angle);
 
-	data.x_step = map_info.tile;
+	data.x_step = tile_size;
 	data.x_step *= data.face_left ? -1 : 1;
 
-	data.y_step = map_info.tile * tanf(ray_angle);
+	data.y_step = tile_size * tanf(ray_angle);
 	data.y_step *= (data.face_up && data.y_step > 0) ? -1 : 1;
 	data.y_step *= (data.face_down && data.y_step < 0) ? -1 : 1;
 
@@ -738,8 +822,8 @@ void	cast_ray(float ray_angle, int strip_id)
             // found a wall hit
             data.ver_wal_hit_x = data.next_ver_touch_x;
             data.ver_wal_hit_y = data.next_ver_touch_y;
-			//printf("'%c'\n", map_info.lines[(int)floor(data.y_to_check / map_info.tile)][(int)floor(data.x_to_check / map_info.tile)]);
-            data.ver_wal_content = map_info.lines[(int)floor(data.y_to_check / map_info.tile)][(int)floor(data.x_to_check / map_info.tile)] - '0';
+			//printf("'%c'\n", map_info.lines[(int)floor(data.y_to_check / tile_size)][(int)floor(data.x_to_check / tile_size)]);
+            data.ver_wal_content = map_info.lines[(int)floor(data.y_to_check / tile_size)][(int)floor(data.x_to_check / tile_size)] - '0';
             data.found_ver_wal_hit = 1;
             break;
         } else {
@@ -774,7 +858,7 @@ void	cast_ray(float ray_angle, int strip_id)
     ray[strip_id].face_left = data.face_left;
     ray[strip_id].face_right = data.face_right;
 	ray[strip_id].angle = ray_angle;
-	//printf("%f", ray_angle);
+	//printf("ray[%d] : %d\n", strip_id, ray[strip_id].wall_content);
 }
 
 void	cast_all_rays()
@@ -810,8 +894,8 @@ int 	init_win()
 	/*if (!(ray = malloc(mlx_data.w_width * sizeof (struct s_ray))))
 		return (0);
 	printf("%d\n", ray[1].wall_content);*/
-	map_info.width = map_info.tile * map_info.cols;
-	map_info.height = map_info.tile * map_info.rows;
+	map_info.width = tile_size * map_info.cols;
+	map_info.height = tile_size * map_info.rows;
 	mlx_data.mlx_ptr = mlx_init();
     mlx_data.win_ptr = mlx_new_window(mlx_data.mlx_ptr, mlx_data.w_width, mlx_data.w_height, "Cub 3D");
 	mlx_data.img = mlx_new_image(mlx_data.win_ptr, mlx_data.w_width, mlx_data.w_height);

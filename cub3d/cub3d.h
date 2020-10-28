@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 20:52:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/25 20:02:52 by hchorfi          ###   ########.fr       */
+/*   Updated: 2020/10/27 14:11:18 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 //constants
 
-//#define tile_size 17
+#define tile_size 64
 //#define map_cols 29
 //#define map_rows 14
 #define	max_w_width 1920
@@ -33,11 +33,12 @@
 #define num_rays win_width
 #define PI 3.1415926535
 #define	fov_angle 60 * (PI / 180)
-#define minimap_sf 0.3
+#define minimap_sf 1
 #define	NO 0
 #define SO 1
 #define WE 2
 #define EA 3
+#define SP 4
 
 #ifdef __linux__
 	#define W 119
@@ -113,9 +114,9 @@ typedef struct {
 t_mlx_data		mlx_data;
 
 typedef struct  s_texture {
-    unsigned int	*txt[4];
-	char			*file[4];
-	void			*img[4];
+    unsigned int	*txt[5];
+	char			*file[5];
+	void			*img[5];
 	int				tmp[5];
 	int				tile;
 	int				type;
