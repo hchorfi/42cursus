@@ -119,7 +119,7 @@ int		check_resolution(char *line)
 		return (0);
 }
 
-int		check_player(char *c, int x, int y)
+int		check_player_pos(char *c, int x, int y)
 {
 	if (map_info.check_pose == 0)
 	{
@@ -164,6 +164,15 @@ int		stock_map_line(char *line)
 	return 1;
 }
 
+int		check_sprites_pos(char *c, int x, int y)
+{
+	*c = '0';
+	sprite[sprite->count].x = x;
+	sprite[sprite->count].y = y;
+	sprite->count+=1;
+	return (1);
+}
+
 int		check_map_line(char *line, int check)
 {
 	int	i;
@@ -175,13 +184,21 @@ int		check_map_line(char *line, int check)
 			i++;
 		if (char_chr(line[i], "NWSE"))
 		{
-			if (!(check = check_player(&line[i],i,map_info.rows)))
+			if (!(check = check_player_pos(&line[i],i,map_info.rows)))
 			{
 				perror("Error\nplease check player position");
 				return (check);
 			}
 		}
-		else if (!(check = char_chr(line[i], "012")))
+		else if (char_chr(line[i], "2"))
+		{
+			if (!(check = check_sprites_pos(&line[i], i, map_info.rows)))
+			{
+				perror("Eror\nplease check your sprite parametres");
+				return (check);
+			}
+		}
+		else if (!(check = char_chr(line[i], "01")))
 		{
 			perror("Eror\nOnly 0,1,2,N,W,S,E character accepted in he map");
 			return (check);
@@ -289,6 +306,22 @@ int		set_player()
 	return (1);
 }
 
+int		set_sprites()
+{
+	int i;
+
+	i = 0;
+	while (i < sprite->count)
+	{
+		sprite[i].x = sprite[i].x * tile_size + (tile_size / 2);
+		sprite[i].y = sprite[i].y * tile_size + (tile_size / 2);
+		printf("sprite %d : %f , %f\n", i, sprite[i].x, sprite[i].y);
+		i++;
+	}
+	printf("sprites : %d\n", sprite->count);
+	return (1);
+}
+
 int		readfile2(int fd)
 {
 	int		gnl_check;
@@ -307,6 +340,7 @@ int		readfile2(int fd)
 	printf("check : %d -- gnl : %d\nmap_rows : %d\nmap_cols : %d\n", check, get_next_line(fd, &line), map_info.rows, map_info.cols);
 	printf("Resolution : %d %d\n", mlx_data.w_width, mlx_data.w_height);
 	set_player();
+	set_sprites();
 	if (check == 1)
 		check = fill_map();
 	return (check);
@@ -361,7 +395,7 @@ int		stock_txt(char *line)
 	return (1);
 }
 
-int		check_sprite(char *line)
+int		check_sprite_txt(char *line)
 {
 	while (*line == ' ')
 		line++;
@@ -375,7 +409,7 @@ int		check_sprite(char *line)
 	return (1);
 }
 
-int		stock_sprite(char *line)
+int		stock_sprite_txt(char *line)
 {
 	char	**tab;
 	int		len;
@@ -423,8 +457,8 @@ int		readfile1(int fd)
 				check = stock_resolution(line);
 			else if (check_txt(line))
 				check = stock_txt(line);
-			else if (check_sprite(line))
-				check = (stock_sprite(line));
+			else if (check_sprite_txt(line))
+				check = (stock_sprite_txt(line));
 		}
 		n_line++;
 		free(line);
@@ -474,6 +508,7 @@ void init_val(void)
 	map_info.line_list = NULL;
 	txt.type = -1;
 	txt.tile = 64;
+	sprite->count = 0;
 }
 
 void    draw_square(int square_i, int square_j, int square_color)
@@ -655,32 +690,6 @@ void	render_sprite()
 	int y;
 	i = 0;
 	
-	while (i < mlx_data.w_width)
-	{
-		wall_3d.wal_3d_distance = ray[i].distance * cosf(ray[i].angle - player.rotation_angle);
-		wall_3d.distance_pro_plan = (mlx_data.w_width / 2) / tan(fov_angle / 2);
-		wall_3d.pro_wall_hie = (tile_size / wall_3d.wal_3d_distance) * wall_3d.distance_pro_plan;
-
-		wall_3d.wall_strip_hie =(int)wall_3d.pro_wall_hie;
-
-		wall_3d.wal_top = (mlx_data.w_height / 2) - (wall_3d.wall_strip_hie / 2);
-		wall_3d.wal_top = wall_3d.wal_top < 0 ? 0: wall_3d.wal_top;
-	
-		wall_3d.wal_bot = (mlx_data.w_height / 2) + (wall_3d.wall_strip_hie / 2);
-		wall_3d.wal_bot = wall_3d.wal_bot > mlx_data.w_height ? mlx_data.w_height : wall_3d.wal_bot;
-		txt.x = ray[i].vertical_hit == 1 ? fmod(ray[i].wall_hity,txt.tile) : fmod(ray[i].wall_hitx,txt.tile);
-		
-		y = wall_3d.wal_top;
-		while (y < wall_3d.wal_bot)
-		{
-			int distance_from_top = y + ( wall_3d.wall_strip_hie / 2) - (mlx_data.w_height / 2);
-			txt.y = (int)((distance_from_top * txt.tile) / wall_3d.wall_strip_hie);
-			if (ray[i].wall_content == 2 && !ray[i].vertical_hit)
-				mlx_data.addr[i + y * mlx_data.w_width] = txt.txt[4][txt.x + (txt.tile * txt.y)];
-			y++;
-		}
-		i++;
-	}
 }
 
 int    render()

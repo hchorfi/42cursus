@@ -164,4 +164,13 @@ typedef struct  s_wall_3d
 }               t_wall_3d;
 t_wall_3d       wall_3d;
 
+typedef	struct 	s_sprite
+{
+	int			count;
+	float		x;
+	float		y;
+}				t_sprite;
+t_sprite		sprite[1000];
+
+
 #endif
