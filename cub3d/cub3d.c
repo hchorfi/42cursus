@@ -124,6 +124,14 @@ int		check_player_pos(char *c, int x, int y)
 	if (map_info.check_pose == 0)
 	{
 		printf("Player posetion : %c @ (%d,%d) \n", *c, x+1, y+1);
+		if (*c == 'N')
+			player.rotation_angle = (PI / 2) * 3;
+		else if (*c == 'S')
+			player.rotation_angle = (PI / 2) * 1;
+		else if (*c == 'W')
+			player.rotation_angle = (PI / 2) * 2;
+		else
+			player.rotation_angle = (PI / 2) * 4;
 		*c = '0';
 		player.x = x;
 		player.y = y;
@@ -167,8 +175,8 @@ int		stock_map_line(char *line)
 int		check_sprites_pos(char *c, int x, int y)
 {
 	*c = '0';
-	sprite[sprite->count].x = x;
-	sprite[sprite->count].y = y;
+	sprite[sprite->count].col = x;
+	sprite[sprite->count].row = y;
 	sprite->count+=1;
 	return (1);
 }
@@ -230,11 +238,14 @@ int		stock_resolution(char *line)
 {
 	char	**tab;
 	int		len;
+	int		sizex;
+	int		sizey;
 
 	tab = ft_split(line, ' ');
 	len = 0;
 	while(tab[len])
 		len++;
+	//mlx_get_screen_size(mlx_data.mlx_ptr,&sizex,&sizey);
 	if (len == 3 && isalldigit(tab[1]) && isalldigit(tab[2]))
 	{
 		if ((mlx_data.w_width = ft_atoi(tab[1])) > max_w_width )
@@ -313,8 +324,8 @@ int		set_sprites()
 	i = 0;
 	while (i < sprite->count)
 	{
-		sprite[i].x = sprite[i].x * tile_size + (tile_size / 2);
-		sprite[i].y = sprite[i].y * tile_size + (tile_size / 2);
+		sprite[i].x = sprite[i].col * tile_size + (tile_size / 2);
+		sprite[i].y = sprite[i].row * tile_size + (tile_size / 2);
 		printf("sprite %d : %f , %f\n", i, sprite[i].x, sprite[i].y);
 		i++;
 	}
@@ -499,9 +510,8 @@ void init_val(void)
 	player.color = 0xff0000;
 	player.turn_direction = 0;
 	player.walk_direction = 0;
-	player.rotation_angle = (PI / 2)*3;
-	player.walk_speed = 4;
-	player.turn_speed = 3 * (PI / 180);
+	player.walk_speed = 6;
+	player.turn_speed = 4 * (PI / 180);
 	map_info.rows = 0;
 	map_info.cols = 0;
 	map_info.check_pose = 0;
@@ -684,12 +694,81 @@ void	render_3d_walls()
 	}
 }
 
+void	draw_sprite(int index, double distance, double height)
+{
+	int		i;
+	int		j;
+	int		y_txt;
+	int		color;
+
+	i = index;
+	while (i <= index + height)
+	{
+		j = (mlx_data.w_height / 2) - (height / 2);
+		j = j < 0 ? 0 : j;
+		y_txt = 0;
+		if (i >= 0 && i < mlx_data.w_width && distance < ray[i].distance)
+		{
+			while (j < (mlx_data.w_height / 2) + (height / 2) && j <= mlx_data.w_height)
+			{
+				color = txt.txt[4][(int)(y_txt / height * txt.tile)* txt.tile +(int)((i - index) / height * txt.tile)];
+				if (color != 0x000000)
+					mlx_data.addr[i + j * mlx_data.w_width] = color;
+				j++;
+				y_txt++;
+			}
+		}
+		i++;
+	}
+}
+
+void sort_sprites()
+{
+	int		i;
+	float	tmp;
+
+	i = 0;
+	while (i < sprite->count)
+	{
+		sprite[i].distence = distanceBetweenPoints(sprite[i].x, sprite[i].y, player.x, player.y);
+		if (i > 0)
+		{
+			if (sprite[i - 1].distence < sprite[i].distence)
+			{
+				tmp = sprite[i].distence;
+				sprite[i].distence = sprite[i - 1].distence;
+				sprite[i - 1].distence = sprite[i].distence;
+				tmp = sprite[i].x;
+				sprite[i].x = sprite[i - 1].x;
+				sprite[i - 1].x = tmp;
+				tmp = sprite[i].y;
+				sprite[i].y = sprite[i - 1].y;
+				sprite[i - 1].y = tmp;
+			}
+		}
+		i++;
+	}
+}
+
 void	render_sprite()
 {
-	int i;
-	int y;
-	i = 0;
-	
+	int		i;
+	t_sprite	tmp;
+
+	i = 0; 
+	sort_sprites();
+	while(i < sprite->count)
+	{
+		sprite[i].angle = atan2(sprite[i].y - player.y, sprite[i].x - player.x);
+		if (ray[0].angle - sprite[i].angle > PI)
+			sprite[i].angle = sprite[i].angle + 2 * PI;
+		if (sprite[i].angle  - ray[0].angle > PI)
+			sprite[i].angle = sprite[i].angle - 2 * PI;
+		sprite[i].height = (tile_size / sprite[i].distence) * wall_3d.distance_pro_plan;
+		sprite[i].index = (sprite[i].angle - ray[0].angle) / (fov_angle / mlx_data.w_width) - (sprite[i].height / 2);
+		draw_sprite(sprite[i].index, sprite[i].distence, sprite[i].height);
+		i++;
+	}
 }
 
 int    render()
@@ -717,6 +796,22 @@ int		wall_collision(float npx, float npy)
 		return (1);
 }
 
+int		sprite_collision(float npx, float npy)
+{
+	int i;
+
+	i = 0;
+	if (npx < 0 || npx > map_info.width || npy < 0 || npy > map_info.height)
+		return (1);
+	map_info.x = floor(npx / tile_size);
+	map_info.y = floor(npy / tile_size);
+	if (map_info.lines[map_info.y][map_info.x] - '0' == 2)
+		return (0);
+	else
+		return (1);
+	
+}
+
 int		player_update()
 {
 	float npx;
@@ -728,7 +823,7 @@ int		player_update()
 
 	npx = player.x + cosf(player.rotation_angle) * player.step;
 	npy = player.y + sinf(player.rotation_angle) * player.step;
-	if (!(wall_collision(npx, npy)))
+	if (!(wall_collision(npx, npy)) || !(sprite_collision(npx, npy)))
 	{
 		player.x = npx;
 		player.y = npy;
@@ -900,9 +995,6 @@ int		update()
 
 int 	init_win()
 {
-	/*if (!(ray = malloc(mlx_data.w_width * sizeof (struct s_ray))))
-		return (0);
-	printf("%d\n", ray[1].wall_content);*/
 	map_info.width = tile_size * map_info.cols;
 	map_info.height = tile_size * map_info.rows;
 	mlx_data.mlx_ptr = mlx_init();

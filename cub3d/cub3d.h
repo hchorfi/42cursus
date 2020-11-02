@@ -13,15 +13,12 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <mlx.h>
+# include "./mlx/mlx.h"
 # include "get_next_line.h"
-# include "../libft/libft.h"
-//# include "ft_printf.h"
+# include "./libft/libft.h"
 # include <stdio.h>
 # include <math.h>
 # include <limits.h>
-
-//constants
 
 #define tile_size 64
 //#define map_cols 29
@@ -29,7 +26,6 @@
 #define	max_w_width 1920
 #define	max_w_height 1080
 #define win_width 1920
-//#define win_height 1080
 #define num_rays win_width
 #define PI 3.1415926535
 #define	fov_angle 60 * (PI / 180)
@@ -167,6 +163,12 @@ t_wall_3d       wall_3d;
 typedef	struct 	s_sprite
 {
 	int			count;
+	int			col;
+	int			row;
+	float		distence;
+	float		angle;
+	float		height;
+	float		index;
 	float		x;
 	float		y;
 }				t_sprite;

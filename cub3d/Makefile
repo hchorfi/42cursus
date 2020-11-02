@@ -12,7 +12,7 @@
 
 NAME = cub3d
 
-LIBFT_PATH = ../libft
+LIBFT_PATH = ./libft
 LIBFT_LIB = ft
 
 MLX_PATH = /usr/local/lib
@@ -27,7 +27,7 @@ FLAGS =
 $(NAME) :
 	gcc $(FLAGS) -c $(SRCS)
 	make -C $(LIBFT_PATH)
-	gcc -I /usr/local/include $(OBJS) -L $(MLX_PATH) -l$(MLX_LIB) -L $(LIBFT_PATH) -l$(LIBFT_LIB) -framework OpenGL -framework AppKit -g -fsanitize=address
+	gcc -I /usr/local/include $(OBJS) -L $(MLX_PATH) -l$(MLX_LIB) -L $(LIBFT_PATH) -l$(LIBFT_LIB) -framework OpenGL -framework AppKit -o $(NAME)-g -fsanitize=address
 
 all: $(NAME)
 
