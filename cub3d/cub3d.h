@@ -21,8 +21,6 @@
 # include <limits.h>
 
 #define tile_size 64
-//#define map_cols 29
-//#define map_rows 14
 #define	max_w_width 1920
 #define	max_w_height 1080
 #define win_width 1920
@@ -35,6 +33,8 @@
 #define WE 2
 #define EA 3
 #define SP 4
+#define	F 0
+#define C 1
 
 #ifdef __linux__
 	#define W 119
@@ -92,7 +92,7 @@ typedef struct s_map_info{
 	int		rows;
 	int		width;
 	int		height;
-	int		check_pose;
+	int		check_ppose;
 }			t_map;
 t_map		map_info;
 
@@ -114,8 +114,11 @@ typedef struct  s_texture {
 	char			*file[5];
 	void			*img[5];
 	int				tmp[5];
+	int				color[3];
+	int				hex_color[2];
 	int				tile;
 	int				type;
+	int				color_type;
 	int				x;
 	int				y;
 }               t_texture;
@@ -173,6 +176,74 @@ typedef	struct 	s_sprite
 	float		y;
 }				t_sprite;
 t_sprite		sprite[1000];
+
+
+int		wall_collision(float npx, float npy);
+void	my_mlx_pixel_put(int x, int y, int color);
+
+/*
+** sprite.c functions
+*/
+
+void	render_sprite(void);
+void 	sort_sprites(void);
+void	draw_sprite(int index, double distance, double height, int color);
+int		stock_sprite_txt(char *line);
+int		check_sprite_txt(char *line);
+
+/*
+** raycasting1.c functions
+*/
+
+float	raycast_init(float ray_angle);
+int		stock_raycast_data(float ray_angle, int strip_id);
+void	cast_ray(float ray_angle, int strip_id);
+void	cast_all_rays(void);
+
+/*
+** raycasting2.c functions
+*/
+
+float	ver_raycast_init(float ray_angle);
+void	vertical_hit(void);
+int		hor_raycast_init(float ray_angle);
+void	horizontal_hit(void);
+
+/*
+** utils.c functions
+*/
+
+float 	dbpoints(float x1, float y1, float x2, float y2);
+float	normalize(float angle);
+int		isalldigit(char *str);
+int		create_trgb(int t, int r, int g, int b);
+
+/*
+** error.c functions
+*/
+
+int		line_prefix_error(void);
+int		stock_errors(int e);
+int		readfile_errors(int e);
+int		mapline_errors(int e);
+int		validmap_errors(int e);
+
+/*
+** render2d.c functions
+*/
+
+void	render_player(void);
+void	render_all_rays(void);
+void	render_map(void);
+void	draw_square(int square_i, int square_j, int square_color);
+
+/*
+** render3d.c functions
+*/
+
+void	render_3d_walls(int i, int y);
+void	init_3d(int i);
+void	draw_walls(int y, int i);
 
 
 #endif

@@ -18,7 +18,7 @@ LIBFT_LIB = ft
 MLX_PATH = /usr/local/lib
 MLX_LIB = mlx
 
-SRCS = cub3d.c get_next_line.c get_next_line_utils.c
+SRCS = cub3d.c sprite.c raycasting1.c raycasting2.c utils.c error.c render2d.c render3d.c get_next_line.c get_next_line_utils.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -27,7 +27,7 @@ FLAGS =
 $(NAME) :
 	gcc $(FLAGS) -c $(SRCS)
 	make -C $(LIBFT_PATH)
-	gcc -I /usr/local/include $(OBJS) -L $(MLX_PATH) -l$(MLX_LIB) -L $(LIBFT_PATH) -l$(LIBFT_LIB) -framework OpenGL -framework AppKit -o $(NAME)-g -fsanitize=address
+	gcc $(OBJS) -L $(MLX_PATH) -l$(MLX_LIB) -L $(LIBFT_PATH) -l$(LIBFT_LIB) -framework OpenGL -framework AppKit -o $(NAME) -g -fsanitize=address
 
 all: $(NAME)
 
