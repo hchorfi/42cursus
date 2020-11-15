@@ -12,39 +12,26 @@
 
 #include "cub3d.h"
 
-int		check_sprite_txt(char *line)
+int		check_sprites_pos(char *c, int x, int y)
 {
-	while (*line == ' ')
-		line++;
-	if (ft_strncmp(line, "S ", 2) == 0)
-		txt.type = SP;
-	else
-		return (0);
+	*c = '0';
+	g_sprite[g_sprite->count].col = x;
+	g_sprite[g_sprite->count].row = y;
+	g_sprite->count += 1;
 	return (1);
 }
 
-int		stock_sprite_txt(char *line)
+int		set_sprites(void)
 {
-	char	**tab;
-	int		len;
+	int i;
 
-	tab = ft_split(line, ' ');
-	len = 0;
-	while (tab[len])
-		len++;
-	if (len == 2)
+	i = 0;
+	while (i < g_sprite->count)
 	{
-		txt.file[txt.type] = ft_substr(tab[1], 0, ft_strlen(tab[1]));
-		txt.type = -1;
+		g_sprite[i].x = g_sprite[i].col * TILE_SIZE + (TILE_SIZE / 2);
+		g_sprite[i].y = g_sprite[i].row * TILE_SIZE + (TILE_SIZE / 2);
+		i++;
 	}
-	else
-		return (stock_errors(2));
-	while(len > 0)
-	{
-		free(tab[len]);
-		len--;
-	}
-	free(tab);
 	return (1);
 }
 
@@ -57,18 +44,18 @@ void	draw_sprite(int index, double distance, double height, int color)
 	i = index;
 	while (i <= index + height)
 	{
-		j = (mlx_data.w_height / 2) - (height / 2);
+		j = (g_mlx_data.w_height / 2) - (height / 2);
 		j = j < 0 ? 0 : j;
 		y_txt = 0;
-		if (i >= 0 && i < mlx_data.w_width && distance < ray[i].distance)
+		if (i >= 0 && i < g_mlx_data.w_width && distance < g_ray[i].distance)
 		{
-			while (j < ((mlx_data.w_height + height) / 2)
-						&& j <= mlx_data.w_height)
+			while (j < ((g_mlx_data.w_height + height) / 2) - 1
+				&& j < g_mlx_data.w_height)
 			{
-				color = txt.txt[4][(int)(y_txt / height * txt.tile) * txt.tile +
-					(int)((i - index) / height * txt.tile)];
+				color = g_txt.txt[4][(int)(y_txt / height * g_txt.tile) *
+					g_txt.tile + (int)((i - index) / height * g_txt.tile)];
 				if (color != 0x000000)
-					mlx_data.addr[i + j * mlx_data.w_width] = color;
+					g_mlx_data.addr[i + j * g_mlx_data.w_width] = color;
 				j++;
 				y_txt++;
 			}
@@ -83,22 +70,23 @@ void	sort_sprites(void)
 	float		tmp;
 
 	i = 0;
-	while (i < sprite->count)
+	while (i < g_sprite->count)
 	{
-		sprite[i].distence = dbpoints(sprite[i].x, sprite[i].y, player.x, player.y);
+		g_sprite[i].distence = dbpoints(g_sprite[i].x, g_sprite[i].y,
+			g_player.x, g_player.y);
 		if (i > 0)
 		{
-			if (sprite[i - 1].distence < sprite[i].distence)
+			if (g_sprite[i - 1].distence < g_sprite[i].distence)
 			{
-				tmp = sprite[i].distence;
-				sprite[i].distence = sprite[i - 1].distence;
-				sprite[i - 1].distence = sprite[i].distence;
-				tmp = sprite[i].x;
-				sprite[i].x = sprite[i - 1].x;
-				sprite[i - 1].x = tmp;
-				tmp = sprite[i].y;
-				sprite[i].y = sprite[i - 1].y;
-				sprite[i - 1].y = tmp;
+				tmp = g_sprite[i].distence;
+				g_sprite[i].distence = g_sprite[i - 1].distence;
+				g_sprite[i - 1].distence = g_sprite[i].distence;
+				tmp = g_sprite[i].x;
+				g_sprite[i].x = g_sprite[i - 1].x;
+				g_sprite[i - 1].x = tmp;
+				tmp = g_sprite[i].y;
+				g_sprite[i].y = g_sprite[i - 1].y;
+				g_sprite[i - 1].y = tmp;
 			}
 		}
 		i++;
@@ -108,22 +96,23 @@ void	sort_sprites(void)
 void	render_sprite(void)
 {
 	int			i;
-	t_sprite	tmp;
 
 	i = 0;
 	sort_sprites();
-	while (i < sprite->count)
+	while (i < g_sprite->count)
 	{
-		sprite[i].angle = atan2(sprite[i].y - player.y, sprite[i].x - player.x);
-		if (ray[0].angle - sprite[i].angle > PI)
-			sprite[i].angle = sprite[i].angle + 2 * PI;
-		if (sprite[i].angle - ray[0].angle > PI)
-			sprite[i].angle = sprite[i].angle - 2 * PI;
-		sprite[i].height = (tile_size / sprite[i].distence) *
-							wall_3d.distance_pro_plan;
-		sprite[i].index = (sprite[i].angle - ray[0].angle) /
-						(fov_angle / mlx_data.w_width) - (sprite[i].height / 2);
-		draw_sprite(sprite[i].index, sprite[i].distence, sprite[i].height, 0);
+		g_sprite[i].angle = atan2(g_sprite[i].y - g_player.y,
+			g_sprite[i].x - g_player.x);
+		if (g_ray[0].angle - g_sprite[i].angle > PI)
+			g_sprite[i].angle = g_sprite[i].angle + 2 * PI;
+		if (g_sprite[i].angle - g_ray[0].angle > PI)
+			g_sprite[i].angle = g_sprite[i].angle - 2 * PI;
+		g_sprite[i].height = (TILE_SIZE / g_sprite[i].distence) *
+							g_wall_3d.distance_pro_plan;
+		g_sprite[i].index = (g_sprite[i].angle - g_ray[0].angle)
+			/ (FOV_ANGLE / g_mlx_data.w_width) - (g_sprite[i].height / 2);
+		draw_sprite(g_sprite[i].index, g_sprite[i].distence,
+			g_sprite[i].height, 0);
 		i++;
 	}
 }

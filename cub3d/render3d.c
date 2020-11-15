@@ -14,19 +14,19 @@
 
 void	init_3d(int i)
 {
-	wall_3d.wal_3d_distance =
-		ray[i].distance * cosf(ray[i].angle - player.rotation_angle);
-	wall_3d.distance_pro_plan = (mlx_data.w_width / 2) / tan(fov_angle / 2);
-	wall_3d.pro_wall_hie =
-		(tile_size / wall_3d.wal_3d_distance) * wall_3d.distance_pro_plan;
-	wall_3d.wall_strip_hie = (int)wall_3d.pro_wall_hie;
-	wall_3d.wal_top =
-		(mlx_data.w_height / 2) - (wall_3d.wall_strip_hie / 2);
-	wall_3d.wal_top = wall_3d.wal_top < 0 ? 0 : wall_3d.wal_top;
-	wall_3d.wal_bot =
-		(mlx_data.w_height / 2) + (wall_3d.wall_strip_hie / 2);
-	wall_3d.wal_bot = wall_3d.wal_bot > mlx_data.w_height
-		? mlx_data.w_height : wall_3d.wal_bot;
+	g_wall_3d.wal_3d_distance =
+		g_ray[i].distance * cosf(g_ray[i].angle - g_player.rotation_angle);
+	g_wall_3d.distance_pro_plan = (g_mlx_data.w_width / 2) / tan(FOV_ANGLE / 2);
+	g_wall_3d.pro_wall_hie =
+		(TILE_SIZE / g_wall_3d.wal_3d_distance) * g_wall_3d.distance_pro_plan;
+	g_wall_3d.wall_strip_hie = (int)g_wall_3d.pro_wall_hie;
+	g_wall_3d.wal_top =
+		(g_mlx_data.w_height / 2) - (g_wall_3d.wall_strip_hie / 2);
+	g_wall_3d.wal_top = g_wall_3d.wal_top < 0 ? 0 : g_wall_3d.wal_top;
+	g_wall_3d.wal_bot =
+		(g_mlx_data.w_height / 2) + (g_wall_3d.wall_strip_hie / 2);
+	g_wall_3d.wal_bot = g_wall_3d.wal_bot > g_mlx_data.w_height
+		? g_mlx_data.w_height : g_wall_3d.wal_bot;
 }
 
 void	draw_walls(int y, int i)
@@ -34,44 +34,45 @@ void	draw_walls(int y, int i)
 	int distance_from_top;
 
 	distance_from_top =
-		y + (wall_3d.wall_strip_hie / 2) - (mlx_data.w_height / 2);
-	txt.y = (int)((distance_from_top * txt.tile) / wall_3d.wall_strip_hie);
-	if (ray[i].vertical_hit && ray[i].face_right)
-		mlx_data.addr[i + y * mlx_data.w_width] =
-			txt.txt[0][txt.x + (txt.tile * txt.y)];
-	else if (ray[i].vertical_hit && ray[i].face_left)
-		mlx_data.addr[i + y * mlx_data.w_width] =
-			txt.txt[1][txt.x + (txt.tile * txt.y)];
-	else if (!ray[i].vertical_hit && ray[i].face_up)
-		mlx_data.addr[i + y * mlx_data.w_width] =
-			txt.txt[2][txt.x + (txt.tile * txt.y)];
-	else if (!ray[i].vertical_hit && ray[i].face_down)
-		mlx_data.addr[i + y * mlx_data.w_width] =
-			txt.txt[3][txt.x + (txt.tile * txt.y)];
+		y + (g_wall_3d.wall_strip_hie / 2) - (g_mlx_data.w_height / 2);
+	g_txt.y = (int)((distance_from_top * g_txt.tile)
+		/ g_wall_3d.wall_strip_hie);
+	if (g_ray[i].vertical_hit && g_ray[i].face_right)
+		g_mlx_data.addr[i + y * g_mlx_data.w_width] =
+			g_txt.txt[EA][g_txt.x + (g_txt.tile * g_txt.y)];
+	else if (g_ray[i].vertical_hit && g_ray[i].face_left)
+		g_mlx_data.addr[i + y * g_mlx_data.w_width] =
+			g_txt.txt[WE][g_txt.x + (g_txt.tile * g_txt.y)];
+	else if (!g_ray[i].vertical_hit && g_ray[i].face_up)
+		g_mlx_data.addr[i + y * g_mlx_data.w_width] =
+			g_txt.txt[NO][g_txt.x + (g_txt.tile * g_txt.y)];
+	else if (!g_ray[i].vertical_hit && g_ray[i].face_down)
+		g_mlx_data.addr[i + y * g_mlx_data.w_width] =
+			g_txt.txt[SO][g_txt.x + (g_txt.tile * g_txt.y)];
 }
 
 void	render_3d_walls(int i, int y)
 {
-	while (i < mlx_data.w_width)
+	while (i < g_mlx_data.w_width)
 	{
 		init_3d(i);
-		txt.x = ray[i].vertical_hit == 1 ? fmod(ray[i].wall_hity, txt.tile)
-			: fmod(ray[i].wall_hitx, txt.tile);
+		g_txt.x = g_ray[i].vertical_hit == 1 ? fmod(g_ray[i].wall_hity,
+			g_txt.tile) : fmod(g_ray[i].wall_hitx, g_txt.tile);
 		y = 0;
-		while (y < wall_3d.wal_top)
+		while (y < g_wall_3d.wal_top)
 		{
-			mlx_data.addr[i + y * mlx_data.w_width] = txt.hex_color[1];
+			g_mlx_data.addr[i + y * g_mlx_data.w_width] = g_txt.hex_color[1];
 			y++;
 		}
-		y = wall_3d.wal_top;
-		while (y < wall_3d.wal_bot)
+		y = g_wall_3d.wal_top;
+		while (y < g_wall_3d.wal_bot)
 		{
 			draw_walls(y, i);
 			y++;
 		}
-		while (y < mlx_data.w_height)
+		while (y < g_mlx_data.w_height)
 		{
-			mlx_data.addr[i + y * mlx_data.w_width] = txt.hex_color[0];
+			g_mlx_data.addr[i + y * g_mlx_data.w_width] = g_txt.hex_color[0];
 			y++;
 		}
 		i++;

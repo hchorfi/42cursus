@@ -52,7 +52,7 @@ int		ft_strlen(const char *str)
 	return (len);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin2(char const *s1, char const *s2)
 {
 	int		l1;
 	int		l2;
