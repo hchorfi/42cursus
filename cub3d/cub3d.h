@@ -65,7 +65,7 @@ typedef struct		s_player
 	int				color;
 	float			step;
 }					t_player;
-t_player			g_player;
+t_player		g_player;
 
 typedef struct		s_ray
 {
@@ -338,6 +338,7 @@ int					free_dpointer(char **tab, int len);
 int					char_chr(char c, char *str);
 int					sprite_collision(float npx, float npy);
 int					check_double_key(int type);
+void				player_update2(float angle);
 
 /*
 ** error.c functions

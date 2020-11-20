@@ -61,7 +61,7 @@ void	render_3d_walls(int i, int y)
 		y = 0;
 		while (y < g_wall_3d.wal_top)
 		{
-			g_mlx_data.addr[i + y * g_mlx_data.w_width] = g_txt.hex_color[1];
+			g_mlx_data.addr[i + (y * g_mlx_data.w_width)] = g_txt.hex_color[1];
 			y++;
 		}
 		y = g_wall_3d.wal_top;
@@ -72,7 +72,7 @@ void	render_3d_walls(int i, int y)
 		}
 		while (y < g_mlx_data.w_height)
 		{
-			g_mlx_data.addr[i + y * g_mlx_data.w_width] = g_txt.hex_color[0];
+			g_mlx_data.addr[i + (y * g_mlx_data.w_width)] = g_txt.hex_color[0];
 			y++;
 		}
 		i++;

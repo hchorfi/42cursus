@@ -22,21 +22,20 @@ int		player_update(void)
 	{
 		n_angle = g_player.rotation_angle - PI / 2;
 		g_player.step = g_player.indentation * g_player.walk_speed;
-		npx = g_player.x + cosf(n_angle) * g_player.step;
-		npy = g_player.y + sinf(n_angle) * g_player.step;
+		npx = g_player.x + cosf(n_angle) * (g_player.step * 5);
+		npy = g_player.y + sinf(n_angle) * (g_player.step * 5);
+		if (!(wall_collision(npx, npy)) && !(sprite_collision(npx, npy)))
+			player_update2(n_angle);
 	}
 	else
 	{
-		g_player.rotation_angle += g_player.turn_direction *
-			g_player.turn_speed;
+		g_player.rotation_angle += g_player.turn_direction
+			* g_player.turn_speed;
 		g_player.step = g_player.walk_direction * g_player.walk_speed;
-		npx = g_player.x + cosf(g_player.rotation_angle) * g_player.step;
-		npy = g_player.y + sinf(g_player.rotation_angle) * g_player.step;
-	}
-	if (!(wall_collision(npx, npy)) && !(sprite_collision(npx, npy)))
-	{
-		g_player.x = npx;
-		g_player.y = npy;
+		npx = g_player.x + cosf(g_player.rotation_angle) * (g_player.step);
+		npy = g_player.y + sinf(g_player.rotation_angle) * (g_player.step);
+		if (!(wall_collision(npx, npy)) && !(sprite_collision(npx, npy)))
+			player_update2(g_player.rotation_angle);
 	}
 	return (0);
 }

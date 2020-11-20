@@ -36,9 +36,9 @@ FLAGS = -Werror -Wextra -Wall
 ASAN = -g -fsanitize=address
 
 $(NAME) :
-	gcc $(FLAGS) -D MAX_W_WIDTH=$(WIDTH) -D MAX_W_HEIGHT=$(HEIGHT) -c $(SRCS)
+	gcc -g $(FLAGS) -D MAX_W_WIDTH=$(WIDTH) -D MAX_W_HEIGHT=$(HEIGHT) -c $(SRCS)
 	make -C $(LIBFT_PATH)
-	gcc $(OBJS) -L $(MLX_PATH) -l$(MLX_LIB) -L $(LIBFT_PATH) -l$(LIBFT_LIB) \
+	gcc -g $(OBJS) -L $(MLX_PATH) -l$(MLX_LIB) -L $(LIBFT_PATH) -l$(LIBFT_LIB) \
 	-framework OpenGL -framework AppKit -o $(NAME)
 	
 all: $(NAME)

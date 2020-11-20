@@ -52,7 +52,7 @@ int		readfile_errors(int e)
 	else if (e == 7)
 		ft_putstr_fd("Error\nfile empty or no map\n", 0);
 	else if (e == 8)
-		ft_putstr_fd("Error\n please check your arguments\n", 0);
+		ft_putstr_fd("Error\nplease check your arguments\n", 0);
 	exit(0);
 }
 

@@ -43,6 +43,12 @@ int		check_double_key(int type)
 	return (1);
 }
 
+void	player_update2(float angle)
+{
+	g_player.x = g_player.x + cosf(angle) * g_player.step;
+	g_player.y = g_player.y + sinf(angle) * g_player.step;
+}
+
 int		char_chr(char c, char *str)
 {
 	int		i;
@@ -66,7 +72,7 @@ int		sprite_collision(float npx, float npy)
 	while (i < g_sprite->count)
 	{
 		distance = dbpoints(npx, npy, g_sprite[i].x, g_sprite[i].y);
-		if (distance <= 40.0)
+		if (distance <= g_sprite[i].height / 20)
 			return (1);
 		i++;
 	}

@@ -18,6 +18,12 @@ int		check_args(int argc, char **argv)
 
 	if (argc < 2 || argc > 3)
 		return (readfile_errors(8));
+	if (argc == 2)
+	{
+		len = ft_strlen(argv[1]);
+		if (!(ft_strncmp(argv[1] + (len - 4), ".cub", 4) == 0))
+			readfile_errors(8);
+	}
 	if (argc == 3)
 	{
 		len = ft_strlen(argv[1]);
