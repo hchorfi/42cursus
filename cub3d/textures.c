@@ -91,7 +91,6 @@ char	*valid_txt(char *file)
 
 int		stock_txt(char *line, char **tab, int len)
 {
-	//tab = ft_split(line, ' ');
 	//while (tab[len])
 		//len++;
 	while (*line == ' ')
