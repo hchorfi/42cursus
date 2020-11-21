@@ -1,0 +1,1 @@
+/Users/hchorfi/.zshrc

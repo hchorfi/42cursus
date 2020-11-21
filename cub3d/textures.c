@@ -62,17 +62,20 @@ int		check_txt(char *line)
 	return (1);
 }
 
-int		valid_txt(char *file)
+char	*valid_txt(char *file)
 {
 	int	fd;
 	int check;
+	char *str;
 
+	str = ft_strtrim(file, " ");
 	check = 1;
-	if (file != NULL)
+	printf("-%s-\n", str);
+	if (str != NULL)
 	{
-		if (ft_strncmp(file + (ft_strlen(file) - 4), ".xpm", 4) == 0)
+		if (ft_strncmp(str + (ft_strlen(str) - 4), ".xpm", 4) == 0)
 		{
-			fd = open(file, O_RDONLY);
+			fd = open(str, O_RDONLY);
 			if (fd < 0)
 				check = 0;
 		}
@@ -82,25 +85,39 @@ int		valid_txt(char *file)
 	else
 		check = 0;
 	if (check == 0)
-		return (stock_errors(3));
-	else
-		return (1);
+		stock_errors(3);
+	return (str);
 }
 
 int		stock_txt(char *line, char **tab, int len)
 {
-	tab = ft_split(line, ' ');
-	while (tab[len])
-		len++;
-	if (len == 2 && valid_txt(tab[1]))
+	//tab = ft_split(line, ' ');
+	//while (tab[len])
+		//len++;
+	while (*line == ' ')
+		line++;
+	int c;
+	char *str;
+	char *path;
+
+	tab = NULL;
+	len = 0;
+	c = 0;
+	str = ft_strtrim(line, " ");
+	if (g_txt.type == NO || g_txt.type == SO || g_txt.type == WE || g_txt.type == EA)
+		c = 3;
+	if (g_txt.type == SP)
+		c = 2;
+	if ((path = valid_txt(str + c)) != NULL)
 	{
-		g_txt.file[g_txt.type] = ft_substr(tab[1], 0, ft_strlen(tab[1]));
-		free_dpointer(tab, len);
+		g_txt.file[g_txt.type] = ft_strdup(path);
+		printf("-%s-\n", g_txt.file[g_txt.type]);
+		//free_dpointer(tab, len);
 		check_double_key(g_txt.type);
 	}
 	else
 	{
-		free_dpointer(tab, len);
+		//free_dpointer(tab, len);
 		return (stock_errors(2));
 	}
 	return (1);

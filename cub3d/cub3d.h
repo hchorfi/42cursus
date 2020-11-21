@@ -237,7 +237,7 @@ t_screenshot		g_sshot;
 
 int					ft_textures(void);
 int					check_txt(char *line);
-int					valid_txt(char *file);
+char				*valid_txt(char *file);
 int					stock_txt(char *line, char **tab, int len);
 int					check_sprite_txt(char *line);
 
