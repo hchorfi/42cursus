@@ -12,7 +12,7 @@
 
 #!/bin/sh
 
-<<comm
+<<test
 INSTALL_PATH="/Volumes/HAKUNA_MATA/1337/Cursus"
 
 mkdir $INSTALL_PATH/.brew
@@ -27,7 +27,7 @@ brew update && brew upgrade
 mkdir -p /tmp/.$(whoami)-brew-locks
 echo "export PATH=$HOME/.brown/bin:$PATH" >> ~/.bashrc
 echo "export PATH=$HOME/.brown/bin:$PATH" >> ~/.zshrc
-comm
+test
 
 mkdir /goinfre/$1/.brew && curl -fsSL https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C /goinfre/$1/.brew
 mkdir -p /tmp/.$(whoami)-brew-locks
