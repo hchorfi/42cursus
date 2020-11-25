@@ -16,8 +16,10 @@
 echo "/-----------------------------------------------------------------------/"
 echo "/starting minikube"
 echo "/-----------------------------------------------------------------------/"
-export MINIKUBE_HOME=/Volumes/HAKUNA_MATA
+export MINIKUBE_HOME=/Volumes/HAKUNA_MATA/1337/minikube
 minikube start --driver virtualbox
+minikube docker-env
+eval $(minikube -p minikube docker-env)
 minikubeip=$(minikube ip)
 echo $minikubeip
 sed -i '' "s/192.168.99.*/$minikubeip-$minikubeip/g" ./srcs/metallb-configmap.yaml

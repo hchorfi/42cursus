@@ -7,3 +7,5 @@ export PATH="/goinfre/$1/.brew/bin:$PATH"
 export PATH="$HOME/.brown/bin:$PATH"
 alias docker-machine='docker-machine --storage-path /Volumes/HAKUNA_MATA/1337/docker'
 
+export PATH="/goinfre/$1/.brew/bin:$PATH"
+export PATH="$HOME/.brown/bin:$PATH"

@@ -40,7 +40,7 @@ brew update && brew upgrade
 mkdir -p /tmp/.$(whoami)-brew-locks
 echo 'export PATH="$HOME/.brown/bin:$PATH"' >> ~/.bashrc
 echo 'export PATH="$HOME/.brown/bin:$PATH"' >> ~/.zshrc
-brew install docker && brew install docker-machine
-docker-machine create --driver virtualbox default
-docker-machine env default
-eval $(docker-machine env default)
+#brew install docker && brew install docker-machine
+#docker-machine create --driver virtualbox default
+#docker-machine env default
+#eval $(docker-machine env default)
