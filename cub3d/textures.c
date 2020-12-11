@@ -64,13 +64,12 @@ int		check_txt(char *line)
 
 char	*valid_txt(char *file)
 {
-	int	fd;
-	int check;
-	char *str;
+	int		fd;
+	int		check;
+	char	*str;
 
 	str = ft_strtrim(file, " ");
 	check = 1;
-	printf("-%s-\n", str);
 	if (str != NULL)
 	{
 		if (ft_strncmp(str + (ft_strlen(str) - 4), ".xpm", 4) == 0)
@@ -91,33 +90,27 @@ char	*valid_txt(char *file)
 
 int		stock_txt(char *line, char **tab, int len)
 {
-	//while (tab[len])
-		//len++;
-	while (*line == ' ')
-		line++;
-	int c;
-	char *str;
-	char *path;
+	int		c;
+	char	*str;
+	char	*path;
 
 	tab = NULL;
 	len = 0;
 	c = 0;
 	str = ft_strtrim(line, " ");
-	if (g_txt.type == NO || g_txt.type == SO || g_txt.type == WE || g_txt.type == EA)
+	if (g_txt.type == NO || g_txt.type == SO || g_txt.type == WE
+		|| g_txt.type == EA)
 		c = 3;
 	if (g_txt.type == SP)
 		c = 2;
 	if ((path = valid_txt(str + c)) != NULL)
 	{
 		g_txt.file[g_txt.type] = ft_strdup(path);
-		printf("-%s-\n", g_txt.file[g_txt.type]);
-		//free_dpointer(tab, len);
+		free(str);
+		free(path);
 		check_double_key(g_txt.type);
 	}
 	else
-	{
-		//free_dpointer(tab, len);
 		return (stock_errors(2));
-	}
 	return (1);
 }

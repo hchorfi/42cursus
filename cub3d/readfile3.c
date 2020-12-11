@@ -57,8 +57,6 @@ int		check_map_line(char *line, int check)
 	i = 0;
 	while (line[i])
 	{
-		while (line[i] == ' ')
-			i++;
 		if (char_chr(line[i], "NWSE"))
 		{
 			if (!(check = check_player_pos(&line[i], i, g_map_info.rows)))
@@ -69,7 +67,7 @@ int		check_map_line(char *line, int check)
 			if (!(check = check_sprites_pos(&line[i], i, g_map_info.rows)))
 				return (mapline_errors(2));
 		}
-		else if (!(check = char_chr(line[i], "01")))
+		else if (!(check = char_chr(line[i], "01 ")))
 			return (mapline_errors(3));
 		i++;
 	}

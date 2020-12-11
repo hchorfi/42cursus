@@ -42,6 +42,19 @@ int		stock_resolution(char *line)
 
 int		check_color(char *line)
 {
+	int		l;
+	int		i;
+
+	i = 0;
+	l = 0;
+	while (line[i] != '\0')
+	{
+		if (line[i] == ',')
+			l++;
+		i++;
+	}
+	if (l != 2)
+		return (stock_errors(5));
 	while (*line == ' ')
 		line++;
 	if (ft_strncmp(line, "F ", 2) == 0)
