@@ -27,8 +27,9 @@ brew update && brew upgrade
 mkdir -p /tmp/.$(whoami)-brew-locks
 echo "export PATH=$HOME/.brown/bin:$PATH" >> ~/.bashrc
 echo "export PATH=$HOME/.brown/bin:$PATH" >> ~/.zshrc
-
 comment
+
+###install brew
 mkdir /goinfre/$1/.brew && curl -fsSL https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C /goinfre/$1/.brew
 mkdir -p /tmp/.$(whoami)-brew-locks
 mkdir -p /goinfre/$1/.brew/var/homebrew
@@ -40,7 +41,13 @@ brew update && brew upgrade
 mkdir -p /tmp/.$(whoami)-brew-locks
 echo 'export PATH="$HOME/.brown/bin:$PATH"' >> ~/.bashrc
 echo 'export PATH="$HOME/.brown/bin:$PATH"' >> ~/.zshrc
-#brew install docker && brew install docker-machine
+
+### install nasm
+brew install nasm
+alias nasm='/Users/hchorfi/.brown/bin/nasm'
+
+### install docker & docker-machine
+brew install docker && brew install docker-machine
 #docker-machine create --driver virtualbox default
 #docker-machine env default
 #eval $(docker-machine env default)
