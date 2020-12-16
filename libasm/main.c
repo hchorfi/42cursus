@@ -1,34 +1,64 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/14 16:52:19 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/12/14 16:52:20 by hchorfi          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "libasm.h"
-
+# define STRLEN(x) (printf("%s\nft_strlen : %lu\nstrlen : %lu\n", x, ft_strlen(x), strlen(x)))
+# define STRCMP(x, y) (printf("%s | %s\nftstrcmp : %d\nstrcmp : %d\n", x, y, ft_strcmp(x, y), strcmp(x, y)))
+# define STRDUP(x) (printf("%s\nft_strdup\n : %s\nstrdup\n : %s\n", x, ft_strdup(x), strdup(x)))
 int     main()
 {
-    //char *str1= "abc";
-    //char *str2= "abd";
-    char *dst = malloc(10 * sizeof (char));
-    //printf("*%d*\n", strcmp("124","120"));
-    //printf("*%d*\n", ft_strcmp("124","120"));
-    //printf("*%s*\n", strcpy(dst,"13313213132132132313"));
-    //printf("*%s*\n", strcpy(dst,"1"));
-    //ssize_t l = ft_write(1, "hamza", 5);
-    char *s = "12345";
-    //char *tst_read = malloc(10 * sizeof (char));
-   // if (ft_write(1, "NULL", 14) == -1)
-    //    printf("%s: ", strerror(errno));
-   // ssize_t l = ft_read(1, s, 5);
-    printf("*%d*\n", strcmp("tesa", "tesT"));
-    printf("*%d*", ft_strcmp("tesa", "tesT"));
-
-    return 0;
+	char *s1,*s2;
+	char dst1[1000];
+	char dst2[1000];
+	char buf[20];
+	int fd;
+	printf("\033[0;31mMandatory TEST\033[0m\n");
+	printf("\033[0;32mft_strlen TEST\033[0m\n");
+	STRLEN("");
+	STRLEN("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
+	printf("\033[0;32mft_strcpy TEST\033[0m\n");
+	ft_strcpy(dst1, "");
+	strcpy(dst2, "");
+	printf("ft_strcpy : %s\nstrcpy : %s\n", dst1, dst2);
+	ft_strcpy(dst1, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
+	strcpy(dst2, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
+	printf("ft_strcpy : %s\nstrcpy : %s\n", dst1, dst2);
+	printf("\033[0;32mft_strcmp TEST\033[0m\n");
+	s1 = "";
+	s2 = "";
+	STRCMP(s1, s2);
+	s1 = "";
+	s2 = "test";
+	STRCMP(s1, s2);
+	s1 = "test";
+	s2 = "";
+	STRCMP(s1, s2);
+	s1 = "test";
+	s2 = "test";
+	STRCMP(s1, s2);
+	s1 = "Test";
+	s2 = "test";
+	STRCMP(s1, s2);
+	s1 = "tes/0";
+	s2 = "tesT";
+	STRCMP(s1, s2);
+	printf("\033[0;32mft_write TEST\033[0m\n");
+	ft_write(1, "hello\n", 6);
+	fd = open("file", O_WRONLY);
+	ft_write(fd, "DevZa\n", 6);
+	if ((ft_write(-4, "hello\n", 6) == -1))
+		printf("\033[1;31mERROR: %s\033[0m\n", strerror(errno));
+	printf("%d\n", (int)ft_write(1, "hello\n", 6));
+		close(fd);
+	printf("\033[0;32mft_read TEST\033[0m\n");
+	ft_read(0, buf, 20);
+	bzero(buf, 20);
+	fd = open("file", O_RDONLY);
+	ft_read(fd, buf, 7);
+	printf("%s\n", buf);
+	if ((ft_read(-4, buf, 6) == -1))
+		printf("\033[1;31mERROR: %s\033[0m\n", strerror(errno));
+	printf("%d\n", (int)ft_read(0, buf, 20));
+		close(fd);
+	printf("\033[0;32mft_strdup TEST\033[0m\n");
+	STRDUP("");
+	STRDUP("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
+	return 0;
 }

@@ -2,17 +2,16 @@ section .text
     global _ft_strcpy
 
 _ft_strcpy:
-    mov rax, rdi
-    mov rbx, 0
+    xor rdx, rdx
 
 copy:
-    cmp byte[rsi + rbx], 0
-    je exit
-    mov bpl, byte[rsi + rbx]
-    mov byte[rdi + rbx], bpl
-    add rbx, 1
-    jmp copy
+    mov r12b, byte[rsi + rdx]
+    mov byte[rdi + rdx], r12b
+    add rdx, 1
+    cmp byte[rsi + rdx], 0
+    jne copy
+    mov byte [rdi + rdx], 0
 
 exit:
-    mov byte[rdi + rbx], 0
+    mov rax, rdi
     ret
