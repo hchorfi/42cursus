@@ -2,29 +2,19 @@ section .text
     global _ft_strcmp
 
 _ft_strcmp:
-    mov rax, 0
-    mov rbx, 0
-
-compar:
-    mov bpl, byte[rdi + rbx]
-    cmp bpl, byte[rsi + rbx]
-    jg greater
-    jl less
-    je next
-
-next:
-    cmp bpl, 0
+    xor rax, rax
+    mov al, [rdi]
+    mov bl, [rsi]
+    cmp al, 0
     je exit
-    add rbx, 1
-    jmp compar
-
-greater:
-    mov rax, 1
-    jmp exit
-
-less:
-    mov rax, -1
-    jmp exit
+    cmp bl, 0
+    je exit
+    cmp al, bl
+    jne exit
+    inc rdi
+    inc rsi
+    jmp _ft_strcmp
 
 exit:
+    sub rax, rbx
     ret

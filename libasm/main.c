@@ -1,13 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hchorfi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/14 16:52:19 by hchorfi           #+#    #+#             */
+/*   Updated: 2020/12/14 16:52:20 by hchorfi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-size_t ft_strlen(const char *s);
-char *ft_strcpy(char *dst, const char *src);
-int ft_strcmp(const char *s1, const char *s2);
-ssize_t ft_write(int fildes, const void *buf, size_t nbyte);
-ssize_t ft_read(int fildes, void *buf, size_t nbyte);
+#include "libasm.h"
 
 int     main()
 {
@@ -20,8 +23,12 @@ int     main()
     //printf("*%s*\n", strcpy(dst,"1"));
     //ssize_t l = ft_write(1, "hamza", 5);
     char *s = "12345";
-    ft_write(1, s, 10);
-    //ssize_t l = ft_read(0, dst, 10);
-    //printf("*%zd*", l);
+    //char *tst_read = malloc(10 * sizeof (char));
+   // if (ft_write(1, "NULL", 14) == -1)
+    //    printf("%s: ", strerror(errno));
+   // ssize_t l = ft_read(1, s, 5);
+    printf("*%d*\n", strcmp("tesa", "tesT"));
+    printf("*%d*", ft_strcmp("tesa", "tesT"));
+
     return 0;
 }

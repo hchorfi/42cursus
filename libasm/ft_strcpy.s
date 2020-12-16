@@ -14,4 +14,5 @@ copy:
     jmp copy
 
 exit:
+    mov byte[rdi + rbx], 0
     ret
