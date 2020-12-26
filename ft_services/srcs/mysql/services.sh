@@ -1,4 +1,4 @@
 #!/bin/bash
 
-rc-service mariadb start
+rc-service mariadb restart
 exec top

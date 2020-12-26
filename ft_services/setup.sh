@@ -44,6 +44,13 @@ echo "/-----------------------------------------------------------------------/"
 docker build -t nginx ./srcs/nginx
 kubectl apply -f ./srcs/nginx/nginx-dep.yaml
 
+### deploy mysql
+echo "/-----------------------------------------------------------------------/"
+echo "/deploy mysql"
+echo "/-----------------------------------------------------------------------/"
+docker build -t mysql ./srcs/mysql
+kubectl apply -f ./srcs/mysql/mysql-dep.yaml
+
 ### start dashboard
 echo "/-----------------------------------------------------------------------/"
 echo "/start minikube dashboard"

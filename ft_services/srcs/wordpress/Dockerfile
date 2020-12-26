@@ -1,8 +1,12 @@
 FROM alpine
 VOLUME [ "/sys/fs/cgroup" ]
 COPY install.sh /
+COPY nginx.conf /
+COPY index.php /
 COPY services.sh /
+COPY www.conf /
+COPY php.ini /
+COPY wp-config.php /
 RUN sh install.sh
-COPY mariadb-server.cnf /etc/my.cnf.d/mariadb-server.cnf
-EXPOSE 3306
+EXPOSE 5050
 ENTRYPOINT [ "sh", "services.sh" ]
