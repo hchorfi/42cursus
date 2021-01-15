@@ -47,7 +47,7 @@ brew install nasm
 alias nasm='/Users/hchorfi/.brown/bin/nasm'
 
 ### install docker & docker-machine
-brew install docker && brew install docker-machine
+brew install docker && brew install docker-machine && brew install minikube
 #docker-machine create --driver virtualbox default
 #docker-machine env default
 #eval $(docker-machine env default)

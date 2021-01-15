@@ -1,6 +1,7 @@
 #!/bin/sh
 
-apk update
+echo "http://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories
+apk update && apk upgrade
 
 apk --no-cache add curl
 apk add openrc --no-cache
@@ -25,3 +26,6 @@ rc-update add sshd
 rc-status
 rc-service sshd start
 echo "root:root" | chpasswd
+
+apk --no-cache add telegraf
+rc-update add telegraf default
