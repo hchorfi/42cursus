@@ -12,12 +12,13 @@
 
 #!/bin/sh
 
-
 ### starting minikube
 echo "/-----------------------------------------------------------------------/"
 echo "/starting minikube"
 echo "/-----------------------------------------------------------------------/"
-export MINIKUBE_HOME=/Volumes/HAKUNA_MATA/1337/minikube
+export MINIKUBE_HOME=/goinfre/hchorfi
+minikube config set memory 3072
+minikube delete
 minikube start --driver virtualbox
 #minikubeip=$(minikube ip)
 #echo $minikubeip
@@ -27,6 +28,13 @@ eval $(minikube docker-env)
 #sed -i '' "s/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/192.168.99.100/g" ./srcs/ftps/vsftpd.conf
 
 minikube addons enable metrics-server
+
+### start dashboard
+echo "/-----------------------------------------------------------------------/"
+echo "/start minikube dashboard"
+echo "/-----------------------------------------------------------------------/"
+
+minikube dashboard &
 
 ### deploy MetalLB
 echo "/-----------------------------------------------------------------------/"
@@ -90,11 +98,3 @@ echo "/-----------------------------------------------------------------------/"
 docker build -t ftps ./srcs/ftps
 kubectl apply -f ./srcs/ftps/ftps.yaml
 
-### start dashboard
-echo "/-----------------------------------------------------------------------/"
-echo "/start minikube dashboard"
-echo "/-----------------------------------------------------------------------/"
-
-minikube ip
-
-minikube dashboard &

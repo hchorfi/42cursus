@@ -1,4 +1,5 @@
 FROM alpine:3.11
+VOLUME [ "/sys/fs/cgroup" ]
 COPY install.sh /
 COPY services.sh /
 RUN sh install.sh

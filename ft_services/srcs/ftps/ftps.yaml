@@ -18,6 +18,13 @@ spec:
         - name: ftps
           image: ftps
           imagePullPolicy: Never
+          livenessProbe:
+            exec:
+              command:
+              - sh
+              - /check.sh
+            initialDelaySeconds: 60
+            periodSeconds: 30
           ports:
             - containerPort: 21
             - containerPort: 21100

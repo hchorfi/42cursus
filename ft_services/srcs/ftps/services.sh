@@ -1,5 +1,4 @@
 #! /bin/sh
 openrc default
-rc-service vsftpd restart
-rc-service telagraf restart
+rc-status -a
 exec top

@@ -1,11 +1,11 @@
-pgrep nginx
+rc-service nginx status
 ps_1=$?
-pgrep telegraf
+rc-service telegraf status
 ps_2=$?
-pgrep sshd
+rc-service sshd status
 ps_3=$?
 
-if [ $ps_1 -eq 0 ] && [ $ps_2 -eq 0 ] && [ $ps_3 -eq 0 ] && [ $ps_4 -eq 0 ]; then
+if [ $ps_1 -eq 0 ] && [ $ps_2 -eq 0 ] && [ $ps_3 -eq 0 ]; then
         exit 0;
 fi
 exit 1;

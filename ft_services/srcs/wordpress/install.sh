@@ -1,19 +1,17 @@
 #!/bin/sh
-
 echo "http://dl-cdn.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories
 apk update && apk upgrade
 
-apk add curl openrc nginx
-mkdir /run/openrc
+apk add openrc --no-cache
+rc-status -a
 touch /run/openrc/softlevel
-mkdir /run/nginx
+apk add nginx
 mkdir /www
 adduser -D -g 'www' www
 chown -R www:www /var/lib/nginx
 chown -R www:www /www
 mv /nginx.conf /etc/nginx
 mv /index.php /www
-rc-service nginx start
 rc-update add nginx default
 
 #--- installing php ---#
@@ -35,7 +33,6 @@ PHP_CGI_FIX_PATHINFO=0
 mv www.conf /etc/php7/php-fpm.d/
 mv php.ini /etc/php7/
 cmnt
-rc-service php-fpm7 start
 rc-update add php-fpm7 default
 
 #--- installing wordpress ---#
@@ -46,5 +43,6 @@ rm latest.tar.gz
 chown -R www:www /www/wordpress
 mv /wp-config.php wordpress/wp-config.php
 
+#--------------------------------
 apk --no-cache add telegraf
 rc-update add telegraf default

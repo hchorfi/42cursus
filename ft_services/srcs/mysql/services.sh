@@ -1,8 +1,7 @@
 #!/bin/bash
 openrc default
+rc-status -a
 /etc/init.d/mariadb setup
-rc-service mariadb restart
-rc-service telegraf restart
 mariadb -u root -e "CREATE USER 'hchorfi'@'localhost' IDENTIFIED BY 'hchorfi';"
 mariadb -u root -e "GRANT ALL PRIVILEGES ON * . * TO 'hchorfi'@'172.17.0.%' IDENTIFIED BY 'hchorfi';"
 mariadb -u root -e "FLUSH PRIVILEGES;"

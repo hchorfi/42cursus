@@ -1,6 +1,6 @@
-pgrep vsftpd
+rc-service vsftpd status
 ps_1=$?
-pgrep telegraf
+rc-service telegraf status
 ps_2=$?
 
 if [ $ps_1 -eq 0 ] && [ $ps_2 -eq 0 ]; then
