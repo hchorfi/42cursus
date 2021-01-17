@@ -34,8 +34,8 @@ spec:
               command:
               - sh
               - /check.sh
-            initialDelaySeconds: 60
-            periodSeconds: 30
+            initialDelaySeconds: 10
+            periodSeconds: 5
           ports:
             - containerPort: 8086
           volumeMounts:
