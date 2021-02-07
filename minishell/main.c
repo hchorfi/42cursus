@@ -15,9 +15,17 @@
 int     ft_exec()
 {   
     int pid;
+    int status;
+    int wpid;
     pid = fork();
     if (pid == 0)
         execve(ft_strjoin("/bin/", g_token.arguments[0]), g_token.arguments, NULL);
+    else
+    {
+        do {
+            wpid = waitpid(pid, &status, WUNTRACED);
+        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    }
     return (1);
 }
 
@@ -35,9 +43,6 @@ int    ft_prompt()
     ft_putstr_fd("minishell 👽 > ", 1);
     ft_putstr_fd("\033[0m", 1);
 	get_next_line(0, &line);
-    if (line[0] == '*')
-        exit (0);
-    //printf("you need to pars this 💩 : |%s|\n", line);
     ft_parse(line);
     return 1;
 }
