@@ -13,7 +13,7 @@ ASAN = -g -fsanitize=address
 $(NAME) :
 	#make -C $(LIBFT_PATH)
 	#gcc -g $(SRCS) -L $(LIBFT_PATH) -l$(LIBFT_LIB) -o $(NAME)
-	gcc -g $(SRCS) libft.a -o $(NAME)
+	gcc -g $(ASAN) $(SRCS) libft.a -o $(NAME)
 	
 all: $(NAME)
 

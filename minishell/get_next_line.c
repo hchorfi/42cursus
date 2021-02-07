@@ -91,7 +91,7 @@ int		get_next_line(int fd, char **line)
 			tmp = ft_strdup(++chr);
 			free(xt);
 		}
-		*line = ft_strjoin(*line, buffer);
+		*line = ft_strjoin2(*line, buffer);
 	}
 	return (ft_free(&buffer, 1));
 }
