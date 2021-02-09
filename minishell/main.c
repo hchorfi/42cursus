@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/02/04 00:05:43 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/02/08 18:42:50 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,12 @@ int     ft_exec()
 {   
     int pid;
     int status;
-    int wpid;
     pid = fork();
     if (pid == 0)
         execve(ft_strjoin("/bin/", g_token.arguments[0]), g_token.arguments, NULL);
     else
-    {
-        do {
-            wpid = waitpid(pid, &status, WUNTRACED);
-        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
-    }
+        wait(&status);
+    printf("okokokokok");
     return (1);
 }
 
@@ -53,6 +49,7 @@ int     main()
     {
         ft_prompt();
         ft_exec();
+        ft_putstr_fd("...\n",1);
     }
 
     return (0);

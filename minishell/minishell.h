@@ -3,6 +3,8 @@
 
 #include "get_next_line.h"
 #include "libft/libft.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
 # define POIN_VER 1
 
