@@ -8,12 +8,21 @@
 
 # define POIN_VER 1
 
-typedef struct		s_token
+typedef	struct 	s_data
 {
-	char 			*command;
-	char 			**arguments;
-	int				limit;
-}					t_token;
-t_token				g_token;
+	t_list		*env_var;
+}				t_data;
+t_data			g_data;
+
+
+ typedef struct s_command
+ {
+     char **tokens;
+     char **input_files;
+     char **output_files; 
+
+ }				t_command;
+ t_command		g_command;
+
 
 #endif
