@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/02/08 18:42:50 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/02/11 19:08:54 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,29 @@ int     ft_exec()
 {   
     int pid;
     int status;
-    pid = fork();
-    if (pid == 0)
-        execve(ft_strjoin("/bin/", g_token.arguments[0]), g_token.arguments, NULL);
+    
+    if (!ft_memcmp(g_command.tokens[0], "export", 7))
+        ft_export();
     else
-        wait(&status);
-    printf("okokokokok");
+    {
+        pid = fork();
+        if (pid == 0)
+            execve(ft_strjoin("/bin/", g_command.tokens[0]), g_command.tokens, NULL);
+        else
+            wait(&status);
+    }
     return (1);
 }
 
 void    ft_parse(char *line)
 {
     int i=0;
-    g_token.arguments = ft_split(line, ' ');
+    g_command.tokens = ft_split(line, ' ');
 }
 
 int    ft_prompt()
 {
-    char *line;
+    char    *line;
 
     ft_putstr_fd("\033[0;32m", 1);
     ft_putstr_fd("minishell 👽 > ", 1);
@@ -43,14 +48,38 @@ int    ft_prompt()
     return 1;
 }
 
+void    ft_stock_envp(char **envp)
+{
+    int     i;
+    
+    i = 0;
+    g_data.env_var = NULL;
+    while (envp[i])
+    {
+        if (g_data.env_var == NULL)
+            g_data.env_var = ft_lstnew(envp[i]);
+        else
+            ft_lstadd_back(&g_data.env_var, ft_lstnew(envp[i]));
+        i++;
+    }
+    // g_data.env_var->next = NULL;
+}
+
 int     main(int argc, char **argv, char **envp)
 {
+    
+    ft_stock_envp(envp);
     while (1)
     {
-        ft_get_env();
         ft_prompt();
         ft_exec();
     }
-
+    
+    /*
+    ft_export("hamza=test");
+    int i = 0;
+    
+    
+    */
     return (0);
 }
