@@ -43,13 +43,13 @@ int    ft_prompt()
     return 1;
 }
 
-int     main()
+int     main(int argc, char **argv, char **envp)
 {
     while (1)
     {
+        ft_get_env();
         ft_prompt();
         ft_exec();
-        ft_putstr_fd("...\n",1);
     }
 
     return (0);
