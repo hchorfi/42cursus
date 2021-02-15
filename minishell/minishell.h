@@ -3,6 +3,7 @@
 
 #include "get_next_line.h"
 #include "libft/libft.h"
+#include "ft_printf/ft_printf.h"
 #include <sys/types.h>
 #include <sys/wait.h>
 
@@ -32,6 +33,18 @@ t_data			g_data;
 int     ft_valid_export_var(char *export_var);
 int     ft_exist_export_var(char *export_var);
 int     ft_export();
+
+/*
+** env.c
+*/
+
+int     ft_env();
+
+/*
+** unset.c
+*/
+
+int ft_unset();
 
 /*
 ** main.c

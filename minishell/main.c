@@ -19,6 +19,10 @@ int     ft_exec()
     
     if (!ft_memcmp(g_command.tokens[0], "export", 7))
         ft_export();
+    else if(!ft_memcmp(g_command.tokens[0], "env", 4))
+        ft_env();
+    else if (!ft_memcmp(g_command.tokens[0], "unset", 6))
+        ft_unset();
     else
     {
         pid = fork();
