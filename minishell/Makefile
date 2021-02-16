@@ -4,7 +4,7 @@ NAME = minishell
 LIBFT_PATH = ./libft
 LIBFT_LIB = ft
 
-SRCS = main.c get_next_line.c get_next_line_utils.c export.c env.c unset.c
+SRCS = main.c get_next_line.c get_next_line_utils.c export.c env.c unset.c pwd.c cd.c
 
 FLAGS = -Werror -Wextra -Wall
 

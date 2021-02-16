@@ -6,6 +6,7 @@
 #include "ft_printf/ft_printf.h"
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <limits.h>
 
 # define POIN_VER 1
 
@@ -25,6 +26,17 @@ t_data			g_data;
  }				t_command;
  t_command		g_command;
 
+/*
+** cd.c
+*/
+
+int     ft_cd();
+
+/*
+** pwd.c
+*/
+
+int     ft_pwd();
 
 /*
 ** export.c
@@ -44,7 +56,10 @@ int     ft_env();
 ** unset.c
 */
 
-int ft_unset();
+int     ft_unset();
+int     ft_valid_unset_var(char *unset_var);
+int		ft_chr_var(char *unset_var);
+int     ft_del_list(t_list **head, int position);
 
 /*
 ** main.c

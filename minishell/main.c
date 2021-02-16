@@ -23,6 +23,10 @@ int     ft_exec()
         ft_env();
     else if (!ft_memcmp(g_command.tokens[0], "unset", 6))
         ft_unset();
+    else if (!ft_memcmp(g_command.tokens[0], "pwd", 4))
+        ft_pwd();
+    else if (!ft_memcmp(g_command.tokens[0], "cd", 3))
+        ft_cd();
     else
     {
         pid = fork();

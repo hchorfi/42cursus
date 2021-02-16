@@ -12,7 +12,37 @@
 
 #include "minishell.h"
 
-int		ft_del_var(char *unset_var)
+int     ft_del_list(t_list **head, int position)
+{
+    t_list *curr;
+    t_list *prev;
+    
+    curr = *head;
+    prev = *head;
+    if (*head == NULL)
+        return (0);
+    else if (position == 1)
+    {
+        *head = curr->next;
+        free(curr);
+        curr = NULL;
+    }
+    else
+    {
+        while (position != 1)
+        {
+            prev = curr;
+            curr = curr->next;
+            position--;
+        }
+        prev->next = curr->next;
+        free(curr);
+        curr = NULL; 
+    }
+    return (0);
+}
+
+int		ft_chr_var(char *unset_var)
 {
 	t_list  *newlist;
     char    *new_var;
@@ -20,9 +50,11 @@ int		ft_del_var(char *unset_var)
     char    *tmp_str;
     int     tmp_len;
     int     len;
+    int     i;
 
     newlist = g_data.env_var;
     new_var = unset_var;
+    i = 1;
     while (newlist)
     {
         if ((tmp_str = ft_strchr(newlist->content, '=')))
@@ -37,17 +69,12 @@ int		ft_del_var(char *unset_var)
             len = ft_strlen(old_var);
         }
         if (ft_strncmp(old_var, new_var, len) == 0)
-        {
-			ft_printf("%s\n", newlist->content);
-            ft_printf("herrre\n");
-			// while(g_data.env_var)
-			// {
-			// 	printf("%s\n", g_data.env_var->content);
-			// 	g_data.env_var = g_data.env_var->next;
-			// }
+        {   
+            ft_del_list(&g_data.env_var,i);
             return 1;
         }
         newlist = newlist->next;
+        i++;
     }
     return (0);
 }
@@ -108,7 +135,7 @@ int		ft_unset()
 	while (g_command.tokens[i])
 	{
 		if (ft_valid_unset_var(g_command.tokens[i]))
-			ft_del_var(g_command.tokens[i]);
+			ft_chr_var(g_command.tokens[i]);
 		i++;
 	}
 	
