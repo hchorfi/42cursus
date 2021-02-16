@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    setup.sh                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hchorfi <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/24 13:27:51 by hchorfi           #+#    #+#              #
-#    Updated: 2020/11/24 13:27:52 by hchorfi          ###   ########.fr        #
+#    Updated: 2021/02/04 16:49:57 by hchorfi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 echo "/-----------------------------------------------------------------------/"
 echo "/starting minikube"
 echo "/-----------------------------------------------------------------------/"
-export MINIKUBE_HOME=/goinfre/hchorfi
+#export MINIKUBE_HOME=/goinfre/hchorfi
 minikube config set memory 3072
 minikube delete
 minikube start --driver virtualbox
