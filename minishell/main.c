@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/02/16 20:25:58 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/02/17 11:26:53 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,21 @@ int     ft_exec()
     int pid;
     int status;
     
-    if (!ft_memcmp(g_command.tokens[0], "export", 7))
+    if (!g_command.tokens[0])
+        return (0);
+    else if (!ft_memcmp(g_command.tokens[0], "export", 7))
         ft_export();
+    else if(!ft_memcmp(g_command.tokens[0], "env", 4))
+        ft_env();
+    else if (!ft_memcmp(g_command.tokens[0], "unset", 6))
+        ft_unset();
+    else if (!ft_memcmp(g_command.tokens[0], "pwd", 4))
+        ft_pwd();
+    else if (!ft_memcmp(g_command.tokens[0], "cd", 3))
+        ft_cd();
     else
-    {
-        pid = fork();
-        if (pid == 0)
-            execve(ft_strjoin("/bin/", g_command.tokens[0]), g_command.tokens, NULL);
-        else
-            wait(&status);
-    }
-    return (1);
+        ft_check_bin();
+    return (0);
 }
 
 void    ft_parse(char *line)
