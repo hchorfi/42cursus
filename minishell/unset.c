@@ -132,10 +132,10 @@ int		ft_unset()
 	// }
 
 	i = 1;
-	while (g_command.tokens[i])
+	while (g_command->tokens[i])
 	{
-		if (ft_valid_unset_var(g_command.tokens[i]))
-			ft_chr_var(g_command.tokens[i]);
+		if (ft_valid_unset_var(g_command->tokens[i]))
+			ft_chr_var(g_command->tokens[i]);
 		i++;
 	}
 	

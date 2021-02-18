@@ -95,7 +95,7 @@ int     ft_export()
     t_list *newlist;
     newlist = g_data.env_var;
     char *var;
-    if (!g_command.tokens[1])
+    if (!g_command->tokens[1])
     {
         while(newlist)
         {   
@@ -129,10 +129,10 @@ int     ft_export()
     }
     else
     {
-        while (g_command.tokens[i])
+        while (g_command->tokens[i])
         {
-            if (ft_valid_export_var(g_command.tokens[i]) && !ft_exist_export_var(g_command.tokens[i]))
-                ft_lstadd_back(&g_data.env_var, ft_lstnew(g_command.tokens[i]));
+            if (ft_valid_export_var(g_command->tokens[i]) && !ft_exist_export_var(g_command->tokens[i]))
+                ft_lstadd_back(&g_data.env_var, ft_lstnew(g_command->tokens[i]));
             i++;
         }
     }

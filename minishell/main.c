@@ -12,23 +12,26 @@
 
 #include "minishell.h"
 
-int     ft_exec()
+int     ft_exec(void *cmd)
 {   
     int pid;
     int status;
-    
-    if (!g_command.tokens[0])
+
+    g_command = (t_command *)cmd;
+    if (!g_command->tokens[0])
         return (0);
-    else if (!ft_memcmp(g_command.tokens[0], "export", 7))
+    else if (!ft_memcmp(g_command->tokens[0], "export", 7))
         ft_export();
-    else if(!ft_memcmp(g_command.tokens[0], "env", 4))
+    else if(!ft_memcmp(g_command->tokens[0], "env", 4))
         ft_env();
-    else if (!ft_memcmp(g_command.tokens[0], "unset", 6))
+    else if (!ft_memcmp(g_command->tokens[0], "unset", 6))
         ft_unset();
-    else if (!ft_memcmp(g_command.tokens[0], "pwd", 4))
+    else if (!ft_memcmp(g_command->tokens[0], "pwd", 4))
         ft_pwd();
-    else if (!ft_memcmp(g_command.tokens[0], "cd", 3))
+    else if (!ft_memcmp(g_command->tokens[0], "cd", 3))
         ft_cd();
+    else if (!ft_memcmp(g_command->tokens[0], "echo", 5))
+        ft_echo();
     else
         ft_check_bin();
     return (0);
@@ -36,8 +39,19 @@ int     ft_exec()
 
 void    ft_parse(char *line)
 {
-    int i=0;
-    g_command.tokens = ft_split(line, ' ');
+    char **cmds = ft_split_pars(line, ';');
+    g_data.cmds = NULL;
+    int i =0;
+    while (cmds[i])
+    {
+        g_command = malloc(sizeof * g_command);
+        g_command->tokens = ft_split_pars(cmds[i], ' ');
+        if (g_data.cmds == NULL)
+            g_data.cmds = ft_lstnew(g_command);
+        else
+            ft_lstadd_back(&g_data.cmds, ft_lstnew(g_command));
+        i++;
+    }
 }
 
 int    ft_prompt()
@@ -71,12 +85,18 @@ void    ft_stock_envp(char **envp)
 
 int     main(int argc, char **argv, char **envp)
 {
-    
+    t_list *newlist;
+
     ft_stock_envp(envp);
     while (1)
     {
         ft_prompt();
-        ft_exec();
+        newlist = g_data.cmds;
+        while(newlist)
+        {
+            ft_exec(newlist->content);
+            newlist = newlist->next;
+        }
     }
     
     /*

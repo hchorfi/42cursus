@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bin.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hchorfi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
+/*   Updated: 2021/02/17 14:05:28 by hchorfi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*ft_get_path()
@@ -14,7 +26,7 @@ char	*ft_get_path()
 		tmp = ft_substr(newlist->content, 0, 5);
 		if (!ft_strncmp(tmp, "PATH=", 6))
 		{
-			path = ft_strrchr(newlist->content, '=');
+			path = ft_strchr(newlist->content, '=');
 			free (tmp);
 			return (path + 1);
 		}
@@ -43,13 +55,6 @@ char	**ft_get_envp()
 		newlist = newlist->next;
 		i++;
 	}
-	i=0;
-	while (envp[i])
-	{
-		ft_putstr_fd(envp[i],1);
-		write(1, "\n", 1);
-		i++;
-	}
 	return (envp);
 }
 
@@ -70,14 +75,14 @@ int		ft_check_bin()
 	while(bins[i])
 	{
 		path = ft_strjoin(bins[i], "/");
-		file = ft_strjoin(path, g_command.tokens[0]);
+		file = ft_strjoin(path, g_command->tokens[0]);
 		if (!stat(file, &path_stat))
 		{
 			pid = fork();
 			if (pid == 0)
 			{
 				envp = ft_get_envp();
-			    execve(file, g_command.tokens,NULL);
+			    execve(file, g_command->tokens, envp);
 			}
 			else
 			{

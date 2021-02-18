@@ -13,17 +13,30 @@
 typedef	struct 	s_data
 {
 	t_list		*env_var;
+    t_list      *cmds;
 }				t_data;
 t_data			g_data;
 
 typedef struct s_command
 {
-    char **tokens;
-    char **input_files;
-    char **output_files; 
-
+    char        **tokens;
+    char        **input_files;
+    char        **output_files; 
 }				t_command;
-t_command		g_command;
+t_command		*g_command;
+
+
+/*
+** echo.c
+*/
+
+int				ft_echo();
+
+/*
+** split.c
+*/
+
+char		**ft_split_pars(char const *s, char c);
 
 /*
 ** cd.c

@@ -14,7 +14,7 @@
 
 int		ft_cd()
 {
-	if (!chdir(g_command.tokens[1]))
+	if (!chdir(g_command->tokens[1]))
 		return (0);
 	else
 		return (1);
