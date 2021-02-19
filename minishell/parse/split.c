@@ -101,7 +101,6 @@ char		**ft_split_pars(char const *s, char c)
 	if (!s)
 		return (NULL);
 	s1 = ft_strtrim(s, " ");
-	printf("'%s'", s1);
 	s = ft_strdup(s1);
 	if (!(str = (char **)malloc(sizeof(char *) * (countt((char *)s, c) + 1))))
 		return (NULL);

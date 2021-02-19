@@ -14,6 +14,7 @@ typedef	struct 	s_data
 {
 	t_list		*env_var;
     t_list      *cmds;
+    t_list      *n_pipe_cmd;
 }				t_data;
 t_data			g_data;
 
@@ -21,7 +22,9 @@ typedef struct s_command
 {
     char        **tokens;
     char        **input_files;
-    char        **output_files; 
+    char        **output_files;
+    int         pipe_pos;
+    int         block; 
 }				t_command;
 t_command		*g_command;
 
