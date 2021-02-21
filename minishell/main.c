@@ -175,49 +175,76 @@ int     main(int argc, char **argv, char **envp)
                     {
                         //ft_putstr_fd("----last---ok\n", 1);
                         dup2(pipefds[(pipe_cmds - 1) * 2], 0);
+                        close(pipefds[(pipe_cmds - 1) * 2]);
+
                         //ft_putnbr_fd(pipefds[(pipe_cmds - 1) * 2], 1);
                     }
                     if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
                     {
                         //ft_putstr_fd("----first---ok\n", 1);
-                        dup2(pipefds[pipe_cmds * 2 + 1], 1);
+                        close(pipefds[pipe_cmds * 2]);
+                        dup2(pipefds[(pipe_cmds * 2) + 1], 1);
+                        close(pipefds[(pipe_cmds * 2) + 1]);
+                        //close(pipefds[pipe_cmds * 2 + 1]);
                         //ft_putnbr_fd(pipefds[pipe_cmds * 2 + 1], 1);
                     }
-                    // k = num_pipes;
-                    while (k > 0)
-                    {
-                        //ft_putnbr_fd(k, 1);
-                        close(pipefds[k]);
-                        close(pipefds[k - 1]);
-                        k--;
-                    }
+                    // k = num_pipes * 2;
+                    // while (k > 0)
+                    // {
+                    //     //ft_putnbr_fd(k, 1);
+                    //     close(pipefds[k - 2]);
+                    //     //close(pipefds[k - 1]);
+                    //     k = k - 2;
+                    // }
                     
                     //ft_putnbr_fd(pipefds[0], 1);
                     ft_exec(newlist->content);
                 }
+                else
+                {
+                    if (((t_command *)newlist->content)->pipe_pos != 0 && num_pipes > 0)
+                    {
+                        //ft_putstr_fd("----last---ok\n", 1);
+                        close(pipefds[(pipe_cmds - 1) * 2]);
+                        close(pipefds[((pipe_cmds - 1) * 2) + 1]);
+                        //ft_putnbr_fd(pipefds[(pipe_cmds - 1) * 2], 1);
+                    }
+                    if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
+                    {
+                        //ft_putstr_fd("----first---ok\n", 1);
+                        //pipefds[pipe_cmds * 2];
+                        //pipefds[pipe_cmds * 2 + 1]
+                        pipefds[(pipe_cmds - 1) * 2] = 
+                        //close(pipefds[pipe_cmds * 2 + 1]);
+                        //ft_putnbr_fd(pipefds[pipe_cmds * 2 + 1], 1);
+                    }
                     // while (pipefds[i])
                     // {
                     //     close(pipefds[i]);
                     //     i++;
                     // }
                     // k = num_pipes;
-                    // while (k > 0)
-                    // {
-                    //     //ft_putnbr_fd(k, 1);
-                    //     close(pipefds[k]);
-                    //     close(pipefds[k - 1]);
-                    //     k--;
-                    // }
-                   if (num_pipes > 0)
-                   {
-                    //close(pipefds[0]);
-                    close(pipefds[1]);
-                    //close(pipefds[3]);
-                    }
+                // k = num_pipes * 2;
+                // while (k > 0)
+                // {
+                //     //ft_putnbr_fd(k, 1);
+                //     close(pipefds[k - 1]);
+                //     //close(pipefds[k - 1]);
+                //     k = k - 2;
+                // }
                     waitpid(pid, NULL, 0);
+                }
                 newlist = newlist->next;
                 pipe_cmds++;
             }
+            // k = num_pipes;
+            // while (k > 0)
+            // {
+            //     //ft_putnbr_fd(k, 1);
+            //     close(pipefds[k]);
+            //     close(pipefds[k - 1]);
+            //     k--;
+            // }
             //printf("number of pipes in command %d = %d\n", j, *(int *)pipe_list->content);
             //printf("-----\n");
             if (num_pipes > 0)
