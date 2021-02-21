@@ -78,17 +78,17 @@ int		ft_check_bin()
 		file = ft_strjoin(path, g_command->tokens[0]);
 		if (!stat(file, &path_stat))
 		{
-			pid = fork();
-			if (pid == 0)
-			{
+			// pid = fork();
+			// if (pid == 0)
+			// {
 				envp = ft_get_envp();
 			    execve(file, g_command->tokens, envp);
-			}
-			else
-			{
-				wait(&status);
+			// }
+			// else
+			// {
+			// 	wait(&status);
 				return (0);
-			}
+			// }
 		}
 		i++;
 	}

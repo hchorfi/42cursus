@@ -55,15 +55,16 @@ void    ft_parse(char *line)
     int j;
     while (cmds[i])
     {
-        g_command = malloc(sizeof * g_command);
         pipe_cmds = ft_split_pars(cmds[i], '|');
+        //g_command->pipe_pos = 0;
         j = 0;
-        g_command->pipe_pos = 0;
-        g_command->block = i + 1;
         while (pipe_cmds[j])
         {
-            g_command->pipe_pos++;
+            g_command = malloc(sizeof * g_command);
+            g_command->block = i;
+            g_command->pipe_pos = j;
             g_command->tokens = ft_split_pars(pipe_cmds[j], ' ');
+            //printf("%s\n", g_command->tokens[0]);
             if (g_data.cmds == NULL)
                 g_data.cmds = ft_lstnew(g_command);
             else
@@ -113,30 +114,117 @@ int     main(int argc, char **argv, char **envp)
 {
     t_list *newlist;
     t_list *pipe_list;
-
+    pid_t pid;
+    int i;
+    int j;
+    int k;
+    int num_pipes;
+    int *pipefds;
+    pipefds = NULL;
+    int pipe_cmds;
     ft_stock_envp(envp);
     while (1)
     {
         ft_prompt();
         newlist = g_data.cmds;
         pipe_list = g_data.n_pipe_cmd;
-        int i = 0;
-        int j = 1;
+        i = 0;
+        j = 0;
         while (pipe_list)
         {
-            printf("command n %d\n", j);
+            num_pipes = *(int *)pipe_list->content;
+            if (num_pipes > 0)
+                pipefds = (int *)malloc(sizeof (int) * (num_pipes * 2));
+            //printf("%d\n", num_pipes);
+            //printf("%d", pipefds[0]);
+            // while (pipefds[i])
+            // {
+            //     //close(pipefds[i]);
+            //     i++;
+            // }
+            //printf("%d", i);
+            //printf("command n %d\n", j);
+            k = 0;
+            while (k <= num_pipes - 1)
+            {
+                pipe(pipefds + (k * 2));
+                //ft_putnbr_fd(k, 1);
+                k++;
+            }
+            pipe_cmds = 0;
             while(newlist && (((t_command *)newlist->content)->block == j))
             {
-                //ft_exec(newlist->content);
                 i = 0;
-                while (((t_command *)g_data.cmds->content)->tokens[i])
+                //printf("tokens n : %d\n", ((t_command *)newlist->content)->pipe_pos);
+                //while (((t_command *)newlist->content)->tokens[i])
+                //{
+                //    printf("%s\n",((t_command *)newlist->content)->tokens[i]);
+                //    i++;
+                //}
+                //printf("-----\n");
+
+                // if ((pid = fork()) == 0)
+                //     ft_exec(newlist->content);
+                // else
+                //     wait(0);
+                pid = fork();
+                if (pid == 0)
                 {
-                    printf("%s\n",((t_command *)g_data.cmds->content)->tokens[i]);
-                    i++;
+                    //printf("-----%d", ((t_command *)newlist->content)->pipe_pos);
+                    if (((t_command *)newlist->content)->pipe_pos != 0 && num_pipes > 0)
+                    {
+                        //ft_putstr_fd("----last---ok\n", 1);
+                        dup2(pipefds[(pipe_cmds - 1) * 2], 0);
+                        //ft_putnbr_fd(pipefds[(pipe_cmds - 1) * 2], 1);
+                    }
+                    if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
+                    {
+                        //ft_putstr_fd("----first---ok\n", 1);
+                        dup2(pipefds[pipe_cmds * 2 + 1], 1);
+                        //ft_putnbr_fd(pipefds[pipe_cmds * 2 + 1], 1);
+                    }
+                    // k = num_pipes;
+                    while (k > 0)
+                    {
+                        //ft_putnbr_fd(k, 1);
+                        close(pipefds[k]);
+                        close(pipefds[k - 1]);
+                        k--;
+                    }
+                    
+                    //ft_putnbr_fd(pipefds[0], 1);
+                    ft_exec(newlist->content);
                 }
+                    // while (pipefds[i])
+                    // {
+                    //     close(pipefds[i]);
+                    //     i++;
+                    // }
+                    // k = num_pipes;
+                    // while (k > 0)
+                    // {
+                    //     //ft_putnbr_fd(k, 1);
+                    //     close(pipefds[k]);
+                    //     close(pipefds[k - 1]);
+                    //     k--;
+                    // }
+                   if (num_pipes > 0)
+                   {
+                    //close(pipefds[0]);
+                    close(pipefds[1]);
+                    //close(pipefds[3]);
+                    }
+                    waitpid(pid, NULL, 0);
                 newlist = newlist->next;
+                pipe_cmds++;
             }
-            printf("number of pipes in command %d = %d\n", j, *(int *)pipe_list->content);
+            //printf("number of pipes in command %d = %d\n", j, *(int *)pipe_list->content);
+            //printf("-----\n");
+            if (num_pipes > 0)
+            {
+                free(pipefds);
+                pipefds = NULL;
+            }
             pipe_list = pipe_list->next;
             j++;
         }
