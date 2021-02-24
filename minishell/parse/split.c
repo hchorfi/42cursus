@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split1.c                                        :+:      :+:    :+:   */
+/*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anassif <anassif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/02/15 18:08:37 by anassif          ###   ########.fr       */
+/*   Updated: 2021/02/23 18:10:30 by anassif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static int ft_count (const char *s, int l)
 	return (i);
 }
 
+
+
 static int check_cots(const char *s, int l, int d)
 {
 	int i;
@@ -62,10 +64,13 @@ static int check_cots(const char *s, int l, int d)
 	len = ft_count(s + d, l) + d;
 	i = d;
 	n = 0;
+	if ((s[i] == '"' || s[i] == '\''))
+		n++;
+	i++;
 	while (i < l)
 	{
-		if (s[i] == '"' && s[i - 1] != '\\')
-			n++;
+		if ((s[i] == '"' || s[i] == '\'') /*&& s[i - 1] != '\\'*/)
+				n++;
 		i++;
 	}
 	if (n % 2 == 0)
@@ -90,18 +95,279 @@ void		remove_tabs_check(char *s, char c)
 	}
 }
 
+// char		*remove_them_quotes(char *str, int len)
+// {
+// 	int j;
+// 	char *s;
+// 	j = 1;
+// 	s = (char *)malloc(sizeof(char) * len - 1);
+// 	while (j < len - 1)
+// 	{
+// 		s[j - 1] = str[j];
+// 		j++;
+// 	}
+// 	s[j - 1] = '\0';
+// 	return(s);
+// }
+
+// char 		**remove_first_last_quote(char **str)
+// {
+// 	int i = 0;
+// 	int len;
+// 	//int j = 0;
+// 	while (str[i])
+// 	{
+// 		len = ft_strlen(str[i]);
+// 		if(len != 0)
+// 		{
+// 			if (is_quote(str[i][0]) && is_quote(str[i][len - 1]))
+// 			{
+// 				str[i] = ft_strdup(remove_them_quotes(str[i], len));
+// 			}
+// 		}
+// 		i++;
+// 	}
+// 	return (str);
+// }
+
+// char		*remove_middle_quotes2(char *str)
+// {
+// 	int i = 0;
+// 	int j = 0;
+// 	int n = 0;
+// 	int len = ft_strlen(str);
+// 	char *s;
+
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '"' || str[i] == '\'')
+// 			n++;
+// 		i++;
+// 	}
+// 	s = (char *)malloc(sizeof(char) * len - n + 2);
+// 	i = 0;
+// 	while (j < len)
+// 	{
+// 		while (str[j] == '"' || str[j] == '\'')
+// 			j++;
+// 		s[i] = str[j];
+// 		i++;
+// 		j++;
+// 	}
+// 	s[i] = '\0';
+// 	return(s);
+// }
+
+// char		**remove_middle_quotes(char **str)
+// {
+// 	int len;
+// 	int i = 0;
+	
+// 	while(str[i])
+// 	{
+// 		len = ft_strlen(str[i]);
+// 		if (check_cots(str[i], len, 0))
+// 			str[i] = remove_middle_quotes2(str[i]);
+// 		i++;
+// 	}
+// 	str[i] = NULL;
+// 	return(str);
+// }
+
+char    *ft_stock(char *line, char *buff, int i)
+{
+    int j =0; char *newline; int len=0;
+    len = (line ? ft_strlen(line) : 0);
+    newline = malloc(len + i + 1);
+    while (j < len)
+        newline[j] = line[j], j++;
+    if (line)
+        free(line);
+    while (j < len +i)
+        newline[j] = buff[j - len], j++;
+    newline[j] = '\0';
+    return(newline);
+}
+
+//k here is the index after $
+
+char		*ft_put_variable(char *str, int k, int j)
+{
+	char *var;
+	int i = 0;
+
+	k++;
+	var = (char *)malloc(j - k + 2);
+	while (i <= j - k)
+	{
+		var[i] = str[k + i];
+		i++;
+	}
+	var[i] = '\0';
+	return (var);
+}
+
+char		*ft_variable_value(char *var)
+{
+	t_list  *newlist;
+    char    *new_var;
+    char    *old_var;
+    char    *tmp_str;
+    int     tmp_len;
+    int     len;
+    int     i;
+
+    newlist = g_data.env_var;
+    new_var = var;
+    i = 1;
+    while (newlist)
+    {
+        if ((tmp_str = ft_strchr(newlist->content, '=')))
+        {
+            tmp_len = ft_strlen(tmp_str);
+            len = ft_strlen(newlist->content);
+            old_var = ft_substr(newlist->content, 0, len - tmp_len);
+        }
+        else
+        {
+            old_var = newlist->content;
+            len = ft_strlen(old_var);
+        }
+        if (ft_strncmp(old_var, new_var, len) == 0)
+        {   
+            return (ft_strchr(newlist->content, '=') + 1);
+        }
+        newlist = newlist->next;
+        i++;
+    }
+	return ("");
+}
+
+char	*ft_replace_variable(char *str, char *value, int k, int j)
+{
+	int i = 0;
+	char *ptr;
+	int value_len = ft_strlen(value);
+	ptr = (char *)malloc(value_len + ft_strlen(str) - j + k);
+	while (i < k - 1)
+	{
+		ptr[i] = str[i];
+		i++;
+	}
+	int x = 0;
+	while (x < value_len)
+	{
+		ptr[i + x] = value[x];
+		x++;
+	}
+	i = i + x;
+	while (str[j])
+	{
+		if (str[j] == '"')
+			break ;
+		ptr[i] = str[j];
+		i++;
+		j++;
+	}
+	ptr[i] = '\0';
+	return (ptr);
+}
+// start is index of starting the search
+//k is you found the $
+//j is going to be where the variable name finishes
+//i is the end of the string you ll search on
+// var is the variable after $ if it meets requirements ' ' or '\0'
+
+char		*ft_get_variables(char *str, int start, int i)
+{
+	char *var;
+	int j;
+	j = start;
+	int k = 0;
+	char *value;
+	while (j < i)
+	{
+		if (str[j] == '$')
+			k = j;
+		if (str[j] == ' ' && k != 0)
+			break ;
+		j++;
+	}
+	j--;
+	var = ft_put_variable(str, k, j);
+	value = ft_variable_value(var);
+	str = ft_replace_variable(str + 1, value, k, j);
+	return (str);
+}
+
+char		*remove_all_quotes(char *str)
+{
+	int s_quote = 0;
+	int d_quote = 0;
+	int start = 0;
+	int i = 0;
+	char *ptr;
+	char *final = NULL;
+	int hh = 0;
+	ptr = ft_strdup("");
+	while(str[i])
+	{
+		if (str[i] == '\'' && s_quote == 0 && d_quote == 0)
+		{
+			s_quote = 1;
+			ptr = ft_stock(ptr, ft_substr(str, start, i - start), i - start);
+			start = i + 1;
+			i++;
+		}
+		if (str[i] == '\'' && s_quote == 1)
+		{
+			ptr = ft_stock(ptr, ft_substr(str, start, i - start), i - start);
+			start = i + 1;
+			//i++;
+			s_quote = 0;
+		}
+		if (str[i] == '"' && d_quote == 0 && s_quote == 0)
+		{
+			d_quote = 1;
+			ptr = ft_stock(ptr, ft_substr(str, start, i - start), i - start);
+			start = i + 1;
+			i++;
+		}
+		if (str[i] == '"' && d_quote == 1)
+		{
+			final = ft_get_variables(str, start, i);
+			if (ft_strlen(final) > 0)
+				hh = 1;
+			// ft_putstr_fd(final, 1);
+			// ft_putstr_fd("\n", 1);
+		 	ptr = ft_stock(ptr, ft_substr(str, start, i - start), i - start);
+			start = i + 1;
+			d_quote = 0;
+		}
+		i++;
+		if (str[i] == '\0')
+		{
+			//printf("before stock %s\n",ptr);
+			ptr = ft_stock(ptr, ft_substr(str, start, i - start), i - start);
+			//printf("after stock %s\n",ptr);
+			break ;
+		}
+	}
+	if (hh)
+		return (final);
+	return(ptr);	
+}
+
 char		**ft_split_pars(char const *s, char c)
 {
 	size_t	i;
 	size_t	j;
 	size_t	d;
 	char	**str;
-	char	*s1;
 
 	if (!s)
 		return (NULL);
-	s1 = ft_strtrim(s, " ");
-	s = ft_strdup(s1);
+	s = ft_strtrim(s, " ");
 	if (!(str = (char **)malloc(sizeof(char *) * (countt((char *)s, c) + 1))))
 		return (NULL);
 	i = 0;
@@ -125,7 +391,26 @@ char		**ft_split_pars(char const *s, char c)
 			break ;
 	}
 	str[j] = NULL;
-	return (str);
+	
+	if (c == ' ')
+	{
+		//  str = remove_first_last_quote(str);
+		//  str = remove_middle_quotes(str);
+		j = 0;
+		while (str[j])
+		{
+			str[j] = remove_all_quotes(str[j]);
+			j++;
+		}
+		// j = 0;
+		// while(str[j])
+		// {
+		// 	ft_putstr_fd(str[j], 1);
+		// 	ft_putstr_fd("\n", 1);
+		// 	j++;
+		// }
+	}
+	 return (str);
 }
 
 // int main (int ac, char **av)

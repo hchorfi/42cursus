@@ -44,10 +44,34 @@ char    **ft_check_pipe(char *cmd)
     return NULL;
 }
 
+char    *ft_check_redirections(char *pipe_cmds, t_command **g_command)
+{
+    char **str;
+    str = ft_split_pars(pipe_cmds, '>');
+    int i = 0;
+    char *tmp;
+    char *out_file;
+    while(str[i])
+    {
+        i++;
+        tmp = ft_strtrim(str[i], " ");
+        int j = 0;
+        while (str[i][j] != ' ')
+            j++;
+        
+        ft_putstr_fd(str[i], 1);
+        ft_putstr_fd("\n", 1);
+        i++;
+    }
+    
+    return (pipe_cmds);
+}
+
 void    ft_parse(char *line)
 {
     char **cmds = ft_split_pars(line, ';');
     char **pipe_cmds;
+    char *new_pipe;
     g_data.cmds = NULL;
     g_data.n_pipe_cmd = NULL;
     int *npipe;
@@ -63,6 +87,9 @@ void    ft_parse(char *line)
             g_command = malloc(sizeof * g_command);
             g_command->block = i;
             g_command->pipe_pos = j;
+            new_pipe = ft_check_redirections(pipe_cmds[j], &g_command);
+            ft_putstr_fd(new_pipe, 1);
+            ft_putstr_fd("\n", 1);
             g_command->tokens = ft_split_pars(pipe_cmds[j], ' ');
             //printf("%s\n", g_command->tokens[0]);
             if (g_data.cmds == NULL)
@@ -117,51 +144,71 @@ int     main(int argc, char **argv, char **envp)
     pid_t pid;
     int i;
     int j;
-    int k;
     int num_pipes;
-    int *pipefds;
-    pipefds = NULL;
-    int pipe_cmds;
+    int fd[2];
+    int fdd;
+    int in;
+    int out;
+    out = 1;
+    in = 0;
     ft_stock_envp(envp);
     while (1)
     {
-        
         ft_prompt();
-        newlist = g_data.cmds;
-        pipe_list = g_data.n_pipe_cmd;
-        i = 0;
-        j = 0;
-        while (pipe_list)
-        {
-            num_pipes = *(int *)pipe_list->content;
-            pipe_cmds = 0;
-            int fd[2];
-            int fdd = 0;
-            while(newlist && (((t_command *)newlist->content)->block == j))
-            {
-                i = 0;
-                pipe(fd);
-                pid = fork();
-                if (pid == 0)
-                {
-                    dup2(fdd, 0);
-                    if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
-                        dup2(fd[1], 1);
-                    close(fd[0]);
-                    ft_exec(newlist->content);
-                }
-                else
-                {
-                    waitpid(pid, NULL, 0);
-                    close(fd[1]);
-                    fdd = fd[0];
-                }
-                newlist = newlist->next;
-                pipe_cmds++;
-            }
-            pipe_list = pipe_list->next;
-            j++;
-        }
+        // newlist = g_data.cmds;
+        // pipe_list = g_data.n_pipe_cmd;
+        // j = 0;
+        // while (pipe_list)
+        // {
+        //     num_pipes = *(int *)pipe_list->content;
+        //     fdd = 0;
+        //     while(newlist && (((t_command *)newlist->content)->block == j))
+        //     {
+        //         i = 0;
+        //         while (((t_command *)newlist->content)->tokens[i])
+        //         {
+        //             if (*((t_command *)newlist->content)->tokens[i] == '>')
+        //             {
+        //                 ((t_command *)newlist->content)->tokens[i] = NULL;
+        //                 i++;
+        //                 if(((t_command *)newlist->content)->tokens[i])
+        //                 {
+        //                     out = open(((t_command *)newlist->content)->tokens[i], O_RDWR|O_CREAT, 0666);
+        //                     ((t_command *)newlist->content)->tokens[i] = NULL;
+        //                     i++;
+        //                 }
+        //             }
+        //             else
+        //                 i++;
+        //         }
+        //         pipe(fd);
+        //         pid = fork();
+        //         if (pid == 0)
+        //         {
+        //             dup2(fdd, 0);
+        //             if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
+        //                 dup2(fd[1], 1);
+        //             close(fd[0]);
+        //             if (out > 1)
+        //             {
+        //                 dup2(out, 1);
+        //                 close(out);
+        //             }
+        //             ft_exec(newlist->content);
+        //         }
+        //         else
+        //         {
+        //             waitpid(pid, NULL, 0);
+        //             close(fd[1]);
+        //             fdd = fd[0];
+        //             if (out > 1)
+        //                 close(out);
+        //         }
+        //         newlist = newlist->next;
+        //     }
+        //     pipe_list = pipe_list->next;
+        //     j++;
+        //}
 
     }
     return (0);
