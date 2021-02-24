@@ -125,6 +125,7 @@ int     main(int argc, char **argv, char **envp)
     ft_stock_envp(envp);
     while (1)
     {
+        
         ft_prompt();
         newlist = g_data.cmds;
         pipe_list = g_data.n_pipe_cmd;
