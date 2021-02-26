@@ -51,20 +51,30 @@ char    *ft_check_redirections(char *pipe_cmds, t_command **g_command)
     int i = 0;
     char *tmp;
     char *out_file;
+    int out;
+    char *file;
+    char *new_pipe;
     while(str[i])
     {
-        i++;
-        tmp = ft_strtrim(str[i], " ");
-        int j = 0;
-        while (str[i][j] != ' ')
-            j++;
-        
-        ft_putstr_fd(str[i], 1);
-        ft_putstr_fd("\n", 1);
-        i++;
+        if (i == 0)
+        {
+            new_pipe = ft_strjoin(str[i],"");
+            i++;
+        }
+        else
+        {
+            
+            tmp = ft_strtrim(str[i], " ");
+            int j = 0;
+            while (tmp[j] != ' ' && tmp[j] != '\0')
+                j++;
+            file = ft_substr(tmp, 0, j);
+            out = open(file, O_RDWR|O_CREAT, 0666);
+            new_pipe = ft_strjoin(new_pipe, tmp + j);
+            i++;
+        }
     }
-    
-    return (pipe_cmds);
+    return (new_pipe);
 }
 
 void    ft_parse(char *line)
@@ -88,8 +98,7 @@ void    ft_parse(char *line)
             g_command->block = i;
             g_command->pipe_pos = j;
             new_pipe = ft_check_redirections(pipe_cmds[j], &g_command);
-            ft_putstr_fd(new_pipe, 1);
-            ft_putstr_fd("\n", 1);
+            
             g_command->tokens = ft_split_pars(pipe_cmds[j], ' ');
             //printf("%s\n", g_command->tokens[0]);
             if (g_data.cmds == NULL)
