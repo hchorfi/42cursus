@@ -44,36 +44,77 @@ char    **ft_check_pipe(char *cmd)
     return NULL;
 }
 
-char    *ft_check_redirections(char *pipe_cmds, t_command **g_command)
+char    *ft_check_in(char *pipe_cmds)
+{
+    char *new_pipe;
+    char **str;
+    char *file;
+    char *tmp_in;
+    int in = 0;
+    int i = 0;
+
+    str = ft_split_pars(pipe_cmds, '<');
+    
+    
+    while (str[i])
+    {
+        
+        if (i == 0)
+        {
+            //printf("--%d--%s--\n", i,str[i]);
+            new_pipe = ft_strjoin(str[i], "");
+            i++;
+        }
+        else
+        {
+            tmp_in = ft_strtrim(str[i], " ");
+            int j = 0;
+            //printf("--%d--%s--\n", i,tmp_in);
+            while (tmp_in[j] != ' ' && tmp_in[j] != '\0')
+                j++;
+            file = ft_substr(tmp_in, 0, j);
+            //printf("in file : %s \n", file);
+            in = open(file, O_RDONLY);
+            new_pipe = ft_strjoin(new_pipe, tmp_in + j);
+            i++;
+        }
+    }
+    g_command->input_file = in;
+    return (new_pipe);
+}
+
+char    *ft_check_redirections(char *pipe_cmds)
 {
     char **str;
     str = ft_split_pars(pipe_cmds, '>');
     int i = 0;
-    char *tmp;
-    char *out_file;
-    int out;
+    char *tmp_out;
+    char *tmp_in;
+    int out = 1;
     char *file;
     char *new_pipe;
     while(str[i])
     {
         if (i == 0)
         {
-            new_pipe = ft_strjoin(str[i],"");
+            tmp_in = ft_check_in(str[i]);
+            new_pipe = ft_strjoin(tmp_in,"");
             i++;
         }
         else
         {
-            
-            tmp = ft_strtrim(str[i], " ");
+            tmp_in = ft_check_in(str[i]);
+            tmp_out = ft_strtrim(tmp_in, " ");
             int j = 0;
-            while (tmp[j] != ' ' && tmp[j] != '\0')
+            while (tmp_out[j] != ' ' && tmp_out[j] != '\0')
                 j++;
-            file = ft_substr(tmp, 0, j);
+            file = ft_substr(tmp_out, 0, j);
             out = open(file, O_RDWR|O_CREAT, 0666);
-            new_pipe = ft_strjoin(new_pipe, tmp + j);
+            new_pipe = ft_strjoin(new_pipe, tmp_out + j);
             i++;
         }
     }
+    g_command->output_file = out;
     return (new_pipe);
 }
 
@@ -97,10 +138,20 @@ void    ft_parse(char *line)
             g_command = malloc(sizeof * g_command);
             g_command->block = i;
             g_command->pipe_pos = j;
-            new_pipe = ft_check_redirections(pipe_cmds[j], &g_command);
-            
-            g_command->tokens = ft_split_pars(pipe_cmds[j], ' ');
+            new_pipe = ft_check_redirections(pipe_cmds[j]);
+            //printf("%s\n", new_pipe);
+            g_command->tokens = ft_split_pars(new_pipe, ' ');
             //printf("%s\n", g_command->tokens[0]);
+            // int k = 0;
+            // while (g_command->tokens[k])
+            // {
+            //     printf("-%s-\n", g_command->tokens[k]);
+            //     k++;
+            // }
+            //ft_putnbr_fd(g_command->input_file, 1);
+            //ft_putnbr_fd(g_command->output_file, 1);
+            //ft_putstr_fd("\n", 1);
+            //printf("in : %d - out : %d", g_command->input_file, g_command->output_file);
             if (g_data.cmds == NULL)
                 g_data.cmds = ft_lstnew(g_command);
             else
@@ -164,60 +215,39 @@ int     main(int argc, char **argv, char **envp)
     while (1)
     {
         ft_prompt();
-        // newlist = g_data.cmds;
-        // pipe_list = g_data.n_pipe_cmd;
-        // j = 0;
-        // while (pipe_list)
-        // {
-        //     num_pipes = *(int *)pipe_list->content;
-        //     fdd = 0;
-        //     while(newlist && (((t_command *)newlist->content)->block == j))
-        //     {
-        //         i = 0;
-        //         while (((t_command *)newlist->content)->tokens[i])
-        //         {
-        //             if (*((t_command *)newlist->content)->tokens[i] == '>')
-        //             {
-        //                 ((t_command *)newlist->content)->tokens[i] = NULL;
-        //                 i++;
-        //                 if(((t_command *)newlist->content)->tokens[i])
-        //                 {
-        //                     out = open(((t_command *)newlist->content)->tokens[i], O_RDWR|O_CREAT, 0666);
-        //                     ((t_command *)newlist->content)->tokens[i] = NULL;
-        //                     i++;
-        //                 }
-        //             }
-        //             else
-        //                 i++;
-        //         }
-        //         pipe(fd);
-        //         pid = fork();
-        //         if (pid == 0)
-        //         {
-        //             dup2(fdd, 0);
-        //             if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
-        //                 dup2(fd[1], 1);
-        //             close(fd[0]);
-        //             if (out > 1)
-        //             {
-        //                 dup2(out, 1);
-        //                 close(out);
-        //             }
-        //             ft_exec(newlist->content);
-        //         }
-        //         else
-        //         {
-        //             waitpid(pid, NULL, 0);
-        //             close(fd[1]);
-        //             fdd = fd[0];
-        //             if (out > 1)
-        //                 close(out);
-        //         }
-        //         newlist = newlist->next;
-        //     }
-        //     pipe_list = pipe_list->next;
-        //     j++;
-        //}
+        newlist = g_data.cmds;
+        pipe_list = g_data.n_pipe_cmd;
+        j = 0;
+        while (pipe_list)
+        {
+            num_pipes = *(int *)pipe_list->content;
+            fdd = 0;
+            while(newlist && (((t_command *)newlist->content)->block == j))
+            {
+                i = 0;
+                pipe(fd);
+                pid = fork();
+                if (pid == 0)
+                {
+                    dup2(fdd, 0);
+                    if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
+                        dup2(fd[1], 1);
+                    close(fd[0]);
+                    ft_exec(newlist->content);
+                }
+                waitpid(pid, NULL, 0);
+                close(fd[1]);
+                fdd = fd[0];
+                newlist = newlist->next;
+            }
+            while (fdd >= 3)
+            {
+                close(fdd);
+                fdd--;
+            }
+            pipe_list = pipe_list->next;
+            j++;
+        }
 
     }
     return (0);

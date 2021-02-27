@@ -52,5 +52,9 @@ main(int argc, char *argv[])
 	char **cmd[] = {ls, rev, nl, cat, wc, NULL};
 
 	pipeline(cmd);
+	while (1)
+	{
+		printf("ok");
+	}
 	return (0);
 }
