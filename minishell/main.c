@@ -13,10 +13,7 @@
 #include "minishell.h"
 
 int     ft_exec(void *cmd)
-{   
-    int pid;
-    int status;
-
+{
     g_command = (t_command *)cmd;
     if (!g_command->tokens[0])
         return (0);
@@ -145,12 +142,12 @@ void    ft_parse(char *line)
             // int k = 0;
             // while (g_command->tokens[k])
             // {
-            //     printf("-%s-\n", g_command->tokens[k]);
+            //     g_command->tokens[k] = ft_strtrim(g_command->tokens[k], " ");
             //     k++;
             // }
-            //ft_putnbr_fd(g_command->input_file, 1);
-            //ft_putnbr_fd(g_command->output_file, 1);
-            //ft_putstr_fd("\n", 1);
+            // ft_putnbr_fd(g_command->input_file, 1);
+            // ft_putnbr_fd(g_command->output_file, 1);
+            // ft_putstr_fd("\n", 1);
             //printf("in : %d - out : %d", g_command->input_file, g_command->output_file);
             if (g_data.cmds == NULL)
                 g_data.cmds = ft_lstnew(g_command);
@@ -172,9 +169,18 @@ int    ft_prompt()
 {
     char    *line;
 
-    ft_putstr_fd("\033[0;32m", 1);
-    ft_putstr_fd("minishell 👽 > ", 1);
-    ft_putstr_fd("\033[0m", 1);
+    if (g_data.ret == 0)
+    {
+        ft_printf("\033[0;32m");
+        ft_printf("minishell 👽 %d > ", g_data.ret);
+        ft_printf("\033[0m");
+    }
+    else
+    {
+        ft_printf("\033[0;31m");
+        ft_printf("minishell 👽 %d > ", g_data.ret);
+        ft_printf("\033[0m");
+    }
 	get_next_line(0, &line);
     ft_parse(line);
     return 1;
@@ -197,6 +203,28 @@ void    ft_stock_envp(char **envp)
     // g_data.env_var->next = NULL;
 }
 
+int     ft_builtin(void *cmd)
+{
+    g_command = (t_command *)cmd;
+    if (!g_command->tokens[0])
+        return (0);
+    else if (!ft_memcmp(g_command->tokens[0], "export", 7))
+        ft_export();
+    else if(!ft_memcmp(g_command->tokens[0], "env", 4))
+        ft_env();
+    else if (!ft_memcmp(g_command->tokens[0], "unset", 6))
+        ft_unset();
+    else if (!ft_memcmp(g_command->tokens[0], "pwd", 4))
+        ft_pwd();
+    else if (!ft_memcmp(g_command->tokens[0], "cd", 3))
+        ft_cd();
+    else if (!ft_memcmp(g_command->tokens[0], "echo", 5))
+        ft_echo();
+    else
+        return 0;
+    return 1;
+}
+
 int     main(int argc, char **argv, char **envp)
 {
     t_list *newlist;
@@ -211,6 +239,7 @@ int     main(int argc, char **argv, char **envp)
     int out;
     out = 1;
     in = 0;
+    g_data.ret = 0;
     ft_stock_envp(envp);
     while (1)
     {
@@ -224,15 +253,23 @@ int     main(int argc, char **argv, char **envp)
             fdd = 0;
             while(newlist && (((t_command *)newlist->content)->block == j))
             {
+                //ft_builtin(newlist->content);
                 i = 0;
                 pipe(fd);
                 pid = fork();
                 if (pid == 0)
                 {
-                    dup2(fdd, 0);
+                    if (((t_command *)newlist->content)->input_file != 0)
+                        dup2(((t_command *)newlist->content)->input_file, 0);
+                    else
+                        dup2(fdd, 0);
                     if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
+                    {
                         dup2(fd[1], 1);
+                    }
                     close(fd[0]);
+                    if (((t_command *)newlist->content)->output_file != 1)
+                            dup2(((t_command *)newlist->content)->output_file, 1);
                     ft_exec(newlist->content);
                 }
                 waitpid(pid, NULL, 0);
@@ -248,7 +285,6 @@ int     main(int argc, char **argv, char **envp)
             pipe_list = pipe_list->next;
             j++;
         }
-
     }
     return (0);
 }

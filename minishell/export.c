@@ -76,7 +76,7 @@ int     ft_exist_export_var(char *export_var)
             old_var = newlist->content;
             len = ft_strlen(old_var);
         }
-        if (!(ft_memcmp(old_var, new_var, len)))
+        if (!(ft_strncmp(old_var, new_var, len)))
         {
             newlist->content = ft_strdup(export_var);
             return 1;
@@ -136,5 +136,5 @@ int     ft_export()
             i++;
         }
     }
-    return (1);
+    return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: anassif <anassif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/02/23 18:10:30 by anassif          ###   ########.fr       */
+/*   Updated: 2021/03/02 16:32:54 by anassif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,40 +95,37 @@ void		remove_tabs_check(char *s, char c)
 	}
 }
 
-// char		*remove_them_quotes(char *str, int len)
-// {
-// 	int j;
-// 	char *s;
-// 	j = 1;
-// 	s = (char *)malloc(sizeof(char) * len - 1);
-// 	while (j < len - 1)
-// 	{
-// 		s[j - 1] = str[j];
-// 		j++;
-// 	}
-// 	s[j - 1] = '\0';
-// 	return(s);
-// }
+char		*remove_them_quotes(char *str, int len)
+{
+	int j;
+	char *s;
+	j = 1;
+	s = (char *)malloc(sizeof(char) * len - 1);
+	while (j < len - 1)
+	{
+		s[j - 1] = str[j];
+		j++;
+	}
+	s[j - 1] = '\0';
+	return(s);
+}
 
-// char 		**remove_first_last_quote(char **str)
-// {
-// 	int i = 0;
-// 	int len;
-// 	//int j = 0;
-// 	while (str[i])
-// 	{
-// 		len = ft_strlen(str[i]);
-// 		if(len != 0)
-// 		{
-// 			if (is_quote(str[i][0]) && is_quote(str[i][len - 1]))
-// 			{
-// 				str[i] = ft_strdup(remove_them_quotes(str[i], len));
-// 			}
-// 		}
-// 		i++;
-// 	}
-// 	return (str);
-// }
+char 		*remove_first_last_quote(char *str)
+{
+	int i = 0;
+	int len;
+	//int j = 0;
+	
+		len = ft_strlen(str);
+		if(len != 0)
+		{
+			if (is_quote(str[0]) && is_quote(str[len - 1]))
+			{
+				str = ft_strdup(remove_them_quotes(str, len));
+			}
+		}
+	return (str);
+}
 
 // char		*remove_middle_quotes2(char *str)
 // {
@@ -248,8 +245,8 @@ char	*ft_replace_variable(char *str, char *value, int k, int j)
 	int i = 0;
 	char *ptr;
 	int value_len = ft_strlen(value);
-	ptr = (char *)malloc(value_len + ft_strlen(str) - j + k);
-	while (i < k - 1)
+	ptr = (char *)malloc(value_len + ft_strlen(str) - j + k + 1);
+	while (i < k)
 	{
 		ptr[i] = str[i];
 		i++;
@@ -261,15 +258,20 @@ char	*ft_replace_variable(char *str, char *value, int k, int j)
 		x++;
 	}
 	i = i + x;
+	// ft_putchar_fd(ptr[i - 1],1);
+	// ft_putstr_fd("\n", 1);
+	j++;
 	while (str[j])
 	{
-		if (str[j] == '"')
-			break ;
+		// if (str[j] == '"')
+		// 	break ;
 		ptr[i] = str[j];
 		i++;
 		j++;
 	}
 	ptr[i] = '\0';
+	// ft_putstr_fd(ptr, 1);
+	// ft_putstr_fd("\n", 1);
 	return (ptr);
 }
 // start is index of starting the search
@@ -284,19 +286,74 @@ char		*ft_get_variables(char *str, int start, int i)
 	int j;
 	j = start;
 	int k = 0;
+	int s_quote = 0;
 	char *value;
+	// ft_putstr_fd(str, 1);
+	// ft_putstr_fd("\n", 1);
 	while (j < i)
 	{
-		if (str[j] == '$')
+		if (str[j] == '\'')
+		{
+			if (s_quote == 0)
+				s_quote = 1;
+			else
+				s_quote = 0;
+			j++;
+		}
+		if (str[j] == '$' && s_quote == 0)
+		{	
 			k = j;
-		if (str[j] == ' ' && k != 0)
+			while (++j < i)
+			{
+				if (str[j] == ' ' || str[j] == '"' || str[j] == '\'' || str[j] == '/' || str[j] == '$' || str[j] == ':')
+					break ;
+			}
 			break ;
+		}
 		j++;
 	}
 	j--;
 	var = ft_put_variable(str, k, j);
+	// ft_putstr_fd(var, 1);
+	// ft_putstr_fd("\n", 1);
 	value = ft_variable_value(var);
-	str = ft_replace_variable(str + 1, value, k, j);
+	// ft_putstr_fd(value, 1);
+	// ft_putstr_fd("\n", 1);
+	// if (str[0] == '"')
+	// {
+	// 	str = ft_replace_variable(str + 1, value, k, j);
+	// 	return (str);
+	// }
+	str = ft_replace_variable(str, value, k, j);
+	// ft_putstr_fd(str, 1);
+	// ft_putstr_fd("\n", 1);
+	return (str);
+}
+
+char		*get_other_variables(char *str)
+{	
+	int i = 0;
+	int dollar = 0;
+	int s_quote = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'')
+		{
+			if (s_quote == 0)
+				s_quote = 1;
+			else
+				s_quote = 0;
+		}
+		if (str[i] == '$' && s_quote == 0)
+			dollar++;
+		i++;
+	}
+	i = 0;
+	while (i < dollar)
+	{
+		str = ft_get_variables(str, 0, ft_strlen(str));
+		i++;
+	}
 	return (str);
 }
 
@@ -308,6 +365,7 @@ char		*remove_all_quotes(char *str)
 	int i = 0;
 	char *ptr;
 	char *final = NULL;
+	int trim = 0;
 	int hh = 0;
 	ptr = ft_strdup("");
 	while(str[i])
@@ -317,6 +375,7 @@ char		*remove_all_quotes(char *str)
 			s_quote = 1;
 			ptr = ft_stock(ptr, ft_substr(str, start, i - start), i - start);
 			start = i + 1;
+			trim = 1;
 			i++;
 		}
 		if (str[i] == '\'' && s_quote == 1)
@@ -331,15 +390,21 @@ char		*remove_all_quotes(char *str)
 			d_quote = 1;
 			ptr = ft_stock(ptr, ft_substr(str, start, i - start), i - start);
 			start = i + 1;
+			trim = 1;
 			i++;
 		}
-		if (str[i] == '"' && d_quote == 1)
+		if (str[i] == '"' && d_quote == 1 && str[i] != '\0')
 		{
-			final = ft_get_variables(str, start, i);
-			if (ft_strlen(final) > 0)
-				hh = 1;
-			// ft_putstr_fd(final, 1);
-			// ft_putstr_fd("\n", 1);
+			int j;
+			j = start;
+			// while (j < i)
+			// {
+			// 	if (str[j] == '$')
+			// 		final = ft_get_variables(str, start, i);
+			// 	j++;
+			// }
+			// if (final != NULL && ft_strlen(final) >= 0)
+			// 	hh = 1;
 		 	ptr = ft_stock(ptr, ft_substr(str, start, i - start), i - start);
 			start = i + 1;
 			d_quote = 0;
@@ -347,15 +412,18 @@ char		*remove_all_quotes(char *str)
 		i++;
 		if (str[i] == '\0')
 		{
-			//printf("before stock %s\n",ptr);
 			ptr = ft_stock(ptr, ft_substr(str, start, i - start), i - start);
-			//printf("after stock %s\n",ptr);
 			break ;
 		}
 	}
-	if (hh)
-		return (final);
-	return(ptr);	
+	// if (hh)
+	// {
+	// 	final = get_other_variables(final);	
+	// 	return (final);
+	// }
+	// if (trim == 0)
+	// 	ptr = ft_strtrim(ptr, " ");
+	return(ptr);
 }
 
 char		**ft_split_pars(char const *s, char c)
@@ -367,6 +435,7 @@ char		**ft_split_pars(char const *s, char c)
 
 	if (!s)
 		return (NULL);
+	if (!s)
 	s = ft_strtrim(s, " ");
 	if (!(str = (char **)malloc(sizeof(char *) * (countt((char *)s, c) + 1))))
 		return (NULL);
@@ -385,20 +454,20 @@ char		**ft_split_pars(char const *s, char c)
 					splited = 1;
 				}
 		}
-		d = (splited == 1 ? i + 1 : d);
+		d = (splited == 1 ? i + 1 : d); 
 		splited = 0;
 		if (s[i++] == '\0')
 			break ;
 	}
 	str[j] = NULL;
-	
 	if (c == ' ')
 	{
-		//  str = remove_first_last_quote(str);
-		//  str = remove_middle_quotes(str);
 		j = 0;
 		while (str[j])
 		{
+			str[j] = get_other_variables(str[j]);
+			// ft_putstr_fd(str[j], 1);
+			// ft_putstr_fd("\n", 1);
 			str[j] = remove_all_quotes(str[j]);
 			j++;
 		}

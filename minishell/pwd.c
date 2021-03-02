@@ -18,5 +18,5 @@ int		ft_pwd()
 	getcwd(cwd, PATH_MAX);
 	ft_putstr_fd(cwd, 1);
 	write(1, "\n", 1);
-	return(0);
+	exit (0);
 }
