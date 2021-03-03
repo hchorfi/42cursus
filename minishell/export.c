@@ -20,7 +20,7 @@ int     ft_valid_export_var(char *export_var)
     if (export_var[i] == '-')
     {
         ft_putstr_fd("we don't hundle option here ^_-\n", 1);
-        return (0);
+        return (1);
     }
     while (export_var[i] != '=' && export_var[i] != '\0')
     {
@@ -29,20 +29,20 @@ int     ft_valid_export_var(char *export_var)
             ft_putstr_fd("bash: export: `", 1);
             ft_putstr_fd(export_var, 1);
             ft_putstr_fd("': not a valid identifier\n", 1);
-            return (0);
+        return (1);
         }
         i++;
     }
     if(export_var[0] == '_')
-        return (1);
-    if (ft_isdigit(export_var[0]))
+        return (0);
+    if (ft_isdigit(export_var[0]) || export_var[0] == '=' || export_var[0] == 0)
     {
         ft_putstr_fd("bash: export: `", 1);
         ft_putstr_fd(export_var, 1);
         ft_putstr_fd("': not a valid identifier\n", 1);
-        return (0);
+        return (1);
     }
-    return (1);
+    return (0);
 }
 
 int     ft_exist_export_var(char *export_var)
@@ -95,6 +95,8 @@ int     ft_export()
     t_list *newlist;
     newlist = g_data.env_var;
     char *var;
+    int ret;
+    g_data.ret = 0;
     if (!g_command->tokens[1])
     {
         while(newlist)
@@ -131,10 +133,12 @@ int     ft_export()
     {
         while (g_command->tokens[i])
         {
-            if (ft_valid_export_var(g_command->tokens[i]) && !ft_exist_export_var(g_command->tokens[i]))
+            if (!(ret = ft_valid_export_var(g_command->tokens[i])) && !ft_exist_export_var(g_command->tokens[i]))
                 ft_lstadd_back(&g_data.env_var, ft_lstnew(g_command->tokens[i]));
+            if (ret == 1)
+                g_data.ret = 1;
             i++;
         }
     }
-    return(0);
+    exit (0);
 }

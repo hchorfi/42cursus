@@ -11,22 +11,47 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int     ft_builtin(void *cmd)
+{
+    g_command = (t_command *)cmd;
+    if (!g_command->tokens[0])
+        return (0);
+    else if (!ft_strncmp(g_command->tokens[0], "export", 7))
+        ft_export();
+    else if(!ft_strncmp(g_command->tokens[0], "env", 4))
+        ft_env();
+    else if (!ft_strncmp(g_command->tokens[0], "unset", 6))
+        ft_unset();
+    else if (!ft_strncmp(g_command->tokens[0], "pwd", 4))
+        ft_pwd();
+    else if (!ft_strncmp(g_command->tokens[0], "cd", 3))
+        ft_cd();
+    else if (!ft_strncmp(g_command->tokens[0], "echo", 5))
+        ft_echo();
+    else
+        return 0;
+    return 1;
+}
+
 int     ft_exec(void *cmd)
 {
     g_command = (t_command *)cmd;
     if (!g_command->tokens[0])
         return (0);
-    else if (!ft_memcmp(g_command->tokens[0], "export", 7))
+    // else if (ft_builtin(cmd))
+    //     return 0;
+    else if (!ft_strncmp(g_command->tokens[0], "export", 7))
         ft_export();
-    else if(!ft_memcmp(g_command->tokens[0], "env", 4))
+    else if(!ft_strncmp(g_command->tokens[0], "env", 4))
         ft_env();
-    else if (!ft_memcmp(g_command->tokens[0], "unset", 6))
+    else if (!ft_strncmp(g_command->tokens[0], "unset", 6))
         ft_unset();
-    else if (!ft_memcmp(g_command->tokens[0], "pwd", 4))
+    else if (!ft_strncmp(g_command->tokens[0], "pwd", 4))
         ft_pwd();
-    else if (!ft_memcmp(g_command->tokens[0], "cd", 3))
+    else if (!ft_strncmp(g_command->tokens[0], "cd", 3))
         ft_cd();
-    else if (!ft_memcmp(g_command->tokens[0], "echo", 5))
+    else if (!ft_strncmp(g_command->tokens[0], "echo", 5))
         ft_echo();
     else
         ft_check_bin();
@@ -202,27 +227,6 @@ void    ft_stock_envp(char **envp)
     // g_data.env_var->next = NULL;
 }
 
-int     ft_builtin(void *cmd)
-{
-    g_command = (t_command *)cmd;
-    if (!g_command->tokens[0])
-        return (0);
-    else if (!ft_memcmp(g_command->tokens[0], "export", 7))
-        ft_export();
-    else if(!ft_memcmp(g_command->tokens[0], "env", 4))
-        ft_env();
-    else if (!ft_memcmp(g_command->tokens[0], "unset", 6))
-        ft_unset();
-    else if (!ft_memcmp(g_command->tokens[0], "pwd", 4))
-        ft_pwd();
-    else if (!ft_memcmp(g_command->tokens[0], "cd", 3))
-        ft_cd();
-    else if (!ft_memcmp(g_command->tokens[0], "echo", 5))
-        ft_echo();
-    else
-        return 0;
-    return 1;
-}
 
 int     main(int argc, char **argv, char **envp)
 {
@@ -252,7 +256,7 @@ int     main(int argc, char **argv, char **envp)
             fdd = 0;
             while(newlist && (((t_command *)newlist->content)->block == j))
             {
-                //ft_builtin(newlist->content);
+                // //ft_builtin(newlist->content);
                 i = 0;
                 pipe(fd);
                 pid = fork();

@@ -138,7 +138,6 @@ int		ft_unset()
 			ft_chr_var(g_command->tokens[i]);
 		i++;
 	}
-	
 
-	return (0);
+	exit (0);
 }
