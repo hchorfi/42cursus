@@ -13,7 +13,7 @@
 
 #include "minishell.h"
 
-static	int		is_quote(char c)
+int		is_quote(char c)
 {
 	if (c == '"' || c== '\'')
 		return (1);
@@ -37,6 +37,38 @@ static void	ft_putnstr(char *str, int n)
 	}
 }
 
+static	void	delete_quotes(char *s)
+{
+	int i;
+
+	i = 0;
+	while(s[i])
+	{
+		if(s[i] != '"' && s[i] != '\'' && s[i] != '\\')
+			ft_putchar_fd(s[i], 1);
+		i++;
+	}
+}
+// static	void	*remove_first_last_quote(char *s)
+// {
+// 	int i;
+// 	char *str;
+// 	int j = 0;
+// 	int len;
+// 	i = 1;
+// 	len = ft_strlen(s);
+// 	str = malloc(len);
+// 	while(i < len)
+// 	{
+// 		str[j] = s[i];
+// 		i++;
+// 		j++;
+// 	}
+// 	free(s);
+// 	s = NULL;
+// 	s = ft_strdup(str);
+// }
+
 static void		my_echo_2(char **s, int pos)
 {
 	int		firt_isquote;
@@ -53,7 +85,7 @@ static void		my_echo_2(char **s, int pos)
 	else if (firt_isquote)
 		ft_putstr_fd(s[pos] + 1, 1);
 	else
-		ft_putstr_fd(s[pos], 1);
+		delete_quotes(s[pos]);
 	if (s[pos + 1])
 		ft_putchar_fd(' ', 1);
 }
@@ -83,7 +115,7 @@ int				ft_echo()
 	int		n;
 
 	n = 0;
-	if (!g_command->tokens[0])
+	if (!g_command->tokens[1])
 	{
 		write(1, "\n", 1);
 		return (1);
@@ -98,7 +130,8 @@ int				ft_echo()
 	}
 	while (g_command->tokens[i])
 	{
-		my_echo_2(g_command->tokens, i);
+		ft_putstr_fd(g_command->tokens[i], 1);
+		ft_putchar_fd(' ', 1);
 		if (!g_command->tokens[i + 1] && n == 0)
 			ft_putchar_fd('\n', 1);
 		i++;

@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/16 17:16:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/02/16 17:16:52 by hchorfi          ###   ########.fr       */
+/*   Created: 2019/11/17 21:32:08 by hchorfi           #+#    #+#             */
+/*   Updated: 2019/12/06 01:25:33 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_printf.h"
 
-int		ft_pwd()
+void	ft_putchar(char c)
 {
-	char cwd[PATH_MAX];
-	getcwd(cwd, PATH_MAX);
-	ft_putstr_fd(cwd, 1);
-	write(1, "\n", 1);
-	exit (0);
+	write(1, &c, 1);
 }

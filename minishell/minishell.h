@@ -3,6 +3,7 @@
 
 #include "get_next_line.h"
 #include "libft/libft.h"
+#include "../ft_printf/ft_printf.h"
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -15,14 +16,15 @@ typedef	struct 	s_data
 	t_list		*env_var;
     t_list      *cmds;
     t_list      *n_pipe_cmd;
+    int         ret;
 }				t_data;
 t_data			g_data;
 
 typedef struct s_command
 {
     char        **tokens;
-    char        **input_files;
-    char        **output_files;
+    char        input_file;
+    char        output_file;
     int         pipe_pos;
     int         block; 
 }				t_command;
@@ -81,6 +83,12 @@ int     ft_del_list(t_list **head, int position);
 */
 
 int     ft_check_bin();
+
+/*
+** echo.c
+*/
+
+int		is_quote(char c);
 
 /*
 ** main.c

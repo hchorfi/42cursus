@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/16 17:16:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/02/16 17:16:52 by hchorfi          ###   ########.fr       */
+/*   Created: 2019/10/10 10:37:43 by hchorfi           #+#    #+#             */
+/*   Updated: 2019/12/06 01:22:41 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "ft_printf.h"
 
-int		ft_pwd()
+void	*ft_memset(void *b, int c, size_t len)
 {
-	char cwd[PATH_MAX];
-	getcwd(cwd, PATH_MAX);
-	ft_putstr_fd(cwd, 1);
-	write(1, "\n", 1);
-	exit (0);
+	char	*str;
+	int		i;
+
+	i = 0;
+	str = (char *)b;
+	while (len > 0)
+	{
+		str[i] = (unsigned char)c;
+		i++;
+		len--;
+	}
+	return (b);
 }
