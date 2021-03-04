@@ -421,8 +421,8 @@ char		*remove_all_quotes(char *str)
 	// 	final = get_other_variables(final);	
 	// 	return (final);
 	// }
-	// if (trim == 0)
-	// 	ptr = ft_strtrim(ptr, " ");
+	if (trim == 0)
+		ptr = ft_strtrim(ptr, " ");
 	return(ptr);
 }
 

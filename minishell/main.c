@@ -260,17 +260,17 @@ int     main(int argc, char **argv, char **envp)
                 pid = fork();
                 if (pid == 0)
                 {
-                    //if (((t_command *)newlist->content)->input_file != 0)
-                        //dup2(((t_command *)newlist->content)->input_file, 0);
-                   // else
+                    if (((t_command *)newlist->content)->input_file != 0)
+                        dup2(((t_command *)newlist->content)->input_file, 0);
+                   else
                         dup2(fdd, 0);
                     if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
                     {
                         dup2(fd[1], 1);
                     }
                     close(fd[0]);
-                    //if (((t_command *)newlist->content)->output_file != 1)
-                            //dup2(((t_command *)newlist->content)->output_file, 1);
+                    if (((t_command *)newlist->content)->output_file != 1)
+                            dup2(((t_command *)newlist->content)->output_file, 1);
                     ft_exec(newlist->content);
                 }
                 waitpid(pid, NULL, 0);
@@ -278,11 +278,11 @@ int     main(int argc, char **argv, char **envp)
                 fdd = fd[0];
                 newlist = newlist->next;
             }
-            // while (fdd >= 3)
-            // {
-            //     close(fdd);
-            //     fdd--;
-            // }
+            while (fdd >= 3)
+            {
+                close(fdd);
+                fdd--;
+            }
             pipe_list = pipe_list->next;
             j++;
         }
