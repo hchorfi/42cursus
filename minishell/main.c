@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/03/03 08:39:26 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/05 23:39:37 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,8 @@ int     main(int argc, char **argv, char **envp)
             {
                 // //ft_builtin(newlist->content);
                 i = 0;
-                pipe(fd);
+                if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
+                    pipe(fd);
                 pid = fork();
                 if (pid == 0)
                 {
@@ -273,16 +274,20 @@ int     main(int argc, char **argv, char **envp)
                             dup2(((t_command *)newlist->content)->output_file, 1);
                     ft_exec(newlist->content);
                 }
-                waitpid(pid, NULL, 0);
+                //waitpid(pid, NULL, 0);
                 close(fd[1]);
                 fdd = fd[0];
                 newlist = newlist->next;
             }
+            
             while (fdd >= 3)
             {
+                ft_printf("%d-", fdd);
                 close(fdd);
                 fdd--;
             }
+            for(i = 0; i < num_pipes + 1; i++)
+                wait(NULL);
             pipe_list = pipe_list->next;
             j++;
         }
