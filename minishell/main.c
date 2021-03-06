@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/03/05 23:39:37 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/06 21:32:20 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,6 +247,7 @@ int     main(int argc, char **argv, char **envp)
     int fdd;
     int in;
     int out;
+    int std_out;
     out = 1;
     in = 0;
     g_data.ret = 0;
@@ -269,6 +270,7 @@ int     main(int argc, char **argv, char **envp)
                     pipe(fd);
                 if (ft_check_builtin(newlist->content))
                 {
+                    std_out = dup(1);
                     if (((t_command *)newlist->content)->input_file != 0)
                         dup2(((t_command *)newlist->content)->input_file, 0);
                     else
@@ -277,10 +279,14 @@ int     main(int argc, char **argv, char **envp)
                     {
                         dup2(fd[1], 1);
                     }
-                    close(fd[0]);
                     if (((t_command *)newlist->content)->output_file != 1)
-                            dup2(((t_command *)newlist->content)->output_file, 1);
+                    {
+                        dup2(((t_command *)newlist->content)->output_file, 1);
+                        close(((t_command *)newlist->content)->output_file);
+                    }
                     ft_exec_builtin(newlist->content);
+                    dup2(std_out, 1);
+                    close(std_out);
                 }
                 else
                 {
@@ -304,8 +310,10 @@ int     main(int argc, char **argv, char **envp)
                 }
                 //waitpid(pid, NULL, 0);
                 if (num_pipes > 0)
+                {
                     close(fd[1]);
-                fdd = fd[0];
+                    fdd = fd[0];
+                }
                 newlist = newlist->next;
             }
             //ft_printf("%d-", fdd);
