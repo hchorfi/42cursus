@@ -12,26 +12,25 @@
 
 #include "minishell.h"
 
-int     ft_builtin(void *cmd)
+int     ft_check_builtin(void *cmd)
 {
     g_command = (t_command *)cmd;
     if (!g_command->tokens[0])
         return (0);
     else if (!ft_strncmp(g_command->tokens[0], "export", 7))
-        ft_export();
+        return (1);
     else if(!ft_strncmp(g_command->tokens[0], "env", 4))
-        ft_env();
+        return (1);
     else if (!ft_strncmp(g_command->tokens[0], "unset", 6))
-        ft_unset();
+        return (1);
     else if (!ft_strncmp(g_command->tokens[0], "pwd", 4))
-        ft_pwd();
+        return (1);
     else if (!ft_strncmp(g_command->tokens[0], "cd", 3))
-        ft_cd();
+        return (1);
     else if (!ft_strncmp(g_command->tokens[0], "echo", 5))
-        ft_echo();
+        return (1);
     else
         return 0;
-    return 1;
 }
 
 int     ft_exec(void *cmd)
@@ -39,7 +38,15 @@ int     ft_exec(void *cmd)
     g_command = (t_command *)cmd;
     if (!g_command->tokens[0])
         return (0);
-    else if (!ft_strncmp(g_command->tokens[0], "export", 7))
+    else
+        ft_check_bin();
+    return (0);
+}
+int     ft_exec_builtin(void *cmd)
+{
+    g_command = (t_command *)cmd;
+
+    if (!ft_strncmp(g_command->tokens[0], "export", 7))
         ft_export();
     else if(!ft_strncmp(g_command->tokens[0], "env", 4))
         ft_env();
@@ -51,8 +58,6 @@ int     ft_exec(void *cmd)
         ft_cd();
     else if (!ft_strncmp(g_command->tokens[0], "echo", 5))
         ft_echo();
-    else
-        ft_check_bin();
     return (0);
 }
 
@@ -112,9 +117,10 @@ char    *ft_check_redirections(char *pipe_cmds)
     int out = 1;
     char *file;
     char *new_pipe;
+    new_pipe = ft_strdup("");
     while(str[i])
     {
-        if (i == 0)
+        if (i == 0 && *str[0] != '>')
         {
             tmp_in = ft_check_in(str[i]);
             new_pipe = ft_strjoin(tmp_in,"");
@@ -122,18 +128,25 @@ char    *ft_check_redirections(char *pipe_cmds)
         }
         else
         {
+            if (i == 0 && *str[0] == '>')
+                str[0]++;
+            //ft_printf("---%s\n", str[0]);
             tmp_in = ft_check_in(str[i]);
+            
             tmp_out = ft_strtrim(tmp_in, " ");
             int j = 0;
+            //ft_printf("---%s\n", tmp_out);
             while (tmp_out[j] != ' ' && tmp_out[j] != '\0')
                 j++;
             file = ft_substr(tmp_out, 0, j);
             out = open(file, O_RDWR|O_CREAT, 0666);
+            //ft_printf("tmp out + j : --%s--\n", tmp_out + j);
             new_pipe = ft_strjoin(new_pipe, tmp_out + j);
             i++;
         }
     }
     g_command->output_file = out;
+    //ft_printf("---%s--\n", new_pipe);
     return (new_pipe);
 }
 
@@ -158,19 +171,15 @@ void    ft_parse(char *line)
             g_command->block = i;
             g_command->pipe_pos = j;
             new_pipe = ft_check_redirections(pipe_cmds[j]);
-            //printf("%s\n", new_pipe);
+            //ft_printf("---%s--\n", new_pipe);
             g_command->tokens = ft_split_pars(new_pipe, ' ');
-            //printf("%s\n", g_command->tokens[0]);
             // int k = 0;
             // while (g_command->tokens[k])
             // {
-            //     g_command->tokens[k] = ft_strtrim(g_command->tokens[k], " ");
+            //     ft_printf("--%s\n", g_command->tokens);
             //     k++;
             // }
-            // ft_putnbr_fd(g_command->input_file, 1);
-            // ft_putnbr_fd(g_command->output_file, 1);
-            // ft_putstr_fd("\n", 1);
-            //printf("in : %d - out : %d", g_command->input_file, g_command->output_file);
+            //ft_printf("in : %d - out : %d\n", g_command->input_file, g_command->output_file);
             if (g_data.cmds == NULL)
                 g_data.cmds = ft_lstnew(g_command);
             else
@@ -254,16 +263,15 @@ int     main(int argc, char **argv, char **envp)
             fdd = 0;
             while(newlist && (((t_command *)newlist->content)->block == j))
             {
-                // //ft_builtin(newlist->content);
+                //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[0]);
                 i = 0;
                 if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
                     pipe(fd);
-                pid = fork();
-                if (pid == 0)
+                if (ft_check_builtin(newlist->content))
                 {
                     if (((t_command *)newlist->content)->input_file != 0)
                         dup2(((t_command *)newlist->content)->input_file, 0);
-                   else
+                    else
                         dup2(fdd, 0);
                     if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
                     {
@@ -272,17 +280,37 @@ int     main(int argc, char **argv, char **envp)
                     close(fd[0]);
                     if (((t_command *)newlist->content)->output_file != 1)
                             dup2(((t_command *)newlist->content)->output_file, 1);
-                    ft_exec(newlist->content);
+                    ft_exec_builtin(newlist->content);
+                }
+                else
+                {
+                    pid = fork();
+                    if (pid == 0)
+                    {
+                        if (((t_command *)newlist->content)->input_file != 0)
+                            dup2(((t_command *)newlist->content)->input_file, 0);
+                        else
+                            dup2(fdd, 0);
+                        if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
+                        {
+                            dup2(fd[1], 1);
+                        }
+                        close(fd[0]);
+                        if (((t_command *)newlist->content)->output_file != 1)
+                                dup2(((t_command *)newlist->content)->output_file, 1);
+                        
+                        ft_exec(newlist->content);
+                    }
                 }
                 //waitpid(pid, NULL, 0);
-                close(fd[1]);
+                if (num_pipes > 0)
+                    close(fd[1]);
                 fdd = fd[0];
                 newlist = newlist->next;
             }
-            
+            //ft_printf("%d-", fdd);
             while (fdd >= 3)
             {
-                ft_printf("%d-", fdd);
                 close(fdd);
                 fdd--;
             }

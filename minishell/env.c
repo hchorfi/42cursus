@@ -30,6 +30,6 @@ int     ft_env()
             newlist = newlist->next;
         }
     }
-    exit (0);
+    return (0);
 }
 

@@ -44,7 +44,7 @@ pipeline(char ***cmd)
 int
 main(int argc, char *argv[])
 {
-	char *ls[] = {"ls", "-al", NULL};
+	char *ls[] = {"ls", "-al" ,">","test", NULL};
 	char *rev[] = {"rev", NULL};
 	char *nl[] = {"nl", NULL};
 	char *cat[] = {"cat", "-e", NULL};
@@ -52,9 +52,5 @@ main(int argc, char *argv[])
 	char **cmd[] = {ls, rev, nl, cat, wc, NULL};
 
 	pipeline(cmd);
-	while (1)
-	{
-		printf("ok");
-	}
 	return (0);
 }

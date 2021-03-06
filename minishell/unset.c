@@ -139,5 +139,5 @@ int		ft_unset()
 		i++;
 	}
 
-	exit (0);
+	return (0);
 }

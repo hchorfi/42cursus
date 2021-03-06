@@ -87,11 +87,11 @@ int		ft_cd()
 	char	oldpwd[PATH_MAX];
 	char	*val;
 	getcwd(oldpwd, PATH_MAX);
-	if (g_command->tokens[2])
-	{
-		ft_printf("minishell: cd: too many arguments\n");
-		return (g_data.ret = 1);
-	}
+	// if (g_command->tokens[2])
+	// {
+	// 	ft_printf("minishell: cd: too many arguments\n");
+	// 	return (g_data.ret = 1);
+	// }
 	if (!(val = g_command->tokens[1]))
 	{	
 		val = ft_get_home();

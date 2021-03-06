@@ -136,7 +136,7 @@ int				ft_echo()
 			ft_putchar_fd('\n', 1);
 		i++;
 	}
-	exit (1);
+	return (1);
 }
 
 

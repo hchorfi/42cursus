@@ -140,5 +140,5 @@ int     ft_export()
             i++;
         }
     }
-    exit (0);
+    return (0);
 }
