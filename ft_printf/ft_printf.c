@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 11:48:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2019/12/13 21:48:10 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/05 12:27:21 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,8 @@ static	void	ft_prec(va_list *args, char **frmt, int *skiped, t_flag *flags)
 int				ft_chk_flags(char *frmt, t_flag *flags, va_list *args)
 {
 	int skiped;
-	int	nwidth;
 
 	skiped = 0;
-	nwidth = 0;
 	while (*frmt == '-')
 	{
 		flags->signe = 1;

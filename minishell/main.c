@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/03/06 21:32:20 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/07 12:46:09 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,18 @@ int     ft_check_builtin(void *cmd)
         return 0;
 }
 
-int     ft_exec(void *cmd)
-{
-    g_command = (t_command *)cmd;
-    if (!g_command->tokens[0])
-        return (0);
-    else
-        ft_check_bin();
-    return (0);
-}
+// int     ft_exec(void *cmd)
+// {
+   
+//     else if(!(ret = ft_check_bin()))
+//     {
+//             ft_printf("---%d\n", ret);
+//         return (g_data.ret = 127);
+//     }
+//     //ft_printf("%d\n", ret);
+//     else
+//         return (g_data.ret = 0);
+// }
 int     ft_exec_builtin(void *cmd)
 {
     g_command = (t_command *)cmd;
@@ -61,13 +64,6 @@ int     ft_exec_builtin(void *cmd)
     return (0);
 }
 
-char    **ft_check_pipe(char *cmd)
-{
-    
-    printf("%s\n", cmd);
-    return NULL;
-}
-
 char    *ft_check_in(char *pipe_cmds)
 {
     char *new_pipe;
@@ -78,12 +74,12 @@ char    *ft_check_in(char *pipe_cmds)
     int i = 0;
 
     str = ft_split_pars(pipe_cmds, '<');
-    
+    new_pipe = ft_strdup("");
     
     while (str[i])
     {
         
-        if (i == 0)
+        if (i == 0 && *str[0] != '<')
         {
             //printf("--%d--%s--\n", i,str[i]);
             new_pipe = ft_strjoin(str[i], "");
@@ -91,6 +87,8 @@ char    *ft_check_in(char *pipe_cmds)
         }
         else
         {
+            if (i == 0 && *str[0] == '<')
+                str[0]++;
             tmp_in = ft_strtrim(str[i], " ");
             int j = 0;
             //printf("--%d--%s--\n", i,tmp_in);
@@ -179,7 +177,7 @@ void    ft_parse(char *line)
             //     ft_printf("--%s\n", g_command->tokens);
             //     k++;
             // }
-            //ft_printf("in : %d - out : %d\n", g_command->input_file, g_command->output_file);
+            ft_printf("in : %d - out : %d\n", g_command->input_file, g_command->output_file);
             if (g_data.cmds == NULL)
                 g_data.cmds = ft_lstnew(g_command);
             else
@@ -270,9 +268,14 @@ int     main(int argc, char **argv, char **envp)
                     pipe(fd);
                 if (ft_check_builtin(newlist->content))
                 {
+                    ft_printf("builtin\n");
                     std_out = dup(1);
+                    //int std_in = dup(0);
                     if (((t_command *)newlist->content)->input_file != 0)
+                    {
                         dup2(((t_command *)newlist->content)->input_file, 0);
+                        close(((t_command *)newlist->content)->input_file);                            
+                    }
                     else
                         dup2(fdd, 0);
                     if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
@@ -286,15 +289,23 @@ int     main(int argc, char **argv, char **envp)
                     }
                     ft_exec_builtin(newlist->content);
                     dup2(std_out, 1);
+                    //dup2(std_in, 0);
                     close(std_out);
+                    //close(std_in);
                 }
                 else
                 {
+                    ft_printf("bin\n");
                     pid = fork();
                     if (pid == 0)
                     {
+                        std_out = dup(1);
+                        int std_in = dup(0);
                         if (((t_command *)newlist->content)->input_file != 0)
+                        {
                             dup2(((t_command *)newlist->content)->input_file, 0);
+                            close(((t_command *)newlist->content)->input_file);                            
+                        }
                         else
                             dup2(fdd, 0);
                         if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
@@ -303,9 +314,13 @@ int     main(int argc, char **argv, char **envp)
                         }
                         close(fd[0]);
                         if (((t_command *)newlist->content)->output_file != 1)
-                                dup2(((t_command *)newlist->content)->output_file, 1);
-                        
-                        ft_exec(newlist->content);
+                        {
+                            dup2(((t_command *)newlist->content)->output_file, 1);
+                            close(((t_command *)newlist->content)->output_file);
+                        }
+                        ft_exec_bin(newlist->content);
+                        dup2(std_out, 1);
+                        close(std_out);
                     }
                 }
                 //waitpid(pid, NULL, 0);

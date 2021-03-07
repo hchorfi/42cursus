@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bin.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/02/17 14:05:28 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/07 11:45:30 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**ft_get_envp()
 	return (envp);
 }
 
-int		ft_check_bin()
+int		ft_exec_bin(void *cmd)
 {
 	int		pid;
 	int		status;
@@ -68,7 +68,7 @@ int		ft_check_bin()
 	int		i;
 	struct stat path_stat;
 	char	**envp;
-	
+	g_command = (t_command *)cmd;
 	path = ft_get_path();
 	bins = ft_split(path, ':');
 	i = 0;
@@ -78,17 +78,8 @@ int		ft_check_bin()
 		file = ft_strjoin(path, g_command->tokens[0]);
 		if (!stat(file, &path_stat))
 		{
-			// pid = fork();
-			// if (pid == 0)
-			// {
-				envp = ft_get_envp();
-			    execve(file, g_command->tokens, envp);
-			// }
-			// else
-			// {
-			// 	wait(&status);
-				return (0);
-			// }
+			envp = ft_get_envp();
+			execve(file, g_command->tokens, envp);
 		}
 		i++;
 	}
