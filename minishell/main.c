@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/03/07 12:46:09 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/08 22:32:17 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,23 +195,28 @@ void    ft_parse(char *line)
     }
 }
 
-int    ft_prompt(char **argv)
+int    ft_prompt(int argc, char **argv)
 {
     char    *line;
 
-    if (g_data.ret == 0)
+    if (argc >= 2)
+        line = argv[2];
+    else    
     {
-        ft_printf("\033[0;32m");
-        ft_printf("minishell 👽 %d > ", g_data.ret);
-        ft_printf("\033[0m");
+        if (g_data.ret == 0)
+        {
+            ft_printf("\033[0;32m");
+            ft_printf("minishell 👽 %d > ", g_data.ret);
+            ft_printf("\033[0m");
+        }
+        else
+        {
+            ft_printf("\033[0;31m");
+            ft_printf("minishell 👽 %d > ", g_data.ret);
+            ft_printf("\033[0m");
+        }
+	    get_next_line(0, &line);
     }
-    else
-    {
-        ft_printf("\033[0;31m");
-        ft_printf("minishell 👽 %d > ", g_data.ret);
-        ft_printf("\033[0m");
-    }
-	get_next_line(0, &line);
     ft_parse(line);
     return 1;
 }
@@ -253,7 +258,9 @@ int     main(int argc, char **argv, char **envp)
     ft_stock_envp(envp);
     while (1)
     {
-        ft_prompt(argv);
+        ft_prompt(argc, argv);
+        if (argc >=2)
+            argc = 0;
         newlist = g_data.cmds;
         pipe_list = g_data.n_pipe_cmd;
         j = 0;
@@ -261,6 +268,7 @@ int     main(int argc, char **argv, char **envp)
         {
             num_pipes = *(int *)pipe_list->content;
             fdd = 0;
+            pid = 0;
             while(newlist && (((t_command *)newlist->content)->block == j))
             {
                 //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[0]);
@@ -273,7 +281,7 @@ int     main(int argc, char **argv, char **envp)
                 {
                     //ft_printf("builtin\n");
                     std_out = dup(1);
-                    //int std_in = dup(0);
+                    int std_in = dup(0);
                     if (((t_command *)newlist->content)->input_file > 0)
                     {
                         dup2(((t_command *)newlist->content)->input_file, 0);
@@ -292,15 +300,14 @@ int     main(int argc, char **argv, char **envp)
                     }
                     ft_exec_builtin(newlist->content);
                     dup2(std_out, 1);
-                    //dup2(std_in, 0);
+                    dup2(std_in, 0);
                     close(std_out);
-                    //close(std_in);
+                    close(std_in);
                 }
                 else
                 {
                     //ft_printf("bin\n");
-                    pid = fork();
-                    if (pid == 0)
+                    if (!fork())
                     {
                         std_out = dup(1);
                         int std_in = dup(0);
@@ -316,12 +323,18 @@ int     main(int argc, char **argv, char **envp)
                             dup2(fd[1], 1);
                         }
                         close(fd[0]);
-                        if (((t_command *)newlist->content)->output_file != 1)
+                        if (((t_command *)newlist->content)->output_file > 1)
                         {
                             dup2(((t_command *)newlist->content)->output_file, 1);
                             close(((t_command *)newlist->content)->output_file);
                         }
                         ft_exec_bin(newlist->content);
+                        dup2(std_out, 1);
+                        dup2(std_in, 0);
+                        close(std_out);
+                        close(std_in);
+                        ft_printf("%s : command not found\n", ((t_command *)newlist->content)->tokens[0]);
+                        exit(127);
                     }
                 }
                 //waitpid(pid, NULL, 0);

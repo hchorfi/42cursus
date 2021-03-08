@@ -84,7 +84,7 @@ int     ft_del_list(t_list **head, int position);
 ** bin.c
 */
 
-int     ft_exec_bin();
+int		ft_exec_bin(void *cmd);
 
 /*
 ** echo.c
