@@ -29,5 +29,4 @@ declare -x GIT_ASKPASS="/Applications/Visual Studio Code.app/Contents/Resources/
 declare -x VSCODE_GIT_ASKPASS_NODE="/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Renderer).app/Contents/MacOS/Code Helper (Renderer)"
 declare -x VSCODE_GIT_ASKPASS_MAIN="/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass-main.js"
 declare -x TERM="xterm-256color"
-declare -x a="test"
-declare -x hamza="test"
+declare -x var="a"
