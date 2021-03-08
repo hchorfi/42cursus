@@ -8,6 +8,8 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <limits.h>
+#include <errno.h>
+
 
 # define POIN_VER 1
 

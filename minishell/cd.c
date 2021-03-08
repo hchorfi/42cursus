@@ -86,15 +86,22 @@ int		ft_cd()
 	char 	pwd[PATH_MAX];
 	char	oldpwd[PATH_MAX];
 	char	*val;
-	getcwd(oldpwd, PATH_MAX);
+	if (!getcwd(oldpwd, PATH_MAX))
+		ft_printf("%s\n", strerror(errno));
 	// if (g_command->tokens[2])
 	// {
 	// 	ft_printf("minishell: cd: too many arguments\n");
 	// 	return (g_data.ret = 1);
 	// }
+	val = NULL;
 	if (!(val = g_command->tokens[1]))
 	{	
 		val = ft_get_home();
+		if (!val)
+		{
+			g_data.ret = 1;
+			return (0);
+		}
 		if (*val == 0)
 		{
 			g_data.ret = 0;
@@ -103,7 +110,8 @@ int		ft_cd()
 	}
 	if (!chdir(val))
 	{
-		getcwd(pwd, PATH_MAX);
+		if (!getcwd(pwd, PATH_MAX))
+			ft_printf("%s\n", strerror(errno));
 		ft_change_pwd(pwd);
 		ft_change_oldpwd(oldpwd);
 		g_data.ret = 0;

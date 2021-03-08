@@ -96,7 +96,8 @@ char    *ft_check_in(char *pipe_cmds)
                 j++;
             file = ft_substr(tmp_in, 0, j);
             //printf("in file : %s \n", file);
-            in = open(file, O_RDONLY);
+            if ((in = open(file, O_RDONLY)) == -1)
+                ft_printf("minishell : %s No such file or directory\n", file);
             new_pipe = ft_strjoin(new_pipe, tmp_in + j);
             i++;
         }
@@ -177,7 +178,7 @@ void    ft_parse(char *line)
             //     ft_printf("--%s\n", g_command->tokens);
             //     k++;
             // }
-            ft_printf("in : %d - out : %d\n", g_command->input_file, g_command->output_file);
+            //ft_printf("in : %d - out : %d\n", g_command->input_file, g_command->output_file);
             if (g_data.cmds == NULL)
                 g_data.cmds = ft_lstnew(g_command);
             else
@@ -194,7 +195,7 @@ void    ft_parse(char *line)
     }
 }
 
-int    ft_prompt()
+int    ft_prompt(char **argv)
 {
     char    *line;
 
@@ -252,7 +253,7 @@ int     main(int argc, char **argv, char **envp)
     ft_stock_envp(envp);
     while (1)
     {
-        ft_prompt();
+        ft_prompt(argv);
         newlist = g_data.cmds;
         pipe_list = g_data.n_pipe_cmd;
         j = 0;
@@ -263,15 +264,17 @@ int     main(int argc, char **argv, char **envp)
             while(newlist && (((t_command *)newlist->content)->block == j))
             {
                 //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[0]);
+                if (((t_command *)newlist->content)->tokens[0] == NULL)
+                    break;
                 i = 0;
                 if (((t_command *)newlist->content)->pipe_pos != num_pipes && num_pipes > 0)
                     pipe(fd);
                 if (ft_check_builtin(newlist->content))
                 {
-                    ft_printf("builtin\n");
+                    //ft_printf("builtin\n");
                     std_out = dup(1);
                     //int std_in = dup(0);
-                    if (((t_command *)newlist->content)->input_file != 0)
+                    if (((t_command *)newlist->content)->input_file > 0)
                     {
                         dup2(((t_command *)newlist->content)->input_file, 0);
                         close(((t_command *)newlist->content)->input_file);                            
@@ -295,13 +298,13 @@ int     main(int argc, char **argv, char **envp)
                 }
                 else
                 {
-                    ft_printf("bin\n");
+                    //ft_printf("bin\n");
                     pid = fork();
                     if (pid == 0)
                     {
                         std_out = dup(1);
                         int std_in = dup(0);
-                        if (((t_command *)newlist->content)->input_file != 0)
+                        if (((t_command *)newlist->content)->input_file > 0)
                         {
                             dup2(((t_command *)newlist->content)->input_file, 0);
                             close(((t_command *)newlist->content)->input_file);                            
@@ -319,8 +322,6 @@ int     main(int argc, char **argv, char **envp)
                             close(((t_command *)newlist->content)->output_file);
                         }
                         ft_exec_bin(newlist->content);
-                        dup2(std_out, 1);
-                        close(std_out);
                     }
                 }
                 //waitpid(pid, NULL, 0);
