@@ -13,83 +13,6 @@
 
 #include "minishell.h"
 
-int		is_quote(char c)
-{
-	if (c == '"' || c== '\'')
-		return (1);
-	return(0);
-}
-
-static void	ft_putnstr(char *str, int n)
-{
-	int		i;
-
-	i = -1;
-	if (n < 0)
-	{
-		while (str[++i] && i < (int)ft_strlen(str) + n)
-			ft_putchar_fd(str[i], 1);
-	}
-	else
-	{
-		while (str[++i] && i < n)
-			ft_putchar_fd(str[i], 1);
-	}
-}
-
-static	void	delete_quotes(char *s)
-{
-	int i;
-
-	i = 0;
-	while(s[i])
-	{
-		if(s[i] != '"' && s[i] != '\'' && s[i] != '\\')
-			ft_putchar_fd(s[i], 1);
-		i++;
-	}
-}
-// static	void	*remove_first_last_quote(char *s)
-// {
-// 	int i;
-// 	char *str;
-// 	int j = 0;
-// 	int len;
-// 	i = 1;
-// 	len = ft_strlen(s);
-// 	str = malloc(len);
-// 	while(i < len)
-// 	{
-// 		str[j] = s[i];
-// 		i++;
-// 		j++;
-// 	}
-// 	free(s);
-// 	s = NULL;
-// 	s = ft_strdup(str);
-// }
-
-static void		my_echo_2(char **s, int pos)
-{
-	int		firt_isquote;
-	int		last_isquote;
-	int		len;
-
-	firt_isquote = is_quote(s[pos][0]);
-	len = ft_strlen(s[pos]);
-	last_isquote = is_quote(s[pos][len - 1]);
-	if (last_isquote && firt_isquote)
-		ft_putnstr(s[pos] + 1, -1);
-	else if (last_isquote)
-		ft_putnstr(s[pos], -1);
-	else if (firt_isquote)
-		ft_putstr_fd(s[pos] + 1, 1);
-	else
-		delete_quotes(s[pos]);
-	if (s[pos + 1])
-		ft_putchar_fd(' ', 1);
-}
-
 static	int check_n(char *args)
 {
 	int i;
@@ -109,7 +32,7 @@ static	int check_n(char *args)
 	return (1);
 }
 
-int				ft_echo()
+int			ft_echo()
 {
 	int		i;
 	int		n;
@@ -131,27 +54,12 @@ int				ft_echo()
 	while (g_command->tokens[i])
 	{
 		ft_putstr_fd(g_command->tokens[i], 1);
-		ft_putchar_fd(' ', 1);
+		if (g_command->tokens[i + 1])	
+			ft_putchar_fd(' ', 1);
 		if (!g_command->tokens[i + 1] && n == 0)
 			ft_putchar_fd('\n', 1);
 		i++;
+		
 	}
-	return (1);
+	return (0);
 }
-
-
-// int main()
-// {
-// 	char **s;
-// 	s[0] = "-nnn";
-// 	s[1] = "-nnnnnm";
-// 	s[2] = "\'hell  '    ll  'rld\'";
-// 	s[3] = "\"fuck off\"";
-// 	s[4] = "-n";
-// 	s[5] = NULL;
-// 	my_echo(s);
-// 	// printf("%d", check_n("-nnnn"));
-// 	// printf("%d", check_n("-n"));
-// 	// printf("%d", check_n("-nnnm"));
-// 	return 0;
-// }

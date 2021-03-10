@@ -32,7 +32,7 @@ def suite_echo(test):
     test("echo -n lalalala lalalalal alalalalal alalalala")
     test("echo -n lalalala                lalalalal      alalalalal alalalala")
     test("echo -n " + Config.lorem)
-    test("echo bonjour -n")
+    test("echo hamza -n")
     test("echo -n bonjour -n")
     test("                        echo                     bonjour             je")
     test("                        echo       -n            bonjour             je")

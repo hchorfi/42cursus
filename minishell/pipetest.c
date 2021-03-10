@@ -44,7 +44,7 @@ pipeline(char ***cmd)
 int
 main(int argc, char *argv[])
 {
-	char *ls[] = {"ls", "-al" ,">","test", NULL};
+	char *ls[] = {"ls", "-al", NULL};
 	char *rev[] = {"rev", NULL};
 	char *nl[] = {"nl", NULL};
 	char *cat[] = {"cat", "-e", NULL};

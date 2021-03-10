@@ -1,0 +1,1279 @@
+|> WITH echo $PWD; echo $OLDPWD; cd .; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ..; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test$
+/Users/hchorfi/.cache/minishell_test$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi/.cache/minishell_test$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ../..; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache$
+/Users/hchorfi/.cache$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi/.cache$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ../../..; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi$
+/Users/hchorfi$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ../../../..; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users$
+/Users$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ../../../../..; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ../../../../../..; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd /; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ''; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd '' ''; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd '' '' ''; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ' '; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd:  : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:  : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir d] echo $PWD; echo $OLDPWD; cd d ''; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox/d$
+/Users/hchorfi/.cache/minishell_test/sandbox/d$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox/d$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir d] echo $PWD; echo $OLDPWD; cd d d; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox/d$
+/Users/hchorfi/.cache/minishell_test/sandbox/d$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox/d$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir d] echo $PWD; echo $OLDPWD; cd d ' '; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox/d$
+/Users/hchorfi/.cache/minishell_test/sandbox/d$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox/d$
+$
+$
+================================================================================
+
+|> WITH [EXPORTS HOME='/Users/hchorfi'] echo $PWD; echo $OLDPWD; cd $HOME; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi$
+/Users/hchorfi$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd /; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd /.; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd /./; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd /././././; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd //; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ///; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ////; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd //////////////////////////////////////////////////////; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: HOME not set$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: cd: HOME not set$
+$
+================================================================================
+
+|> WITH [EXPORTS HOME='/Users/hchorfi'] echo $PWD; echo $OLDPWD; cd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ' /'; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd:  /: No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:  /: No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ' / '; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd:  / : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:  / : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd '                  /'; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd:                   /: No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:                   /: No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd '                  /              '; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd:                   /              : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:                   /              : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ' // '; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd:  // : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:  // : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd //home; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/home$
+/home$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+/home$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd ' //home'; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd:  //home: No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:  //home: No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd '     //home    '; pwd; echo $PWD; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd:      //home    : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:      //home    : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 001 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 002 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 003 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 004 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 005 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 006 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 007 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 010 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 020 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 030 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 040 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 050 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 060 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 070 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 100 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 200 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 300 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 400 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 500 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 600 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 700 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 755 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 644 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 311 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 111 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 222 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 333 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 0777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 1000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 2000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 3000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 4000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 5000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 6000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 7000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 1777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 2777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 3777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 4777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 5777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 6777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 7777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+================================================================================
+
+|> WITH [SETUP mkdir -m 0000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+minishell: cd: d: Permission denied$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd /; echo $PWD; echo $OLDPWD; unset PWD; cd /dev; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+$
+$
+================================================================================
+
+|> WITH echo $PWD; echo $OLDPWD; cd /; echo $PWD; echo $OLDPWD; export PWD=bonjour; cd /dev; echo $OLDPWD
+|---------------------------------------EXPECTED--------------------------------
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+/$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+bonjour$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+$
+$
+================================================================================
+
+|> WITH Cd .
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: Cd: command not found$
+|---------------------------------------ACTUAL----------------------------------
+Cd : command not found$
+================================================================================
+
+|> WITH cD .
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: cD: command not found$
+|---------------------------------------ACTUAL----------------------------------
+cD : command not found$
+================================================================================
+
+|> WITH Echo bonjour
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: Echo: command not found$
+|---------------------------------------ACTUAL----------------------------------
+Echo : command not found$
+================================================================================
+
+|> WITH eCho bonjour
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: eCho: command not found$
+|---------------------------------------ACTUAL----------------------------------
+eCho : command not found$
+================================================================================
+
+|> WITH ecHo bonjour
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: ecHo: command not found$
+|---------------------------------------ACTUAL----------------------------------
+ecHo : command not found$
+================================================================================
+
+|> WITH echO bonjour
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: echO: command not found$
+|---------------------------------------ACTUAL----------------------------------
+echO : command not found$
+================================================================================
+
+|> WITH EchO bonjour
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: EchO: command not found$
+|---------------------------------------ACTUAL----------------------------------
+EchO : command not found$
+================================================================================
+
+|> WITH eCHo bonjour
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: eCHo: command not found$
+|---------------------------------------ACTUAL----------------------------------
+eCHo : command not found$
+================================================================================
+
+|> WITH EcHo bonjour
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: EcHo: command not found$
+|---------------------------------------ACTUAL----------------------------------
+EcHo : command not found$
+================================================================================
+
+|> WITH eChO bonjour
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: eChO: command not found$
+|---------------------------------------ACTUAL----------------------------------
+eChO : command not found$
+================================================================================
+
+|> WITH env
+|---------------------------------------EXPECTED--------------------------------
+$
+PATH=/Users/hchorfi/.cache/minishell_test/bin$
+PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
+SHLVL=1$
+TERM=xterm-256color$
+_=/Users/hchorfi/.cache/minishell_test/bin/env
+|---------------------------------------ACTUAL----------------------------------
+$
+PATH=/Users/hchorfi/.cache/minishell_test/bin$
+TERM=xterm-256color
+================================================================================
+
+|> WITH [SETUP export A=a] env
+|---------------------------------------EXPECTED--------------------------------
+$
+PATH=/Users/hchorfi/.cache/minishell_test/bin$
+PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
+SHLVL=1$
+TERM=xterm-256color$
+_=/Users/hchorfi/.cache/minishell_test/bin/env
+|---------------------------------------ACTUAL----------------------------------
+$
+PATH=/Users/hchorfi/.cache/minishell_test/bin$
+TERM=xterm-256color
+================================================================================
+
+|> WITH [SETUP export A=a B=b C=c] env
+|---------------------------------------EXPECTED--------------------------------
+$
+PATH=/Users/hchorfi/.cache/minishell_test/bin$
+PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
+SHLVL=1$
+TERM=xterm-256color$
+_=/Users/hchorfi/.cache/minishell_test/bin/env
+|---------------------------------------ACTUAL----------------------------------
+$
+PATH=/Users/hchorfi/.cache/minishell_test/bin$
+TERM=xterm-256color
+================================================================================
+
+|> WITH [SETUP export A=a B=b C=c] env | cat -e
+|---------------------------------------EXPECTED--------------------------------
+$
+PATH=/Users/hchorfi/.cache/minishell_test/bin$$
+PWD=/Users/hchorfi/.cache/minishell_test/sandbox$$
+SHLVL=1$$
+TERM=xterm-256color$$
+_=/Users/hchorfi/.cache/minishell_test/bin/env$
+|---------------------------------------ACTUAL----------------------------------
+$
+PATH=/Users/hchorfi/.cache/minishell_test/bin$$
+TERM=xterm-256color$
+================================================================================
+
+|> WITH Env
+|---------------------------------------EXPECTED--------------------------------
+TERM=xterm-256color$
+PATH=/Users/hchorfi/.cache/minishell_test/bin$
+PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
+SHLVL=1$
+_=/Users/hchorfi/.cache/minishell_test/bin/Env$
+|---------------------------------------ACTUAL----------------------------------
+PATH=/Users/hchorfi/.cache/minishell_test/bin$
+TERM=xterm-256color$
+================================================================================
+
+|> WITH enV
+|---------------------------------------EXPECTED--------------------------------
+TERM=xterm-256color$
+PATH=/Users/hchorfi/.cache/minishell_test/bin$
+PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
+SHLVL=1$
+_=/Users/hchorfi/.cache/minishell_test/bin/enV$
+|---------------------------------------ACTUAL----------------------------------
+PATH=/Users/hchorfi/.cache/minishell_test/bin$
+TERM=xterm-256color$
+================================================================================
+
+|> WITH [EXPORTS PATH='/bin:/usr/bin'] Env
+|---------------------------------------EXPECTED--------------------------------
+TERM=xterm-256color$
+PATH=/bin:/usr/bin$
+PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
+SHLVL=1$
+_=/usr/bin/Env$
+|---------------------------------------ACTUAL----------------------------------
+PATH=/bin:/usr/bin$
+TERM=xterm-256color$
+================================================================================
+
+|> WITH [EXPORTS PATH='/bin:/usr/bin'] enV
+|---------------------------------------EXPECTED--------------------------------
+TERM=xterm-256color$
+PATH=/bin:/usr/bin$
+PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
+SHLVL=1$
+_=/usr/bin/enV$
+|---------------------------------------ACTUAL----------------------------------
+PATH=/bin:/usr/bin$
+TERM=xterm-256color$
+================================================================================
+

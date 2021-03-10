@@ -25,8 +25,8 @@ t_data			g_data;
 typedef struct s_command
 {
     char        **tokens;
-    char        input_file;
-    char        output_file;
+    int         input_file;
+    int         output_file;
     int         pipe_pos;
     int         block; 
 }				t_command;
@@ -44,6 +44,8 @@ int				ft_echo();
 */
 
 char		**ft_split_pars(char const *s, char c);
+char		*get_other_variables(char *str);
+char		*remove_all_quotes(char *str);
 
 /*
 ** cd.c
@@ -100,5 +102,11 @@ int     ft_exec();
 void    ft_parse(char *line);
 int     ft_prompt();
 void    ft_stock_envp(char **envp);
+
+/*
+** exit.c
+*/
+
+int     ft_exit();
 
 #endif

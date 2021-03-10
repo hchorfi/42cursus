@@ -6,7 +6,7 @@
 /*   By: anassif <anassif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/03/08 16:49:46 by anassif          ###   ########.fr       */
+/*   Updated: 2021/03/09 15:07:00 by anassif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int			is_escaped(char *s, int j)
 }
 
 
-
 static int check_cots(const char *s, int l, int d)
 {
 	int i;
@@ -77,13 +76,13 @@ static int check_cots(const char *s, int l, int d)
 	len = ft_count(s + d, l) + d;
 	i = d;
 	n = 0;
-	if ((s[i] == '"' || s[i] == '\''))
+	if ((s[i] == '"' || s[i] == '\'') && !(is_escaped((char *)s, i)))
 		n++;
 	i++;
 	while (i < l)
 	{
-		if ((s[i] == '"' || s[i] == '\'') /*&& !(is_escaped((char *)s, i))*/)
-				n++;
+		if ((s[i] == '"' || s[i] == '\'') && !(is_escaped((char *)s, i)))
+			n++;
 		i++;
 	}
 	if (n % 2 == 0)
@@ -264,7 +263,7 @@ char		*get_other_variables(char *str)
 	int s_quote = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'')
+		if (str[i] == '\'' && !(is_escaped((char *)str, i)))
 		{
 			if (s_quote == 0)
 				s_quote = 1;
@@ -356,7 +355,6 @@ char		*remove_all_quotes(char *str)
 	ptr = ft_strdup("");
 	while(str[i])
 	{
-		
 		if (str[i] == '\'' && s_quote == 0 && d_quote == 0 && !(is_escaped(str, i)))
 		{
 			s_quote = 1;
@@ -424,7 +422,7 @@ char		**ft_split_pars(char const *s, char c)
 	int splited = 0;
 	while (2)
 	{
-		if ((((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && s[i - 1] != c) && s[i - 1] != '\\')
+		if ((((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && s[i - 1] != c) && !(is_escaped((char *)s, i)))
 		{
 			if (check_cots(s, i, d))
 				{
@@ -439,25 +437,25 @@ char		**ft_split_pars(char const *s, char c)
 			break ;
 	}
 	str[j] = NULL;
-	if (c == ' ')
-	{
-		j = 0;
-		while (str[j])
-		{
-			str[j] = get_other_variables(str[j]);
-			// ft_putstr_fd(str[j], 1);
-			// ft_putstr_fd("\n", 1);
-			str[j] = remove_all_quotes(str[j]);
-			j++;
-		}
-		// j = 0;
-		// while(str[j])
-		// {
-		// 	ft_putstr_fd(str[j], 1);
-		// 	ft_putstr_fd("\n", 1);
-		// 	j++;
-		// }
-	}
+	// if (c == ' ')
+	// {
+	// 	j = 0;
+	// 	while (str[j])
+	// 	{
+	// 		//str[j] = get_other_variables(str[j]);
+	// 		// ft_putstr_fd(str[j], 1);
+	// 		// ft_putstr_fd("\n", 1);
+	// 		str[j] = remove_all_quotes(str[j]);
+	// 		j++;
+	// 	}
+	// 	// j = 0;
+	// 	// while(str[j])
+	// 	// {
+	// 	// 	ft_putstr_fd(str[j], 1);
+	// 	// 	ft_putstr_fd("\n", 1);
+	// 	// 	j++;
+	// 	// }
+	// }
 	 return (str);
 }
 
