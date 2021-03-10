@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/03/08 22:32:17 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/10 23:25:47 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ void    ft_parse(char *line)
                 g_command->tokens[k] = ft_strtrim(g_command->tokens[k], " ");
                 k++;
             }
+            g_command->n_tokens = k;
             //ft_printf("in : %d - out : %d\n", g_command->input_file, g_command->output_file);
             if (g_data.cmds == NULL)
                 g_data.cmds = ft_lstnew(g_command);
@@ -251,10 +252,11 @@ void    ft_stock_envp(char **envp)
     }
     // g_data.env_var->next = NULL;
 }
-
+const char* __asan_default_options() { return "detect_leaks=0"; }
 
 int     main(int argc, char **argv, char **envp)
 {
+    
     t_list *newlist;
     t_list *pipe_list;
     pid_t pid;
@@ -266,6 +268,7 @@ int     main(int argc, char **argv, char **envp)
     int in;
     int out;
     int std_out;
+    int stat;
     out = 1;
     in = 0;
     g_data.ret = 0;
@@ -353,8 +356,8 @@ int     main(int argc, char **argv, char **envp)
                         dup2(std_in, 0);
                         close(std_out);
                         close(std_in);
-                        ft_printf("%s : command not found\n", ((t_command *)newlist->content)->tokens[0]);
-                        exit(127);
+                        ft_printf("minishell: %s: command not found\n", ((t_command *)newlist->content)->tokens[0]);
+                        exit(g_data.ret = 127);
                     }
                 }
                 //waitpid(pid, NULL, 0);
@@ -372,15 +375,18 @@ int     main(int argc, char **argv, char **envp)
                 fdd--;
             }
             for(i = 0; i < num_pipes + 1; i++)
-                wait(NULL);
+            {
+                wait(&g_data.ret);
+                g_data.ret /= 256;
+            }
             pipe_list = pipe_list->next;
             j++;
         }
         if (argc >=2)
         {
             argc = 0;
-            return 0;
+            return g_data.ret;
         }
     }
-    return (0);
+    return (g_data.ret);
 }

@@ -25,6 +25,7 @@ t_data			g_data;
 typedef struct s_command
 {
     char        **tokens;
+    int         n_tokens;
     int         input_file;
     int         output_file;
     int         pipe_pos;
