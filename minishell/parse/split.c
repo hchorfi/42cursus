@@ -6,7 +6,7 @@
 /*   By: anassif <anassif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/03/09 15:07:00 by anassif          ###   ########.fr       */
+/*   Updated: 2021/03/11 16:26:21 by anassif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,11 +168,13 @@ char		*ft_variable_value(char *var)
         }
         if (ft_strncmp(old_var, new_var, len) == 0)
         {   
-            return (ft_strchr(newlist->content, '=') + 1);
+            if (ft_strchr(newlist->content, '='))
+				return (ft_strchr(newlist->content, '=') + 1);
         }
         newlist = newlist->next;
         i++;
     }
+	
 	return ("");
 }
 
@@ -310,7 +312,7 @@ char		*ft_remove_slashes(char *str, int start, int end)
 		{
 			len += count / 2 + 1;
 			count = 0;
-		}	
+		}
 		i++;
 	}
 	if (count)
@@ -333,7 +335,72 @@ char		*ft_remove_slashes(char *str, int start, int end)
 		}
 		i++;
 	}
-	// ft_putnbr_fd(count, 1);
+	if (count)
+		fill_with(back, j, count / 2, '\\');
+	j += count / 2;
+	back[j] = '\0';
+	return (back);
+}
+
+char		*ft_remove_slashes_2(char *str, int start, int end)
+{
+	int i = start;
+	int count = 0;
+	int len = 0;
+	char *back;
+	int j;
+	while (i < end)
+	{
+		if (str[i] == '\\')
+			count++;
+		else
+		{
+			if ((str[i] == '$' || str[i] == '"') && (count % 2))
+			{
+				len += (count / 2) + 1;
+				count = 0;
+			}
+			else
+			{
+				count++;
+				len += count / 2 + 1;
+				count = 0;
+			}
+		}
+		i++;
+	}
+	if (count)
+		len += count / 2;
+	back = malloc(sizeof(char) * (len  + 1));
+	i = start;
+	j = 0;
+	count = 0;
+	while (i < end)
+	{
+		if (str[i] == '\\')
+			count++;
+		else
+		{
+			if ((str[i] == '$' || str[i] == '"') && (count % 2))
+			{
+				fill_with(back, j, (count / 2), '\\');
+				j += count / 2;
+				count = 0;
+				back[j] = str[i];
+				j++;
+			}
+			else
+			{
+				count++;
+				fill_with(back, j, count / 2, '\\');
+				j += count / 2;
+				count = 0;
+				back[j] = str[i];
+				j++;
+			}
+		}
+		i++;
+	}
 	if (count)
 		fill_with(back, j, count / 2, '\\');
 	j += count / 2;
@@ -385,12 +452,15 @@ char		*remove_all_quotes(char *str)
 		{
 			// int j;
 			// j = start;
-		 	s = ft_remove_slashes(str, start, i);
+		 	s = ft_remove_slashes_2(str, start, i);
+			// ft_putstr_fd(s, 1);
+			// ft_putstr_fd("\n", 1);
 			ptr = ft_stock(ptr, s, ft_strlen(s));
 			start = i + 1;
 			d_quote = 0;
 		}
-		i++;
+		if (str[i] != '\0')	
+			i++;
 		if (str[i] == '\0')
 		{
 			s = ft_remove_slashes(str, start, i);
@@ -424,12 +494,12 @@ char		**ft_split_pars(char const *s, char c)
 	{
 		if ((((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && s[i - 1] != c) && !(is_escaped((char *)s, i)))
 		{
-			if (check_cots(s, i, d))
-				{
+			// if (check_cots(s, i, d))
+			// 	{
 					if (!(str[j++] = ft_substr((char *)s, d, i - d)))
 						return (ft_free(str, j - 1));
 					splited = 1;
-				}
+				// }
 		}
 		d = (splited == 1 ? i + 1 : d); 
 		splited = 0;
@@ -442,7 +512,7 @@ char		**ft_split_pars(char const *s, char c)
 	// 	j = 0;
 	// 	while (str[j])
 	// 	{
-	// 		//str[j] = get_other_variables(str[j]);
+	// 		str[j] = get_other_variables(str[j]);
 	// 		// ft_putstr_fd(str[j], 1);
 	// 		// ft_putstr_fd("\n", 1);
 	// 		str[j] = remove_all_quotes(str[j]);
