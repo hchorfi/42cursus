@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/03/10 23:25:47 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/11 23:14:19 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,9 +299,11 @@ int     main(int argc, char **argv, char **envp)
             int k = 0;
             while (((t_command *)newlist->content)->tokens[k])
             {
+                //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[k]);
                 ((t_command *)newlist->content)->tokens[k] = get_other_variables(((t_command *)newlist->content)->tokens[k]);
-                ((t_command *)newlist->content)->tokens[k] = remove_all_quotes(((t_command *)newlist->content)->tokens[k]);
-                ft_printf("***%s***\n", ((t_command *)newlist->content)->tokens[k]);
+                if (ft_strncmp(((t_command *)newlist->content)->tokens[0], "export", 7 ))
+                    ((t_command *)newlist->content)->tokens[k] = remove_all_quotes(((t_command *)newlist->content)->tokens[k]);
+                //ft_printf("====%s====\n", ((t_command *)newlist->content)->tokens[k]);
                 k++;
             }
             n_fork = 0;

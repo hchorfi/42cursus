@@ -64,8 +64,8 @@ int     ft_pwd();
 ** export.c
 */
 
-int     ft_valid_export_var(char *export_var);
-int     ft_exist_export_var(char *export_var);
+int     ft_valid_export_var(char *export_var, char *token);
+int     ft_exist_export_var(char *export_var, char *token);
 int     ft_export();
 
 /*
