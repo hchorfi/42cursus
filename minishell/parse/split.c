@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anassif <anassif@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/03/09 15:07:00 by anassif          ###   ########.fr       */
+/*   Updated: 2021/03/11 23:22:24 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ char		*ft_variable_value(char *var)
             old_var = newlist->content;
             len = ft_strlen(old_var);
         }
-        if (ft_strncmp(old_var, new_var, len) == 0)
+        if (ft_strncmp(old_var, new_var, len) == 0 && ft_strchr(newlist->content, '='))
         {   
             return (ft_strchr(newlist->content, '=') + 1);
         }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 16:35:17 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/02/12 16:35:18 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/11 23:24:32 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int     ft_valid_export_var(char *export_var)
     {
         if (ft_memchr(export_var, '-', i + 1))
         {
-            ft_putstr_fd("bash: export: `", 1);
+            ft_putstr_fd("minishell: export: `", 1);
             ft_putstr_fd(export_var, 1);
             ft_putstr_fd("': not a valid identifier\n", 1);
         return (1);
@@ -35,10 +35,10 @@ int     ft_valid_export_var(char *export_var)
     }
     if(export_var[0] == '_')
         return (0);
-    if (ft_isdigit(export_var[0]) || export_var[0] == '=' || export_var[0] == 0)
+    if (ft_isdigit(export_var[0]) || export_var[0] == '=' || export_var[0] == 0 || export_var[0] == '\'')
     {
-        ft_putstr_fd("bash: export: `", 1);
-        ft_putstr_fd(export_var, 1);
+        ft_putstr_fd("minishell: export: `", 1);
+        ft_putstr_fd(remove_all_quotes(export_var), 1);
         ft_putstr_fd("': not a valid identifier\n", 1);
         return (1);
     }
