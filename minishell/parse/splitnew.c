@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: anassif <anassif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/03/11 23:22:24 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/12 15:28:48 by anassif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,27 +66,33 @@ int			is_escaped(char *s, int j)
 }
 
 
-static int check_cots(const char *s, int l, int d)
+static int check_cots(char *s)
 {
-	int i;
-	int len;
-	int n;
+	int i = 0;
+	// int len;
 	int s_quote = 0;
+	int d_quote = 0;
 
-	len = ft_count(s + d, l) + d;
-	i = d;
-	n = 0;
-	if ((s[i] == '"' || s[i] == '\'') && !(is_escaped((char *)s, i)))
-		n++;
-	i++;
-	while (i < l)
+	// len = ft_count(s + d, l) + d;
+	// i = d;
+	// if ((s[i] == '"' || s[i] == '\'') && !(is_escaped((char *)s, i)))
+	// 	n++;
+	// i++;
+	while (s[i])
 	{
-		if ((s[i] == '"' || s[i] == '\'') && !(is_escaped((char *)s, i)))
-			n++;
-		i++;
+		if (s[i] == '\'' && s_quote == 0 && d_quote == 0 && !(is_escaped(s, i)))
+		{	s_quote = 1; i++;}
+		if (s[i] == '\'' && s_quote == 1)
+		{	s_quote = 0; i++;}
+		if (s[i] == '"' && d_quote == 0 && s_quote == 0 && !(is_escaped(s, i)))
+		{	d_quote = 1; i++;}
+		if (s[i] == '"' && d_quote == 1 && s[i] != '\0' && !(is_escaped(s, i)))
+		{	d_quote = 0; i++;}
+		if (s[i] != '\0')
+			i++;
 	}
-	if (n % 2 == 0)
-		return (1);
+	if (s_quote == 0 && d_quote == 0)
+		return(1);
 	return (0);
 }
 
@@ -166,9 +172,10 @@ char		*ft_variable_value(char *var)
             old_var = newlist->content;
             len = ft_strlen(old_var);
         }
-        if (ft_strncmp(old_var, new_var, len) == 0 && ft_strchr(newlist->content, '='))
+        if (ft_strncmp(old_var, new_var, len) == 0)
         {   
-			return (ft_strchr(newlist->content, '=') + 1);
+            if (ft_strchr(newlist->content, '='))
+				return (ft_strchr(newlist->content, '=') + 1);
         }
         newlist = newlist->next;
         i++;
@@ -250,8 +257,9 @@ char		*ft_get_variables(char *str, int start, int i)
 		j++;
 	}
 	j--;
+	if (k == j)
+	{	str = ft_replace_variable(str, "$", k, j); return (str);}
 	var = ft_put_variable(str, k, j);
-
 	value = ft_variable_value(var);
 	str = ft_replace_variable(str, value, k, j);
 	return (str);
@@ -469,10 +477,12 @@ char		*remove_all_quotes(char *str)
 	}
 	if (trim == 0)
 		ptr = ft_strtrim(ptr, " ");
+	// ft_putstr_fd(ptr, 1);
+	// ft_putstr_fd("*\n", 1);
 	return(ptr);
 }
 
-char		**ft_split_pars(char const *s, char c)
+char		**ft_split_pars(char *s, char c)
 {
 	size_t	i;
 	size_t	j;
@@ -482,7 +492,7 @@ char		**ft_split_pars(char const *s, char c)
 	if (!s)
 		return (NULL);
 	if (!s)
-	s = ft_strtrim(s, " ");
+		s = ft_strtrim(s, " ");
 	if (!(str = (char **)malloc(sizeof(char *) * (countt((char *)s, c) + 1))))
 		return (NULL);
 	i = 0;
@@ -491,16 +501,16 @@ char		**ft_split_pars(char const *s, char c)
 	int splited = 0;
 	while (2)
 	{
-		if ((((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && s[i - 1] != c) && !(is_escaped((char *)s, i)))
+		if ((((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && s[i - 1] != c) /*&& (is_escaped((char *)s, i))*/)
 		{
-			if (check_cots(s, i, d))
-			{
-				if (!(str[j++] = ft_substr((char *)s, d, i - d)))
-					return (ft_free(str, j - 1));
-				splited = 1;
-			}
+			if (check_cots(ft_substr(s, d, i - d)))
+				{
+					if (!(str[j++] = ft_substr((char *)s, d, i - d)))
+						return (ft_free(str, j - 1));
+					splited = 1;
+				}
 		}
-		d = (splited == 1 ? i + 1 : d); 
+		d = (splited == 1 ? i + 1 : d);
 		splited = 0;
 		if (s[i++] == '\0')
 			break ;
@@ -525,7 +535,8 @@ char		**ft_split_pars(char const *s, char c)
 	// 	// 	j++;
 	// 	// }
 	// }
-	 return (str);
+	// ft_printf("|%s|\n", str);
+	return (str);
 }
 
 // int main (int ac, char **av)

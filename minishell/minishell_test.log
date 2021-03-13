@@ -1,193 +1,4 @@
-|> WITH export
-|---------------------------------------EXPECTED--------------------------------
-$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
-declare -x SHLVL="1"$
-declare -x TERM="xterm-256color"
-|---------------------------------------ACTUAL----------------------------------
-$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x TERM="xterm-256color"
-================================================================================
-
-|> WITH [EXPORTS A=''] export
-|---------------------------------------EXPECTED--------------------------------
-$
-declare -x A=""$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
-declare -x SHLVL="1"$
-declare -x TERM="xterm-256color"
-|---------------------------------------ACTUAL----------------------------------
-$
-declare -x A=""$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x TERM="xterm-256color"
-================================================================================
-
-|> WITH [EXPORTS A='"'] export
-|---------------------------------------EXPECTED--------------------------------
-$
-declare -x A="\""$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
-declare -x SHLVL="1"$
-declare -x TERM="xterm-256color"
-|---------------------------------------ACTUAL----------------------------------
-$
-declare -x A="""$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x TERM="xterm-256color"
-================================================================================
-
-|> WITH [EXPORTS A='\'] export
-|---------------------------------------EXPECTED--------------------------------
-$
-declare -x A="\\"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
-declare -x SHLVL="1"$
-declare -x TERM="xterm-256color"
-|---------------------------------------ACTUAL----------------------------------
-$
-declare -x A="\"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x TERM="xterm-256color"
-================================================================================
-
-|> WITH [EXPORTS A='$'] export
-|---------------------------------------EXPECTED--------------------------------
-$
-declare -x A="\$"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
-declare -x SHLVL="1"$
-declare -x TERM="xterm-256color"
-|---------------------------------------ACTUAL----------------------------------
-$
-declare -x A="$"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x TERM="xterm-256color"
-================================================================================
-
-|> WITH [EXPORTS A='\t'] export
-|---------------------------------------EXPECTED--------------------------------
-$
-declare -x A="	"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
-declare -x SHLVL="1"$
-declare -x TERM="xterm-256color"
-|---------------------------------------ACTUAL----------------------------------
-$
-declare -x A="	"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x TERM="xterm-256color"
-================================================================================
-
-|> WITH [EXPORTS A='''] export
-|---------------------------------------EXPECTED--------------------------------
-$
-declare -x A="'"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
-declare -x SHLVL="1"$
-declare -x TERM="xterm-256color"
-|---------------------------------------ACTUAL----------------------------------
-$
-declare -x A="'"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x TERM="xterm-256color"
-================================================================================
-
-|> WITH [EXPORTS A='a'] export
-|---------------------------------------EXPECTED--------------------------------
-$
-declare -x A="a"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
-declare -x SHLVL="1"$
-declare -x TERM="xterm-256color"
-|---------------------------------------ACTUAL----------------------------------
-$
-declare -x A="a"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x TERM="xterm-256color"
-================================================================================
-
-|> WITH export 1=a
-|  STATUS: expected 1 actual 0
-================================================================================
-
-|> WITH export BONJOURJESUIS =a
-|  STATUS: expected 1 actual 0
-================================================================================
-
-|> WITH export BONJOUR\\JESUIS=a
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR\JESUIS=a': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\'JESUIS=a
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR'JESUIS=a': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\"JESUIS=a
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR"JESUIS=a': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\$JESUIS=a
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR$JESUIS=a': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\&JESUIS=a
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR&JESUIS=a': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\|JESUIS=a
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR|JESUIS=a': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\;JESUIS=a
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR;JESUIS=a': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export \B\O\N\ \ \ \ \ \ \ JOURJESUIS=a
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BON       JOURJESUIS=a': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export A=\B\O\N\ \ \ \ \ \ \ JOURJESUIS; echo $A
-|---------------------------------------EXPECTED--------------------------------
-BON JOURJESUIS$
-|---------------------------------------ACTUAL----------------------------------
-BON       JOURJESUIS$
-================================================================================
-
-|> WITH export A B C; env
+|> WITH env
 |---------------------------------------EXPECTED--------------------------------
 $
 PATH=/home/devza/.cache/minishell_test/bin$
@@ -197,104 +8,49 @@ TERM=xterm-256color$
 _=/home/devza/.cache/minishell_test/bin/env
 |---------------------------------------ACTUAL----------------------------------
 $
-A$
-B$
-C$
 PATH=/home/devza/.cache/minishell_test/bin$
 TERM=xterm-256color
 ================================================================================
 
-|> WITH export 'AH@'=nop
-|  STATUS: expected 1 actual 0
-================================================================================
-
-|> WITH export "AH'"=nop
-|  STATUS: expected 1 actual 0
+|> WITH [SETUP export A=a] env
 |---------------------------------------EXPECTED--------------------------------
-minishell: export: `AH'=nop': not a valid identifier$
+$
+PATH=/home/devza/.cache/minishell_test/bin$
+PWD=/home/devza/.cache/minishell_test/sandbox$
+SHLVL=1$
+TERM=xterm-256color$
+_=/home/devza/.cache/minishell_test/bin/env
 |---------------------------------------ACTUAL----------------------------------
+$
+PATH=/home/devza/.cache/minishell_test/bin$
+TERM=xterm-256color
 ================================================================================
 
-|> WITH export 'AH"'=nop
-|  STATUS: expected 1 actual 0
+|> WITH [SETUP export A=a B=b C=c] env
 |---------------------------------------EXPECTED--------------------------------
-minishell: export: `AH"=nop': not a valid identifier$
+$
+PATH=/home/devza/.cache/minishell_test/bin$
+PWD=/home/devza/.cache/minishell_test/sandbox$
+SHLVL=1$
+TERM=xterm-256color$
+_=/home/devza/.cache/minishell_test/bin/env
 |---------------------------------------ACTUAL----------------------------------
+$
+PATH=/home/devza/.cache/minishell_test/bin$
+TERM=xterm-256color
 ================================================================================
 
-|> WITH export 'AH$'=nop
-|  STATUS: expected 1 actual 0
-================================================================================
-
-|> WITH export 'AH!'=nop
-|  STATUS: expected 1 actual 0
-================================================================================
-
-|> WITH export 'AH|'=nop
-|  STATUS: expected 1 actual 0
-================================================================================
-
-|> WITH export 'AH;'=nop
-|  STATUS: expected 1 actual 0
-================================================================================
-
-|> WITH export 'AH&'=nop
-|  STATUS: expected 1 actual 0
-================================================================================
-
-|> WITH export 'AH\'=nop
-|  STATUS: expected 1 actual 0
+|> WITH [SETUP export A=a B=b C=c] env | cat -e
 |---------------------------------------EXPECTED--------------------------------
-minishell: export: `AH\=nop': not a valid identifier$
+$
+PATH=/home/devza/.cache/minishell_test/bin$$
+PWD=/home/devza/.cache/minishell_test/sandbox$$
+SHLVL=1$$
+TERM=xterm-256color$$
+_=/home/devza/.cache/minishell_test/bin/env$
 |---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\\JESUIS
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR\JESUIS': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\'JESUIS
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR'JESUIS': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\"JESUIS
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR"JESUIS': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\$JESUIS
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR$JESUIS': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\&JESUIS
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR&JESUIS': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\|JESUIS
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR|JESUIS': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH export BONJOUR\;JESUIS
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: export: `BONJOUR;JESUIS': not a valid identifier$
-|---------------------------------------ACTUAL----------------------------------
+$
+PATH=/home/devza/.cache/minishell_test/bin$$
+TERM=xterm-256color$
 ================================================================================
 

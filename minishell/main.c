@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/03/11 23:14:19 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/12 22:47:40 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int     ft_exec_builtin(void *cmd)
     g_command = (t_command *)cmd;
 
     if (!ft_strncmp(g_command->tokens[0], "export", 7))
-        ft_export();
+        return (ft_export());
     else if(!ft_strncmp(g_command->tokens[0], "env", 4))
         ft_env();
     else if (!ft_strncmp(g_command->tokens[0], "unset", 6))
@@ -124,6 +124,7 @@ char    *ft_check_redirections(char *pipe_cmds)
     new_pipe = ft_strdup("");
     while(str[i])
     {
+        int append = 0;
         if (i == 0 && *str[0] != '>')
         {
             tmp_in = ft_check_in(str[i]);
@@ -140,11 +141,23 @@ char    *ft_check_redirections(char *pipe_cmds)
             tmp_out = ft_strtrim(tmp_in, " ");
             int j = 0;
             //ft_printf("---%s\n", tmp_out);
+            if (tmp_out[0] == '>')
+            {
+                j++;
+                while (tmp_out[j] == ' ' && tmp_out[j] != '\0')
+                    j++;
+                append = 1;
+            }
+            tmp_out = tmp_out + j;
             while (tmp_out[j] != ' ' && tmp_out[j] != '\0')
                 j++;
+            //ft_printf("---%s\n", tmp_out);
             file = ft_substr(tmp_out, 0, j);
             file = remove_all_quotes(file);
-            out = open(file, O_RDWR|O_CREAT, 0666);
+            if (append == 0)
+                out = open(file, O_RDWR|O_CREAT, 0666);
+            else
+                out = open(file, O_RDWR|O_CREAT|O_APPEND, 0666);
             //ft_printf("tmp out + j : --%s--\n", tmp_out + j);
             new_pipe = ft_strjoin(new_pipe, tmp_out + j);
             i++;
@@ -268,10 +281,9 @@ int     main(int argc, char **argv, char **envp)
     int in;
     int out;
     int std_out;
-    int stat;
+    int n_fork;
     out = 1;
     in = 0;
-    g_data.ret = 0;
     ft_stock_envp(envp);
     while (1)
     {
@@ -294,6 +306,8 @@ int     main(int argc, char **argv, char **envp)
                 //ft_printf("====%s====\n", ((t_command *)newlist->content)->tokens[k]);
                 k++;
             }
+            n_fork = 0;
+            g_data.ret = 0;
             while(newlist && (((t_command *)newlist->content)->block == j))
             {
                 //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[0]);
@@ -323,7 +337,8 @@ int     main(int argc, char **argv, char **envp)
                         dup2(((t_command *)newlist->content)->output_file, 1);
                         close(((t_command *)newlist->content)->output_file);
                     }
-                    ft_exec_builtin(newlist->content);
+                    g_data.ret = ft_exec_builtin(newlist->content);
+                    //ft_printf("%d", g_data.ret);
                     dup2(std_out, 1);
                     dup2(std_in, 0);
                     close(std_out);
@@ -332,6 +347,7 @@ int     main(int argc, char **argv, char **envp)
                 else
                 {
                     //ft_printf("bin\n");
+                    n_fork++;
                     if (!fork())
                     {
                         std_out = dup(1);
@@ -377,11 +393,19 @@ int     main(int argc, char **argv, char **envp)
                 close(fdd);
                 fdd--;
             }
-            for(i = 0; i < num_pipes + 1; i++)
+            //ft_printf("%d", n_fork);
+            while (n_fork > 0)
             {
                 wait(&g_data.ret);
                 g_data.ret /= 256;
+                n_fork--;
             }
+            
+            // for(i = 0; i < num_pipes + 1; i++)
+            // {
+            //     wait(&g_data.ret);
+            //     g_data.ret /= 256;
+            // }
             pipe_list = pipe_list->next;
             j++;
         }
@@ -390,6 +414,8 @@ int     main(int argc, char **argv, char **envp)
             argc = 0;
             return g_data.ret;
         }
+        
     }
+    
     return (g_data.ret);
 }
