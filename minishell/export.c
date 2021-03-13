@@ -32,7 +32,7 @@ int     ft_strchr_set(char *str, char *set)
     return (0);
 }
 
-int     ft_valid_export_var(char *export_var, char *token)
+int     ft_valid_export_var(char *export_var, char *token, char *str)
 {
     //ft_printf("%s : %s \n", export_var, token);
     if (export_var[0] != '\'')
@@ -41,7 +41,8 @@ int     ft_valid_export_var(char *export_var, char *token)
         return (0);
     if (ft_isdigit(export_var[0]) || token[0] == '=' || (export_var[0] != '#' && ft_strchr_set(export_var, "$&|;-+=~!@^%{} []:?.#/,\'\\\"")))
     {
-        ft_putstr_fd("minishell: export: `", 1);
+        ft_printf("minishell: %s: `", str);
+        //ft_putstr_fd("minishell: export: `", 1);
         ft_putstr_fd(remove_all_quotes(token), 1);
         ft_putstr_fd("': not a valid identifier\n", 1);
         return (g_data.ret = 1);
@@ -81,7 +82,8 @@ int     ft_exist_export_var(char *export_var, char *token)
         }
         if (!(ft_strncmp(old_var, export_var, len)))
         {
-            newlist->content = ft_strdup(export_var);
+            if(!strchr(newlist->content, '='))
+                newlist->content = ft_strdup(token);
             return 1;
         }
         newlist = newlist->next;
@@ -162,9 +164,9 @@ int     ft_export()
             //ft_printf("%s\n", g_command->tokens[i]);
             exp_var = ft_get_export_var(g_command->tokens[i]);
             if (exp_var[0] != '#' &&
-                !(ft_valid_export_var(exp_var, g_command->tokens[i])) &&
+                !(ft_valid_export_var(exp_var, g_command->tokens[i], "export")) &&
                 !ft_exist_export_var(exp_var, g_command->tokens[i]))
-                {         
+                {
                     ft_lstadd_back(&g_data.env_var, ft_lstnew(remove_all_quotes(g_command->tokens[i])));
                 }
             i++;

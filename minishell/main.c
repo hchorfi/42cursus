@@ -56,7 +56,7 @@ int     ft_exec_builtin(void *cmd)
     else if(!ft_strncmp(g_command->tokens[0], "env", 4))
         ft_env();
     else if (!ft_strncmp(g_command->tokens[0], "unset", 6))
-        ft_unset();
+        return (ft_unset());
     else if (!ft_strncmp(g_command->tokens[0], "pwd", 4))
         ft_pwd();
     else if (!ft_strncmp(g_command->tokens[0], "cd", 3))
@@ -301,7 +301,7 @@ int     main(int argc, char **argv, char **envp)
             {
                 //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[k]);
                 ((t_command *)newlist->content)->tokens[k] = get_other_variables(((t_command *)newlist->content)->tokens[k]);
-                if (ft_strncmp(((t_command *)newlist->content)->tokens[0], "export", 7 ))
+                if (ft_strncmp(((t_command *)newlist->content)->tokens[0], "export", 7 ) && ft_strncmp(((t_command *)newlist->content)->tokens[0], "unset", 6 ))
                     ((t_command *)newlist->content)->tokens[k] = remove_all_quotes(((t_command *)newlist->content)->tokens[k]);
                 //ft_printf("====%s====\n", ((t_command *)newlist->content)->tokens[k]);
                 k++;

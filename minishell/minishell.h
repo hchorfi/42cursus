@@ -44,7 +44,7 @@ int				ft_echo();
 ** split.c
 */
 
-char		**ft_split_pars(char const *s, char c);
+char		**ft_split_pars(char *s, char c);
 char		*get_other_variables(char *str);
 char		*remove_all_quotes(char *str);
 
@@ -64,8 +64,9 @@ int     ft_pwd();
 ** export.c
 */
 
-int     ft_valid_export_var(char *export_var, char *token);
+int     ft_valid_export_var(char *export_var, char *token, char *str);
 int     ft_exist_export_var(char *export_var, char *token);
+char    *ft_get_export_var(char *exp_token);
 int     ft_export();
 
 /*
