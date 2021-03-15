@@ -258,7 +258,7 @@ char			*ft_get_variables(char *str, int start, int i)
 			k = j;
 			while (++j < i)
 			{
-				if (str[j] == ' ' || str[j] == '"' || str[j] == '\'' || str[j] == '/' || str[j] == '$' || str[j] == ':' || str[j] == '=' || str[j] == '|')
+				if (str[j] == ' ' || str[j] == '"' || str[j] == '\'' || str[j] == '/' || str[j] == '$' || str[j] == ':' || str[j] == '=' || str[j] == '|' || str[j] == ',' || str[j] == '\\' || str[j] == '\'' || str[j] == '"' || str[j] == '[' || str[j] == ']' || str[j] == '@')
 					break ;
 			}
 			break ;
@@ -301,7 +301,7 @@ char			*get_other_variables(char *str)
 		str = ft_get_variables(str, 0, ft_strlen(str));
 		i++;
 	}
-	return (str);
+	return (ft_strtrim(str, " "));
 }
 
 void			fill_with(char *s, int  start, int len, char c)

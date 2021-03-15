@@ -267,6 +267,10 @@ void    ft_stock_envp(char **envp)
 }
 const char* __asan_default_options() { return "detect_leaks=0"; }
 
+void intHandler(int dummy) {
+    ft_printf("\b\b  \b\b");
+}
+
 int     main(int argc, char **argv, char **envp)
 {
     
@@ -287,6 +291,7 @@ int     main(int argc, char **argv, char **envp)
     ft_stock_envp(envp);
     while (1)
     {
+        signal(SIGINT, intHandler);
         ft_prompt(argc, argv);
         newlist = g_data.cmds;
         pipe_list = g_data.n_pipe_cmd;
@@ -301,7 +306,7 @@ int     main(int argc, char **argv, char **envp)
             {
                 //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[k]);
                 ((t_command *)newlist->content)->tokens[k] = get_other_variables(((t_command *)newlist->content)->tokens[k]);
-                if (ft_strncmp(((t_command *)newlist->content)->tokens[0], "export", 7 ) && ft_strncmp(((t_command *)newlist->content)->tokens[0], "unset", 6 ))
+                //if (ft_strncmp(((t_command *)newlist->content)->tokens[0], "export", 7 ) && ft_strncmp(((t_command *)newlist->content)->tokens[0], "unset", 6 ))
                     ((t_command *)newlist->content)->tokens[k] = remove_all_quotes(((t_command *)newlist->content)->tokens[k]);
                 //ft_printf("====%s====\n", ((t_command *)newlist->content)->tokens[k]);
                 k++;
