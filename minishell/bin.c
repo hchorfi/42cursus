@@ -69,6 +69,12 @@ int		ft_exec_bin(void *cmd)
 	struct stat path_stat;
 	char	**envp;
 	g_command = (t_command *)cmd;
+
+	if (g_command->tokens[0] == '/')
+	{
+		
+	}
+
 	path = ft_get_path();
 	bins = ft_split(path, ':');
 	i = 0;

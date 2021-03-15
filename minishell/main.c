@@ -268,7 +268,10 @@ void    ft_stock_envp(char **envp)
 const char* __asan_default_options() { return "detect_leaks=0"; }
 
 void intHandler(int dummy) {
-    ft_printf("\b\b  \b\b");
+    ft_printf("\n");
+    ft_printf("\033[0;32m");
+    ft_printf("minishell 👽 %d > ", g_data.ret);
+    ft_printf("\033[0m");
 }
 
 int     main(int argc, char **argv, char **envp)
@@ -289,9 +292,9 @@ int     main(int argc, char **argv, char **envp)
     out = 1;
     in = 0;
     ft_stock_envp(envp);
+    signal(SIGINT, intHandler);
     while (1)
     {
-        signal(SIGINT, intHandler);
         ft_prompt(argc, argv);
         newlist = g_data.cmds;
         pipe_list = g_data.n_pipe_cmd;
@@ -355,6 +358,7 @@ int     main(int argc, char **argv, char **envp)
                     n_fork++;
                     if (!fork())
                     {
+                        signal(SIGINT, intHandler);
                         std_out = dup(1);
                         int std_in = dup(0);
                         if (((t_command *)newlist->content)->input_file > 0)
