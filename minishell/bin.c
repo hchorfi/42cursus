@@ -70,24 +70,36 @@ int		ft_exec_bin(void *cmd)
 	char	**envp;
 	g_command = (t_command *)cmd;
 
-	if (g_command->tokens[0] == '/')
+	if(!stat(g_command->tokens[0], &path_stat))
 	{
-		
+		//ft_printf("%s : exist\n", g_command->tokens[0]);
+		if(path_stat.st_gen )
+		envp = ft_get_envp();
+		if (execve(g_command->tokens[0], g_command->tokens, envp) == -1)
+			ft_printf("minishell: %s: Permission denied\n", g_command->tokens[0]);
+		exit(126);
 	}
-
-	path = ft_get_path();
-	bins = ft_split(path, ':');
-	i = 0;
-	while(bins[i])
+	//else
+		//ft_printf("%s : not exist\n", g_command->tokens[0]);
+	//exit(0);
+	else
 	{
-		path = ft_strjoin(bins[i], "/");
-		file = ft_strjoin(path, g_command->tokens[0]);
-		if (!stat(file, &path_stat))
+		path = ft_get_path();
+		bins = ft_split(path, ':');
+		i = 0;
+		while(bins[i])
 		{
-			envp = ft_get_envp();
-			execve(file, g_command->tokens, envp);
+			path = ft_strjoin(bins[i], "/");
+			file = ft_strjoin(path, g_command->tokens[0]);
+			if (!stat(file, &path_stat))
+			{
+				envp = ft_get_envp();
+				execve(file, g_command->tokens, envp);
+				//ft_printf("minishell: %s: %s\n", g_command->tokens[0], strerror(errno));
+				exit(126);
+			}
+			i++;
 		}
-		i++;
 	}
 	return (0);
 }

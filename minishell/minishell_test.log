@@ -1,74 +1,331 @@
-|> WITH echo|
-|  STATUS: expected 2 actual 0
-================================================================================
-
-|> WITH echo |
-|  STATUS: expected 2 actual 0
-================================================================================
-
-|> WITH echo | 
-|  STATUS: expected 2 actual 0
-================================================================================
-
-|> WITH |cat
-|  STATUS: expected 2 actual 127
+|> WITH [SETUP touch a b c; echo bonjour > a; cp /bin/cat ls] ls . a b c
+|  STATUS: expected 0 actual 1
 |---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
-|---------------------------------------ACTUAL----------------------------------
-minishell: |cat: command not found$
-================================================================================
-
-|> WITH | cat
-|  STATUS: expected 2 actual 127
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
-|---------------------------------------ACTUAL----------------------------------
-minishell: |: command not found$
-================================================================================
-
-|> WITH  | cat
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH echo a | export A=a; echo $A
-|---------------------------------------EXPECTED--------------------------------
-$
-|---------------------------------------ACTUAL----------------------------------
 a$
-================================================================================
-
-|> WITH export A=a | cat; echo $A
-|---------------------------------------EXPECTED--------------------------------
+b$
+c$
 $
-|---------------------------------------ACTUAL----------------------------------
+.:$
 a$
-================================================================================
-
-|> WITH echo bonjour | | cat -e
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
+b$
+c$
+ls$
 |---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH asdf | echo bonjour
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-minishell: asdf: command not found$
+ls: .: Is a directory$
 bonjour$
-|---------------------------------------ACTUAL----------------------------------
-bonjour$
-minishell: asdf: command not found$
 ================================================================================
 
-|> WITH echo a ||| echo b
-|  STATUS: expected 2 actual 127
+|> WITH [SETUP echo > somefile; chmod 500 somefile] ./somefile
+|  STATUS: expected 0 actual 126
 |---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: ||: command not found$
+minishell: ./somefile: Permission denied$
+================================================================================
+
+|> WITH [SETUP echo > somefile; chmod 700 somefile] ./somefile
+|  STATUS: expected 0 actual 126
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somefile: Permission denied$
+================================================================================
+
+|> WITH [SETUP echo > somefile; chmod 755 somefile] ./somefile
+|  STATUS: expected 0 actual 126
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somefile: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir somedir] somedir/
+|---------------------------------------EXPECTED--------------------------------
+minishell: somedir/: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: somedir/: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir somedir] ./somedir/
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir/: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir/: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir somedir] somedir
+|  STATUS: expected 127 actual 126
+|---------------------------------------EXPECTED--------------------------------
+minishell: somedir: command not found$
+|---------------------------------------ACTUAL----------------------------------
+minishell: somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir somedir] somedir
+|  STATUS: expected 127 actual 126
+|---------------------------------------EXPECTED--------------------------------
+minishell: somedir: command not found$
+|---------------------------------------ACTUAL----------------------------------
+minishell: somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir somedir; ln -s somedir somedirsoftlink] somedirsoftlink/
+|---------------------------------------EXPECTED--------------------------------
+minishell: somedirsoftlink/: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: somedirsoftlink/: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir somedir; ln -s somedir somedirsoftlink] ./somedirsoftlink/
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedirsoftlink/: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedirsoftlink/: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir somedir; ln -s somedir somedirsoftlink] somedirsoftlink
+|  STATUS: expected 127 actual 126
+|---------------------------------------EXPECTED--------------------------------
+minishell: somedirsoftlink: command not found$
+|---------------------------------------ACTUAL----------------------------------
+minishell: somedirsoftlink: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir somedir; ln -s somedir somedirsoftlink] ./somedirsoftlink
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedirsoftlink: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedirsoftlink: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir somedir; ln -s somedir somedirsoftlink] somedirsoftlink
+|  STATUS: expected 127 actual 126
+|---------------------------------------EXPECTED--------------------------------
+minishell: somedirsoftlink: command not found$
+|---------------------------------------ACTUAL----------------------------------
+minishell: somedirsoftlink: Permission denied$
+================================================================================
+
+|> WITH [SETUP touch somefile; ln -s somefile someremovedlink; rm -f somefile] ./someremovedlink
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./someremovedlink: No such file or directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./someremovedlink: command not found$
+================================================================================
+
+|> WITH [SETUP cp /bin/ls somefile;ln -s somefile somelink1; ln -s somelink1 somelink2] ./somelink2ls
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somelink2ls: No such file or directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somelink2ls: command not found$
+================================================================================
+
+|> WITH [SETUP cp /bin/ls somefile;ln -s somefile somelink1; ln -s somelink1 somelink2;ln -s somelink2 somelink3] ./somelink3ls
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somelink3ls: No such file or directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somelink3ls: command not found$
+================================================================================
+
+|> WITH [SETUP cp /bin/ls somefile;ln -s somefile somelink1; ln -s somelink1 somelink2;ln -s somelink2 somelink3; ln -s somelink3 somelink4] ./somelink4ls
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somelink4ls: No such file or directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somelink4ls: command not found$
+================================================================================
+
+|> WITH [SETUP touch _] _
+|  STATUS: expected 127 actual 126
+|---------------------------------------EXPECTED--------------------------------
+minishell: _: command not found$
+|---------------------------------------ACTUAL----------------------------------
+minishell: _: Permission denied$
+================================================================================
+
+|> WITH [SETUP touch -] '-'
+|  STATUS: expected 127 actual 126
+|---------------------------------------EXPECTED--------------------------------
+minishell: -: command not found$
+|---------------------------------------ACTUAL----------------------------------
+minishell: -: Permission denied$
+================================================================================
+
+|> WITH [SETUP touch .] ./.
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./.: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./.: Permission denied$
+================================================================================
+
+|> WITH [SETUP touch ..] ./..
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./..: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./..: Permission denied$
+================================================================================
+
+|> WITH [SETUP echo > somefile && chmod 0777 somefile] ./somefile
+|  STATUS: expected 0 actual 126
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somefile: Permission denied$
+================================================================================
+
+|> WITH [SETUP echo > somefile && chmod 1777 somefile] ./somefile
+|  STATUS: expected 0 actual 126
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somefile: Permission denied$
+================================================================================
+
+|> WITH [SETUP echo > somefile && chmod 2777 somefile] ./somefile
+|  STATUS: expected 0 actual 126
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somefile: Permission denied$
+================================================================================
+
+|> WITH [SETUP echo > somefile && chmod 3777 somefile] ./somefile
+|  STATUS: expected 0 actual 126
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somefile: Permission denied$
+================================================================================
+
+|> WITH [SETUP echo > somefile && chmod 4777 somefile] ./somefile
+|  STATUS: expected 0 actual 126
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somefile: Permission denied$
+================================================================================
+
+|> WITH [SETUP echo > somefile && chmod 5777 somefile] ./somefile
+|  STATUS: expected 0 actual 126
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somefile: Permission denied$
+================================================================================
+
+|> WITH [SETUP echo > somefile && chmod 6777 somefile] ./somefile
+|  STATUS: expected 0 actual 126
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somefile: Permission denied$
+================================================================================
+
+|> WITH [SETUP echo > somefile && chmod 7777 somefile] ./somefile
+|  STATUS: expected 0 actual 126
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somefile: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 0777 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 1000 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 2000 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 3000 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 4000 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 5000 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 6000 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 7000 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 1777 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 2777 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 3777 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 4777 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 5777 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 6777 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -m 0000 somedir] ./somedir
+|---------------------------------------EXPECTED--------------------------------
+minishell: ./somedir: is a directory$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ./somedir: Permission denied$
 ================================================================================
 
