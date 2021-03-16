@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/03/12 22:47:40 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/15 11:17:16 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int     ft_exec_builtin(void *cmd)
     else if(!ft_strncmp(g_command->tokens[0], "env", 4))
         ft_env();
     else if (!ft_strncmp(g_command->tokens[0], "unset", 6))
-        ft_unset();
+        return (ft_unset());
     else if (!ft_strncmp(g_command->tokens[0], "pwd", 4))
         ft_pwd();
     else if (!ft_strncmp(g_command->tokens[0], "cd", 3))
@@ -267,6 +267,19 @@ void    ft_stock_envp(char **envp)
 }
 const char* __asan_default_options() { return "detect_leaks=0"; }
 
+void intHandler(int dummy) {
+    write(1, "\n" ,1 );
+    ft_printf("\033[0;32m");
+    ft_printf("minishell 👽 %d > ", g_data.ret);
+    ft_printf("\033[0m");
+}
+void intHandler_shild(int dummy) {
+   
+    // ft_printf("\033[0;32m");
+    // ft_printf("minishell 👽 %d > ", g_data.ret);
+    // ft_printf("\033[0m");
+}
+
 int     main(int argc, char **argv, char **envp)
 {
     
@@ -285,6 +298,7 @@ int     main(int argc, char **argv, char **envp)
     out = 1;
     in = 0;
     ft_stock_envp(envp);
+    signal(SIGINT, intHandler);
     while (1)
     {
         ft_prompt(argc, argv);
@@ -301,7 +315,7 @@ int     main(int argc, char **argv, char **envp)
             {
                 //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[k]);
                 ((t_command *)newlist->content)->tokens[k] = get_other_variables(((t_command *)newlist->content)->tokens[k]);
-                if (ft_strncmp(((t_command *)newlist->content)->tokens[0], "export", 7 ))
+                //if (ft_strncmp(((t_command *)newlist->content)->tokens[0], "export", 7 ) && ft_strncmp(((t_command *)newlist->content)->tokens[0], "unset", 6 ))
                     ((t_command *)newlist->content)->tokens[k] = remove_all_quotes(((t_command *)newlist->content)->tokens[k]);
                 //ft_printf("====%s====\n", ((t_command *)newlist->content)->tokens[k]);
                 k++;
@@ -347,9 +361,11 @@ int     main(int argc, char **argv, char **envp)
                 else
                 {
                     //ft_printf("bin\n");
+                    
                     n_fork++;
                     if (!fork())
                     {
+                        signal(SIGINT, intHandler_shild);
                         std_out = dup(1);
                         int std_in = dup(0);
                         if (((t_command *)newlist->content)->input_file > 0)

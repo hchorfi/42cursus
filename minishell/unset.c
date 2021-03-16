@@ -79,65 +79,52 @@ int		ft_chr_var(char *unset_var)
     return (0);
 }
 
-int		ft_valid_unset_var(char *unset_var)
-{
-	int		i;
+// int		ft_valid_unset_var(char *unset_var)
+// {
+// 	int		i;
 
-	i = 0;
-	if (unset_var[0] == '-')
-    {
-        ft_putstr_fd("we don't hundle option here ^_-\n", 1);
-        return (0);
-    }
-	while (unset_var[i] != '\0')
-    {
-        if (!ft_isalnum(unset_var[i]) && unset_var[i] != '_')
-        {
-            ft_putstr_fd("bash: export: `", 1);
-            ft_putstr_fd(unset_var, 1);
-            ft_putstr_fd("': not a valid identifier\n", 1);
-            return (0);
-        }
-		else
-        	i++;
-    }
-	if (ft_isdigit(unset_var[0]))
-	{
-		ft_putstr_fd("bash: export: `", 1);
-		ft_putstr_fd(unset_var, 1);
-		ft_putstr_fd("': not a valid identifier\n", 1);
-		return (0);
-	}
-	return (1);
-}
+// 	i = 0;
+// 	if (unset_var[0] == '-')
+//     {
+//         ft_putstr_fd("we don't hundle option here ^_-\n", 1);
+//         return (0);
+//     }
+// 	while (unset_var[i] != '\0')
+//     {
+//         if (!ft_isalnum(unset_var[i]) && unset_var[i] != '_')
+//         {
+//             ft_putstr_fd("bash: export: `", 1);
+//             ft_putstr_fd(unset_var, 1);
+//             ft_putstr_fd("': not a valid identifier\n", 1);
+//             return (0);
+//         }
+// 		else
+//         	i++;
+//     }
+// 	if (ft_isdigit(unset_var[0]))
+// 	{
+// 		ft_putstr_fd("bash: export: `", 1);
+// 		ft_putstr_fd(unset_var, 1);
+// 		ft_putstr_fd("': not a valid identifier\n", 1);
+// 		return (0);
+// 	}
+// 	return (1);
+// }
 
 int		ft_unset()
 {
-	t_list 	*printlist;
-	t_list	*newlist;
-	char    *new_var;
-    char    *old_var;
-    char    *tmp_str;
-    int     tmp_len;
-    int     len;
-	int i = 0;
-
-	// printlist = g_data.env_var;
-	// newlist = g_data.env_var;
-	// while (printlist)
-	// {
-	// 	printf("%d : %s\n", i, printlist->content);
-	// 	printlist = printlist->next;
-	// 	i++;
-	// }
+	int     i;
+    char    *exp_var;
 
 	i = 1;
 	while (g_command->tokens[i])
 	{
-		if (ft_valid_unset_var(g_command->tokens[i]))
+        exp_var = ft_get_export_var(g_command->tokens[i]);
+		if (exp_var[0] != '#' && !(ft_valid_export_var(exp_var, g_command->tokens[i], "unset")))
+        {
 			ft_chr_var(g_command->tokens[i]);
+        }
 		i++;
 	}
-
-	return (0);
+	return (g_data.ret);
 }
