@@ -243,7 +243,13 @@ int    ft_prompt(int argc, char **argv)
             ft_printf("minishell 👽 %d > ", g_data.ret);
             ft_printf("\033[0m");
         }
-	    get_next_line(0, &line);
+        if (get_next_line(0, &line) == 0 && ft_strlen(line) == 0)
+        {
+            ft_printf("\nexit\n");
+            exit(0);
+        }
+        else
+	        get_next_line(0, &line);
     }
     ft_parse(line);
     return 1;
@@ -268,10 +274,15 @@ void    ft_stock_envp(char **envp)
 const char* __asan_default_options() { return "detect_leaks=0"; }
 
 void intHandler(int dummy) {
-    ft_printf("\n");
+    if (dummy == SIGINT)
+    {ft_printf("\n");
     ft_printf("\033[0;32m");
     ft_printf("minishell 👽 %d > ", g_data.ret);
-    ft_printf("\033[0m");
+    ft_printf("\033[0m");}
+}
+void intHandlerchild(int dummy) {
+    if (dummy == SIGINT)
+        ft_printf("\n");
 }
 
 int     main(int argc, char **argv, char **envp)
@@ -292,9 +303,10 @@ int     main(int argc, char **argv, char **envp)
     out = 1;
     in = 0;
     ft_stock_envp(envp);
-    signal(SIGINT, intHandler);
+    signal(SIGQUIT, intHandler);
     while (1)
     {
+        signal(SIGINT, intHandler);
         ft_prompt(argc, argv);
         newlist = g_data.cmds;
         pipe_list = g_data.n_pipe_cmd;
@@ -355,6 +367,7 @@ int     main(int argc, char **argv, char **envp)
                 else
                 {
                     //ft_printf("bin\n");
+                    signal(SIGQUIT, intHandlerchild);
                     n_fork++;
                     if (!fork())
                     {

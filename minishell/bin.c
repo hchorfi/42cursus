@@ -73,11 +73,18 @@ int		ft_exec_bin(void *cmd)
 	if(!stat(g_command->tokens[0], &path_stat))
 	{
 		//ft_printf("%s : exist\n", g_command->tokens[0]);
-		if(path_stat.st_gen )
-		envp = ft_get_envp();
-		if (execve(g_command->tokens[0], g_command->tokens, envp) == -1)
-			ft_printf("minishell: %s: Permission denied\n", g_command->tokens[0]);
-		exit(126);
+		if (path_stat.st_mode & S_IFDIR)
+		{
+			ft_printf("minishell: %s: is a directory\n", g_command->tokens[0]);
+			exit(126);
+		}
+		else
+		{
+			envp = ft_get_envp();
+			if (execve(g_command->tokens[0], g_command->tokens, envp) == -1)
+				ft_printf("minishell: %s: Permission denied\n", g_command->tokens[0]);
+			exit(126);
+		}
 	}
 	//else
 		//ft_printf("%s : not exist\n", g_command->tokens[0]);
