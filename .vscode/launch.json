@@ -5,16 +5,12 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "(lldb) Launch",
-			"type": "cppdbg",
+			"type": "lldb",
 			"request": "launch",
-			"program": "/Users/hchorfi/Desktop/42cursus/libasm/a.out",
-			"args": [""],
-			"stopAtEntry": false,
-			"cwd": "${workspaceFolder}",
-			"environment": [],
-			"externalConsole": false,
-			"MIMode": "lldb"
+			"name": "Debug",
+			"program": "${workspaceFolder}/minishell",
+			"args": [],
+			"cwd": "${workspaceFolder}"
 		}
 	]
 }

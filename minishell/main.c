@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/03/15 11:17:16 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/16 22:34:55 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,6 +226,8 @@ void    ft_parse(char *line)
 int    ft_prompt(int argc, char **argv)
 {
     char    *line;
+    char    c;
+    int     len;
 
     if (argc >= 2)
         line = argv[2];
@@ -243,6 +245,14 @@ int    ft_prompt(int argc, char **argv)
             ft_printf("minishell 👽 %d > ", g_data.ret);
             ft_printf("\033[0m");
         }
+        //len = read(0, &c, 1);
+        // len = get_next_line(0, &line);
+        // ft_printf("%d %d\n", len, ft_strlen(line));
+        // if(get_next_line(0, &line)== 0 && ft_strlen(line) == 0)
+        // {
+        //     ft_printf("\nexit\n");
+        //     exit(0);
+        // }
 	    get_next_line(0, &line);
     }
     ft_parse(line);
@@ -268,16 +278,18 @@ void    ft_stock_envp(char **envp)
 const char* __asan_default_options() { return "detect_leaks=0"; }
 
 void intHandler(int dummy) {
-    write(1, "\n" ,1 );
-    ft_printf("\033[0;32m");
-    ft_printf("minishell 👽 %d > ", g_data.ret);
-    ft_printf("\033[0m");
+    if (dummy == SIGINT)
+    {
+        ft_printf("\n");
+        ft_printf("\033[0;32m");
+        ft_printf("minissssshell 👽 %d > ", g_data.ret);
+        ft_printf("\033[0m");
+    }
 }
-void intHandler_shild(int dummy) {
-   
-    // ft_printf("\033[0;32m");
-    // ft_printf("minishell 👽 %d > ", g_data.ret);
-    // ft_printf("\033[0m");
+void intHandlerchild(int dummy) {
+    if (dummy == SIGINT)
+        ft_printf("\n");
+    //exit(0);
 }
 
 int     main(int argc, char **argv, char **envp)
@@ -298,9 +310,10 @@ int     main(int argc, char **argv, char **envp)
     out = 1;
     in = 0;
     ft_stock_envp(envp);
-    signal(SIGINT, intHandler);
+    //signal(SIGQUIT, intHandler);
     while (1)
     {
+        //signal(SIGINT, intHandler);
         ft_prompt(argc, argv);
         newlist = g_data.cmds;
         pipe_list = g_data.n_pipe_cmd;
@@ -360,12 +373,10 @@ int     main(int argc, char **argv, char **envp)
                 }
                 else
                 {
-                    //ft_printf("bin\n");
-                    
                     n_fork++;
+                    //signal(SIGINT, intHandlerchild);
                     if (!fork())
                     {
-                        signal(SIGINT, intHandler_shild);
                         std_out = dup(1);
                         int std_in = dup(0);
                         if (((t_command *)newlist->content)->input_file > 0)
@@ -391,8 +402,6 @@ int     main(int argc, char **argv, char **envp)
                         dup2(std_in, 0);
                         close(std_out);
                         close(std_in);
-                        ft_printf("minishell: %s: command not found\n", ((t_command *)newlist->content)->tokens[0]);
-                        exit(g_data.ret = 127);
                     }
                 }
                 //waitpid(pid, NULL, 0);

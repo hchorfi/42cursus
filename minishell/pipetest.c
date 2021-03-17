@@ -49,7 +49,8 @@ main(int argc, char *argv[])
 	char *nl[] = {"nl", NULL};
 	char *cat[] = {"cat", "-e", NULL};
 	char *wc[] = {"wc", NULL};
-	char **cmd[] = {ls, rev, nl, cat, wc, NULL};
+	char *mini[] = {"/bin/ls", NULL};
+	char **cmd[] = {ls, rev, nl, cat, wc, mini, NULL};
 
 	pipeline(cmd);
 	return (0);
