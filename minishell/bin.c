@@ -93,6 +93,12 @@ int		ft_exec_bin(void *cmd)
 	{
 		path = ft_get_path();
 		bins = ft_split(path, ':');
+		//ft_printf("path : -%s-  bins : -%s-\n", path, *bins);
+		if(!path || !bins)
+		{
+			ft_printf("minishell: %s: No such file or directory\n", g_command->tokens[0]);
+			exit(127);
+		}
 		i = 0;
 		while(bins[i])
 		{

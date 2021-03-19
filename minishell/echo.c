@@ -41,7 +41,7 @@ int			ft_echo()
 	if (!g_command->tokens[1])
 	{
 		write(1, "\n", 1);
-		return (1);
+		return (g_data.ret = 0);
 	}
 	i = 1;
 	while (g_command->tokens[i])
@@ -61,5 +61,5 @@ int			ft_echo()
 		i++;
 		
 	}
-	return (0);
+	return (g_data.ret = 0);
 }

@@ -62,7 +62,7 @@ int     ft_exec_builtin(void *cmd)
     else if (!ft_strncmp(g_command->tokens[0], "cd", 3))
         ft_cd();
     else if (!ft_strncmp(g_command->tokens[0], "echo", 5))
-        ft_echo();
+        return (ft_echo());
     else if (!ft_strncmp(g_command->tokens[0], "exit", 5))
         ft_exit();
     return (0);
@@ -96,9 +96,21 @@ char    *ft_check_in(char *pipe_cmds)
             tmp_in = ft_strtrim(str[i], " ");
             int j = 0;
             //printf("--%d--%s--\n", i,tmp_in);
-            while (tmp_in[j] != ' ' && tmp_in[j] != '\0')
-                j++;
+            if(tmp_in[j] == '\"' || tmp_in[j] == '\'')
+            {
+                int cot = j++;
+                while (tmp_in[j] != tmp_in[cot] && tmp_in[j] != '\0')
+                {
+                    j++;
+                }
+            }
+            else
+            {
+                while (tmp_in[j] != ' ' && tmp_in[j] != '\0')
+                    j++;
+            }
             file = ft_substr(tmp_in, 0, j);
+            file = get_other_variables(file);
             file = remove_all_quotes(file);
             //printf("in file : %s \n", file);
             if ((in = open(file, O_RDONLY)) == -1)
@@ -114,6 +126,7 @@ char    *ft_check_in(char *pipe_cmds)
 char    *ft_check_redirections(char *pipe_cmds)
 {
     char **str;
+    //pipe_cmds = get_other_variables(pipe_cmds);
     str = ft_split_pars(pipe_cmds, '>');
     int i = 0;
     char *tmp_out;
@@ -122,6 +135,8 @@ char    *ft_check_redirections(char *pipe_cmds)
     char *file;
     char *new_pipe;
     new_pipe = ft_strdup("");
+
+    //ft_printf("%s\n", pipe_cmds);
     while(str[i])
     {
         int append = 0;
@@ -149,10 +164,22 @@ char    *ft_check_redirections(char *pipe_cmds)
                 append = 1;
             }
             tmp_out = tmp_out + j;
-            while (tmp_out[j] != ' ' && tmp_out[j] != '\0')
-                j++;
-            //ft_printf("---%s\n", tmp_out);
+            if(tmp_out[j] == '\"' || tmp_out[j] == '\'')
+            {
+                int cot = j++;
+                while (tmp_out[j] != tmp_out[cot] && tmp_out[j] != '\0')
+                {
+                    j++;
+                }
+            }
+            else
+            {
+                while (tmp_out[j] != ' ' && tmp_out[j] != '\0')
+                    j++;
+            }
             file = ft_substr(tmp_out, 0, j);
+            //ft_printf("---%s\n", file);
+            file = get_other_variables(file);
             file = remove_all_quotes(file);
             if (append == 0)
                 out = open(file, O_RDWR|O_CREAT, 0666);
@@ -190,6 +217,7 @@ void    ft_parse(char *line)
             g_command->pipe_pos = j;
             new_pipe = ft_check_redirections(pipe_cmds[j]);
             //ft_printf("---%s--\n", new_pipe);
+            //new_pipe = get_other_variables(new_pipe);
             g_command->tokens = ft_split_pars(new_pipe, ' ');
 
             int k = 0;
@@ -226,7 +254,11 @@ void    ft_parse(char *line)
 int    ft_prompt(int argc, char **argv)
 {
     char    *line;
+    char    *line2;
+    int     len;
+    int     line_len;
 
+    int tmp = dup(0);
     if (argc >= 2)
         line = argv[2];
     else    
@@ -243,14 +275,16 @@ int    ft_prompt(int argc, char **argv)
             ft_printf("minishell 👽 %d > ", g_data.ret);
             ft_printf("\033[0m");
         }
-        if (get_next_line(0, &line) == 0 && ft_strlen(line) == 0)
+        len = get_next_line(0, &line);
+        line_len = ft_strlen(line);
+        //ft_printf("len : %d, line_len : %d\n", len, line_len);
+        if (!len && !line_len)
         {
             ft_printf("\nexit\n");
             exit(0);
         }
-        else
-	        get_next_line(0, &line);
     }
+  
     ft_parse(line);
     return 1;
 }
@@ -303,7 +337,7 @@ int     main(int argc, char **argv, char **envp)
     out = 1;
     in = 0;
     ft_stock_envp(envp);
-    signal(SIGQUIT, intHandler);
+    //signal(SIGQUIT, intHandler);
     while (1)
     {
         signal(SIGINT, intHandler);
@@ -367,11 +401,11 @@ int     main(int argc, char **argv, char **envp)
                 else
                 {
                     //ft_printf("bin\n");
-                    signal(SIGQUIT, intHandlerchild);
+                    signal(SIGINT, intHandlerchild);
                     n_fork++;
                     if (!fork())
                     {
-                        signal(SIGINT, intHandler);
+                        //signal(SIGINT, intHandler);
                         std_out = dup(1);
                         int std_in = dup(0);
                         if (((t_command *)newlist->content)->input_file > 0)

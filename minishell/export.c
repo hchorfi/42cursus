@@ -93,6 +93,20 @@ int     ft_exist_export_var(char *export_var, char *token)
     return (0);
 }
 
+void    ft_print_export2(char *str)
+{
+    int     i;
+
+    i = 0;
+    while(str[i] != '\0')
+    {
+        if (str[i] == '\\' || str[i] == '$')
+            write(1, "\\", 1);
+        write(1, &str[i], 1);
+        i++;
+    }
+}
+
 void    ft_print_export()
 {
     char    *str_chr;
@@ -118,7 +132,8 @@ void    ft_print_export()
             var = ft_substr(newlist->content, 0, len - chr_len + 1);
             ft_putstr_fd(var, 1);
             write(1, "\"", 1);
-            ft_putstr_fd(newlist->content + len - chr_len + 1, 1);
+            ft_print_export2(newlist->content + len - chr_len + 1);
+            //ft_putstr_fd(newlist->content + len - chr_len + 1, 1);
             write(1, "\"", 1);
             write(1, "\n", 1);
             free(var);

@@ -6,7 +6,7 @@
 /*   By: anassif <anassif@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/03/13 17:39:11 by anassif          ###   ########.fr       */
+/*   Updated: 2021/03/18 15:11:04 by anassif          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ char			*ft_get_variables(char *str, int start, int i)
 	j = start;
 	while (j < i)
 	{
-		if (str[j] == '\'')
+		if (str[j] == '\'' && !(is_escaped(str, j)))
 		{
 			if (s_quote == 0)
 				s_quote = 1;
@@ -253,7 +253,7 @@ char			*ft_get_variables(char *str, int start, int i)
 				s_quote = 0;
 			j++;
 		}
-		if (str[j] == '$' && s_quote == 0 && !(is_escaped(str, i)))
+		if (str[j] == '$' && s_quote == 0 && !(is_escaped(str, j)))
 		{	
 			k = j;
 			while (++j < i)
@@ -509,7 +509,7 @@ char			**ft_split_pars(char *s, char c)
 	int splited = 0;
 	while (2)
 	{
-		if ((((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && s[i - 1] != c) && !is_escaped((char *)s, i))
+		if (((((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && s[i - 1] != c)) && !is_escaped((char *)s, i))
 		{
 			if (check_cots(ft_substr(s, d, i - d)))
 				{
