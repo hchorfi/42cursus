@@ -301,7 +301,11 @@ char			*get_other_variables(char *str)
 		str = ft_get_variables(str, 0, ft_strlen(str));
 		i++;
 	}
-	return (ft_strtrim(str, " "));
+	//ft_printf("--%s--\n", str);
+	if (!str || *str == '\0')
+		return (str);
+	else
+		return (ft_strtrim(str, " "));
 }
 
 void			fill_with(char *s, int  start, int len, char c)

@@ -107,6 +107,44 @@ void    ft_print_export2(char *str)
     }
 }
 
+void    ft_sort_export()
+{
+    t_list *i;
+    t_list *j;
+    char   *i_data;
+    char   *j_data;
+    char   *tmp_data;
+
+    i = g_data.env_var;
+    //tmp = &g_data.env_var;
+    //t_list *newlist = g_data.env_var;
+    //ft_printf("i : %p - g_data : %p\n", *i, g_data.env_var);
+    while (i)
+    {
+        //ft_printf("i : %s\n", (*i)->content);
+        j = i->next;
+        while (j)
+        {
+            i_data = ft_get_export_var(i->content);
+            //ft_printf("i : %p - j : %p\n", i, j);
+            //ft_printf("j : %s\n", j->content);
+            j_data = ft_get_export_var(j->content);
+            //ft_printf("-- i : %s - j : %s\n", i->content, j->content);
+            if (strcmp(i_data, j_data) > 0)
+            {
+                 //ft_printf("swapped\n");
+                 tmp_data = i->content;
+                 i->content = j->content;
+                 j->content = tmp_data;
+            }
+            // ft_printf("i : %s - j : %s\n", (*i)->content, j->content);
+            j = j->next;
+        }
+        //ft_printf("--i : %p - g_data : %p\n", i, g_data.env_var);
+        i = i->next;
+    }
+}
+
 void    ft_print_export()
 {
     char    *str_chr;
@@ -115,6 +153,8 @@ void    ft_print_export()
     t_list  *newlist;
     char    *var;
 
+
+    ft_sort_export();
     newlist = g_data.env_var;
     while(newlist)
     {   

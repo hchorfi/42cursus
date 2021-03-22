@@ -53,5 +53,7 @@ main(int argc, char *argv[])
 	char **cmd[] = {ls, rev, nl, cat, wc, mini, NULL};
 
 	pipeline(cmd);
+
+	write(1, "hamza\bn", 7);
 	return (0);
 }

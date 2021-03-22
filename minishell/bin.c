@@ -58,6 +58,20 @@ char	**ft_get_envp()
 	return (envp);
 }
 
+void	ft_free_d_p(char **str)
+{
+	int		len;
+
+	len = 0;
+	while (*str)
+	{
+		free(*str);
+		(*str)++;
+	}
+	free(str);
+	
+}
+
 int		ft_exec_bin(void *cmd)
 {
 	int		pid;
@@ -94,7 +108,7 @@ int		ft_exec_bin(void *cmd)
 		path = ft_get_path();
 		bins = ft_split(path, ':');
 		//ft_printf("path : -%s-  bins : -%s-\n", path, *bins);
-		if(!path || !bins)
+		if(!path || *path == '\0' || !bins)
 		{
 			ft_printf("minishell: %s: No such file or directory\n", g_command->tokens[0]);
 			exit(127);
@@ -114,5 +128,6 @@ int		ft_exec_bin(void *cmd)
 			i++;
 		}
 	}
+	ft_free_d_p(bins);
 	return (0);
 }

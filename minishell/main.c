@@ -152,7 +152,7 @@ char    *ft_check_redirections(char *pipe_cmds)
                 str[0]++;
             //ft_printf("---%s\n", str[0]);
             tmp_in = ft_check_in(str[i]);
-            
+            //ft_printf("-%s-\n", tmp_in);
             tmp_out = ft_strtrim(tmp_in, " ");
             int j = 0;
             //ft_printf("---%s\n", tmp_out);
@@ -164,7 +164,8 @@ char    *ft_check_redirections(char *pipe_cmds)
                 append = 1;
             }
             tmp_out = tmp_out + j;
-            if(tmp_out[j] == '\"' || tmp_out[j] == '\'')
+            //ft_printf("-%s-\n", tmp_out);
+            if(/**tmp_out != '\0' && */(tmp_out[j] == '\"' || tmp_out[j] == '\''))
             {
                 int cot = j++;
                 while (tmp_out[j] != tmp_out[cot] && tmp_out[j] != '\0')
@@ -174,7 +175,7 @@ char    *ft_check_redirections(char *pipe_cmds)
             }
             else
             {
-                while (tmp_out[j] != ' ' && tmp_out[j] != '\0')
+                while (/**tmp_out != '\0' && */tmp_out[j] != ' ' && tmp_out[j] != '\0')
                     j++;
             }
             file = ft_substr(tmp_out, 0, j);
@@ -186,7 +187,8 @@ char    *ft_check_redirections(char *pipe_cmds)
             else
                 out = open(file, O_RDWR|O_CREAT|O_APPEND, 0666);
             //ft_printf("tmp out + j : --%s--\n", tmp_out + j);
-            new_pipe = ft_strjoin(new_pipe, tmp_out + j);
+            //if (*tmp_out != '\0')
+                new_pipe = ft_strjoin(new_pipe, tmp_out + j);
             i++;
         }
     }
@@ -303,20 +305,30 @@ void    ft_stock_envp(char **envp)
             ft_lstadd_back(&g_data.env_var, ft_lstnew(envp[i]));
         i++;
     }
-    // g_data.env_var->next = NULL;
 }
 const char* __asan_default_options() { return "detect_leaks=0"; }
 
-void intHandler(int dummy) {
+void intHandler(int dummy)
+{
     if (dummy == SIGINT)
-    {ft_printf("\n");
-    ft_printf("\033[0;32m");
-    ft_printf("minishell 👽 %d > ", g_data.ret);
-    ft_printf("\033[0m");}
+    {
+        //ft_printf("%d\n", g_data.ret);
+        ft_printf("\n");
+        ft_printf("\033[0;32m");
+        // if (g_data.ret == 130)
+        //     g_data.ret = 130;
+        // else
+        //     g_data.ret = 1;
+        ft_printf("minishell 👽 %d > ", g_data.ret);
+        ft_printf("\033[0m");
+    }
 }
 void intHandlerchild(int dummy) {
     if (dummy == SIGINT)
+    {
         ft_printf("\n");
+        g_data.ret = 130;
+    }
 }
 
 int     main(int argc, char **argv, char **envp)
@@ -361,7 +373,7 @@ int     main(int argc, char **argv, char **envp)
                 k++;
             }
             n_fork = 0;
-            g_data.ret = 0;
+            //g_data.ret = 0;
             while(newlist && (((t_command *)newlist->content)->block == j))
             {
                 //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[0]);
@@ -452,11 +464,12 @@ int     main(int argc, char **argv, char **envp)
             //ft_printf("%d", n_fork);
             while (n_fork > 0)
             {
+                //ft_printf("%d\n", g_data.ret);
                 wait(&g_data.ret);
                 g_data.ret /= 256;
                 n_fork--;
             }
-            
+            //ft_printf("%d\n", g_data.ret /= 256);
             // for(i = 0; i < num_pipes + 1; i++)
             // {
             //     wait(&g_data.ret);
@@ -470,8 +483,6 @@ int     main(int argc, char **argv, char **envp)
             argc = 0;
             return g_data.ret;
         }
-        
     }
-    
     return (g_data.ret);
 }

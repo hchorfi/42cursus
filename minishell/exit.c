@@ -46,15 +46,20 @@ int		ft_exit()
 			if(!ft_just_numbers(g_command->tokens[i]))
 			{
 				ft_printf("minishell: exit: %s: numeric argument required\n", g_command->tokens[i]);
-				return(g_data.ret = 255);
+				exit(g_data.ret = 255);
 			}	
 			i++;
 		}
 		if(g_command->n_tokens == 2)
-			exit(atoi(g_command->tokens[1]));
+		{
+			//ft_printf("%d\n", ft_atoi(g_command->tokens[1]));
+			if(ft_atoi(g_command->tokens[1]) == -1)
+				ft_printf("minishell: exit: %s: numeric argument required\n", g_command->tokens[1]);
+			exit(ft_atoi(g_command->tokens[1]));
+		}
 		else
 			ft_printf("minishell: exit: too many arguments\n");
-		return(g_data.ret = 1);
+		exit(g_data.ret = 1);
 	}
 	else
 		exit (0);

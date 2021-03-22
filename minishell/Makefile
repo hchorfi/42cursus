@@ -8,7 +8,7 @@ SRCS = main.c get_next_line.c get_next_line_utils.c export.c env.c unset.c pwd.c
 
 FLAGS = -Werror -Wextra -Wall
 
-ASAN = -g -fsanitize=address
+ASAN = #-g -fsanitize=address
 $(NAME) :
 	#make -C $(LIBFT_PATH)
 	#gcc -g $(SRCS) -L $(LIBFT_PATH) -l$(LIBFT_LIB) -o $(NAME)
