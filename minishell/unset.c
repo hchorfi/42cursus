@@ -111,19 +111,19 @@ int		ft_chr_var(char *unset_var)
 // 	return (1);
 // }
 
-int		ft_unset()
+int		ft_unset(t_command *command)
 {
 	int     i;
     char    *exp_var;
 
 	i = 1;
     g_data.ret = 0;
-	while (g_data.command->tokens[i])
+	while (command->tokens[i])
 	{
-        exp_var = ft_get_export_var(g_data.command->tokens[i]);
-		if (exp_var[0] != '#' && !(ft_valid_export_var(exp_var, g_data.command->tokens[i], "unset")))
+        exp_var = ft_get_export_var(command->tokens[i]);
+		if (exp_var[0] != '#' && !(ft_valid_export_var(command, exp_var,command->tokens[i], "unset")))
         {
-			ft_chr_var(g_data.command->tokens[i]);
+			ft_chr_var(command->tokens[i]);
         }
 		i++;
 	}

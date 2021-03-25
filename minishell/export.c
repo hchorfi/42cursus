@@ -40,12 +40,13 @@ int     ft_strchr_set(char *str, char *set, char *token)
     return (0);
 }
 
-int     ft_valid_export_var(char *export_var, char *token, char *str)
+int     ft_valid_export_var(t_command *command, char *export_var, char *token, char *str)
 {
     //ft_printf("%s : %s \n", export_var, token);
     // if (export_var[0] != '\'')
     //     export_var = remove_all_quotes(export_var);
-    if(export_var[0] == '_' || (export_var[0] == '#' && g_data.command->n_tokens == 2))
+    
+    if(export_var[0] == '_' || (export_var[0] == '#' && command->n_tokens == 2))
         return (0);
     if (export_var[0] == '\0' || ft_isdigit(export_var[0]) || token[0] == '=' || (export_var[0] != '#' && ft_strchr_set(export_var, "$&|;-+=~!@^%{} []:?.#/,\'\\\"", token)))
     {
@@ -225,7 +226,7 @@ char    *ft_get_export_var(char *exp_token)
     return(exp_var);
 }
 
-int     ft_export()
+int     ft_export(t_command *command)
 {
     int     i;
     int     j;
@@ -234,25 +235,25 @@ int     ft_export()
     
     i = 1;
     g_data.ret = 0;
-    if (g_data.command->n_tokens == 1 || (g_data.command->n_tokens = 2 && g_data.command->tokens[1][0] == '#'))
+    if (command->n_tokens == 1 || (command->n_tokens = 2 && command->tokens[1][0] == '#'))
         ft_print_export();
     else
     {
-        while (g_data.command->tokens[i])
+        while (command->tokens[i])
         {
-            //ft_printf("-%p-\n", g_data.command->tokens[i]);
-            exp_var = ft_get_export_var(g_data.command->tokens[i]);
+            //ft_printf("-%p-\n", command->tokens[i]);
+            exp_var = ft_get_export_var(command->tokens[i]);
             if (exp_var[0] != '#' &&
-                !(ft_valid_export_var(exp_var, g_data.command->tokens[i], "export")) &&
-                !ft_exist_export_var(exp_var, g_data.command->tokens[i]))
+                !(ft_valid_export_var(command, exp_var, command->tokens[i], "export")) &&
+                !ft_exist_export_var(exp_var, command->tokens[i]))
                 {
-                    //ft_printf("-%s-\n", g_data.command->tokens[i]);
-                    if ((tmp_str = ft_strchr(g_data.command->tokens[i], '+')) != 0)
+                    //ft_printf("-%s-\n", command->tokens[i]);
+                    if ((tmp_str = ft_strchr(command->tokens[i], '+')) != 0)
                     {
-                        ft_lstadd_back(&g_data.env_var, ft_lstnew(ft_strjoin(ft_substr(g_data.command->tokens[i], 0, ft_strlen(g_data.command->tokens[i]) - ft_strlen(tmp_str)), tmp_str + 1)));
+                        ft_lstadd_back(&g_data.env_var, ft_lstnew(ft_strjoin(ft_substr(command->tokens[i], 0, ft_strlen(command->tokens[i]) - ft_strlen(tmp_str)), tmp_str + 1)));
                     }
                     else
-                        ft_lstadd_back(&g_data.env_var, ft_lstnew(g_data.command->tokens[i]));
+                        ft_lstadd_back(&g_data.env_var, ft_lstnew(command->tokens[i]));
                 }
             i++;
         }

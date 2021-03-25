@@ -50,7 +50,8 @@ t_data			g_data;
 ** echo.c
 */
 
-int				ft_echo(void);
+int				ft_echo(t_command *command);
+int				is_quote(char c);
 
 /*
 ** split.c
@@ -64,7 +65,7 @@ char			*remove_all_quotes(char *str);
 ** cd.c
 */
 
-int				ft_cd(void);
+int				ft_cd(t_command *command);
 
 /*
 ** pwd.c
@@ -76,22 +77,22 @@ int				ft_pwd(void);
 ** export.c
 */
 
-int				ft_valid_export_var(char *export_var, char *token, char *str);
+int				ft_valid_export_var(t_command *command, char *export_var, char *token, char *str);
 int				ft_exist_export_var(char *export_var, char *token);
 char			*ft_get_export_var(char *exp_token);
-int				ft_export(void);
+int				ft_export(t_command *command);
 
 /*
 ** env.c
 */
 
-int				ft_env(void);
+int				ft_env(t_command *command);
 
 /*
 ** unset.c
 */
 
-int				ft_unset(void);
+int				ft_unset();
 int				ft_valid_unset_var(char *unset_var);
 int				ft_chr_var(char *unset_var);
 int				ft_del_list(t_list **head, int position);
@@ -100,14 +101,8 @@ int				ft_del_list(t_list **head, int position);
 ** bin.c
 */
 
-int				ft_exec_bin(void);
+int				ft_exec_bin(t_command *command);
 void			ft_free_d_p(char **str);
-
-/*
-** echo.c
-*/
-
-int				is_quote(char c);
 
 /*
 ** main.c
@@ -122,6 +117,6 @@ void			ft_stock_envp(char **envp);
 ** exit.c
 */
 
-int				ft_exit(void);
+int				ft_exit(t_command *command);
 
 #endif

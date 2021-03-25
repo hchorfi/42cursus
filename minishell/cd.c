@@ -79,7 +79,7 @@ char	*ft_get_home(void)
 	return (0);
 }
 
-int		ft_cd(void)
+int		ft_cd(t_command *command)
 {
 	char	pwd[PATH_MAX];
 	char	oldpwd[PATH_MAX];
@@ -93,7 +93,7 @@ int		ft_cd(void)
 	// 	return (g_data.ret = 1);
 	// }
 	val = NULL;
-	if (!(val = g_data.command->tokens[1]))
+	if (!(val = command->tokens[1]))
 	{
 		val = ft_get_home();
 		if (!val)

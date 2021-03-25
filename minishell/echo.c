@@ -32,31 +32,31 @@ static	int check_n(char *args)
 	return (1);
 }
 
-int			ft_echo()
+int			ft_echo(t_command *command)
 {
 	int		i;
 	int		n;
 
 	n = 0;
-	if (!g_data.command->tokens[1])
+	if (!command->tokens[1])
 	{
 		write(1, "\n", 1);
 		return (0);
 	}
 	i = 1;
-	while (g_data.command->tokens[i])
+	while (command->tokens[i])
 	{
-		if (!(check_n(g_data.command->tokens[i])))
+		if (!(check_n(command->tokens[i])))
 			break ;
 		n = 1;
 		i++;
 	}
-	while (g_data.command->tokens[i])
+	while (command->tokens[i])
 	{
-		ft_putstr_fd(g_data.command->tokens[i], 1);
-		if (g_data.command->tokens[i + 1])	
+		ft_putstr_fd(command->tokens[i], 1);
+		if (command->tokens[i + 1])	
 			ft_putchar_fd(' ', 1);
-		if (!g_data.command->tokens[i + 1] && n == 0)
+		if (!command->tokens[i + 1] && n == 0)
 			ft_putchar_fd('\n', 1);
 		i++;
 		

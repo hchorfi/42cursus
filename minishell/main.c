@@ -12,24 +12,23 @@
 
 #include "minishell.h"
 
-int     ft_check_builtin()
+int     ft_check_builtin(t_command *command)
 {
-    //g_data.command = (t_command *)cmd;
-    if (!g_data.command->tokens[0])
+    if (!command->tokens[0])
         return (0);
-    else if (!ft_strncmp(g_data.command->tokens[0], "export", 7))
+    else if (!ft_strncmp(command->tokens[0], "export", 7))
         return (1);
-    else if(!ft_strncmp(g_data.command->tokens[0], "env", 4))
+    else if(!ft_strncmp(command->tokens[0], "env", 4))
         return (1);
-    else if (!ft_strncmp(g_data.command->tokens[0], "unset", 6))
+    else if (!ft_strncmp(command->tokens[0], "unset", 6))
         return (1);
-    else if (!ft_strncmp(g_data.command->tokens[0], "pwd", 4))
+    else if (!ft_strncmp(command->tokens[0], "pwd", 4))
         return (1);
-    else if (!ft_strncmp(g_data.command->tokens[0], "cd", 3))
+    else if (!ft_strncmp(command->tokens[0], "cd", 3))
         return (1);
-    else if (!ft_strncmp(g_data.command->tokens[0], "echo", 5))
+    else if (!ft_strncmp(command->tokens[0], "echo", 5))
         return (1);
-    else if (!ft_strncmp(g_data.command->tokens[0], "exit", 5))
+    else if (!ft_strncmp(command->tokens[0], "exit", 5))
         return (1);
     else
         return 0;
@@ -47,23 +46,22 @@ int     ft_check_builtin()
 //     else
 //         return (g_data.ret = 0);
 // }
-int     ft_exec_builtin()
+int     ft_exec_builtin(t_command *command)
 {
-    //g_data.command = (t_command *)cmd;
-    if (!ft_strncmp(g_data.command->tokens[0], "export", 7))
-        ft_export();
-    else if(!ft_strncmp(g_data.command->tokens[0], "env", 4))
-        ft_env();
-    else if (!ft_strncmp(g_data.command->tokens[0], "unset", 6))
-        return (ft_unset());
-    else if (!ft_strncmp(g_data.command->tokens[0], "pwd", 4))
+    if (!ft_strncmp(command->tokens[0], "export", 7))
+        ft_export(command);
+    else if(!ft_strncmp(command->tokens[0], "env", 4))
+        ft_env(command);
+    else if (!ft_strncmp(command->tokens[0], "unset", 6))
+        return (ft_unset(command));
+    else if (!ft_strncmp(command->tokens[0], "pwd", 4))
         ft_pwd();
-    else if (!ft_strncmp(g_data.command->tokens[0], "cd", 3))
-        ft_cd();
-    else if (!ft_strncmp(g_data.command->tokens[0], "echo", 5))
-        return (ft_echo());
-    else if (!ft_strncmp(g_data.command->tokens[0], "exit", 5))
-        ft_exit();
+    else if (!ft_strncmp(command->tokens[0], "cd", 3))
+        ft_cd(command);
+    else if (!ft_strncmp(command->tokens[0], "echo", 5))
+        return (ft_echo(command));
+    else if (!ft_strncmp(command->tokens[0], "exit", 5))
+        ft_exit(command);
     return (0);
 }
 
@@ -85,14 +83,17 @@ char    *ft_check_in(char *pipe_cmds)
         if (i == 0 && *str[0] != '<')
         {
             //printf("--%d--%s--\n", i,str[i]);
+            char *tmp_free = new_pipe;
             new_pipe = ft_strjoin(str[i], "");
+            free(tmp_free);
             i++;
         }
         else
         {
             if (i == 0 && *str[0] == '<')
-                str[0]++;
-            tmp_in = ft_strtrim(str[i], " ");
+               tmp_in = ft_strtrim(str[i] + 1, " ");
+            else
+                tmp_in = ft_strtrim(str[i], " ");
             int j = 0;
             //printf("--%d--%s--\n", i,tmp_in);
             if(tmp_in[j] == '\"' || tmp_in[j] == '\'')
@@ -116,9 +117,11 @@ char    *ft_check_in(char *pipe_cmds)
                 ft_printf("minishell : %s No such file or directory\n", file);
             new_pipe = ft_strjoin(new_pipe, tmp_in + j);
             i++;
+            //free(tmp_in);
         }
     }
     g_data.command->input_file = in;
+    ft_free_d_p(str);
     return (new_pipe);
 }
 
@@ -143,17 +146,22 @@ char    *ft_check_redirections(char *pipe_cmds)
         if (i == 0 && *str[0] != '>')
         {
             tmp_in = ft_check_in(str[i]);
+            char *tmp_free = new_pipe;
             new_pipe = ft_strjoin(tmp_in,"");
+            free(tmp_free);
+            free(tmp_in);
             i++;
         }
         else
         {
             if (i == 0 && *str[0] == '>')
-                str[0]++;
+                tmp_in = ft_check_in(str[i] + 1);
+            else
             //ft_printf("---%s\n", str[0]);
-            tmp_in = ft_check_in(str[i]);
+                tmp_in = ft_check_in(str[i]);
             //ft_printf("-%s-\n", tmp_in);
             tmp_out = ft_strtrim(tmp_in, " ");
+            free(tmp_in);
             int j = 0;
             //ft_printf("---%s\n", tmp_out);
             if (tmp_out[0] == '>')
@@ -200,11 +208,15 @@ char    *ft_check_redirections(char *pipe_cmds)
             }
             //ft_printf("tmp out + j : --%s--\n", tmp_out + j);
             //if (*tmp_out != '\0')
-                new_pipe = ft_strjoin(new_pipe, tmp_out + j);
+            //char *tmp_free = new_pipe;
+            new_pipe = ft_strjoin(new_pipe, tmp_out + j);
+            //free(tmp_free);
             i++;
         }
     }
     g_data.command->output_file = out;
+    ft_free_d_p(str);
+    //free(tmp_in);
     //ft_printf("---%s--\n", new_pipe);
     return (new_pipe);
 }
@@ -222,7 +234,7 @@ void    ft_parse(char *line)
     while (cmds[i])
     {
         pipe_cmds = ft_split_pars(cmds[i], '|');
-        //g_data.command->pipe_pos = 0;
+        //command->pipe_pos = 0;
         j = 0;
         while (pipe_cmds[j])
         {
@@ -230,19 +242,22 @@ void    ft_parse(char *line)
             g_data.command->block = i;
             g_data.command->pipe_pos = j;
             new_pipe = ft_check_redirections(pipe_cmds[j]);
+            //
             //ft_printf("---%s--\n", new_pipe);
             //new_pipe = get_other_variables(new_pipe);
             g_data.command->tokens = ft_split_pars(new_pipe, ' ');
-
+            free(new_pipe);
             int k = 0;
             while (g_data.command->tokens[k])
             {
-                //g_data.command->tokens[k] = remove_all_quotes(g_data.command->tokens[k]);
+                //command->tokens[k] = remove_all_quotes(command->tokens[k]);
+                char *tmp_free = g_data.command->tokens[k];
                 g_data.command->tokens[k] = ft_strtrim(g_data.command->tokens[k], " ");
+                free(tmp_free);
                 k++;
             }
             g_data.command->n_tokens = k;
-            //ft_printf("in : %d - out : %d\n", g_data.command->input_file, g_data.command->output_file);
+            //ft_printf("in : %d - out : %d\n", command->input_file, command->output_file);
             if (g_data.cmds == NULL)
                 g_data.cmds = ft_lstnew(g_data.command);
             else
@@ -258,13 +273,12 @@ void    ft_parse(char *line)
             ft_lstadd_back(&g_data.n_pipe_cmd, ft_lstnew(npipe));
         i++;
     }
-    free(line);
     ft_free_d_p(cmds);
 
     //i = 0;
-    // while (g_data.command->tokens[i])
+    // while (command->tokens[i])
     // {
-    //     g_data.command->tokens[i] = ft_strtrim(g_data.command->tokens[i], " ");
+    //     command->tokens[i] = ft_strtrim(command->tokens[i], " ");
     //     i++;
     // }
 }
@@ -323,8 +337,9 @@ int    ft_prompt(int argc, char **argv)
             exit(0);
         }
     }
-  
     ft_parse(line);
+    if (argc < 2)
+        free(line);
     return 1;
 }
 
@@ -366,48 +381,44 @@ void sighandler(int dummy)
     }
 }
 
-void    ft_prepare_tokens(void *cmd)
+void    ft_prepare_tokens(t_command *command)
 {
     //t_list  *cmds_list;
     int     k;
-
-    //cmds_list = g_data.cmds;
-    g_data.command = (t_command *)cmd;
     k = 0;
-    while (g_data.command->tokens[k])
+    while (command->tokens[k])
     {
         //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[k]);
-        g_data.command->tokens[k] = get_other_variables(g_data.command->tokens[k]);
+        command->tokens[k] = get_other_variables(command->tokens[k]);
         //if (ft_strncmp(((t_command *)newlist->content)->tokens[0], "export", 7 ) && ft_strncmp(((t_command *)newlist->content)->tokens[0], "unset", 6 ))
-        g_data.command->tokens[k] = remove_all_quotes(g_data.command->tokens[k]);
+        command->tokens[k] = remove_all_quotes(command->tokens[k]);
         //ft_printf("====%s====\n", ((t_command *)newlist->content)->tokens[k]);
         k++;
     }
 }
 
-void    ft_builtin(void)
+void    ft_builtin(t_command *command)
 {
     int     std_out;
-
     std_out = dup(1);
     int std_in = dup(0);
-    if (g_data.command->input_file > 0)
+    if (command->input_file > 0)
     {
-        dup2(g_data.command->input_file, 0);
-        close(g_data.command->input_file);                            
+        dup2(command->input_file, 0);
+        close(command->input_file);                            
     }
     else
         dup2(g_data.fdd, 0);
-    if (g_data.command->pipe_pos != g_data.num_pipes && g_data.num_pipes > 0)
+    if (command->pipe_pos != g_data.num_pipes && g_data.num_pipes > 0)
     {
         dup2(g_data.fd[1], 1);
     }
-    if (g_data.command->output_file != 1)
+    if (command->output_file != 1)
     {
-        dup2(g_data.command->output_file, 1);
-        close(g_data.command->output_file);
+        dup2(command->output_file, 1);
+        close(command->output_file);
     }
-    ft_exec_builtin();
+    ft_exec_builtin(command);
     //ft_printf("%d", g_data.ret);
     dup2(std_out, 1);
     dup2(std_in, 0);
@@ -416,39 +427,62 @@ void    ft_builtin(void)
 }
 
 
-void    ft_bin(void)
+void    ft_bin(t_command *command)
 {
     g_data.n_fork++;
     if (!fork())
     {
         int std_out = dup(1);
         int std_in = dup(0);
-        if (g_data.command->input_file > 0)
+        if (command->input_file > 0)
         {
-            dup2(g_data.command->input_file, 0);
-            close(g_data.command->input_file);                            
+            dup2(command->input_file, 0);
+            close(command->input_file);                            
         }
         else
             dup2(g_data.fdd, 0);
         if (g_data.num_pipes > 0)
         {
-            if (g_data.command->pipe_pos != g_data.num_pipes)
+            if (command->pipe_pos != g_data.num_pipes)
                 dup2(g_data.fd[1], 1);
             close(g_data.fd[0]);
         }
-        if (g_data.command->output_file > 1)
+        if (command->output_file > 1)
         {
-            dup2(g_data.command->output_file, 1);
-            close(g_data.command->output_file);
+            dup2(command->output_file, 1);
+            close(command->output_file);
         }
-        ft_exec_bin();
+        ft_exec_bin(command);
         dup2(std_out, 1);
         dup2(std_in, 0);
         close(std_out);
         close(std_in);
-        ft_printf("minishell: %s: command not found\n", g_data.command->tokens[0]);
+        ft_printf("minishell: %s: command not found\n", command->tokens[0]);
         exit(g_data.ret = 127);
     }
+}
+
+void    ft_free_list()
+{
+    t_list  *tmp_list;
+
+    tmp_list = g_data.cmds;
+    while (g_data.cmds)
+    {
+        tmp_list = g_data.cmds;
+        //ft_printf("%p\n", g_data.cmds->content);
+        // int k = 0;
+        // while (((t_command *)g_data.cmds->content)->tokens[k])
+        // {
+        //     //ft_printf("--%p\n", ((t_command *)g_data.cmds->content)->tokens[k]);
+        //     k++;
+        // }
+        ft_free_d_p(((t_command *)g_data.cmds->content)->tokens);
+        free(g_data.cmds->content);
+        g_data.cmds = g_data.cmds->next;
+        free(tmp_list);
+    }
+    
 }
 
 int     main(int argc, char **argv, char **envp)
@@ -456,6 +490,7 @@ int     main(int argc, char **argv, char **envp)
     
     t_list *newlist;
     t_list *pipe_list;
+    t_command *command;
     int i;
     int j;
     ft_stock_envp(envp);
@@ -477,24 +512,25 @@ int     main(int argc, char **argv, char **envp)
             //g_data.ret = 0;
             while(newlist && (((t_command *)newlist->content)->block == j))
             {
-                ft_prepare_tokens(newlist->content);
+                command = (t_command *)newlist->content;
+                ft_prepare_tokens(command);
                 //ft_printf("%d : ****%s***\n", j, ((t_command *)newlist->content)->tokens[0]);
-                if (g_data.command->tokens[0] == NULL)
+                if (command->tokens[0] == NULL)
                 {
                     newlist = newlist->next;
                     continue;
                 }
-                if (g_data.command->pipe_pos != g_data.num_pipes && g_data.num_pipes > 0)
+                if (command->pipe_pos != g_data.num_pipes && g_data.num_pipes > 0)
                     pipe(g_data.fd);
-                if (ft_check_builtin())
+                if (ft_check_builtin(command))
                 {
                     //ft_printf("builtin\n");
-                    ft_builtin();
+                    ft_builtin(command);
                 }
                 else
                 {
                     //ft_printf("bin\n");
-                    ft_bin();
+                    ft_bin(command);
                 }
                 //waitpid(pid, NULL, 0);
                 if (g_data.num_pipes > 0)
@@ -502,8 +538,6 @@ int     main(int argc, char **argv, char **envp)
                     close(g_data.fd[1]);
                     g_data.fdd = g_data.fd[0];
                 }
-                ft_free_d_p(g_data.command->tokens);
-                free(g_data.command);
                 newlist = newlist->next;
             }
             //ft_printf("%d-", fdd);
@@ -534,6 +568,7 @@ int     main(int argc, char **argv, char **envp)
             argc = 0;
             return g_data.ret;
         }
+        ft_free_list();
     }
     return (0);
 }
