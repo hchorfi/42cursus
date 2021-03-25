@@ -38,25 +38,25 @@ int			ft_echo()
 	int		n;
 
 	n = 0;
-	if (!g_command->tokens[1])
+	if (!g_data.command->tokens[1])
 	{
 		write(1, "\n", 1);
-		return (g_data.ret = 0);
+		return (0);
 	}
 	i = 1;
-	while (g_command->tokens[i])
+	while (g_data.command->tokens[i])
 	{
-		if (!(check_n(g_command->tokens[i])))
+		if (!(check_n(g_data.command->tokens[i])))
 			break ;
 		n = 1;
 		i++;
 	}
-	while (g_command->tokens[i])
+	while (g_data.command->tokens[i])
 	{
-		ft_putstr_fd(g_command->tokens[i], 1);
-		if (g_command->tokens[i + 1])	
+		ft_putstr_fd(g_data.command->tokens[i], 1);
+		if (g_data.command->tokens[i + 1])	
 			ft_putchar_fd(' ', 1);
-		if (!g_command->tokens[i + 1] && n == 0)
+		if (!g_data.command->tokens[i + 1] && n == 0)
 			ft_putchar_fd('\n', 1);
 		i++;
 		

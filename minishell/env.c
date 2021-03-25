@@ -21,7 +21,7 @@ int     ft_env()
     t_list *newlist;
     newlist = g_data.env_var;
     char *var;
-    if (g_command->n_tokens == 1)
+    if (g_data.command->n_tokens == 1)
     {
         while(newlist)
         {   
@@ -33,6 +33,6 @@ int     ft_env()
             newlist = newlist->next;
         }
     }
-    return (0);
+    return (g_data.ret = 0);
 }
 

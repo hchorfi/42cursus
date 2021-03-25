@@ -117,14 +117,15 @@ int		ft_unset()
     char    *exp_var;
 
 	i = 1;
-	while (g_command->tokens[i])
+    g_data.ret = 0;
+	while (g_data.command->tokens[i])
 	{
-        exp_var = ft_get_export_var(g_command->tokens[i]);
-		if (exp_var[0] != '#' && !(ft_valid_export_var(exp_var, g_command->tokens[i], "unset")))
+        exp_var = ft_get_export_var(g_data.command->tokens[i]);
+		if (exp_var[0] != '#' && !(ft_valid_export_var(exp_var, g_data.command->tokens[i], "unset")))
         {
-			ft_chr_var(g_command->tokens[i]);
+			ft_chr_var(g_data.command->tokens[i]);
         }
 		i++;
 	}
-	return (g_data.ret);
+	return (0);
 }
