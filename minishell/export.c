@@ -67,6 +67,12 @@ int     ft_valid_export_var(t_command *command, char *export_var, char *token, c
     return (0);
 }
 
+void    ft_free_old_var(char *old_var, char *content)
+{
+    if (ft_strchr(content, '='))    
+        free(old_var);
+}
+
 int     ft_exist_export_var(char *export_var, char *token)
 {
     t_list  *newlist;
@@ -74,6 +80,7 @@ int     ft_exist_export_var(char *export_var, char *token)
     char    *tmp_str;
     int     tmp_len;
     int     len;
+    char    *tmp_free;
 
     //ft_printf("%s : %s \n", export_var, token);
 
@@ -89,7 +96,6 @@ int     ft_exist_export_var(char *export_var, char *token)
         else
         {
             old_var = newlist->content;
-            //len = ft_strlen(old_var);
         }
         tmp_len = ft_strlen(export_var);
         if (ft_strchr(token, '+'))
@@ -103,7 +109,9 @@ int     ft_exist_export_var(char *export_var, char *token)
             if ((tmp_str = ft_strchr(token, '+')) != 0)
             {
                 //ft_printf("--%s--", tmp_str + 2);
+                //tmp_free = newlist->content;
                 newlist->content = ft_strjoin(newlist->content, tmp_str + 2);
+                //free(tmp_free);
             }
             else
                 newlist->content = ft_strdup(token);
@@ -150,13 +158,26 @@ void    ft_sort_export()
             //ft_printf("i : %p - j : %p\n", i, j);
             //ft_printf("j : %s\n", j->content);
             j_data = ft_get_export_var(j->content);
-            //ft_printf("-- i : %s - j : %s\n", i->content, j->content);
+            //ft_printf("-- i : %p > %s - j : %p > %s\n", i->content, i->content, j->content, j->content);
             if (strcmp(i_data, j_data) > 0)
             {
                  //ft_printf("swapped\n");
+                 char *tmp_freei = i->content;
+                 char *tmp_freej = j->content;
                  tmp_data = i->content;
                  i->content = j->content;
                  j->content = tmp_data;
+                if (ft_strchr(tmp_freei , '='))
+                    free(i_data);
+                if (ft_strchr(tmp_freej , '='))
+                    free(j_data);
+            }
+            else
+            {
+                if (ft_strchr(i->content , '='))
+                    free(i_data);
+                if (ft_strchr(j->content , '='))
+                    free(j_data);
             }
             // ft_printf("i : %s - j : %s\n", (*i)->content, j->content);
             j = j->next;
@@ -241,20 +262,26 @@ int     ft_export(t_command *command)
     {
         while (command->tokens[i])
         {
-            //ft_printf("-%p-\n", command->tokens[i]);
+            //ft_printf("-%p : %s-\n", command->tokens[i], command->tokens[i]);
             exp_var = ft_get_export_var(command->tokens[i]);
             if (exp_var[0] != '#' &&
                 !(ft_valid_export_var(command, exp_var, command->tokens[i], "export")) &&
                 !ft_exist_export_var(exp_var, command->tokens[i]))
+            {
+                //ft_printf("-%s-\n", command->tokens[i]);
+                if ((tmp_str = ft_strchr(command->tokens[i], '+')) != 0)
                 {
-                    //ft_printf("-%s-\n", command->tokens[i]);
-                    if ((tmp_str = ft_strchr(command->tokens[i], '+')) != 0)
-                    {
-                        ft_lstadd_back(&g_data.env_var, ft_lstnew(ft_strjoin(ft_substr(command->tokens[i], 0, ft_strlen(command->tokens[i]) - ft_strlen(tmp_str)), tmp_str + 1)));
-                    }
-                    else
-                        ft_lstadd_back(&g_data.env_var, ft_lstnew(command->tokens[i]));
+                    //printf("+");
+                    ft_lstadd_back(&g_data.env_var, ft_lstnew(ft_strjoin(ft_substr(command->tokens[i], 0, ft_strlen(command->tokens[i]) - ft_strlen(tmp_str)), tmp_str + 1)));
                 }
+                else
+                {   
+                    //ft_printf("ok");
+                    ft_lstadd_back(&g_data.env_var, ft_lstnew(ft_strdup(command->tokens[i])));
+                }
+            }
+            if (ft_strchr(command->tokens[i], '='))
+                free(exp_var);
             i++;
         }
     }

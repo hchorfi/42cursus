@@ -15,7 +15,7 @@
 
 # include "get_next_line.h"
 # include "libft/libft.h"
-# include "../ft_printf/ft_printf.h"
+# include "ft_printf/ft_printf.h"
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>

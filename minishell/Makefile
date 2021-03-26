@@ -12,9 +12,12 @@ ASAN = #-g -fsanitize=address
 $(NAME) :
 	#make -C $(LIBFT_PATH)
 	#gcc -g $(SRCS) -L $(LIBFT_PATH) -l$(LIBFT_LIB) -o $(NAME)
-	gcc -g $(ASAN) $(SRCS) libft.a ../ft_printf/libftprintf.a -o $(NAME)
+	gcc -g $(ASAN) $(SRCS) libft/libft.a ft_printf/libftprintf.a -o $(NAME)
 	
 all: $(NAME)
+
+rebuild:
+	make re -C libft ; make re -C ft_printf ; make re
 
 clean:
 	#make clean -C $(LIBFT_PATH)

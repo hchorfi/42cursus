@@ -73,6 +73,8 @@ char    *ft_check_in(char *pipe_cmds)
     char *tmp_in;
     int in = 0;
     int i = 0;
+    char *tmp_free;
+    char *tmp_free2;
 
     str = ft_split_pars(pipe_cmds, '<');
     new_pipe = ft_strdup("");
@@ -83,7 +85,7 @@ char    *ft_check_in(char *pipe_cmds)
         if (i == 0 && *str[0] != '<')
         {
             //printf("--%d--%s--\n", i,str[i]);
-            char *tmp_free = new_pipe;
+            tmp_free = new_pipe;
             new_pipe = ft_strjoin(str[i], "");
             free(tmp_free);
             i++;
@@ -110,14 +112,20 @@ char    *ft_check_in(char *pipe_cmds)
                     j++;
             }
             file = ft_substr(tmp_in, 0, j);
+            tmp_free2 = file;
             file = get_other_variables(file);
+            free(tmp_free2);
+            tmp_free2 = file;
             file = remove_all_quotes(file);
             //printf("in file : %s \n", file);
             if ((in = open(file, O_RDONLY)) == -1)
                 ft_printf("minishell : %s No such file or directory\n", file);
+            tmp_free = new_pipe;
             new_pipe = ft_strjoin(new_pipe, tmp_in + j);
+            free(tmp_free);
+            free(tmp_in);
+            free(file);
             i++;
-            //free(tmp_in);
         }
     }
     g_data.command->input_file = in;
@@ -136,6 +144,8 @@ char    *ft_check_redirections(char *pipe_cmds)
     int out = 1;
     char *file;
     char *new_pipe;
+    char *tmp_free;
+    char *tmp_free2;
     new_pipe = ft_strdup("");
 
     while(str[i])
@@ -146,7 +156,7 @@ char    *ft_check_redirections(char *pipe_cmds)
         if (i == 0 && *str[0] != '>')
         {
             tmp_in = ft_check_in(str[i]);
-            char *tmp_free = new_pipe;
+            tmp_free = new_pipe;
             new_pipe = ft_strjoin(tmp_in,"");
             free(tmp_free);
             free(tmp_in);
@@ -157,13 +167,13 @@ char    *ft_check_redirections(char *pipe_cmds)
             if (i == 0 && *str[0] == '>')
                 tmp_in = ft_check_in(str[i] + 1);
             else
-            //ft_printf("---%s\n", str[0]);
                 tmp_in = ft_check_in(str[i]);
             //ft_printf("-%s-\n", tmp_in);
             tmp_out = ft_strtrim(tmp_in, " ");
+            //ft_printf("%p\n", tmp_out);
             free(tmp_in);
             int j = 0;
-            //ft_printf("---%s\n", tmp_out);
+            //ft_printf("-%s\n", tmp_out);
             if (tmp_out[0] == '>')
             {
                 tmp_out++;
@@ -171,6 +181,7 @@ char    *ft_check_redirections(char *pipe_cmds)
                     j++;
                 append = 1;
             }
+            //ft_printf("--%s\n", tmp_out + j);
             //if (tmp_out[j] != '\0')
             //tmp_out += j;
             //tmp_out + j;
@@ -193,23 +204,35 @@ char    *ft_check_redirections(char *pipe_cmds)
             }
             file = ft_substr(tmp_out, 0, j);
             //ft_printf("---%s\n", file);
+            tmp_free2 = file;
             file = get_other_variables(file);
+            free(tmp_free2);
+            tmp_free2 = file;
             file = remove_all_quotes(file);
+            free(tmp_free2);
             if (append == 0)
             {
                 priority = 1;
                 out = open(file, O_RDWR|O_CREAT|O_TRUNC, 0666);
+                free(file);
             }
             else
             {
                 struct stat path_stat;
                 if (priority == 0 || stat(file, &path_stat))
                     out = open(file, O_RDWR|O_CREAT|O_APPEND, 0666);
+                free(file);
             }
             //ft_printf("tmp out + j : --%s--\n", tmp_out + j);
             //if (*tmp_out != '\0')
             //char *tmp_free = new_pipe;
+            tmp_free = new_pipe;
             new_pipe = ft_strjoin(new_pipe, tmp_out + j);
+            free(tmp_free);
+            if (append == 1)
+                free(tmp_out - 1);
+            else 
+                free(tmp_out);
             //free(tmp_free);
             i++;
         }
@@ -288,15 +311,19 @@ void    ft_stock_ret(void)
     char    *str;
     t_list  *env_list;
     int     exist;
+    char    *tmp_free;
 
     exist = 0;
     env_list = g_data.env_var;
-    str = ft_strjoin("?=", ft_itoa(g_data.ret));
+    str = ft_strjoin("?=", tmp_free = ft_itoa(g_data.ret));
+    free(tmp_free);
     while (env_list)
     {
         if (*(char *)(env_list)->content == '?')
         {
+            tmp_free = env_list->content;
             env_list->content = str;
+            free(tmp_free);
             exist = 1;
         }
         env_list = env_list->next;
@@ -384,14 +411,19 @@ void sighandler(int dummy)
 void    ft_prepare_tokens(t_command *command)
 {
     //t_list  *cmds_list;
+    char *tmp_free;
     int     k;
     k = 0;
     while (command->tokens[k])
     {
         //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[k]);
+        tmp_free = command->tokens[k];
         command->tokens[k] = get_other_variables(command->tokens[k]);
+        free(tmp_free);
         //if (ft_strncmp(((t_command *)newlist->content)->tokens[0], "export", 7 ) && ft_strncmp(((t_command *)newlist->content)->tokens[0], "unset", 6 ))
+        tmp_free = command->tokens[k];
         command->tokens[k] = remove_all_quotes(command->tokens[k]);
+        free(tmp_free);
         //ft_printf("====%s====\n", ((t_command *)newlist->content)->tokens[k]);
         k++;
     }
