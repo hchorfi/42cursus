@@ -67,12 +67,6 @@ int     ft_valid_export_var(t_command *command, char *export_var, char *token, c
     return (0);
 }
 
-void    ft_free_old_var(char *old_var, char *content)
-{
-    if (ft_strchr(content, '='))    
-        free(old_var);
-}
-
 int     ft_exist_export_var(char *export_var, char *token)
 {
     t_list  *newlist;
@@ -81,6 +75,7 @@ int     ft_exist_export_var(char *export_var, char *token)
     int     tmp_len;
     int     len;
     char    *tmp_free;
+    //char    *old_var;
 
     //ft_printf("%s : %s \n", export_var, token);
 
@@ -92,30 +87,66 @@ int     ft_exist_export_var(char *export_var, char *token)
             tmp_len = ft_strlen(tmp_str);
             len = ft_strlen(newlist->content);
             old_var = ft_substr(newlist->content, 0, len - tmp_len);
+            //old_var = old_var;
+            //ft_printf("%p\n", old_var);
         }
         else
         {
             old_var = newlist->content;
+            //ft_printf("-%p\n", old_var);
         }
-        tmp_len = ft_strlen(export_var);
         if (ft_strchr(token, '+'))
+        {   
+            tmp_len = ft_strlen(export_var);
             tmp_len--;
+        }
         //ft_printf("oldvar : %s - tokenvar : %s\n", old_var, export_var);
         if (!(ft_strncmp(old_var, export_var, tmp_len)))
         {
+            //ft_printf("old : %s - export : %s\n", old_var, export_var);
             if(ft_strchr(newlist->content, '=') && !ft_strchr(token, '='))
+            {
+                if (ft_strchr(newlist->content, '='))
+                {
+                    //ft_printf("-free : %p\n", old_var);
+                    free(old_var);
+                }
                 return (1);
+            }
             //tmp_len = ft_strlen(tmp_str);
             if ((tmp_str = ft_strchr(token, '+')) != 0)
             {
                 //ft_printf("--%s--", tmp_str + 2);
-                //tmp_free = newlist->content;
+                if (ft_strchr(newlist->content, '='))
+                {
+                    //ft_printf("--free : %p\n", old_var);
+                    free(old_var);
+                }
+                tmp_free = newlist->content;
                 newlist->content = ft_strjoin(newlist->content, tmp_str + 2);
-                //free(tmp_free);
+                free(tmp_free);
             }
             else
+            {
+                if (ft_strchr(newlist->content, '='))
+                {
+                    //ft_printf("---free : %p\n", old_var);
+                    free(old_var);
+                }
+                tmp_free = newlist->content;
                 newlist->content = ft_strdup(token);
+                //ft_printf("----free : %p\n", tmp_free);
+                free(tmp_free);
+            }
             return (1);
+        }
+        else
+        {
+            if (ft_strchr(newlist->content, '='))
+            {
+                //ft_printf("-----free : %p\n", old_var);
+                free(old_var);
+            }
         }
         newlist = newlist->next;
     }
@@ -281,7 +312,10 @@ int     ft_export(t_command *command)
                 }
             }
             if (ft_strchr(command->tokens[i], '='))
+            {   
+                //ft_printf("fr : % p\n");
                 free(exp_var);
+            }
             i++;
         }
     }

@@ -81,7 +81,6 @@ char    *ft_check_in(char *pipe_cmds)
     
     while (str[i])
     {
-        
         if (i == 0 && *str[0] != '<')
         {
             //printf("--%d--%s--\n", i,str[i]);
@@ -120,6 +119,7 @@ char    *ft_check_in(char *pipe_cmds)
             //printf("in file : %s \n", file);
             if ((in = open(file, O_RDONLY)) == -1)
                 ft_printf("minishell : %s No such file or directory\n", file);
+            ft_printf("*%d\n",in);
             tmp_free = new_pipe;
             new_pipe = ft_strjoin(new_pipe, tmp_in + j);
             free(tmp_free);
@@ -128,7 +128,9 @@ char    *ft_check_in(char *pipe_cmds)
             i++;
         }
     }
-    g_data.command->input_file = in;
+    if (str[0])
+        g_data.command->input_file = in;
+    ft_printf("**%d\n", g_data.command->input_file);
     ft_free_d_p(str);
     return (new_pipe);
 }
@@ -466,8 +468,11 @@ void    ft_bin(t_command *command)
     {
         int std_out = dup(1);
         int std_in = dup(0);
+        ft_printf("--in :%d\n", command->input_file);
+        //ft_printf("--out :%d\n", command->output_file);
         if (command->input_file > 0)
         {
+            ft_printf("in :%d\n", command->input_file);
             dup2(command->input_file, 0);
             close(command->input_file);                            
         }
@@ -481,6 +486,7 @@ void    ft_bin(t_command *command)
         }
         if (command->output_file > 1)
         {
+            //ft_printf("out :%d\n", command->output_file);
             dup2(command->output_file, 1);
             close(command->output_file);
         }
@@ -498,23 +504,34 @@ void    ft_free_list()
 {
     t_list  *tmp_list;
 
-    tmp_list = g_data.cmds;
+    //if (!i)
+    //{
     while (g_data.cmds)
     {
         tmp_list = g_data.cmds;
-        //ft_printf("%p\n", g_data.cmds->content);
-        // int k = 0;
-        // while (((t_command *)g_data.cmds->content)->tokens[k])
-        // {
-        //     //ft_printf("--%p\n", ((t_command *)g_data.cmds->content)->tokens[k]);
-        //     k++;
-        // }
         ft_free_d_p(((t_command *)g_data.cmds->content)->tokens);
         free(g_data.cmds->content);
         g_data.cmds = g_data.cmds->next;
         free(tmp_list);
     }
-    
+    while (g_data.n_pipe_cmd)
+    {
+        tmp_list = g_data.n_pipe_cmd;
+        free(g_data.n_pipe_cmd->content);
+        g_data.n_pipe_cmd = g_data.n_pipe_cmd->next;
+        free(tmp_list);
+    }
+    //}
+    // else
+    // {
+    //     while (g_data.env_var)
+    //     {
+    //         tmp_list = g_data.env_var;
+    //         free(g_data.env_var->content);
+    //         g_data.env_var = g_data.env_var->next;
+    //         free(tmp_list);
+    //     }
+    // }
 }
 
 int     main(int argc, char **argv, char **envp)
@@ -602,5 +619,6 @@ int     main(int argc, char **argv, char **envp)
         }
         ft_free_list();
     }
+    //ft_free_list(1);
     return (0);
 }
