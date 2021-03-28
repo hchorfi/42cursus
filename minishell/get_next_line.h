@@ -13,7 +13,7 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # define M 2147483647
-# define BUFFER_SIZE 64
+# define BUFFER_SIZE 10000
 
 # include <fcntl.h>
 # include <unistd.h>

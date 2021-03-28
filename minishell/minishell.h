@@ -37,6 +37,7 @@ typedef struct	s_data
 	t_list		*env_var;
 	t_list		*cmds;            //all commands
 	t_list		*n_pipe_cmd;
+	t_list		*fd_close;
 	t_command	*command;         //one pipe lina or command
 	int			ret;
 	int			fd[2];

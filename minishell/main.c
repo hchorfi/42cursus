@@ -71,16 +71,17 @@ char    *ft_check_in(char *pipe_cmds)
     char **str;
     char *file;
     char *tmp_in;
-    int in = 0;
+    int in;
     int i = 0;
     char *tmp_free;
     char *tmp_free2;
-
     str = ft_split_pars(pipe_cmds, '<');
     new_pipe = ft_strdup("");
-    
+    int k = 0;
+
     while (str[i])
     {
+        //ft_printf("-%s-\n", str[i]);
         if (i == 0 && *str[0] != '<')
         {
             //printf("--%d--%s--\n", i,str[i]);
@@ -91,6 +92,7 @@ char    *ft_check_in(char *pipe_cmds)
         }
         else
         {
+            in = 0;
             if (i == 0 && *str[0] == '<')
                tmp_in = ft_strtrim(str[i] + 1, " ");
             else
@@ -119,7 +121,10 @@ char    *ft_check_in(char *pipe_cmds)
             //printf("in file : %s \n", file);
             if ((in = open(file, O_RDONLY)) == -1)
                 ft_printf("minishell : %s No such file or directory\n", file);
-            ft_printf("*%d\n",in);
+            //ft_printf("*%d\n",in);
+            if (g_data.command->input_file > 0)
+                close(g_data.command->input_file);
+            g_data.command->input_file = in;
             tmp_free = new_pipe;
             new_pipe = ft_strjoin(new_pipe, tmp_in + j);
             free(tmp_free);
@@ -128,9 +133,8 @@ char    *ft_check_in(char *pipe_cmds)
             i++;
         }
     }
-    if (str[0])
-        g_data.command->input_file = in;
-    ft_printf("**%d\n", g_data.command->input_file);
+    //if (str[0])
+    //ft_printf("***%d\n", g_data.command->input_file);
     ft_free_d_p(str);
     return (new_pipe);
 }
@@ -143,12 +147,13 @@ char    *ft_check_redirections(char *pipe_cmds)
     int i = 0;
     char *tmp_out;
     char *tmp_in;
-    int out = 1;
+    int out;
     char *file;
     char *new_pipe;
     char *tmp_free;
     char *tmp_free2;
     new_pipe = ft_strdup("");
+    g_data.command->output_file = 1;
 
     while(str[i])
     {
@@ -166,6 +171,7 @@ char    *ft_check_redirections(char *pipe_cmds)
         }
         else
         {
+            out = 1;
             if (i == 0 && *str[0] == '>')
                 tmp_in = ft_check_in(str[i] + 1);
             else
@@ -225,6 +231,9 @@ char    *ft_check_redirections(char *pipe_cmds)
                     out = open(file, O_RDWR|O_CREAT|O_APPEND, 0666);
                 free(file);
             }
+            if (g_data.command->output_file > 1)
+                close(g_data.command->output_file);
+            g_data.command->output_file = out;
             //ft_printf("tmp out + j : --%s--\n", tmp_out + j);
             //if (*tmp_out != '\0')
             //char *tmp_free = new_pipe;
@@ -239,7 +248,6 @@ char    *ft_check_redirections(char *pipe_cmds)
             i++;
         }
     }
-    g_data.command->output_file = out;
     ft_free_d_p(str);
     //free(tmp_in);
     //ft_printf("---%s--\n", new_pipe);
@@ -468,21 +476,26 @@ void    ft_bin(t_command *command)
     {
         int std_out = dup(1);
         int std_in = dup(0);
-        ft_printf("--in :%d\n", command->input_file);
+        //ft_printf("--in :%d\n", command->input_file);
         //ft_printf("--out :%d\n", command->output_file);
+        //ft_printf("fdd : %d\n", g_data.fdd);
         if (command->input_file > 0)
         {
-            ft_printf("in :%d\n", command->input_file);
+            //ft_printf("in :%d\n", command->input_file);
             dup2(command->input_file, 0);
             close(command->input_file);                            
         }
         else
+        {   
             dup2(g_data.fdd, 0);
+            close(g_data.fdd);
+        }
         if (g_data.num_pipes > 0)
         {
             if (command->pipe_pos != g_data.num_pipes)
                 dup2(g_data.fd[1], 1);
             close(g_data.fd[0]);
+            close(g_data.fd[1]);
         }
         if (command->output_file > 1)
         {
@@ -490,6 +503,7 @@ void    ft_bin(t_command *command)
             dup2(command->output_file, 1);
             close(command->output_file);
         }
+        //ft_printf("fd[0] : %d - fd[1] : %d\n", g_data.fd[0], g_data.fd[1]);
         ft_exec_bin(command);
         dup2(std_out, 1);
         dup2(std_in, 0);
@@ -497,6 +511,21 @@ void    ft_bin(t_command *command)
         close(std_in);
         ft_printf("minishell: %s: command not found\n", command->tokens[0]);
         exit(g_data.ret = 127);
+    }
+}
+
+void    ft_close_fd()
+{
+    t_list  *tmp_list;
+
+    while (g_data.fd_close)
+    {
+       tmp_list = g_data.fd_close;
+       //ft_printf("close : %d\n", *(int *)(g_data.fd_close)->content);
+       close(*(int *)(g_data.fd_close)->content);
+       free(g_data.fd_close->content);
+       g_data.fd_close = g_data.fd_close->next;
+       free(tmp_list);
     }
 }
 
@@ -510,6 +539,10 @@ void    ft_free_list()
     {
         tmp_list = g_data.cmds;
         ft_free_d_p(((t_command *)g_data.cmds->content)->tokens);
+        if (((t_command *)g_data.cmds->content)->input_file > 0)
+            close(((t_command *)g_data.cmds->content)->input_file);
+        if (((t_command *)g_data.cmds->content)->output_file > 1)
+            close(((t_command *)g_data.cmds->content)->output_file);
         free(g_data.cmds->content);
         g_data.cmds = g_data.cmds->next;
         free(tmp_list);
@@ -544,6 +577,7 @@ int     main(int argc, char **argv, char **envp)
     int j;
     ft_stock_envp(envp);
     g_data.ret = 0;
+    int *tmp;
     //signal(SIGQUIT, intHandler);
     while (1)
     {
@@ -558,11 +592,17 @@ int     main(int argc, char **argv, char **envp)
             g_data.num_pipes = *(int *)pipe_list->content;
             g_data.fdd = 0;
             g_data.n_fork = 0;
+            g_data.fd[0] = 0;
+            g_data.fd[1] = 1;
             //g_data.ret = 0;
+            //ft_printf("n pipe %d\n", g_data.num_pipes);
             while(newlist && (((t_command *)newlist->content)->block == j))
             {
                 command = (t_command *)newlist->content;
                 ft_prepare_tokens(command);
+                //ft_printf("**in :%d\n", command->input_file);
+                //ft_printf("**out :%d\n", command->output_file);
+                //ft_printf("n pipe %d\n", g_data.num_pipes);
                 //ft_printf("%d : ****%s***\n", j, ((t_command *)newlist->content)->tokens[0]);
                 if (command->tokens[0] == NULL)
                 {
@@ -586,22 +626,31 @@ int     main(int argc, char **argv, char **envp)
                 {
                     close(g_data.fd[1]);
                     g_data.fdd = g_data.fd[0];
+                    tmp = malloc(sizeof(int));
+                    *tmp = g_data.fdd;
+                    //ft_printf("%d\n", tmp);
+                    ft_lstadd_back(&g_data.fd_close, ft_lstnew(tmp));
+                    //close(g_data.fd[0]);
                 }
                 newlist = newlist->next;
             }
+            ft_close_fd();
             //ft_printf("%d-", fdd);
-            while (g_data.fdd >= 3)
-            {
-                close(g_data.fdd);
-                g_data.fdd--;
-            }
+            // while (g_data.fdd >= 3)
+            // {
+            //     //ft_printf("fdd : ");
+            //     close(g_data.fdd);
+            //     g_data.fdd--;
+            // }                
             //ft_printf("%d", n_fork);
+            //close(3);
             while (g_data.n_fork > 0)
             {
                 //ft_printf("%d\n", g_data.ret);
                 wait(&g_data.ret);
                 g_data.ret /= 256;
                 g_data.n_fork--;
+                //close(g_data.fd[0]);
             }
             //ft_printf("%d\n", g_data.ret /= 256);
             // for(i = 0; i < num_pipes + 1; i++)
