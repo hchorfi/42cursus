@@ -48,7 +48,7 @@ int				ft_echo();
 
 char		**ft_split_pars(char *s, char c);
 char		*get_other_variables(char *str);
-char		*remove_all_quotes(char *str);
+char        *remove_all_quotes(char *str);
 
 /*
 ** cd.c

@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/03/16 22:34:55 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/17 21:30:06 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,15 +245,13 @@ int    ft_prompt(int argc, char **argv)
             ft_printf("minishell 👽 %d > ", g_data.ret);
             ft_printf("\033[0m");
         }
-        //len = read(0, &c, 1);
-        // len = get_next_line(0, &line);
-        // ft_printf("%d %d\n", len, ft_strlen(line));
-        // if(get_next_line(0, &line)== 0 && ft_strlen(line) == 0)
+        // if (get_next_line(0, &line) == 0 && ft_strlen(line) == 0)
         // {
         //     ft_printf("\nexit\n");
         //     exit(0);
         // }
-	    get_next_line(0, &line);
+        // else
+	        get_next_line(0, &line);
     }
     ft_parse(line);
     return 1;
@@ -279,17 +277,14 @@ const char* __asan_default_options() { return "detect_leaks=0"; }
 
 void intHandler(int dummy) {
     if (dummy == SIGINT)
-    {
-        ft_printf("\n");
-        ft_printf("\033[0;32m");
-        ft_printf("minissssshell 👽 %d > ", g_data.ret);
-        ft_printf("\033[0m");
-    }
+    {ft_printf("\n");
+    ft_printf("\033[0;32m");
+    ft_printf("minishell 👽 %d > ", g_data.ret);
+    ft_printf("\033[0m");}
 }
 void intHandlerchild(int dummy) {
     if (dummy == SIGINT)
         ft_printf("\n");
-    //exit(0);
 }
 
 int     main(int argc, char **argv, char **envp)
@@ -310,10 +305,10 @@ int     main(int argc, char **argv, char **envp)
     out = 1;
     in = 0;
     ft_stock_envp(envp);
-    //signal(SIGQUIT, intHandler);
+    signal(SIGQUIT, intHandler);
     while (1)
     {
-        //signal(SIGINT, intHandler);
+        signal(SIGINT, intHandler);
         ft_prompt(argc, argv);
         newlist = g_data.cmds;
         pipe_list = g_data.n_pipe_cmd;
@@ -373,6 +368,8 @@ int     main(int argc, char **argv, char **envp)
                 }
                 else
                 {
+                    //ft_printf("bin\n");
+                    signal(SIGQUIT, intHandlerchild);
                     n_fork++;
                     //signal(SIGINT, intHandlerchild);
                     if (!fork())

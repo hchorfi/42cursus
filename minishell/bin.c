@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/03/17 16:22:00 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/17 20:29:33 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,18 @@ int		ft_exec_bin(void *cmd)
 	if(!stat(g_command->tokens[0], &path_stat))
 	{
 		//ft_printf("%s : exist\n", g_command->tokens[0]);
-		// if(path_stat.st_mode & __S_IFDIR)
-		// 	ft_printf("minishell: %s: Is a directory\n", g_command->tokens[0]);
-		// else
-		// {	
+		if (path_stat.st_mode & S_IFDIR)
+		{
+			ft_printf("minishell: %s: is a directory\n", g_command->tokens[0]);
+			exit(126);
+		}
+		else
+		{
 			envp = ft_get_envp();
 			if (execve(g_command->tokens[0], g_command->tokens, envp) == -1)
 				ft_printf("minishell: %s: Permission denied\n", g_command->tokens[0]);
-			exit(g_data.ret = 126);
-		//}
+			exit(126);
+		}
 	}
 	//else
 		//ft_printf("%s : not exist\n", g_command->tokens[0]);
