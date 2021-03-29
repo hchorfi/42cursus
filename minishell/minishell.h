@@ -1,116 +1,123 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
+/*   Updated: 2021/03/28 18:28:42 by hchorfi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include "get_next_line.h"
-#include "libft/libft.h"
-#include "../ft_printf/ft_printf.h"
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <limits.h>
-#include <errno.h>
-#include <signal.h> 
+# include "get_next_line.h"
+# include "libft/libft.h"
+# include "ft_printf/ft_printf.h"
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <limits.h>
+# include <errno.h>
 
+typedef struct	s_command
+{
+	char		**tokens;
+	int			n_tokens;
+	int			input_file;
+	int			output_file;
+	int			pipe_pos;
+	int			block;
+}				t_command;
 
-# define POIN_VER 1
-
-typedef	struct 	s_data
+typedef struct	s_data
 {
 	t_list		*env_var;
-    t_list      *cmds;
-    t_list      *n_pipe_cmd;
-    int         ret;
+	t_list		*cmds;            //all commands
+	t_list		*n_pipe_cmd;
+	t_list		*fd_close;
+	t_command	*command;         //one pipe lina or command
+	int			ret;
+	int			fd[2];
+	int			fdd;
+	int			num_pipes;
+	int			n_fork;
 }				t_data;
 t_data			g_data;
-
-typedef struct s_command
-{
-    char        **tokens;
-    int         n_tokens;
-    int         input_file;
-    int         output_file;
-    int         pipe_pos;
-    int         block; 
-}				t_command;
-t_command		*g_command;
-
 
 /*
 ** echo.c
 */
 
-int				ft_echo();
+int				ft_echo(t_command *command);
+int				is_quote(char c);
 
 /*
 ** split.c
 */
 
-char		**ft_split_pars(char *s, char c);
-char		*get_other_variables(char *str);
-char        *remove_all_quotes(char *str);
+char			**ft_split_pars(char *s, char c);
+char			*get_other_variables(char *str);
+char			*remove_all_quotes(char *str);
 
 /*
 ** cd.c
 */
 
-int     ft_cd();
+int				ft_cd(t_command *command);
 
 /*
 ** pwd.c
 */
 
-int     ft_pwd();
+int				ft_pwd(void);
 
 /*
 ** export.c
 */
 
-int     ft_valid_export_var(char *export_var, char *token, char *str);
-int     ft_exist_export_var(char *export_var, char *token);
-char    *ft_get_export_var(char *exp_token);
-int     ft_export();
+int				ft_valid_export_var(t_command *command, char *export_var, char *token, char *str);
+int				ft_exist_export_var(char *export_var, char *token);
+char			*ft_get_export_var(char *exp_token);
+int				ft_export(t_command *command);
 
 /*
 ** env.c
 */
 
-int     ft_env();
+int				ft_env(t_command *command);
 
 /*
 ** unset.c
 */
 
-int     ft_unset();
-int     ft_valid_unset_var(char *unset_var);
-int		ft_chr_var(char *unset_var);
-int     ft_del_list(t_list **head, int position);
+int				ft_unset();
+int				ft_valid_unset_var(char *unset_var);
+int				ft_chr_var(char *unset_var);
+int				ft_del_list(t_list **head, int position);
 
 /*
 ** bin.c
 */
 
-int		ft_exec_bin(void *cmd);
-
-/*
-** echo.c
-*/
-
-int		is_quote(char c);
+int				ft_exec_bin(t_command *command);
+void			ft_free_d_p(char **str);
 
 /*
 ** main.c
 */
 
-int     ft_exec();
-void    ft_parse(char *line);
-int     ft_prompt();
-void    ft_stock_envp(char **envp);
+int				ft_exec(void);
+void			ft_parse(char *line);
+int				ft_prompt(int argc, char **argv);
+void			ft_stock_envp(char **envp);
 
 /*
 ** exit.c
 */
 
-int     ft_exit();
+int				ft_exit(t_command *command);
 
 #endif

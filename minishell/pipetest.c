@@ -11,7 +11,8 @@ pipeline(char ***cmd)
 {
 	int fd[2];
 	pid_t pid;
-	int fdd = 0;				/* Backup */
+	int fdd = 0;
+	int stat;				/* Backup */
 
 	while (*cmd != NULL) {
 		pipe(fd);				/* Sharing bidiflow */
@@ -29,7 +30,8 @@ pipeline(char ***cmd)
 			exit(1);
 		}
 		else {
-			wait(NULL); 		/* Collect childs */
+			wait(&stat);
+			printf("--%d\n", stat); 		/* Collect childs */
 			close(fd[1]);
 			fdd = fd[0];
 			cmd++;
@@ -49,9 +51,11 @@ main(int argc, char *argv[])
 	char *nl[] = {"nl", NULL};
 	char *cat[] = {"cat", "-e", NULL};
 	char *wc[] = {"wc", NULL};
-	char *mini[] = {"/bin/ls", NULL};
+	char *mini[] = {"./somefile", NULL};
 	char **cmd[] = {ls, rev, nl, cat, wc, mini, NULL};
 
 	pipeline(cmd);
+
+	//write(1, "hamza\bn", 7);
 	return (0);
 }

@@ -14,7 +14,6 @@
 
 int		ft_change_oldpwd(char *val)
 {
-
 	char	*tmp;
 	t_list	*newlist;
 
@@ -26,18 +25,17 @@ int		ft_change_oldpwd(char *val)
 		{
 			newlist->content = ft_strjoin("OLDPWD=", val);
 			free(tmp);
-			return 0;
+			return (0);
 		}
 		else
 			newlist = newlist->next;
-		free (tmp);
+		free(tmp);
 	}
-	return 0;
+	return (0);
 }
 
 int		ft_change_pwd(char *val)
 {
-
 	char	*tmp;
 	t_list	*newlist;
 
@@ -45,17 +43,17 @@ int		ft_change_pwd(char *val)
 	while (newlist)
 	{
 		tmp = ft_substr(newlist->content, 0, 4);
-		if (!ft_strncmp(tmp, "PWD=", 5) )
+		if (!ft_strncmp(tmp, "PWD=", 5))
 		{
 			newlist->content = ft_strjoin("PWD=", val);
 			free(tmp);
-			return 0;
+			return (0);
 		}
 		else
 			newlist = newlist->next;
-		free (tmp);
+		free(tmp);
 	}
-	return 0;
+	return (0);
 }
 
 char	*ft_get_home(void)
@@ -75,37 +73,36 @@ char	*ft_get_home(void)
 		}
 		else
 			newlist = newlist->next;
-		free (tmp);
+		free(tmp);
 	}
 	ft_printf("minishell: cd: HOME not set\n");
 	return (0);
 }
 
-int		ft_cd()
+int		ft_cd(t_command *command)
 {
-	char 	pwd[PATH_MAX];
+	char	pwd[PATH_MAX];
 	char	oldpwd[PATH_MAX];
 	char	*val;
+
 	if (!getcwd(oldpwd, PATH_MAX))
 		ft_printf("%s\n", strerror(errno));
-	// if (g_command->tokens[2])
+	// if (g_data.command->tokens[2])
 	// {
 	// 	ft_printf("minishell: cd: too many arguments\n");
 	// 	return (g_data.ret = 1);
 	// }
 	val = NULL;
-	if (!(val = g_command->tokens[1]))
-	{	
+	if (!(val = command->tokens[1]))
+	{
 		val = ft_get_home();
 		if (!val)
 		{
-			g_data.ret = 1;
-			return (0);
+			return (g_data.ret = 1);
 		}
 		if (*val == 0)
 		{
-			g_data.ret = 0;
-			return (0);
+			return (g_data.ret = 0);
 		}
 	}
 	if (!chdir(val))
@@ -114,8 +111,7 @@ int		ft_cd()
 			ft_printf("%s\n", strerror(errno));
 		ft_change_pwd(pwd);
 		ft_change_oldpwd(oldpwd);
-		g_data.ret = 0;
-		return (0);
+		return (g_data.ret = 0);
 	}
 	else
 	{

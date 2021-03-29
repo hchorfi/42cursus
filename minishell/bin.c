@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/03/17 20:29:33 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/28 21:22:01 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**ft_get_envp()
 	list_len = ft_lstsize(g_data.env_var);
 	newlist = g_data.env_var;
 	i = 0;
-	if (!(envp = malloc(sizeof (char*) * list_len)))
+	if (!(envp = malloc(sizeof (char*) * list_len + 1)))
 		return (NULL);
 	while (newlist)
 	{
@@ -55,10 +55,26 @@ char	**ft_get_envp()
 		newlist = newlist->next;
 		i++;
 	}
+	envp[i] = NULL;
 	return (envp);
 }
 
-int		ft_exec_bin(void *cmd)
+void	ft_free_d_p(char **str)
+{
+	int		len;
+
+	len = 0;
+	while (str[len])
+		len++;
+	while (len >= 0)
+	{
+		free(str[len]);
+		len--;
+	}
+	free(str);
+}
+
+int		ft_exec_bin(t_command *command)
 {
 	int		pid;
 	int		status;
@@ -68,46 +84,89 @@ int		ft_exec_bin(void *cmd)
 	int		i;
 	struct stat path_stat;
 	char	**envp;
-	g_command = (t_command *)cmd;
-
-	if(!stat(g_command->tokens[0], &path_stat))
+	//command = (t_command *)cmd;
+	if(!stat(command->tokens[0], &path_stat))
 	{
-		//ft_printf("%s : exist\n", g_command->tokens[0]);
+		//ft_printf("%s : exist\n", command->tokens[0]);
+		if(!ft_strncmp(command->tokens[0], "..", 3))
+		{
+			ft_printf("minishell: %s: command not found\n", command->tokens[0]);
+			exit(127);		
+		}
+		if(!ft_strncmp(command->tokens[0], ".", 2))
+		{
+			ft_putstr_fd("bash: .: filename argument required\n.: usage: . filename [arguments]\n", 1);
+			exit(2);	
+		}
 		if (path_stat.st_mode & S_IFDIR)
 		{
-			ft_printf("minishell: %s: is a directory\n", g_command->tokens[0]);
-			exit(126);
+			if (command->tokens[0][0] != '.' && command->tokens[0][0] != '/' && command->tokens[0][ft_strlen(command->tokens[0]) - 1] != '/')
+			{
+				ft_printf("minishell: %s: command not found\n", command->tokens[0]);
+        		exit(g_data.ret = 127);
+			}
+			else
+			{
+				ft_printf("minishell: %s: is a directory\n", command->tokens[0]);
+				exit(126);
+			}
+		}
+		//printf("%o\n", path_stat.st_mode);
+		//ft_printf("%d\n", S_IRWXU);
+		if(path_stat.st_mode == S_IRWXU  || path_stat.st_mode == S_IRWXO || path_stat.st_mode == S_IRWXG || ((path_stat.st_mode & S_IXUSR) && (path_stat.st_mode & S_IRUSR)))
+		{
+			//printf("OK");
+			envp = ft_get_envp();
+			execve(command->tokens[0], command->tokens, envp);
+			//ft_free_d_p(envp);
+			exit (0);
+			
 		}
 		else
 		{
-			envp = ft_get_envp();
-			if (execve(g_command->tokens[0], g_command->tokens, envp) == -1)
-				ft_printf("minishell: %s: Permission denied\n", g_command->tokens[0]);
+			//printf("OK2");
+			//ft_printf("-%s\n", command->tokens[0]);
+			ft_printf("minishell: %s: Permission denied\n", command->tokens[0]);
 			exit(126);
+			
 		}
 	}
 	//else
-		//ft_printf("%s : not exist\n", g_command->tokens[0]);
+		//ft_printf("%s : not exist\n", command->tokens[0]);
 	//exit(0);
 	else
 	{
+		//ft_printf("%s\n", command->tokens[0]);
+		if (command->tokens[0][0] == '/' || (ft_strlen(command->tokens[0]) > 2 && command->tokens[0][0] == '.' && command->tokens[0][1] == '/'))
+		{
+			ft_printf("minishell: %s: No such file or directory\n", command->tokens[0]);
+			exit(127);
+		}
 		path = ft_get_path();
 		bins = ft_split(path, ':');
+		//ft_printf("path : -%s-  bins : -%s-\n", path, *bins);
+		if(!path || *path == '\0' || !bins)
+		{
+			ft_printf("minishell: %s: No such file or directory\n", command->tokens[0]);
+			exit(127);
+		}
 		i = 0;
 		while(bins[i])
 		{
 			path = ft_strjoin(bins[i], "/");
-			file = ft_strjoin(path, g_command->tokens[0]);
+			file = ft_strjoin(path, command->tokens[0]);
 			if (!stat(file, &path_stat))
 			{
 				envp = ft_get_envp();
-				execve(file, g_command->tokens, envp);
-				//ft_printf("minishell: %s: %s\n", g_command->tokens[0], strerror(errno));
-				ft_printf("minishell: %s: command not found\n", g_command->tokens[0]);
-				exit(g_data.ret = 126);
+				//ft_printf("%s : %s : %s", file, command->tokens[0], envp[0]);
+				execve(file, command->tokens, envp);
+				//ft_free_d_p(envp);
+				ft_printf("minishellerno: %d %s: %s\n", errno, command->tokens[0], strerror(errno));
+				exit(126);
 			}
 			i++;
 		}
+		//ft_free_d_p(bins);
 	}
 	return (0);
 }
