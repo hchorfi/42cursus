@@ -2,6 +2,7 @@
 #include <string.h>
 #include <termios.h>
 #include <unistd.h>
+#include "libft/libft.h"
 
 #define cursorforward(x) printf("\033[%dC", (x))
 #define cursorbackward(x) printf("\033[%dD", (x))
@@ -93,19 +94,70 @@ static int kbget(void)
 int main(void)
 {
     int c;
+    char *line;
+    char *charater;
+    char *tmp_free;
+    t_list  *history;
+    int     his_count;
+    his_count = 0;
+    int up_count;
+    int dn_count;
+    dn_count = 0;
+    up_count = 0;
 
+    line = ft_strdup("");
+    history = NULL;
     while (1) {
         c = kbget();
-        if (c == KEY_ENTER || c == KEY_ESCAPE || c == KEY_UP || c == KEY_DOWN) {
+        if (c == KEY_ESCAPE) {
             break;
-        } else
-        if (c == KEY_RIGHT) {
+        } else if (c == KEY_ENTER){
+            printf("\r%s\n", line);
+            if(history == NULL)
+                history = ft_lstnew(ft_strdup(line));
+            else
+                ft_lstadd_back(&history, ft_lstnew(ft_strdup(line)));
+            free(line);
+            line = ft_strdup("");
+            his_count++;
+            up_count = his_count;
+            // dn_count = 0;
+
+            //free(line);
+            //break;
+        }
+        else if (c == KEY_UP){
+            if (up_count != 0)
+            {
+                up_count--;
+                // if (up_count == 0)
+                //     up_count = his_count;
+                printf("\r%d\n", up_count);
+            }
+        }
+        else if (c == KEY_DOWN){
+            
+            if (up_count < his_count)
+            {
+                up_count++;
+                // if (dn_count == his_count)
+                //     dn_count == 0;
+                printf("\r%d\n", up_count);
+            }
+        }
+        else if (c == KEY_RIGHT) {
             cursorbackward(1);
-        } else
-        if (c == KEY_LEFT) {
+        } else if (c == KEY_LEFT) {
             cursorforward(1);
         } else {
             putchar(c);
+            charater = malloc(sizeof(char) * 2);
+            charater[0] = (char)c;
+            charater[1] = '\0';
+            tmp_free = line;
+            line = ft_strjoin(line, charater);
+            free(tmp_free);
+            free(charater);
         }
     }
     printf("\n");
