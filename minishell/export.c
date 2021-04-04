@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 16:35:17 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/03/12 22:48:24 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/29 15:43:55 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,16 @@ int     ft_valid_export_var(t_command *command, char *export_var, char *token, c
     return (0);
 }
 
+int		ft_strcmp(const char *s1, const char *s2)
+{
+	size_t i;
+
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
 int     ft_exist_export_var(char *export_var, char *token)
 {
     t_list  *newlist;
@@ -101,7 +111,7 @@ int     ft_exist_export_var(char *export_var, char *token)
             tmp_len--;
         }
         //ft_printf("oldvar : %s - tokenvar : %s\n", old_var, export_var);
-        if (!(ft_strncmp(old_var, export_var, tmp_len)))
+        if (!(ft_strcmp(old_var, export_var)))
         {
             //ft_printf("old : %s - export : %s\n", old_var, export_var);
             if(ft_strchr(newlist->content, '=') && !ft_strchr(token, '='))

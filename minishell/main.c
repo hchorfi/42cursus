@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/03/12 22:47:40 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/31 16:28:42 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ int     ft_check_builtin(t_command *command)
 
 // int     ft_exec(void *cmd)
 // {
-   
 //     else if(!(ret = ft_check_bin()))
 //     {
-//             ft_printf("---%d\n", ret);
+//         ft_printf("---%d\n", ret);
 //         return (g_data.ret = 127);
 //     }
 //     //ft_printf("%d\n", ret);
 //     else
 //         return (g_data.ret = 0);
 // }
+
 int     ft_exec_builtin(t_command *command)
 {
     if (!ft_strncmp(command->tokens[0], "export", 7))
@@ -124,6 +124,7 @@ char    *ft_check_in(char *pipe_cmds)
             //ft_printf("*%d\n",in);
             if (g_data.command->input_file > 0)
                 close(g_data.command->input_file);
+            //ft_printf("in : %d\n", in);
             g_data.command->input_file = in;
             tmp_free = new_pipe;
             new_pipe = ft_strjoin(new_pipe, tmp_in + j);
@@ -275,7 +276,6 @@ void    ft_parse(char *line)
             g_data.command->block = i;
             g_data.command->pipe_pos = j;
             new_pipe = ft_check_redirections(pipe_cmds[j]);
-            //
             //ft_printf("---%s--\n", new_pipe);
             //new_pipe = get_other_variables(new_pipe);
             g_data.command->tokens = ft_split_pars(new_pipe, ' ');
@@ -345,9 +345,14 @@ void    ft_stock_ret(void)
 int    ft_prompt(int argc, char **argv)
 {
     char    *line;
-    char    *line2;
+    char    *tmp_line;
     int     len;
     int     line_len;
+    int     ret;
+    char     c;
+    char    *str_char;
+    char    *tmp_free;
+    line = NULL;
 
     if (argc >= 2)
         line = argv[2];
@@ -365,16 +370,17 @@ int    ft_prompt(int argc, char **argv)
             ft_printf("minishell 👽 %d > ", g_data.ret);
             ft_printf("\033[0m");
         }
+        //ft_printf("%s\n",line);
         len = get_next_line(0, &line);
         line_len = ft_strlen(line);
         //ft_printf("len : %d, line_len : %d\n", len, line_len);
-        if (!len && !line_len)
-        {
-            ft_printf("\nexit\n");
-            exit(0);
-        }
     }
     ft_parse(line);
+    // if (!len && !line_len)
+    // {
+    //     ft_printf("\nexit\n");
+    //     exit(0);
+    // }
     if (argc < 2)
         free(line);
     return 1;
@@ -474,12 +480,13 @@ void    ft_bin(t_command *command)
     g_data.n_fork++;
     if (!fork())
     {
+        //ft_printf("fork\n");
         int std_out = dup(1);
         int std_in = dup(0);
         //ft_printf("--in :%d\n", command->input_file);
         //ft_printf("--out :%d\n", command->output_file);
         //ft_printf("fdd : %d\n", g_data.fdd);
-        if (command->input_file > 0)
+        if (command->input_file > 0 && command->input_file < 50)
         {
             //ft_printf("in :%d\n", command->input_file);
             dup2(command->input_file, 0);
@@ -497,7 +504,7 @@ void    ft_bin(t_command *command)
             close(g_data.fd[0]);
             close(g_data.fd[1]);
         }
-        if (command->output_file > 1)
+        if (command->output_file > 1 && command->output_file < 50)
         {
             //ft_printf("out :%d\n", command->output_file);
             dup2(command->output_file, 1);

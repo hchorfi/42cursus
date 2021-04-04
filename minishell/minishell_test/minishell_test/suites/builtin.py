@@ -3,13 +3,13 @@
 #                                                         :::      ::::::::    #
 #    builtin.py                                         :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+         #
+#    By: juligonz <juligonz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/07/15 18:24:43 by charles           #+#    #+#              #
-#    Updated: 2021/03/08 23:42:01 by hchorfi          ###   ########.fr        #
+#    Updated: 2021/02/27 20:36:27 by cacharle         ###   ########.fr        #
+#    Updated: 2020/09/11 18:01:27 by juligonz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 
 import os
 
@@ -32,7 +32,7 @@ def suite_echo(test):
     test("echo -n lalalala lalalalal alalalalal alalalala")
     test("echo -n lalalala                lalalalal      alalalalal alalalala")
     test("echo -n " + Config.lorem)
-    test("echo hamza -n")
+    test("echo bonjour -n")
     test("echo -n bonjour -n")
     test("                        echo                     bonjour             je")
     test("                        echo       -n            bonjour             je")

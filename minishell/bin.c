@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/03/08 21:12:59 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/03/31 17:37:38 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**ft_get_envp()
 	list_len = ft_lstsize(g_data.env_var);
 	newlist = g_data.env_var;
 	i = 0;
-	if (!(envp = malloc(sizeof (char*) * list_len)))
+	if (!(envp = malloc(sizeof (char*) * list_len + 1)))
 		return (NULL);
 	while (newlist)
 	{
@@ -55,6 +55,7 @@ char	**ft_get_envp()
 		newlist = newlist->next;
 		i++;
 	}
+	//envp[i] = NULL;
 	return (envp);
 }
 
@@ -84,7 +85,6 @@ int		ft_exec_bin(t_command *command)
 	struct stat path_stat;
 	char	**envp;
 	//command = (t_command *)cmd;
-
 	if(!stat(command->tokens[0], &path_stat))
 	{
 		//ft_printf("%s : exist\n", command->tokens[0]);
@@ -136,6 +136,7 @@ int		ft_exec_bin(t_command *command)
 	//exit(0);
 	else
 	{
+		//ft_printf("%s\n", command->tokens[0]);
 		if (command->tokens[0][0] == '/' || (ft_strlen(command->tokens[0]) > 2 && command->tokens[0][0] == '.' && command->tokens[0][1] == '/'))
 		{
 			ft_printf("minishell: %s: No such file or directory\n", command->tokens[0]);
@@ -157,9 +158,10 @@ int		ft_exec_bin(t_command *command)
 			if (!stat(file, &path_stat))
 			{
 				envp = ft_get_envp();
-				execve(file, command->tokens, envp);
+				//ft_printf("%s : %s : %s", file, command->tokens[0], envp[0]);
+				execve(file, command->tokens, NULL);
 				//ft_free_d_p(envp);
-				//ft_printf("minishell: %s: %s\n", command->tokens[0], strerror(errno));
+				ft_printf("minishell: %s: %s\n", command->tokens[0], strerror(errno));
 				exit(126);
 			}
 			i++;

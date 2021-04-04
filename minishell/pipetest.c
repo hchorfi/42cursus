@@ -26,7 +26,7 @@ pipeline(char ***cmd)
 				dup2(fd[1], 1);
 			}
 			close(fd[0]);
-			execvp((*cmd)[0], *cmd);
+			execve("/bin/bash", *cmd, NULL);
 			exit(1);
 		}
 		else {
@@ -51,8 +51,8 @@ main(int argc, char *argv[])
 	char *nl[] = {"nl", NULL};
 	char *cat[] = {"cat", "-e", NULL};
 	char *wc[] = {"wc", NULL};
-	char *mini[] = {"./somefile", NULL};
-	char **cmd[] = {ls, rev, nl, cat, wc, mini, NULL};
+	char *bash[] = {"bash", NULL};
+	char **cmd[] = {bash, NULL};
 
 	pipeline(cmd);
 

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devza <devza@student.42.fr>                +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:12:18 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/01/22 22:35:49 by devza            ###   ########.fr       */
+/*   Updated: 2021/03/30 11:45:10 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
 
 char	*ft_strcpy(char *dest, char *src)
 {
@@ -82,7 +83,9 @@ int		get_next_line(int fd, char **line)
 	while (!chr)
 	{
 		if ((bc = read(fd, buffer, BUFFER_SIZE)) == 0)
+		{
 			return (ft_last_check(&tmp, &buffer));
+		}
 		buffer[bc] = '\0';
 		if ((chr = strchr(buffer, '\n')))
 		{
