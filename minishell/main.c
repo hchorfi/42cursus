@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/03/31 16:28:42 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/04 10:20:44 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,7 +333,7 @@ void    ft_stock_ret(void)
         {
             tmp_free = env_list->content;
             env_list->content = str;
-            free(tmp_free);
+            //free(tmp_free);
             exist = 1;
         }
         env_list = env_list->next;
@@ -486,7 +486,7 @@ void    ft_bin(t_command *command)
         //ft_printf("--in :%d\n", command->input_file);
         //ft_printf("--out :%d\n", command->output_file);
         //ft_printf("fdd : %d\n", g_data.fdd);
-        if (command->input_file > 0 && command->input_file < 50)
+        if (command->input_file > 0 && command->input_file < 1024)
         {
             //ft_printf("in :%d\n", command->input_file);
             dup2(command->input_file, 0);
@@ -495,7 +495,7 @@ void    ft_bin(t_command *command)
         else
         {   
             dup2(g_data.fdd, 0);
-            close(g_data.fdd);
+            //close(g_data.fdd);
         }
         if (g_data.num_pipes > 0)
         {
@@ -504,7 +504,7 @@ void    ft_bin(t_command *command)
             close(g_data.fd[0]);
             close(g_data.fd[1]);
         }
-        if (command->output_file > 1 && command->output_file < 50)
+        if (command->output_file > 1 && command->output_file < 1024)
         {
             //ft_printf("out :%d\n", command->output_file);
             dup2(command->output_file, 1);
@@ -527,12 +527,13 @@ void    ft_close_fd()
 
     while (g_data.fd_close)
     {
-       tmp_list = g_data.fd_close;
+        tmp_list = g_data.fd_close;
        //ft_printf("close : %d\n", *(int *)(g_data.fd_close)->content);
-       close(*(int *)(g_data.fd_close)->content);
-       free(g_data.fd_close->content);
-       g_data.fd_close = g_data.fd_close->next;
-       free(tmp_list);
+        //if (*(int *)(g_data.fd_close)->content > 2)
+            close(*(int *)(g_data.fd_close)->content);
+        free(g_data.fd_close->content);
+        g_data.fd_close = g_data.fd_close->next;
+        free(tmp_list);
     }
 }
 
