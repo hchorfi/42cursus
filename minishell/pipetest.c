@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <sys/wait.h>
 
 /*
  * loop over commands by sharing
@@ -31,7 +32,7 @@ pipeline(char ***cmd)
 		}
 		else {
 			wait(&stat);
-			printf("--%d\n", stat); 		/* Collect childs */
+			//printf("--%d\n", stat); 		/* Collect childs */
 			close(fd[1]);
 			fdd = fd[0];
 			cmd++;
@@ -51,7 +52,7 @@ main(int argc, char *argv[])
 	char *nl[] = {"nl", NULL};
 	char *cat[] = {"cat", "-e", NULL};
 	char *wc[] = {"wc", NULL};
-	char *mini[] = {"./somefile", NULL};
+	char *mini[] = {"./a.out", NULL};
 	char **cmd[] = {ls, rev, nl, cat, wc, mini, NULL};
 
 	pipeline(cmd);

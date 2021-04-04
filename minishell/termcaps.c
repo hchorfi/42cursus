@@ -91,6 +91,22 @@ static int kbget(void)
     return (c == KEY_ESCAPE) ? kbesc() : c;
 }
 
+char    *ft_print_his(int i, t_list *newlist, int work)
+{
+   int j = 0;
+
+   while (newlist)
+   {
+       if (j == i)
+       {
+           return (newlist->content);
+       }
+       newlist = newlist->next;
+       j++;
+   }
+    return (NULL);
+}
+
 int main(void)
 {
     int c;
@@ -112,7 +128,6 @@ int main(void)
         if (c == KEY_ESCAPE) {
             break;
         } else if (c == KEY_ENTER){
-            printf("\r%s\n", line);
             if(history == NULL)
                 history = ft_lstnew(ft_strdup(line));
             else
@@ -121,6 +136,7 @@ int main(void)
             line = ft_strdup("");
             his_count++;
             up_count = his_count;
+            //printf("\r%s\n", line);
             // dn_count = 0;
 
             //free(line);
@@ -132,7 +148,7 @@ int main(void)
                 up_count--;
                 // if (up_count == 0)
                 //     up_count = his_count;
-                printf("\r%d\n", up_count);
+                printf("\r%s\n", ft_print_his(up_count, history, 0));
             }
         }
         else if (c == KEY_DOWN){
@@ -142,7 +158,7 @@ int main(void)
                 up_count++;
                 // if (dn_count == his_count)
                 //     dn_count == 0;
-                printf("\r%d\n", up_count);
+                printf("\r%s\n", ft_print_his(up_count, history, 0));
             }
         }
         else if (c == KEY_RIGHT) {

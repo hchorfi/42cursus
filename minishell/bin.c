@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/03/28 21:22:01 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/03 21:06:20 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,15 @@ int		ft_exec_bin(t_command *command)
 		if(path_stat.st_mode == S_IRWXU  || path_stat.st_mode == S_IRWXO || path_stat.st_mode == S_IRWXG || ((path_stat.st_mode & S_IXUSR) && (path_stat.st_mode & S_IRUSR)))
 		{
 			//printf("OK");
-			envp = ft_get_envp();
-			execve(command->tokens[0], command->tokens, envp);
+			if(!fork())
+			{
+				envp = ft_get_envp();
+				execve(command->tokens[0], command->tokens, envp);
+			}
+			
+            //wait(&g_data.ret);
 			//ft_free_d_p(envp);
-			exit (0);
+			//exit (0);
 			
 		}
 		else
