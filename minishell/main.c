@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/04 10:20:44 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/09 19:01:38 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,18 +344,8 @@ void    ft_stock_ret(void)
 
 int    ft_prompt(int argc, char **argv)
 {
-    char    *line;
-    char    *tmp_line;
-    int     len;
-    int     line_len;
-    int     ret;
-    char     c;
-    char    *str_char;
-    char    *tmp_free;
-    line = NULL;
-
     if (argc >= 2)
-        line = argv[2];
+        g_data.line = argv[2];
     else    
     {
         if (g_data.ret == 0)
@@ -371,18 +361,17 @@ int    ft_prompt(int argc, char **argv)
             ft_printf("\033[0m");
         }
         //ft_printf("%s\n",line);
-        len = get_next_line(0, &line);
-        line_len = ft_strlen(line);
+        get_line();
+        //ft_strlen(g_data.line);
         //ft_printf("len : %d, line_len : %d\n", len, line_len);
     }
-    ft_parse(line);
     // if (!len && !line_len)
     // {
     //     ft_printf("\nexit\n");
     //     exit(0);
     // }
     if (argc < 2)
-        free(line);
+        free(g_data.line);
     return 1;
 }
 
@@ -586,6 +575,8 @@ int     main(int argc, char **argv, char **envp)
     ft_stock_envp(envp);
     g_data.ret = 0;
     int *tmp;
+    g_data.count = 0;
+    g_data.his_count = 0;
     //signal(SIGQUIT, intHandler);
     while (1)
     {
