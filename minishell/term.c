@@ -113,7 +113,7 @@ void	down(int *count, int *his_count)
 
 void	delete_end(int *col, int *row, char *cm, char *ce)
 {
-	if (*col != 0)
+	if (*col != 0 && *col > 17)
 		--(*col);
 	tputs(tgoto(cm, *col, *row), 1, putchar_tc);
 	tputs(ce, 1, putchar_tc);
@@ -225,7 +225,7 @@ int		get_line(void)
 				charater[1] = '\0';
 				tmp_free = g_data.line;
 				g_data.line = ft_strjoin(g_data.line, charater);
-				free(tmp_free);
+				//free(tmp_free);
 				free(charater);
 			}
 		}
