@@ -6,6 +6,11 @@ $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ..; pwd; echo $PWD; echo $OLDPWD\n
@@ -16,6 +21,11 @@ $
 /Users/hchorfi/.cache/minishell_test$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi/.cache/minishell_test$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ../..; pwd; echo $PWD; echo $OLDPWD\n
@@ -26,6 +36,11 @@ $
 /Users/hchorfi/.cache$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi/.cache$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ../../..; pwd; echo $PWD; echo $OLDPWD\n
@@ -36,6 +51,11 @@ $
 /Users/hchorfi$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ../../../..; pwd; echo $PWD; echo $OLDPWD\n
@@ -46,6 +66,11 @@ $
 /Users$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ../../../../..; pwd; echo $PWD; echo $OLDPWD\n
@@ -56,6 +81,11 @@ $
 /$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ../../../../../..; pwd; echo $PWD; echo $OLDPWD\n
@@ -66,6 +96,11 @@ $
 /$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd /; pwd; echo $PWD; echo $OLDPWD\n
@@ -76,6 +111,11 @@ $
 /$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ''; pwd; echo $PWD; echo $OLDPWD\n
@@ -86,6 +126,12 @@ $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd '' ''; pwd; echo $PWD; echo $OLDPWD\n
@@ -96,6 +142,12 @@ $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd '' '' ''; pwd; echo $PWD; echo $OLDPWD\n
@@ -106,6 +158,12 @@ $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ' '; pwd; echo $PWD; echo $OLDPWD\n
@@ -117,6 +175,12 @@ minishell: cd:  : No such file or directory$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:  : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir d] echo $PWD; echo $OLDPWD; cd d ''; pwd; echo $PWD; echo $OLDPWD\n
@@ -127,6 +191,11 @@ $
 /Users/hchorfi/.cache/minishell_test/sandbox/d$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox/d$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir d] echo $PWD; echo $OLDPWD; cd d d; pwd; echo $PWD; echo $OLDPWD\n
@@ -137,6 +206,11 @@ $
 /Users/hchorfi/.cache/minishell_test/sandbox/d$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox/d$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir d] echo $PWD; echo $OLDPWD; cd d ' '; pwd; echo $PWD; echo $OLDPWD\n
@@ -147,6 +221,11 @@ $
 /Users/hchorfi/.cache/minishell_test/sandbox/d$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi/.cache/minishell_test/sandbox/d$
+$
+$
 ================================================================================
 
 |> WITH [EXPORTS HOME='/Users/hchorfi'] echo $PWD; echo $OLDPWD; cd $HOME; pwd; echo $PWD; echo $OLDPWD\n
@@ -157,6 +236,11 @@ $
 /Users/hchorfi$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/Users/hchorfi$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd /; pwd; echo $PWD; echo $OLDPWD\n
@@ -167,6 +251,11 @@ $
 /$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd /.; pwd; echo $PWD; echo $OLDPWD\n
@@ -177,6 +266,11 @@ $
 /$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd /./; pwd; echo $PWD; echo $OLDPWD\n
@@ -187,6 +281,11 @@ $
 /$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd /././././; pwd; echo $PWD; echo $OLDPWD\n
@@ -197,6 +296,11 @@ $
 /$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd //; pwd; echo $PWD; echo $OLDPWD\n
@@ -207,6 +311,11 @@ $
 /$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ///; pwd; echo $PWD; echo $OLDPWD\n
@@ -217,6 +326,11 @@ $
 /$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ////; pwd; echo $PWD; echo $OLDPWD\n
@@ -227,6 +341,11 @@ $
 /$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd //////////////////////////////////////////////////////; pwd; echo $PWD; echo $OLDPWD\n
@@ -237,6 +356,11 @@ $
 /$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd; echo $OLDPWD\n
@@ -246,6 +370,10 @@ $
 minishell: cd: HOME not set$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: cd: HOME not set$
+$
 ================================================================================
 
 |> WITH [EXPORTS HOME='/Users/hchorfi'] echo $PWD; echo $OLDPWD; cd; echo $PWD; echo $OLDPWD\n
@@ -255,6 +383,10 @@ $
 /Users/hchorfi$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ' /'; pwd; echo $PWD; echo $OLDPWD\n
@@ -266,6 +398,12 @@ minishell: cd:  /: No such file or directory$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:  /: No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ' / '; pwd; echo $PWD; echo $OLDPWD\n
@@ -277,6 +415,12 @@ minishell: cd:  / : No such file or directory$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:  / : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd '                  /'; pwd; echo $PWD; echo $OLDPWD\n
@@ -288,6 +432,12 @@ minishell: cd:                   /: No such file or directory$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:                   /: No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd '                  /              '; pwd; echo $PWD; echo $OLDPWD\n
@@ -299,6 +449,12 @@ minishell: cd:                   /              : No such file or directory$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:                   /              : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ' // '; pwd; echo $PWD; echo $OLDPWD\n
@@ -310,6 +466,12 @@ minishell: cd:  // : No such file or directory$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:  // : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd //home; pwd; echo $PWD; echo $OLDPWD\n
@@ -320,6 +482,11 @@ $
 /home$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+/home$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ' //home'; pwd; echo $PWD; echo $OLDPWD\n
@@ -331,6 +498,12 @@ minishell: cd:  //home: No such file or directory$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:  //home: No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd '     //home    '; pwd; echo $PWD; echo $OLDPWD\n
@@ -342,6 +515,12 @@ minishell: cd:      //home    : No such file or directory$
 /Users/hchorfi/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell:      //home    : No such file or directory$
+/Users/hchorfi/.cache/minishell_test/sandbox$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -351,6 +530,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 001 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -360,6 +543,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 002 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -369,6 +556,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 003 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -378,6 +569,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 004 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -387,6 +582,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 005 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -396,6 +595,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 006 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -405,6 +608,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 007 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -414,6 +621,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 010 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -423,6 +634,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 020 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -432,6 +647,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 030 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -441,6 +660,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 040 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -450,6 +673,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 050 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -459,6 +686,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 060 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -468,6 +699,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 070 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -477,6 +712,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 100 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -485,6 +724,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 200 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -494,6 +736,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 300 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -502,6 +748,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 400 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -511,6 +760,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 500 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -519,6 +772,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 600 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -528,6 +784,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 700 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -536,6 +796,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 755 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -544,6 +807,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 644 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -553,6 +819,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 311 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -561,6 +831,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 111 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -569,6 +842,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 222 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -578,6 +854,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 333 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -586,6 +866,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 0777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -594,6 +877,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 1000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -603,6 +889,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 2000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -612,6 +902,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 3000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -621,6 +915,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 4000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -630,6 +928,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 5000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -639,6 +941,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 6000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -648,6 +954,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 7000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -657,6 +967,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 1777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -665,6 +979,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 2777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -673,6 +990,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 3777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -681,6 +1001,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 4777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -689,6 +1012,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 5777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -697,6 +1023,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 6777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -705,6 +1034,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 7777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -713,6 +1045,9 @@ $
 $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
 ================================================================================
 
 |> WITH [SETUP mkdir -m 0000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD\n
@@ -722,6 +1057,10 @@ $
 minishell: cd: d: Permission denied$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+minishell: d: No such file or directory$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd /; echo $PWD; echo $OLDPWD; unset PWD; cd /dev; echo $OLDPWD\n
@@ -732,6 +1071,11 @@ $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+$
+$
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd /; echo $PWD; echo $OLDPWD; export PWD=bonjour; cd /dev; echo $OLDPWD\n
@@ -742,483 +1086,263 @@ $
 /Users/hchorfi/.cache/minishell_test/sandbox$
 bonjour$
 |---------------------------------------ACTUAL----------------------------------
+$
+$
+$
+$
+$
 ================================================================================
 
-|> WITH Cd .\n
-|  STATUS: expected 127 actual 0
+|> WITH [EXPORTS PATH='/bin:/usr/bin'] Cd .\n
+|  STATUS: expected 0 actual 1
 |---------------------------------------EXPECTED--------------------------------
-minishell: Cd: command not found$
 |---------------------------------------ACTUAL----------------------------------
+/usr/bin/Cd: line 4: cd: .$
+: No such file or directory$
 ================================================================================
 
-|> WITH cD .\n
-|  STATUS: expected 127 actual 0
+|> WITH [EXPORTS PATH='/bin:/usr/bin'] cD .\n
+|  STATUS: expected 0 actual 1
 |---------------------------------------EXPECTED--------------------------------
-minishell: cD: command not found$
 |---------------------------------------ACTUAL----------------------------------
+/usr/bin/cD: line 4: cd: .$
+: No such file or directory$
 ================================================================================
 
 |> WITH echo\n
+|  STATUS: expected 0 actual 127
 |---------------------------------------EXPECTED--------------------------------
 $
 |---------------------------------------ACTUAL----------------------------------
+minishell: echo$
+: command not found$
 ================================================================================
 
 |> WITH echo bonjour\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour$
 |---------------------------------------ACTUAL----------------------------------
+bonjour$
+$
 ================================================================================
 
 |> WITH echo lalalala lalalalal alalalalal alalalala\n
 |---------------------------------------EXPECTED--------------------------------
 lalalala lalalalal alalalalal alalalala$
 |---------------------------------------ACTUAL----------------------------------
+lalalala lalalalal alalalalal alalalala$
+$
 ================================================================================
 
 |> WITH echo lalalala                lalalalal      alalalalal alalalala\n
 |---------------------------------------EXPECTED--------------------------------
 lalalala lalalalal alalalalal alalalala$
 |---------------------------------------ACTUAL----------------------------------
+lalalala lalalalal alalalalal alalalala$
+$
 ================================================================================
 
 |> WITH echo Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. \n
 |---------------------------------------EXPECTED--------------------------------
 Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.$
 |---------------------------------------ACTUAL----------------------------------
+Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. $
+$
+================================================================================
+
+|> WITH echo -n\n
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+-n$
+$
 ================================================================================
 
 |> WITH echo -n bonjour\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour
 |---------------------------------------ACTUAL----------------------------------
+bonjour$
 ================================================================================
 
 |> WITH echo -n lalalala lalalalal alalalalal alalalala\n
 |---------------------------------------EXPECTED--------------------------------
 lalalala lalalalal alalalalal alalalala
 |---------------------------------------ACTUAL----------------------------------
+lalalala lalalalal alalalalal alalalala$
 ================================================================================
 
 |> WITH echo -n lalalala                lalalalal      alalalalal alalalala\n
 |---------------------------------------EXPECTED--------------------------------
 lalalala lalalalal alalalalal alalalala
 |---------------------------------------ACTUAL----------------------------------
+lalalala lalalalal alalalalal alalalala$
 ================================================================================
 
 |> WITH echo -n Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. \n
 |---------------------------------------EXPECTED--------------------------------
 Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.
 |---------------------------------------ACTUAL----------------------------------
+Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. $
 ================================================================================
 
 |> WITH echo bonjour -n\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour -n$
 |---------------------------------------ACTUAL----------------------------------
+bonjour -n$
+$
 ================================================================================
 
 |> WITH echo -n bonjour -n\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour -n
 |---------------------------------------ACTUAL----------------------------------
+bonjour -n$
 ================================================================================
 
 |> WITH                         echo                     bonjour             je\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour je$
 |---------------------------------------ACTUAL----------------------------------
+bonjour je$
+$
 ================================================================================
 
 |> WITH                         echo       -n            bonjour             je\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour je
 |---------------------------------------ACTUAL----------------------------------
+bonjour je$
 ================================================================================
 
 |> WITH echo a '' b '' c '' d\n
 |---------------------------------------EXPECTED--------------------------------
 a  b  c  d$
 |---------------------------------------ACTUAL----------------------------------
+a  b  c  d$
+$
 ================================================================================
 
 |> WITH echo a "" b "" c "" d\n
 |---------------------------------------EXPECTED--------------------------------
 a  b  c  d$
 |---------------------------------------ACTUAL----------------------------------
+a  b  c  d$
+$
 ================================================================================
 
 |> WITH echo -n a '' b '' c '' d\n
 |---------------------------------------EXPECTED--------------------------------
 a  b  c  d
 |---------------------------------------ACTUAL----------------------------------
+a  b  c  d$
 ================================================================================
 
 |> WITH echo -n a "" b "" c "" d\n
 |---------------------------------------EXPECTED--------------------------------
 a  b  c  d
 |---------------------------------------ACTUAL----------------------------------
+a  b  c  d$
 ================================================================================
 
 |> WITH echo '' '' ''\n
 |---------------------------------------EXPECTED--------------------------------
   $
 |---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH Echo bonjour\n
-|  STATUS: expected 127 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: Echo: command not found$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH eCho bonjour\n
-|  STATUS: expected 127 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: eCho: command not found$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH ecHo bonjour\n
-|  STATUS: expected 127 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: ecHo: command not found$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH echO bonjour\n
-|  STATUS: expected 127 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: echO: command not found$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH EchO bonjour\n
-|  STATUS: expected 127 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: EchO: command not found$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH eCHo bonjour\n
-|  STATUS: expected 127 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: eCHo: command not found$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH EcHo bonjour\n
-|  STATUS: expected 127 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: EcHo: command not found$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH eChO bonjour\n
-|  STATUS: expected 127 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: eChO: command not found$
-|---------------------------------------ACTUAL----------------------------------
+  $
+$
 ================================================================================
 
 |> WITH [EXPORTS PATH='/bin:/usr/bin'] Echo bonjour\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour$
 |---------------------------------------ACTUAL----------------------------------
+bonjour$
+$
 ================================================================================
 
 |> WITH [EXPORTS PATH='/bin:/usr/bin'] eCho bonjour\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour$
 |---------------------------------------ACTUAL----------------------------------
+bonjour$
+$
 ================================================================================
 
 |> WITH [EXPORTS PATH='/bin:/usr/bin'] ecHo bonjour\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour$
 |---------------------------------------ACTUAL----------------------------------
+bonjour$
+$
 ================================================================================
 
 |> WITH [EXPORTS PATH='/bin:/usr/bin'] echO bonjour\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour$
 |---------------------------------------ACTUAL----------------------------------
+bonjour$
+$
 ================================================================================
 
 |> WITH [EXPORTS PATH='/bin:/usr/bin'] EchO bonjour\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour$
 |---------------------------------------ACTUAL----------------------------------
+bonjour$
+$
 ================================================================================
 
 |> WITH [EXPORTS PATH='/bin:/usr/bin'] eCHo bonjour\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour$
 |---------------------------------------ACTUAL----------------------------------
+bonjour$
+$
 ================================================================================
 
 |> WITH [EXPORTS PATH='/bin:/usr/bin'] EcHo bonjour\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour$
 |---------------------------------------ACTUAL----------------------------------
+bonjour$
+$
 ================================================================================
 
 |> WITH [EXPORTS PATH='/bin:/usr/bin'] eChO bonjour\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour$
 |---------------------------------------ACTUAL----------------------------------
+bonjour$
+$
 ================================================================================
 
 |> WITH [EXPORTS PATH='/bin:/usr/bin'] eChO -e 'bonjo\nur'\n
 |---------------------------------------EXPECTED--------------------------------
 -e bonjo\nur$
 |---------------------------------------ACTUAL----------------------------------
+-e bonjo\nur$
+$
 ================================================================================
 
 |> WITH echo -n -n -n -n bonjour\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour
 |---------------------------------------ACTUAL----------------------------------
+bonjour$
 ================================================================================
 
 |> WITH echo -nnnnnnnnnnnnnnnnnnnnn bonjour\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour
 |---------------------------------------ACTUAL----------------------------------
+bonjour$
 ================================================================================
 
 |> WITH echo -nnnnnnnnnnnnnnnnnnnnn -n -n -n bonjour -n -n\n
 |---------------------------------------EXPECTED--------------------------------
 bonjour -n -n
 |---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH env\n
-|---------------------------------------EXPECTED--------------------------------
-$
-PATH=/Users/hchorfi/.cache/minishell_test/bin$
-PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
-SHLVL=1$
-TERM=xterm-256color$
-_=/Users/hchorfi/.cache/minishell_test/bin/env
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH [SETUP export A=a] env\n
-|---------------------------------------EXPECTED--------------------------------
-$
-PATH=/Users/hchorfi/.cache/minishell_test/bin$
-PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
-SHLVL=1$
-TERM=xterm-256color$
-_=/Users/hchorfi/.cache/minishell_test/bin/env
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH [SETUP export A=a B=b C=c] env\n
-|---------------------------------------EXPECTED--------------------------------
-$
-PATH=/Users/hchorfi/.cache/minishell_test/bin$
-PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
-SHLVL=1$
-TERM=xterm-256color$
-_=/Users/hchorfi/.cache/minishell_test/bin/env
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH [SETUP export A=a B=b C=c] env | cat -e\n
-|---------------------------------------EXPECTED--------------------------------
-$
-PATH=/Users/hchorfi/.cache/minishell_test/bin$$
-PWD=/Users/hchorfi/.cache/minishell_test/sandbox$$
-SHLVL=1$$
-TERM=xterm-256color$$
-_=/Users/hchorfi/.cache/minishell_test/bin/env$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH Env\n
-|---------------------------------------EXPECTED--------------------------------
-TERM=xterm-256color$
-PATH=/Users/hchorfi/.cache/minishell_test/bin$
-PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
-SHLVL=1$
-_=/Users/hchorfi/.cache/minishell_test/bin/Env$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH enV\n
-|---------------------------------------EXPECTED--------------------------------
-TERM=xterm-256color$
-PATH=/Users/hchorfi/.cache/minishell_test/bin$
-PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
-SHLVL=1$
-_=/Users/hchorfi/.cache/minishell_test/bin/enV$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH [EXPORTS PATH='/bin:/usr/bin'] Env\n
-|---------------------------------------EXPECTED--------------------------------
-TERM=xterm-256color$
-PATH=/bin:/usr/bin$
-PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
-SHLVL=1$
-_=/usr/bin/Env$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH [EXPORTS PATH='/bin:/usr/bin'] enV\n
-|---------------------------------------EXPECTED--------------------------------
-TERM=xterm-256color$
-PATH=/bin:/usr/bin$
-PWD=/Users/hchorfi/.cache/minishell_test/sandbox$
-SHLVL=1$
-_=/usr/bin/enV$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH exit 1\n
-|  STATUS: expected 1 actual 0
-================================================================================
-
-|> WITH exit 2\n
-|  STATUS: expected 2 actual 0
-================================================================================
-
-|> WITH exit 3\n
-|  STATUS: expected 3 actual 0
-================================================================================
-
-|> WITH exit ' 3'\n
-|  STATUS: expected 3 actual 0
-================================================================================
-
-|> WITH exit '\t3'\n
-|  STATUS: expected 3 actual 0
-================================================================================
-
-|> WITH exit '\t\f\r 3'\n
-|  STATUS: expected 3 actual 0
-================================================================================
-
-|> WITH exit '3 '\n
-|  STATUS: expected 3 actual 0
-================================================================================
-
-|> WITH exit '3\t'\n
-|  STATUS: expected 3 actual 0
-================================================================================
-
-|> WITH exit '3\r'\n
-|  STATUS: expected 255 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: exit: 3: numeric argument required$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH exit '3\t\f\r '\n
-|  STATUS: expected 255 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: exit: 3	 : numeric argument required$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH exit '3     a'\n
-|  STATUS: expected 255 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: exit: 3     a: numeric argument required$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH exit '3\t\t\ta'\n
-|  STATUS: expected 255 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: exit: 3			a: numeric argument required$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH exit -1\n
-|  STATUS: expected 255 actual 0
-================================================================================
-
-|> WITH exit 255\n
-|  STATUS: expected 255 actual 0
-================================================================================
-
-|> WITH exit 2000000\n
-|  STATUS: expected 128 actual 0
-================================================================================
-
-|> WITH exit -2000000\n
-|  STATUS: expected 128 actual 0
-================================================================================
-
-|> WITH exit 2147483647\n
-|  STATUS: expected 255 actual 0
-================================================================================
-
-|> WITH exit -2147483649\n
-|  STATUS: expected 255 actual 0
-================================================================================
-
-|> WITH exit -3147483649\n
-|  STATUS: expected 255 actual 0
-================================================================================
-
-|> WITH exit 4294967295\n
-|  STATUS: expected 255 actual 0
-================================================================================
-
-|> WITH exit 9223372036854775807\n
-|  STATUS: expected 255 actual 0
-================================================================================
-
-|> WITH exit -9223372036854775809\n
-|  STATUS: expected 255 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: exit: -9223372036854775809: numeric argument required$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH exit 9223372036854775808\n
-|  STATUS: expected 255 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: exit: 9223372036854775808: numeric argument required$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH exit 18446744073709551615\n
-|  STATUS: expected 255 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: exit: 18446744073709551615: numeric argument required$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH exit 18446744073709551616\n
-|  STATUS: expected 255 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: exit: 18446744073709551616: numeric argument required$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH exit +1\n
-|  STATUS: expected 1 actual 0
-================================================================================
-
-|> WITH exit +2\n
-|  STATUS: expected 2 actual 0
-================================================================================
-
-|> WITH exit +3\n
-|  STATUS: expected 3 actual 0
-================================================================================
-
-|> WITH exit +255\n
-|  STATUS: expected 255 actual 0
-================================================================================
-
-|> WITH exit +2000000\n
-|  STATUS: expected 128 actual 0
+bonjour -n -n$
 ================================================================================
 

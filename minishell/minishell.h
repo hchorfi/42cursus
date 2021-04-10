@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/09 18:58:16 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/10 17:25:07 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <termcap.h>
+//# include <termcap.h>
 
 # define BACKSPACE 127
 # define LEFT_ARROW 4479771
