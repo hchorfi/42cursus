@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/10 18:21:02 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/11 11:15:19 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -362,6 +362,7 @@ int    ft_prompt(int argc, char **argv)
         }
         //ft_printf("%s\n",line);
         //get_line();
+        get_next_line(1, &g_data.line);
         //ft_strlen(g_data.line);
         //ft_printf("len : %d, line_len : %d\n", len, line_len);
     }
