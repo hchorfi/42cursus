@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/03 21:06:20 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/04 10:26:00 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**ft_get_envp()
 	list_len = ft_lstsize(g_data.env_var);
 	newlist = g_data.env_var;
 	i = 0;
-	if (!(envp = malloc(sizeof (char*) * list_len + 1)))
+	if (!(envp = malloc(sizeof (char*) * list_len)))
 		return (NULL);
 	while (newlist)
 	{
@@ -55,7 +55,7 @@ char	**ft_get_envp()
 		newlist = newlist->next;
 		i++;
 	}
-	envp[i] = NULL;
+	//envp[i] = NULL;
 	return (envp);
 }
 
@@ -116,15 +116,15 @@ int		ft_exec_bin(t_command *command)
 		if(path_stat.st_mode == S_IRWXU  || path_stat.st_mode == S_IRWXO || path_stat.st_mode == S_IRWXG || ((path_stat.st_mode & S_IXUSR) && (path_stat.st_mode & S_IRUSR)))
 		{
 			//printf("OK");
-			if(!fork())
-			{
+			//if(!fork())
+			//{
 				envp = ft_get_envp();
 				execve(command->tokens[0], command->tokens, envp);
-			}
+			//}
 			
             //wait(&g_data.ret);
 			//ft_free_d_p(envp);
-			//exit (0);
+			exit (0);
 			
 		}
 		else
@@ -166,7 +166,7 @@ int		ft_exec_bin(t_command *command)
 				//ft_printf("%s : %s : %s", file, command->tokens[0], envp[0]);
 				execve(file, command->tokens, envp);
 				//ft_free_d_p(envp);
-				ft_printf("minishellerno: %d %s: %s\n", errno, command->tokens[0], strerror(errno));
+				ft_printf("minishell: %s: %s\n", command->tokens[0], strerror(errno));
 				exit(126);
 			}
 			i++;

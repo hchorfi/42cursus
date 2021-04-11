@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hchorfi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/16 17:16:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/03/31 14:31:22 by hchorfi          ###   ########.fr       */
+/*   Created: 2019/10/11 15:47:40 by hchorfi           #+#    #+#             */
+/*   Updated: 2019/10/15 23:03:28 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int		ft_pwd()
+int	ft_isalnum(int c)
 {
-	char cwd[PATH_MAX];
-	getcwd(cwd, PATH_MAX);
-	ft_putstr_fd(cwd, 1);
-	write(1, "\n", 1);
-	return (g_data.ret = 0);
+	if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') ||
+			(c >= 'a' && c <= 'z'))
+		return (1);
+	else
+		return (0);
 }

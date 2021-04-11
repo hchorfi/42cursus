@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/16 17:16:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/03/31 14:31:22 by hchorfi          ###   ########.fr       */
+/*   Created: 2019/10/21 23:36:36 by hchorfi           #+#    #+#             */
+/*   Updated: 2020/10/16 19:03:42 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int		ft_pwd()
+int	ft_lstsize(t_list *lst)
 {
-	char cwd[PATH_MAX];
-	getcwd(cwd, PATH_MAX);
-	ft_putstr_fd(cwd, 1);
-	write(1, "\n", 1);
-	return (g_data.ret = 0);
+	int l;
+
+	l = 0;
+	while (lst)
+	{
+		l++;
+		lst = lst->next;
+	}
+	return (l);
 }

@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/03/28 18:28:42 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/11 16:09:02 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@
 # include <sys/stat.h>
 # include <limits.h>
 # include <errno.h>
+# include <termios.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <termcap.h>
+
+# define BACKSPACE 127
+# define LEFT_ARROW 4479771
+# define RIGHT_ARROW 4414235
+# define UP_ARROW 4283163
+# define DOWN_ARROW 4348699
+# define NEW_LINE 10
+
 
 typedef struct	s_command
 {
@@ -35,6 +48,7 @@ typedef struct	s_command
 typedef struct	s_data
 {
 	t_list		*env_var;
+	t_list		*history;
 	t_list		*cmds;            //all commands
 	t_list		*n_pipe_cmd;
 	t_list		*fd_close;
@@ -44,6 +58,9 @@ typedef struct	s_data
 	int			fdd;
 	int			num_pipes;
 	int			n_fork;
+	char		*line;
+	int 		count;
+	int     	his_count;
 }				t_data;
 t_data			g_data;
 
@@ -119,5 +136,10 @@ void			ft_stock_envp(char **envp);
 */
 
 int				ft_exit(t_command *command);
+
+
+int		get_line(void);
+void    ft_parse(char *line);
+
 
 #endif

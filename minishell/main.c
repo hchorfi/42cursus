@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/02 12:03:11 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/10 18:51:24 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ int     ft_check_builtin(t_command *command)
 
 // int     ft_exec(void *cmd)
 // {
-   
 //     else if(!(ret = ft_check_bin()))
 //     {
-//             ft_printf("---%d\n", ret);
+//         ft_printf("---%d\n", ret);
 //         return (g_data.ret = 127);
 //     }
 //     //ft_printf("%d\n", ret);
 //     else
 //         return (g_data.ret = 0);
 // }
+
 int     ft_exec_builtin(t_command *command)
 {
     if (!ft_strncmp(command->tokens[0], "export", 7))
@@ -124,6 +124,7 @@ char    *ft_check_in(char *pipe_cmds)
             //ft_printf("*%d\n",in);
             if (g_data.command->input_file > 0)
                 close(g_data.command->input_file);
+            //ft_printf("in : %d\n", in);
             g_data.command->input_file = in;
             tmp_free = new_pipe;
             new_pipe = ft_strjoin(new_pipe, tmp_in + j);
@@ -275,7 +276,6 @@ void    ft_parse(char *line)
             g_data.command->block = i;
             g_data.command->pipe_pos = j;
             new_pipe = ft_check_redirections(pipe_cmds[j]);
-            //
             //ft_printf("---%s--\n", new_pipe);
             //new_pipe = get_other_variables(new_pipe);
             g_data.command->tokens = ft_split_pars(new_pipe, ' ');
@@ -333,7 +333,7 @@ void    ft_stock_ret(void)
         {
             tmp_free = env_list->content;
             env_list->content = str;
-            free(tmp_free);
+            //free(tmp_free);
             exist = 1;
         }
         env_list = env_list->next;
@@ -344,13 +344,8 @@ void    ft_stock_ret(void)
 
 int    ft_prompt(int argc, char **argv)
 {
-    char    *line;
-    char    *line2;
-    int     len;
-    int     line_len;
-
     if (argc >= 2)
-        line = argv[2];
+        g_data.line = argv[2];
     else    
     {
         if (g_data.ret == 0)
@@ -365,18 +360,21 @@ int    ft_prompt(int argc, char **argv)
             ft_printf("minishell 👽 %d > ", g_data.ret);
             ft_printf("\033[0m");
         }
-        len = get_next_line(0, &line);
-        line_len = ft_strlen(line);
+        //ft_printf("%s\n",line);
+        if (argc < 2)
+            get_line();
+        //ft_strlen(g_data.line);
         //ft_printf("len : %d, line_len : %d\n", len, line_len);
-        if (!len && !line_len)
-        {
-            ft_printf("\nexit\n");
-            exit(0);
-        }
     }
-    ft_parse(line);
-    if (argc < 2)
-        free(line);
+    if (argc >=2)
+        ft_parse(g_data.line);
+    // if (!len && !line_len)
+    // {
+    //     ft_printf("\nexit\n");
+    //     exit(0);
+    // }
+    //if (argc < 2)
+        //free(g_data.line);
     return 1;
 }
 
@@ -580,6 +578,8 @@ int     main(int argc, char **argv, char **envp)
     ft_stock_envp(envp);
     g_data.ret = 0;
     int *tmp;
+    g_data.count = 0;
+    g_data.his_count = 0;
     //signal(SIGQUIT, intHandler);
     while (1)
     {

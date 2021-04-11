@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: hchorfi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/16 17:16:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/03/31 14:31:22 by hchorfi          ###   ########.fr       */
+/*   Created: 2019/10/10 15:22:09 by hchorfi           #+#    #+#             */
+/*   Updated: 2019/10/24 16:52:22 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int		ft_pwd()
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	char cwd[PATH_MAX];
-	getcwd(cwd, PATH_MAX);
-	ft_putstr_fd(cwd, 1);
-	write(1, "\n", 1);
-	return (g_data.ret = 0);
+	char			*d;
+	char			*s;
+	unsigned int	i;
+
+	d = (char *)dst;
+	s = (char *)src;
+	i = 0;
+	while (i < n && (d || s))
+	{
+		d[i] = s[i];
+		i++;
+	}
+	return ((void *)d);
 }

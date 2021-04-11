@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/16 17:16:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/03/31 14:31:22 by hchorfi          ###   ########.fr       */
+/*   Created: 2021/04/06 11:37:35 by hchorfi           #+#    #+#             */
+/*   Updated: 2021/04/06 17:34:06 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef PUSH_SWAP_H
+# define PUSH_SWAP_H
 
-int		ft_pwd()
-{
-	char cwd[PATH_MAX];
-	getcwd(cwd, PATH_MAX);
-	ft_putstr_fd(cwd, 1);
-	write(1, "\n", 1);
-	return (g_data.ret = 0);
-}
+#include "libft/libft.h"
+#include "get_next_line.h"
+#include <stdio.h>
+
+int ft_check_error(int argc, char **argv);
+
+#endif

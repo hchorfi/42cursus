@@ -1287,96 +1287,8 @@ minishell: =?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_abcdefghijklmnopqrstuvwxyz{}~: comma
 minishell: =?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_abcdefghijklmnopqrstuvwxyz{}~: command not found$
 ================================================================================
 
-|> WITH [SETUP touch a b c] /usr/bin/ls
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-a$
-b$
-c$
-|---------------------------------------ACTUAL----------------------------------
-minishell: /usr/bin/ls: command not found$
-a$
-b$
-c$
-================================================================================
-
-|> WITH [SETUP touch a b c] /usr/bin/ls -l
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-total 0$
--rw-rw-r-- 1 devza devza 0 Apr 10 18:44 a$
--rw-rw-r-- 1 devza devza 0 Apr 10 18:44 b$
--rw-rw-r-- 1 devza devza 0 Apr 10 18:44 c$
-|---------------------------------------ACTUAL----------------------------------
-minishell: /usr/bin/ls: command not found$
-total 0$
--rw-rw-r-- 1 devza devza 0 Apr 10 18:44 a$
--rw-rw-r-- 1 devza devza 0 Apr 10 18:44 b$
--rw-rw-r-- 1 devza devza 0 Apr 10 18:44 c$
-================================================================================
-
-|> WITH [SETUP touch a b c; cp /usr/bin/ls bonjour] ./bonjour
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-a$
-b$
-bonjour$
-c$
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./bonjour: command not found$
-a$
-b$
-bonjour$
-c$
-================================================================================
-
-|> WITH [SETUP touch a b c; cp /usr/bin/ls bonjour] ./bonjour -l
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-total 140$
--rw-rw-r-- 1 devza devza      0 Apr 10 18:44 a$
--rw-rw-r-- 1 devza devza      0 Apr 10 18:44 b$
--rwxr-xr-x 1 devza devza 142144 Apr 10 18:44 bonjour$
--rw-rw-r-- 1 devza devza      0 Apr 10 18:44 c$
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./bonjour: command not found$
-total 140$
--rw-rw-r-- 1 devza devza      0 Apr 10 18:44 a$
--rw-rw-r-- 1 devza devza      0 Apr 10 18:44 b$
--rwxr-xr-x 1 devza devza 142144 Apr 10 18:44 bonjour$
--rw-rw-r-- 1 devza devza      0 Apr 10 18:44 c$
-================================================================================
-
-|> WITH [SETUP mkdir somedir; touch a b c; touch somedir/d somedir/e;cp /usr/bin/ls somedir/bonjour] ./somedir/bonjour -l
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-total 4$
--rw-rw-r-- 1 devza devza    0 Apr 10 18:44 a$
--rw-rw-r-- 1 devza devza    0 Apr 10 18:44 b$
--rw-rw-r-- 1 devza devza    0 Apr 10 18:44 c$
-drwxrwxr-x 2 devza devza 4096 Apr 10 18:44 somedir$
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somedir/bonjour: command not found$
-total 4$
--rw-rw-r-- 1 devza devza    0 Apr 10 18:44 a$
--rw-rw-r-- 1 devza devza    0 Apr 10 18:44 b$
--rw-rw-r-- 1 devza devza    0 Apr 10 18:44 c$
-drwxrwxr-x 2 devza devza 4096 Apr 10 18:44 somedir$
-================================================================================
-
-|> WITH [SETUP touch a b c; echo bonjour > a; cp /usr/bin/cat ls] ./ls . a b c
-|  STATUS: expected 1 actual 127
-|---------------------------------------EXPECTED--------------------------------
-./ls: .: Is a directory$
-bonjour$
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./ls: command not found$
-./ls: .: Is a directory$
-bonjour$
-================================================================================
-
 |> WITH [SETUP touch a b c; echo bonjour > a; cp /usr/bin/cat ls] ls . a b c
-|  STATUS: expected 0 actual 127
+|  STATUS: expected 0 actual 1
 |---------------------------------------EXPECTED--------------------------------
 a$
 b$
@@ -1388,33 +1300,8 @@ b$
 c$
 ls$
 |---------------------------------------ACTUAL----------------------------------
-minishell: ls: command not found$
 ls: .: Is a directory$
 bonjour$
-================================================================================
-
-|> WITH [SETUP echo > somefile; chmod 500 somefile] ./somefile
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: command not found$
-minishell: ./somefile: command not found$
-================================================================================
-
-|> WITH [SETUP echo > somefile; chmod 700 somefile] ./somefile
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: command not found$
-minishell: ./somefile: command not found$
-================================================================================
-
-|> WITH [SETUP echo > somefile; chmod 755 somefile] ./somefile
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: command not found$
-minishell: ./somefile: command not found$
 ================================================================================
 
 |> WITH [SETUP touch _] _
@@ -1423,70 +1310,6 @@ minishell: ./somefile: command not found$
 minishell: _: command not found$
 |---------------------------------------ACTUAL----------------------------------
 minishell: _: Permission denied$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 0777 somefile] ./somefile
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: command not found$
-minishell: ./somefile: command not found$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 1777 somefile] ./somefile
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: command not found$
-minishell: ./somefile: command not found$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 2777 somefile] ./somefile
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: command not found$
-minishell: ./somefile: command not found$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 3777 somefile] ./somefile
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: command not found$
-minishell: ./somefile: command not found$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 4777 somefile] ./somefile
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: command not found$
-minishell: ./somefile: command not found$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 5777 somefile] ./somefile
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: command not found$
-minishell: ./somefile: command not found$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 6777 somefile] ./somefile
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: command not found$
-minishell: ./somefile: command not found$
-================================================================================
-
-|> WITH [SETUP echo > somefile && chmod 7777 somefile] ./somefile
-|  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: ./somefile: command not found$
-minishell: ./somefile: command not found$
 ================================================================================
 
 |> WITH >

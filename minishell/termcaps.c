@@ -13,6 +13,8 @@
 #define KEY_DOWN    0x0106
 #define KEY_LEFT    0x0107
 #define KEY_RIGHT   0x0108
+#define KEY_BACKSPACE   0x0008
+
 
 static struct termios term, oterm;
 
@@ -56,8 +58,11 @@ static int kbesc(void)
 {
     int c;
 
+    if (c == 127)
+        return(c == KEY_BACKSPACE);
     if (!kbhit()) return KEY_ESCAPE;
     c = getch();
+    printf("%c\n", c);
     if (c == '[') {
         switch (getch()) {
             case 'A':
@@ -88,6 +93,9 @@ static int kbget(void)
     int c;
 
     c = getch();
+    printf("%d\n", c);
+    if (c == 127)
+        return(c == KEY_BACKSPACE);
     return (c == KEY_ESCAPE) ? kbesc() : c;
 }
 
@@ -125,9 +133,11 @@ int main(void)
     history = NULL;
     while (1) {
         c = kbget();
+        printf("%d\n", c);
         if (c == KEY_ESCAPE) {
             break;
         } else if (c == KEY_ENTER){
+            printf("\r%s\n", line);
             if(history == NULL)
                 history = ft_lstnew(ft_strdup(line));
             else
@@ -136,7 +146,6 @@ int main(void)
             line = ft_strdup("");
             his_count++;
             up_count = his_count;
-            //printf("\r%s\n", line);
             // dn_count = 0;
 
             //free(line);
@@ -160,6 +169,10 @@ int main(void)
                 //     dn_count == 0;
                 printf("\r%s\n", ft_print_his(up_count, history, 0));
             }
+        }
+        else if (c == KEY_BACKSPACE){
+            
+            printf("\rdelete\n");
         }
         else if (c == KEY_RIGHT) {
             cursorbackward(1);

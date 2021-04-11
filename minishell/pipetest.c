@@ -27,7 +27,7 @@ pipeline(char ***cmd)
 				dup2(fd[1], 1);
 			}
 			close(fd[0]);
-			execvp((*cmd)[0], *cmd);
+			execve("/bin/bash", *cmd, NULL);
 			exit(1);
 		}
 		else {
