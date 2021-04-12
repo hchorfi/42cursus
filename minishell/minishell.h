@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/11 16:24:40 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/12 10:59:09 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,10 @@ char			**ft_split_pars(char *s, char c);
 char			*get_other_variables(char *str);
 char			*remove_all_quotes(char *str);
 char			*ft_remove_slashes(char *str, int start, int end);
+
+
+char	**csplit(const char *s, char c);
+
 
 /*
 ** cd.c

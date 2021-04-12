@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/11 17:04:00 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/12 11:34:33 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,9 +143,11 @@ char    *ft_check_in(char *pipe_cmds)
 char    *ft_check_redirections(char *pipe_cmds)
 {
     char **str;
-    //if (*pipe_cmds)
-        //pipe_cmds = ft_remove_slashes(pipe_cmds, 0, ft_strlen(pipe_cmds));
-    str = ft_split_pars(pipe_cmds, '>');
+    //pipe_cmds = get_other_variables(pipe_cmds);
+    if (*pipe_cmds == '>')
+        str = ft_split_pars(pipe_cmds, '>');
+    else
+        str = csplit(pipe_cmds, '>');
     int i = 0;
     char *tmp_out;
     char *tmp_in;
@@ -445,7 +447,7 @@ void    ft_builtin(t_command *command)
     if (command->input_file > 0)
     {
         dup2(command->input_file, 0);
-        close(command->input_file);                            
+        close(command->input_file);
     }
     else
         dup2(g_data.fdd, 0);
