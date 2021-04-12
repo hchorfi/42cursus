@@ -16,7 +16,8 @@ SRCS = main.c\
 		parse/split.c\
 		echo.c\
 		exit.c\
-		term.c
+		term.c\
+		parse/omary.c
 
 FLAGS = -Werror -Wextra -Wall
 

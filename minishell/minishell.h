@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/11 10:13:17 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/12 10:43:08 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,10 @@ int				is_quote(char c);
 char			**ft_split_pars(char *s, char c);
 char			*get_other_variables(char *str);
 char			*remove_all_quotes(char *str);
+
+
+char	**csplit(const char *s, char c);
+
 
 /*
 ** cd.c
