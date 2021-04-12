@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/10 18:51:24 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/11 17:04:00 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,8 @@ char    *ft_check_in(char *pipe_cmds)
 char    *ft_check_redirections(char *pipe_cmds)
 {
     char **str;
-    //pipe_cmds = get_other_variables(pipe_cmds);
+    //if (*pipe_cmds)
+        //pipe_cmds = ft_remove_slashes(pipe_cmds, 0, ft_strlen(pipe_cmds));
     str = ft_split_pars(pipe_cmds, '>');
     int i = 0;
     char *tmp_out;
@@ -159,7 +160,6 @@ char    *ft_check_redirections(char *pipe_cmds)
     while(str[i])
     {
         int priority = 0;
-        //ft_printf("%s\n", str[i]);
         int append = 0;
         if (i == 0 && *str[0] != '>')
         {
@@ -361,12 +361,12 @@ int    ft_prompt(int argc, char **argv)
             ft_printf("\033[0m");
         }
         //ft_printf("%s\n",line);
-        if (argc < 2)
-            get_line();
+        //get_line();
+        get_next_line(1, &g_data.line);
         //ft_strlen(g_data.line);
         //ft_printf("len : %d, line_len : %d\n", len, line_len);
     }
-    if (argc >=2)
+    //if (argc >=2)
         ft_parse(g_data.line);
     // if (!len && !line_len)
     // {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anassif <anassif@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/03/18 15:11:04 by anassif          ###   ########.fr       */
+/*   Updated: 2021/04/11 16:22:33 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,15 @@ int				is_escaped(char *s, int j)
 	return (i % 2);
 }
 
+int				check_char(char c)
+{
+	if (c == ' ' || c == '"' || c == '\'' || c == '/' ||
+		c == '$' || c == ':' || c == '=' || c == '|' ||
+			c == ',' || c == '\\' || c == '\'' ||
+				c == '"' || c == '[' || c == ']' || c == '@')
+					return(1);
+	return (0);
+}
 
 static	int		check_cots(char *s)
 {
@@ -168,11 +177,9 @@ char			*ft_variable_value(char *var)
     char    *tmp_str;
     int     tmp_len;
     int     len;
-    int     i;
 
     newlist = g_data.env_var;
     new_var = var;
-    i = 1;
     while (newlist)
     {
         if ((tmp_str = ft_strchr(newlist->content, '=')))
@@ -192,9 +199,7 @@ char			*ft_variable_value(char *var)
 				return (ft_strchr(newlist->content, '=') + 1);
         }
         newlist = newlist->next;
-        i++;
     }
-	
 	return ("");
 }
 
@@ -258,7 +263,7 @@ char			*ft_get_variables(char *str, int start, int i)
 			k = j;
 			while (++j < i)
 			{
-				if (str[j] == ' ' || str[j] == '"' || str[j] == '\'' || str[j] == '/' || str[j] == '$' || str[j] == ':' || str[j] == '=' || str[j] == '|' || str[j] == ',' || str[j] == '\\' || str[j] == '\'' || str[j] == '"' || str[j] == '[' || str[j] == ']' || str[j] == '@')
+				if (check_char(str[j]))
 					break ;
 			}
 			break ;
