@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/12 10:44:14 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/12 11:34:33 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,10 @@ char    *ft_check_redirections(char *pipe_cmds)
 {
     char **str;
     //pipe_cmds = get_other_variables(pipe_cmds);
-    str = csplit(pipe_cmds, '>');
+    if (*pipe_cmds == '>')
+        str = ft_split_pars(pipe_cmds, '>');
+    else
+        str = csplit(pipe_cmds, '>');
     int i = 0;
     char *tmp_out;
     char *tmp_in;
@@ -159,7 +162,6 @@ char    *ft_check_redirections(char *pipe_cmds)
     while(str[i])
     {
         int priority = 0;
-        //ft_printf("%s\n", str[i]);
         int append = 0;
         if (i == 0 && *str[0] != '>')
         {
@@ -366,7 +368,8 @@ int    ft_prompt(int argc, char **argv)
         //ft_strlen(g_data.line);
         //ft_printf("len : %d, line_len : %d\n", len, line_len);
     }
-    ft_parse(g_data.line);
+    //if (argc >=2)
+        ft_parse(g_data.line);
     // if (!len && !line_len)
     // {
     //     ft_printf("\nexit\n");
