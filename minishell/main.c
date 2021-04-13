@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/13 12:43:48 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/13 16:41:04 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,6 +344,16 @@ void    ft_stock_ret(void)
         ft_lstadd_back(&g_data.env_var, ft_lstnew(str));
 }
 
+int     ft_check_syntax(char *line)
+{
+    if (*line == '|' || *line == ';')
+    {
+        ft_printf("syn err\n");
+        return 1;
+    }
+    return (0); 
+}
+
 int    ft_prompt(int argc, char **argv)
 {
     if (argc >= 2)
@@ -369,6 +379,7 @@ int    ft_prompt(int argc, char **argv)
         //ft_printf("len : %d, line_len : %d\n", len, line_len);
     }
     //if (argc >=2)
+    if (!ft_check_syntax(g_data.line))
         ft_parse(g_data.line);
     // if (!len && !line_len)
     // {
