@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/12 11:34:33 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/13 12:43:48 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -608,11 +608,11 @@ int     main(int argc, char **argv, char **envp)
                 //ft_printf("**out :%d\n", command->output_file);
                 //ft_printf("n pipe %d\n", g_data.num_pipes);
                 //ft_printf("%d : ****%s***\n", j, ((t_command *)newlist->content)->tokens[0]);
-                if (command->tokens[0] == NULL)
-                {
-                    newlist = newlist->next;
-                    continue;
-                }
+                // if (command->tokens[0] == NULL)
+                // {
+                //     newlist = newlist->next;
+                //     continue;
+                // }
                 if (command->pipe_pos != g_data.num_pipes && g_data.num_pipes > 0)
                     pipe(g_data.fd);
                 if (ft_check_builtin(command))
@@ -620,7 +620,7 @@ int     main(int argc, char **argv, char **envp)
                     //ft_printf("builtin\n");
                     ft_builtin(command);
                 }
-                else
+                else if (command->tokens[0] != NULL && command->tokens[0][0] != '\0')
                 {
                     //ft_printf("bin\n");
                     ft_bin(command);
