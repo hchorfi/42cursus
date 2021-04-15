@@ -108,7 +108,6 @@ char    *ft_check_redirections(char *pipe_cmds)
             tmp_out = ft_strtrim(tmp_in, " ");
             free(tmp_in);
             int j = 0;
-            //ft_printf("-%s\n", tmp_out);
             if (tmp_out[0] == '>')
             {
                 tmp_out++;
@@ -116,7 +115,6 @@ char    *ft_check_redirections(char *pipe_cmds)
                     j++;
                 append = 1;
             }
-           
             if((tmp_out[j] == '\"' || tmp_out[j] == '\''))
             {
                 int cot = j++;
