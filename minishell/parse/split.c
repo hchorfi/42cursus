@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/04/15 12:26:14 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:29:49 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static	int		check_cots(char *s)
 		return(1);
 	return (0);
 }
-int				remove_tabs_check(char *s, char c)
+void			remove_tabs_check(char *s, char c)
 {
 	int i = 0;
 	while (s[i])
@@ -110,12 +110,10 @@ int				remove_tabs_check(char *s, char c)
 			while (s[i] == '\t' || s[i] == ' ')
 				i++;
 			if (s[i] == c)
-				return (1);
+				printf("bash: syntax error near unexpected token"), exit(1);
 		}
-		if (s[i] != '\0')
-			i++;
+		i++;
 	}
-	return (0);
 }
 char			*ft_stock(char *line, char *buff, int i)
 {
@@ -216,7 +214,7 @@ char			*ft_check_dollar_slash(char	*s)
 		{
 			value[c] = s[i];
 			if (s[i] != '\0')
-				i++,c++;
+			i++,c++;
 		}	
 	}
 	value[c] = '\0';
@@ -552,7 +550,7 @@ char			**ft_split_pars(char *s, char c)
 	int splited = 0;
 	while (2)
 	{
-		if (((((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)))) && !is_escaped((char *)s, i))
+		if (((((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && s[i - 1] != c)) && !is_escaped((char *)s, i))
 		{
 			tmp_free = ft_substr(s, d, i - d);
 			if (check_cots(tmp_free))
