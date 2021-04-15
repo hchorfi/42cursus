@@ -72,6 +72,7 @@ void    ft_out_red_file(int *priority, int append, int j, char **tmp_out, char *
     char *file;
     char *tmp_free;
     int  out;
+    struct stat path_stat;
 
     out = 0;
     file = ft_substr(*tmp_out, 0, j);
@@ -89,7 +90,6 @@ void    ft_out_red_file(int *priority, int append, int j, char **tmp_out, char *
     }
     else
     {
-        struct stat path_stat;
         if (*priority == 0 || stat(file, &path_stat))
             out = open(file, O_RDWR|O_CREAT|O_APPEND, 0666);
         free(file);
