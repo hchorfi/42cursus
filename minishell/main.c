@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/15 13:03:47 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/15 14:05:20 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void    ft_stock_ret(void)
         {
             tmp_free = env_list->content;
             env_list->content = str;
-            //free(tmp_free);
+            free(tmp_free);
             exist = 1;
         }
         env_list = env_list->next;
@@ -194,8 +194,8 @@ int    ft_prompt(int argc, char **argv)
     //     ft_printf("\nexit\n");
     //     exit(0);
     // }
-    //if (argc < 2)
-        //free(g_data.line);
+    if (argc < 2)
+        free(g_data.line);
     return 1;
 }
 
@@ -290,7 +290,7 @@ void    ft_prepare_tokens(t_command *command)
         while (tmp_double[count])
             count++;
         len += count;
-        //ft_free_d_p(tmp_double);
+        ft_free_d_p(tmp_double);
         //if (ft_strncmp(((t_command *)newlist->content)->tokens[0], "export", 7 ) && ft_strncmp(((t_command *)newlist->content)->tokens[0], "unset", 6 ))
         tmp_free = command->tokens[k];
         command->tokens[k] = remove_all_quotes(command->tokens[k]);

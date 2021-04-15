@@ -67,24 +67,60 @@ char    *ft_check_in(char *pipe_cmds)
     return (new_pipe);
 }
 
+void    ft_out_red_file(int *priority, int append, int j, char **tmp_out, char **new_pipe)
+{
+    char *file;
+    char *tmp_free;
+    int  out;
+
+    out = 0;
+    file = ft_substr(*tmp_out, 0, j);
+    tmp_free = file;
+    file = get_other_variables(file);
+    free(tmp_free);
+    tmp_free = file;
+    file = remove_all_quotes(file);
+    free(tmp_free);
+    if (append == 0)
+    {
+        *priority = 1;
+        out = open(file, O_RDWR|O_CREAT|O_TRUNC, 0666);
+        free(file);
+    }
+    else
+    {
+        struct stat path_stat;
+        if (*priority == 0 || stat(file, &path_stat))
+            out = open(file, O_RDWR|O_CREAT|O_APPEND, 0666);
+        free(file);
+    }
+    if (g_data.command->output_file > 1)
+        close(g_data.command->output_file);
+    g_data.command->output_file = out;
+    tmp_free = *new_pipe;
+    *new_pipe = ft_strjoin(*new_pipe, (*tmp_out) + j);
+    free(tmp_free);
+    if (append == 1)
+        free((*tmp_out) - 1);
+    else 
+        free(*tmp_out);
+}
+
 char    *ft_check_redirections(char *pipe_cmds)
 {
     char **str;
+    int i = 0;
+    char *tmp_out;
+    char *tmp_in;
+    char *new_pipe;
+    char *tmp_free;
+
+    new_pipe = ft_strdup("");
+    g_data.command->output_file = 1;
     if (*pipe_cmds == '>')
         str = ft_split_pars(pipe_cmds, '>');
     else
         str = csplit(pipe_cmds, '>');
-    int i = 0;
-    char *tmp_out;
-    char *tmp_in;
-    int out;
-    char *file;
-    char *new_pipe;
-    char *tmp_free;
-    char *tmp_free2;
-    new_pipe = ft_strdup("");
-    g_data.command->output_file = 1;
-
     while(str[i])
     {
         int priority = 0;
@@ -100,7 +136,6 @@ char    *ft_check_redirections(char *pipe_cmds)
         }
         else
         {
-            out = 1;
             if (i == 0 && *str[0] == '>')
                 tmp_in = ft_check_in(str[i] + 1);
             else
@@ -108,7 +143,6 @@ char    *ft_check_redirections(char *pipe_cmds)
             tmp_out = ft_strtrim(tmp_in, " ");
             free(tmp_in);
             int j = 0;
-            //ft_printf("-%s\n", tmp_out);
             if (tmp_out[0] == '>')
             {
                 tmp_out++;
@@ -116,7 +150,6 @@ char    *ft_check_redirections(char *pipe_cmds)
                     j++;
                 append = 1;
             }
-           
             if((tmp_out[j] == '\"' || tmp_out[j] == '\''))
             {
                 int cot = j++;
@@ -130,36 +163,7 @@ char    *ft_check_redirections(char *pipe_cmds)
                 while (tmp_out[j] != ' ' && tmp_out[j] != '\0')
                     j++;
             }
-            file = ft_substr(tmp_out, 0, j);
-            tmp_free2 = file;
-            file = get_other_variables(file);
-            free(tmp_free2);
-            tmp_free2 = file;
-            file = remove_all_quotes(file);
-            free(tmp_free2);
-            if (append == 0)
-            {
-                priority = 1;
-                out = open(file, O_RDWR|O_CREAT|O_TRUNC, 0666);
-                free(file);
-            }
-            else
-            {
-                struct stat path_stat;
-                if (priority == 0 || stat(file, &path_stat))
-                    out = open(file, O_RDWR|O_CREAT|O_APPEND, 0666);
-                free(file);
-            }
-            if (g_data.command->output_file > 1)
-                close(g_data.command->output_file);
-            g_data.command->output_file = out;
-            tmp_free = new_pipe;
-            new_pipe = ft_strjoin(new_pipe, tmp_out + j);
-            free(tmp_free);
-            if (append == 1)
-                free(tmp_out - 1);
-            else 
-                free(tmp_out);
+            ft_out_red_file(&priority, append, j, &tmp_out, &new_pipe);
             i++;
         }
     }
