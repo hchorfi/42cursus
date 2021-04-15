@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/14 15:53:23 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:08:24 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,10 @@ char    *ft_check_redirections(char *pipe_cmds)
 {
     char **str;
     //pipe_cmds = get_other_variables(pipe_cmds);
-    if (*pipe_cmds == '>')
+    //if (*pipe_cmds == '>')
         str = ft_split_pars(pipe_cmds, '>');
-    else
-        str = csplit(pipe_cmds, '>');
+    //else
+        //str = csplit(pipe_cmds, '>');
     int i = 0;
     char *tmp_out;
     char *tmp_in;
@@ -269,7 +269,7 @@ void    ft_parse(char *line)
     int j;
     while (cmds[i])
     {
-        pipe_cmds = ft_split_pars(cmds[i], '|');
+        pipe_cmds = csplit(cmds[i], '|');
         //command->pipe_pos = 0;
         j = 0;
         while (pipe_cmds[j])
