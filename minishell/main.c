@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/13 12:43:48 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:24:58 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,6 +344,16 @@ void    ft_stock_ret(void)
         ft_lstadd_back(&g_data.env_var, ft_lstnew(str));
 }
 
+int     ft_check_syntax(char *line)
+{
+    if (*line == '|' || *line == ';')
+    {
+        ft_printf("syn err\n");
+        return 1;
+    }
+    return (0); 
+}
+
 int    ft_prompt(int argc, char **argv)
 {
     if (argc >= 2)
@@ -369,6 +379,7 @@ int    ft_prompt(int argc, char **argv)
         //ft_printf("len : %d, line_len : %d\n", len, line_len);
     }
     //if (argc >=2)
+    if (!ft_check_syntax(g_data.line))
         ft_parse(g_data.line);
     // if (!len && !line_len)
     // {
@@ -418,18 +429,60 @@ void sighandler(int dummy)
     }
 }
 
+void    ft_new_tokens(t_command *command,int len)
+{
+    char **tmp_double;
+    char **tmp_double2;
+    char **new_tokens;
+    int  count;
+    int  k;
+
+    k = 0;
+   
+    tmp_double2 = command->tokens;
+    new_tokens = malloc(sizeof(char*) * (len  + 1));
+    while (command->tokens[k])
+    {
+        count = 0;
+        tmp_double = ft_split_pars(command->tokens[k], ' ');
+        while (tmp_double[count])
+        {
+            new_tokens[k + count] = ft_strdup(tmp_double[count]);
+            count++;
+        }
+        ft_free_d_p(tmp_double);
+        k++;
+    }
+    new_tokens[len] = NULL;
+    command->tokens = new_tokens;
+    //ft_printf("new tokens : %p\n", command->tokens);
+    ft_free_d_p(tmp_double2);
+}
+
 void    ft_prepare_tokens(t_command *command)
 {
     //t_list  *cmds_list;
     char *tmp_free;
+    char **tmp_double;
     int     k;
+    int     count;
+    int     len;
+
     k = 0;
+    len = 0;
+    //ft_printf("prepare token : %p\n", command->tokens);
     while (command->tokens[k])
     {
+        count = 0;
         //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[k]);
         tmp_free = command->tokens[k];
         command->tokens[k] = get_other_variables(command->tokens[k]);
         free(tmp_free);
+        tmp_double = ft_split_pars(command->tokens[k], ' ');
+        while (tmp_double[count])
+            count++;
+        len += count;
+        //ft_free_d_p(tmp_double);
         //if (ft_strncmp(((t_command *)newlist->content)->tokens[0], "export", 7 ) && ft_strncmp(((t_command *)newlist->content)->tokens[0], "unset", 6 ))
         tmp_free = command->tokens[k];
         command->tokens[k] = remove_all_quotes(command->tokens[k]);
@@ -437,6 +490,12 @@ void    ft_prepare_tokens(t_command *command)
         //ft_printf("====%s====\n", ((t_command *)newlist->content)->tokens[k]);
         k++;
     }
+    if (len > k)
+    {
+        ft_new_tokens(command, len);
+    }
+    //ft_printf("k : %d - len :%d\n",k,len);
+    
 }
 
 void    ft_builtin(t_command *command)
@@ -540,6 +599,7 @@ void    ft_free_list()
     while (g_data.cmds)
     {
         tmp_list = g_data.cmds;
+        //printf("pree : %p\n", ((t_command *)g_data.cmds->content)->tokens);
         ft_free_d_p(((t_command *)g_data.cmds->content)->tokens);
         if (((t_command *)g_data.cmds->content)->input_file > 0)
             close(((t_command *)g_data.cmds->content)->input_file);
@@ -603,6 +663,7 @@ int     main(int argc, char **argv, char **envp)
             while(newlist && (((t_command *)newlist->content)->block == j))
             {
                 command = (t_command *)newlist->content;
+                //ft_printf("main : %p\n", command->tokens);
                 ft_prepare_tokens(command);
                 //ft_printf("**in :%d\n", command->input_file);
                 //ft_printf("**out :%d\n", command->output_file);
@@ -672,6 +733,5 @@ int     main(int argc, char **argv, char **envp)
         }
         ft_free_list();
     }
-    //ft_free_list(1);
     return (0);
 }

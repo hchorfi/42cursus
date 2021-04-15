@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 16:35:17 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/03/29 15:43:55 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/14 13:04:32 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,20 @@ int     ft_exist_export_var(char *export_var, char *token)
     int     tmp_len;
     int     len;
     char    *tmp_free;
+    int     ex_join;
     //char    *old_var;
 
     //ft_printf("%s : %s \n", export_var, token);
 
     newlist = g_data.env_var;
+    if (ft_strchr(token, '+'))
+    {               
+        tmp_len = ft_strlen(export_var);
+        export_var = ft_substr(export_var, 0, tmp_len - 1);
+    }
     while (newlist)
     {
+        ex_join = 0;
         if ((tmp_str = ft_strchr(newlist->content, '=')))
         {
             tmp_len = ft_strlen(tmp_str);
@@ -104,11 +111,6 @@ int     ft_exist_export_var(char *export_var, char *token)
         {
             old_var = newlist->content;
             //ft_printf("-%p\n", old_var);
-        }
-        if (ft_strchr(token, '+'))
-        {   
-            tmp_len = ft_strlen(export_var);
-            tmp_len--;
         }
         //ft_printf("oldvar : %s - tokenvar : %s\n", old_var, export_var);
         if (!(ft_strcmp(old_var, export_var)))
@@ -295,6 +297,7 @@ int     ft_export(t_command *command)
     char    *exp_var;
     char    *tmp_str;
     
+    ft_printf("export : %p\n", command->tokens);
     i = 1;
     g_data.ret = 0;
     if (command->n_tokens == 1 || (command->n_tokens = 2 && command->tokens[1][0] == '#'))
