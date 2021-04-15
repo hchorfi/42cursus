@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/14 15:50:35 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:59:24 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,6 @@ char	**ft_get_envp()
 	}
 	//envp[i] = NULL;
 	return (envp);
-}
-
-void	ft_free_d_p(char **str)
-{
-	int		len;
-
-	len = 0;
-	while (str[len])
-		len++;
-	while (len >= 0)
-	{
-		free(str[len]);
-		len--;
-	}
-	free(str);
 }
 
 int		ft_exec_bin(t_command *command)

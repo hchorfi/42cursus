@@ -6,39 +6,11 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 16:35:17 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/15 12:48:32 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/15 12:57:30 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int     ft_strchr_set(char *str, char *set, char *token)
-{
-    int     i;
-    int     j;
-
-    i = 0;
-    while (str[i] != '\0')
-    {
-        j = 0;
-        while (set[j] != '\0')
-        {
-            if (str[i] == set[j])
-            {
-                if (str[i] == '+' && token[i + 1] !='\0' && token[i + 1] == '=')
-                {
-                    j++;
-                    continue;
-                }
-                else
-                    return (1);
-            }
-            j++;
-        }
-        i++;
-    }
-    return (0);
-}
 
 int     ft_valid_export_var(t_command *command, char *export_var, char *token, char *str)
 {

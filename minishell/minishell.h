@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/12 10:59:09 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/15 13:17:27 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,23 @@ int				ft_prompt(int argc, char **argv);
 void			ft_stock_envp(char **envp);
 
 /*
+** utils1.c
+*/
+
+int				ft_strchr_set(char *str, char *set, char *token);
+void			ft_free_d_p(char **str);
+
+/*
 ** exit.c
 */
+
+/*
+** redirections.c
+*/
+
+char    *ft_check_redirections(char *pipe_cmds);
+char    *ft_check_in(char *pipe_cmds);
+
 
 int				ft_exit(t_command *command);
 

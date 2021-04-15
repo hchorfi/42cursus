@@ -17,11 +17,13 @@ SRCS = main.c\
 		echo.c\
 		exit.c\
 		term.c\
-		parse/omary.c
+		parse/omary.c\
+		utils1.c\
+		redirections.c
 
 FLAGS = -Werror -Wextra -Wall
 
-ASAN =  -g -fsanitize=address
+ASAN =  -g #-fsanitize=address
 $(NAME) :
 	#make -C $(LIBFT_PATH)
 	#gcc -g $(SRCS) -L $(LIBFT_PATH) -l$(LIBFT_LIB) -o $(NAME)
