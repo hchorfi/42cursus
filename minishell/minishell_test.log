@@ -1338,33 +1338,33 @@ minishell: syntax error near unexpected token `newline'$
 minishell: syntax error near unexpected token `newline'$
 |---------------------------------------ACTUAL----------------------------------
 =================================================================$
-==22875==ERROR: AddressSanitizer: heap-use-after-free on address 0x6020000002b0 at pc 0x559399ded489 bp 0x7ffe7b99ca30 sp 0x7ffe7b99ca20$
+==33607==ERROR: AddressSanitizer: heap-use-after-free on address 0x6020000002b0 at pc 0x559154aae4bb bp 0x7ffce0a63450 sp 0x7ffce0a63440$
 READ of size 1 at 0x6020000002b0 thread T0$
-    #0 0x559399ded488 in remove_all_quotes parse/split.c:482$
-    #1 0x559399de4c56 in ft_check_redirections /home/devza/Desktop/42cursus/minishell/main.c:222$
-    #2 0x559399de5129 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:280$
-    #3 0x559399de56f8 in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:372$
-    #4 0x559399de6495 in main /home/devza/Desktop/42cursus/minishell/main.c:589$
-    #5 0x7f7f062c40b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-    #6 0x559399de36ad in _start (/home/devza/Desktop/42cursus/minishell/minishell+0x36ad)$
+    #0 0x559154aae4ba in remove_all_quotes parse/split.c:482$
+    #1 0x559154aa5c56 in ft_check_redirections /home/devza/Desktop/42cursus/minishell/main.c:222$
+    #2 0x559154aa6129 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:280$
+    #3 0x559154aa66f8 in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:372$
+    #4 0x559154aa7495 in main /home/devza/Desktop/42cursus/minishell/main.c:589$
+    #5 0x7f932a8f70b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
+    #6 0x559154aa46ad in _start (/home/devza/Desktop/42cursus/minishell/minishell+0x36ad)$
 $
 0x6020000002b0 is located 0 bytes inside of 1-byte region [0x6020000002b0,0x6020000002b1)$
 freed by thread T0 here:$
-    #0 0x7f7f065cc7cf in __interceptor_free (/lib/x86_64-linux-gnu/libasan.so.5+0x10d7cf)$
-    #1 0x559399de4c39 in ft_check_redirections /home/devza/Desktop/42cursus/minishell/main.c:220$
-    #2 0x559399de5129 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:280$
-    #3 0x559399de56f8 in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:372$
-    #4 0x559399de6495 in main /home/devza/Desktop/42cursus/minishell/main.c:589$
-    #5 0x7f7f062c40b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
+    #0 0x7f932abff7cf in __interceptor_free (/lib/x86_64-linux-gnu/libasan.so.5+0x10d7cf)$
+    #1 0x559154aa5c39 in ft_check_redirections /home/devza/Desktop/42cursus/minishell/main.c:220$
+    #2 0x559154aa6129 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:280$
+    #3 0x559154aa66f8 in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:372$
+    #4 0x559154aa7495 in main /home/devza/Desktop/42cursus/minishell/main.c:589$
+    #5 0x7f932a8f70b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
 $
 previously allocated by thread T0 here:$
-    #0 0x7f7f065ccbc8 in malloc (/lib/x86_64-linux-gnu/libasan.so.5+0x10dbc8)$
-    #1 0x559399df0834 in ft_substr (/home/devza/Desktop/42cursus/minishell/minishell+0x10834)$
-    #2 0x559399de4bff in ft_check_redirections /home/devza/Desktop/42cursus/minishell/main.c:216$
-    #3 0x559399de5129 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:280$
-    #4 0x559399de56f8 in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:372$
-    #5 0x559399de6495 in main /home/devza/Desktop/42cursus/minishell/main.c:589$
-    #6 0x7f7f062c40b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
+    #0 0x7f932abffbc8 in malloc (/lib/x86_64-linux-gnu/libasan.so.5+0x10dbc8)$
+    #1 0x559154ab1866 in ft_substr (/home/devza/Desktop/42cursus/minishell/minishell+0x10866)$
+    #2 0x559154aa5bff in ft_check_redirections /home/devza/Desktop/42cursus/minishell/main.c:216$
+    #3 0x559154aa6129 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:280$
+    #4 0x559154aa66f8 in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:372$
+    #5 0x559154aa7495 in main /home/devza/Desktop/42cursus/minishell/main.c:589$
+    #6 0x7f932a8f70b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
 $
 SUMMARY: AddressSanitizer: heap-use-after-free parse/split.c:482 in remove_all_quotes$
 Shadow bytes around the buggy address:$
@@ -1399,7 +1399,7 @@ Shadow byte legend (one shadow byte represents 8 application bytes):$
   Left alloca redzone:     ca$
   Right alloca redzone:    cb$
   Shadow gap:              cc$
-==22875==ABORTING$
+==33607==ABORTING$
 ================================================================================
 
 |> WITH echo >>
@@ -1407,33 +1407,33 @@ Shadow byte legend (one shadow byte represents 8 application bytes):$
 minishell: syntax error near unexpected token `newline'$
 |---------------------------------------ACTUAL----------------------------------
 =================================================================$
-==22877==ERROR: AddressSanitizer: heap-use-after-free on address 0x6020000002b0 at pc 0x5596feba8489 bp 0x7ffd2653f4e0 sp 0x7ffd2653f4d0$
+==33609==ERROR: AddressSanitizer: heap-use-after-free on address 0x6020000002b0 at pc 0x55ec1d65c4bb bp 0x7ffda48ab280 sp 0x7ffda48ab270$
 READ of size 1 at 0x6020000002b0 thread T0$
-    #0 0x5596feba8488 in remove_all_quotes parse/split.c:482$
-    #1 0x5596feb9fc56 in ft_check_redirections /home/devza/Desktop/42cursus/minishell/main.c:222$
-    #2 0x5596feba0129 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:280$
-    #3 0x5596feba06f8 in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:372$
-    #4 0x5596feba1495 in main /home/devza/Desktop/42cursus/minishell/main.c:589$
-    #5 0x7ffaf56330b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-    #6 0x5596feb9e6ad in _start (/home/devza/Desktop/42cursus/minishell/minishell+0x36ad)$
+    #0 0x55ec1d65c4ba in remove_all_quotes parse/split.c:482$
+    #1 0x55ec1d653c56 in ft_check_redirections /home/devza/Desktop/42cursus/minishell/main.c:222$
+    #2 0x55ec1d654129 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:280$
+    #3 0x55ec1d6546f8 in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:372$
+    #4 0x55ec1d655495 in main /home/devza/Desktop/42cursus/minishell/main.c:589$
+    #5 0x7f52ddc770b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
+    #6 0x55ec1d6526ad in _start (/home/devza/Desktop/42cursus/minishell/minishell+0x36ad)$
 $
 0x6020000002b0 is located 0 bytes inside of 1-byte region [0x6020000002b0,0x6020000002b1)$
 freed by thread T0 here:$
-    #0 0x7ffaf593b7cf in __interceptor_free (/lib/x86_64-linux-gnu/libasan.so.5+0x10d7cf)$
-    #1 0x5596feb9fc39 in ft_check_redirections /home/devza/Desktop/42cursus/minishell/main.c:220$
-    #2 0x5596feba0129 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:280$
-    #3 0x5596feba06f8 in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:372$
-    #4 0x5596feba1495 in main /home/devza/Desktop/42cursus/minishell/main.c:589$
-    #5 0x7ffaf56330b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
+    #0 0x7f52ddf7f7cf in __interceptor_free (/lib/x86_64-linux-gnu/libasan.so.5+0x10d7cf)$
+    #1 0x55ec1d653c39 in ft_check_redirections /home/devza/Desktop/42cursus/minishell/main.c:220$
+    #2 0x55ec1d654129 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:280$
+    #3 0x55ec1d6546f8 in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:372$
+    #4 0x55ec1d655495 in main /home/devza/Desktop/42cursus/minishell/main.c:589$
+    #5 0x7f52ddc770b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
 $
 previously allocated by thread T0 here:$
-    #0 0x7ffaf593bbc8 in malloc (/lib/x86_64-linux-gnu/libasan.so.5+0x10dbc8)$
-    #1 0x5596febab834 in ft_substr (/home/devza/Desktop/42cursus/minishell/minishell+0x10834)$
-    #2 0x5596feb9fbff in ft_check_redirections /home/devza/Desktop/42cursus/minishell/main.c:216$
-    #3 0x5596feba0129 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:280$
-    #4 0x5596feba06f8 in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:372$
-    #5 0x5596feba1495 in main /home/devza/Desktop/42cursus/minishell/main.c:589$
-    #6 0x7ffaf56330b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
+    #0 0x7f52ddf7fbc8 in malloc (/lib/x86_64-linux-gnu/libasan.so.5+0x10dbc8)$
+    #1 0x55ec1d65f866 in ft_substr (/home/devza/Desktop/42cursus/minishell/minishell+0x10866)$
+    #2 0x55ec1d653bff in ft_check_redirections /home/devza/Desktop/42cursus/minishell/main.c:216$
+    #3 0x55ec1d654129 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:280$
+    #4 0x55ec1d6546f8 in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:372$
+    #5 0x55ec1d655495 in main /home/devza/Desktop/42cursus/minishell/main.c:589$
+    #6 0x7f52ddc770b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
 $
 SUMMARY: AddressSanitizer: heap-use-after-free parse/split.c:482 in remove_all_quotes$
 Shadow bytes around the buggy address:$
@@ -1468,7 +1468,7 @@ Shadow byte legend (one shadow byte represents 8 application bytes):$
   Left alloca redzone:     ca$
   Right alloca redzone:    cb$
   Shadow gap:              cc$
-==22877==ABORTING$
+==33609==ABORTING$
 ================================================================================
 
 |> WITH echo <
