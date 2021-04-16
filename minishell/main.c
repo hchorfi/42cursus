@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/16 13:27:43 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/16 16:08:47 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,13 +167,7 @@ int     main(int argc, char **argv, char **envp)
                 //     newlist = newlist->next;
                 //     continue;
                 // }
-                int k = 0;
-                while (command->tokens[k])
-                {
-                    //ft_putstr_fd(command->tokens[k], 1);
-                    k++;
-                }
-                ft_printf("%d\n", k);
+                
                 if (command->pipe_pos != g_data.num_pipes && g_data.num_pipes > 0)
                     pipe(g_data.fd);
                 if (ft_check_builtin(command))

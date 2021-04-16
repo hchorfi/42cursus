@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 16:35:17 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/16 12:12:18 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/16 16:11:13 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,9 @@ char    *ft_get_export_var(char *exp_token)
     int     tmp_len;
     int     len;
 
+    //ft_printf("%d\n", exp_var[0]);
+    // if (exp_var == NULL)
+    //     write(1, "ok\n", 3);
     if ((tmp_str = ft_strchr(exp_token, '=')))
     {
         tmp_len = ft_strlen(tmp_str);
@@ -218,7 +221,7 @@ int     ft_export(t_command *command)
     {
         while (command->tokens[i])
         {
-            ft_printf("%s\n", command->tokens[i]);
+            //ft_printf("%d\n", i);
             exp_var = ft_get_export_var(command->tokens[i]);
             if (exp_var[0] != '#' &&
                 !(ft_valid_export_var(command, exp_var, command->tokens[i], "export")) &&
@@ -233,6 +236,7 @@ int     ft_export(t_command *command)
                 free(exp_var);
             i++;
         }
+        //ft_printf("%d\n", i);
     }
     return (0);
 }
