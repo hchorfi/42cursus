@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/15 13:17:27 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/15 22:37:33 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,10 @@ int				ft_export(t_command *command);
 */
 
 int				ft_env(t_command *command);
+void			ft_stock_envp(char **envp);
+char			**ft_get_envp();
+void			ft_stock_ret(void);
+
 
 /*
 ** unset.c
@@ -126,6 +130,8 @@ int				ft_del_list(t_list **head, int position);
 
 int				ft_exec_bin(t_command *command);
 void			ft_free_d_p(char **str);
+void			ft_bin(t_command *command);
+
 
 /*
 ** main.c
@@ -142,10 +148,16 @@ void			ft_stock_envp(char **envp);
 
 int				ft_strchr_set(char *str, char *set, char *token);
 void			ft_free_d_p(char **str);
+void			ft_free_list();
+void			ft_close_fd();
+int				ft_strcmp(const char *s1, const char *s2);
+
 
 /*
 ** exit.c
 */
+
+int				ft_exit(t_command *command);
 
 /*
 ** redirections.c
@@ -154,9 +166,20 @@ void			ft_free_d_p(char **str);
 char    *ft_check_redirections(char *pipe_cmds);
 char    *ft_check_in(char *pipe_cmds);
 
+/*
+** builtin_utils.c
+*/
 
-int				ft_exit(t_command *command);
+int     ft_check_builtin(t_command *command);
+int     ft_exec_builtin(t_command *command);
+void    ft_builtin(t_command *command);
 
+/*
+** tockens.c
+*/
+
+void    ft_prepare_tokens(t_command *command);
+void    ft_new_tokens(t_command *command,int len);
 
 int		get_line(void);
 void    ft_parse(char *line);

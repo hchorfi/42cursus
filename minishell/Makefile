@@ -19,7 +19,9 @@ SRCS = main.c\
 		term.c\
 		parse/omary.c\
 		utils1.c\
-		redirections.c
+		redirections.c\
+		builtin_utils.c\
+		tockens.c
 
 FLAGS = -Werror -Wextra -Wall
 

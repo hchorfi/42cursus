@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 16:35:17 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/15 12:57:30 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/16 12:12:18 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,39 +14,16 @@
 
 int     ft_valid_export_var(t_command *command, char *export_var, char *token, char *str)
 {
-    //ft_printf("%s : %s \n", export_var, token);
-    // if (export_var[0] != '\'')
-    //     export_var = remove_all_quotes(export_var);
-    
     if(export_var[0] == '_' || (export_var[0] == '#' && command->n_tokens == 2))
         return (0);
     if (export_var[0] == '\0' || ft_isdigit(export_var[0]) || token[0] == '=' || (export_var[0] != '#' && ft_strchr_set(export_var, "$&|;-+=~!@^%{} []:?.#/,\'\\\"", token)))
     {
         ft_printf("minishell: %s: `", str);
-        //ft_putstr_fd("minishell: export: `", 1);
         ft_putstr_fd(token, 1);
         ft_putstr_fd("': not a valid identifier\n", 1);
         return (g_data.ret = 1);
     }
-    // if (ft_isdigit(export_var[0]) || export_var[0] == '=' ||
-    //     export_var[0] == 0 || export_var[0] == '\'' || export_var[0] == '-')
-    // {
-    //     ft_putstr_fd("minishell: export: `", 1);
-    //     ft_putstr_fd(remove_all_quotes(export_var), 1);
-    //     ft_putstr_fd("': not a valid identifier\n", 1);
-    //     return (g_data.ret = 1);
-    // }
     return (0);
-}
-
-int		ft_strcmp(const char *s1, const char *s2)
-{
-	size_t i;
-
-	i = 0;
-	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
 int     ft_exist_export_var(char *export_var, char *token)
@@ -58,10 +35,7 @@ int     ft_exist_export_var(char *export_var, char *token)
     int     len;
     char    *tmp_free;
     int     ex_join;
-    //char    *old_var;
-
-    //ft_printf("%s : %s \n", export_var, token);
-
+    
     newlist = g_data.env_var;
     if (ft_strchr(token, '+'))
     {               
@@ -76,36 +50,21 @@ int     ft_exist_export_var(char *export_var, char *token)
             tmp_len = ft_strlen(tmp_str);
             len = ft_strlen(newlist->content);
             old_var = ft_substr(newlist->content, 0, len - tmp_len);
-            //old_var = old_var;
-            //ft_printf("%p\n", old_var);
         }
         else
-        {
             old_var = newlist->content;
-            //ft_printf("-%p\n", old_var);
-        }
-        //ft_printf("oldvar : %s - tokenvar : %s\n", old_var, export_var);
         if (!(ft_strcmp(old_var, export_var)))
         {
-            //ft_printf("old : %s - export : %s\n", old_var, export_var);
             if(ft_strchr(newlist->content, '=') && !ft_strchr(token, '='))
             {
                 if (ft_strchr(newlist->content, '='))
-                {
-                    //ft_printf("-free : %p\n", old_var);
                     free(old_var);
-                }
                 return (1);
             }
-            //tmp_len = ft_strlen(tmp_str);
             if ((tmp_str = ft_strchr(token, '+')) != 0)
             {
-                //ft_printf("--%s--", tmp_str + 2);
                 if (ft_strchr(newlist->content, '='))
-                {
-                    //ft_printf("--free : %p\n", old_var);
                     free(old_var);
-                }
                 tmp_free = newlist->content;
                 newlist->content = ft_strjoin(newlist->content, tmp_str + 2);
                 free(tmp_free);
@@ -113,13 +72,9 @@ int     ft_exist_export_var(char *export_var, char *token)
             else
             {
                 if (ft_strchr(newlist->content, '='))
-                {
-                    //ft_printf("---free : %p\n", old_var);
                     free(old_var);
-                }
                 tmp_free = newlist->content;
                 newlist->content = ft_strdup(token);
-                //ft_printf("----free : %p\n", tmp_free);
                 free(tmp_free);
             }
             return (1);
@@ -127,10 +82,7 @@ int     ft_exist_export_var(char *export_var, char *token)
         else
         {
             if (ft_strchr(newlist->content, '='))
-            {
-                //ft_printf("-----free : %p\n", old_var);
                 free(old_var);
-            }
         }
         newlist = newlist->next;
     }
@@ -160,23 +112,15 @@ void    ft_sort_export()
     char   *tmp_data;
 
     i = g_data.env_var;
-    //tmp = &g_data.env_var;
-    //t_list *newlist = g_data.env_var;
-    //ft_printf("i : %p - g_data : %p\n", *i, g_data.env_var);
     while (i)
     {
-        //ft_printf("i : %s\n", (*i)->content);
         j = i->next;
         while (j)
         {
             i_data = ft_get_export_var(i->content);
-            //ft_printf("i : %p - j : %p\n", i, j);
-            //ft_printf("j : %s\n", j->content);
             j_data = ft_get_export_var(j->content);
-            //ft_printf("-- i : %p > %s - j : %p > %s\n", i->content, i->content, j->content, j->content);
             if (strcmp(i_data, j_data) > 0)
             {
-                 //ft_printf("swapped\n");
                  char *tmp_freei = i->content;
                  char *tmp_freej = j->content;
                  tmp_data = i->content;
@@ -194,10 +138,8 @@ void    ft_sort_export()
                 if (ft_strchr(j->content , '='))
                     free(j_data);
             }
-            // ft_printf("i : %s - j : %s\n", (*i)->content, j->content);
             j = j->next;
         }
-        //ft_printf("--i : %p - g_data : %p\n", i, g_data.env_var);
         i = i->next;
     }
 }
@@ -230,7 +172,6 @@ void    ft_print_export()
             ft_putstr_fd(var, 1);
             write(1, "\"", 1);
             ft_print_export2(newlist->content + len - chr_len + 1);
-            //ft_putstr_fd(newlist->content + len - chr_len + 1, 1);
             write(1, "\"", 1);
             write(1, "\n", 1);
             free(var);
@@ -269,7 +210,6 @@ int     ft_export(t_command *command)
     char    *exp_var;
     char    *tmp_str;
     
-    //ft_printf("export : %p\n", command->tokens);
     i = 1;
     g_data.ret = 0;
     if (command->n_tokens == 1 || (command->n_tokens = 2 && command->tokens[1][0] == '#'))
@@ -278,29 +218,19 @@ int     ft_export(t_command *command)
     {
         while (command->tokens[i])
         {
-            //ft_printf("-%p : %s-\n", command->tokens[i], command->tokens[i]);
+            ft_printf("%s\n", command->tokens[i]);
             exp_var = ft_get_export_var(command->tokens[i]);
             if (exp_var[0] != '#' &&
                 !(ft_valid_export_var(command, exp_var, command->tokens[i], "export")) &&
                 !ft_exist_export_var(exp_var, command->tokens[i]))
             {
-                //ft_printf("-%s-\n", command->tokens[i]);
                 if ((tmp_str = ft_strchr(command->tokens[i], '+')) != 0)
-                {
-                    //printf("+");
                     ft_lstadd_back(&g_data.env_var, ft_lstnew(ft_strjoin(ft_substr(command->tokens[i], 0, ft_strlen(command->tokens[i]) - ft_strlen(tmp_str)), tmp_str + 1)));
-                }
                 else
-                {   
-                    //ft_printf("ok");
                     ft_lstadd_back(&g_data.env_var, ft_lstnew(ft_strdup(command->tokens[i])));
-                }
             }
             if (ft_strchr(command->tokens[i], '='))
-            {   
-                //ft_printf("fr : % p\n");
                 free(exp_var);
-            }
             i++;
         }
     }
