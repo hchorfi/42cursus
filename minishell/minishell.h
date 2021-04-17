@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/17 22:16:39 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/17 23:06:19 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,10 +138,9 @@ void			ft_stock_ret(void);
 ** unset.c
 */
 
-int				ft_unset();
-int				ft_valid_unset_var(char *unset_var);
+int				ft_unset(t_command *command);
 int				ft_chr_var(char *unset_var);
-int				ft_del_list(t_list **head, int position);
+int    			ft_del_list(t_list **head, int position, t_list *curr, t_list *prev);
 
 /*
 ** bin.c
