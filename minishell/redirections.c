@@ -121,10 +121,10 @@ char    *ft_check_redirections(char *pipe_cmds)
 
     new_pipe = ft_strdup("");
     g_data.command->output_file = 1;
-    if (*pipe_cmds == '>')
+    //if (*pipe_cmds == '>')
         str = ft_split_pars(pipe_cmds, '>');
-    else
-        str = csplit(pipe_cmds, '>');
+    //else
+        //str = csplit(pipe_cmds, '>');
     while(str[i])
     {
         int priority = 0;

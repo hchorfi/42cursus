@@ -6,13 +6,13 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 17:51:27 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/15 22:08:10 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/16 19:04:47 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_change_oldpwd(char *val)
+int	ft_change_oldpwd(char *val)
 {
 	char	*tmp;
 	t_list	*newlist;
@@ -34,7 +34,7 @@ int		ft_change_oldpwd(char *val)
 	return (0);
 }
 
-int		ft_change_pwd(char *val)
+int	ft_change_pwd(char *val)
 {
 	char	*tmp;
 	t_list	*newlist;
@@ -79,7 +79,7 @@ char	*ft_get_home(void)
 	return (0);
 }
 
-int		ft_cd(t_command *command)
+int	ft_cd(t_command *command)
 {
 	char	pwd[PATH_MAX];
 	char	oldpwd[PATH_MAX];
@@ -87,11 +87,6 @@ int		ft_cd(t_command *command)
 
 	if (!getcwd(oldpwd, PATH_MAX))
 		ft_printf("%s\n", strerror(errno));
-	// if (g_data.command->tokens[2])
-	// {
-	// 	ft_printf("minishell: cd: too many arguments\n");
-	// 	return (g_data.ret = 1);
-	// }
 	val = NULL;
 	if (!(val = command->tokens[1]))
 	{

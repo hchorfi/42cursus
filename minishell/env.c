@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/13 14:43:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/15 17:23:27 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/16 18:15:21 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	**ft_get_envp()
 	list_len = ft_lstsize(g_data.env_var);
 	newlist = g_data.env_var;
 	i = 0;
-	if (!(envp = malloc(sizeof (char*) * list_len)))
+	if (!(envp = malloc(sizeof (char*) * (list_len + 1))))
 		return (NULL);
 	while (newlist)
 	{
@@ -56,7 +56,7 @@ char	**ft_get_envp()
 		newlist = newlist->next;
 		i++;
 	}
-	//envp[i] = NULL;
+	envp[list_len] = NULL;
 	return (envp);
 }
 
