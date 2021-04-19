@@ -1,5 +1,54 @@
 #include "minishell.h"
 
+int		ft_strcmp(const char *s1, const char *s2)
+{
+	size_t i;
+
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+void    ft_close_fd()
+{
+    t_list  *tmp_list;
+
+    while (g_data.fd_close)
+    {
+        tmp_list = g_data.fd_close;
+        close(*(int *)(g_data.fd_close)->content);
+        free(g_data.fd_close->content);
+        g_data.fd_close = g_data.fd_close->next;
+        free(tmp_list);
+    }
+}
+
+void    ft_free_list()
+{
+    t_list  *tmp_list;
+
+    while (g_data.cmds)
+    {
+        tmp_list = g_data.cmds;
+        ft_free_d_p(((t_command *)g_data.cmds->content)->tokens);
+        if (((t_command *)g_data.cmds->content)->input_file > 0)
+            close(((t_command *)g_data.cmds->content)->input_file);
+        if (((t_command *)g_data.cmds->content)->output_file > 1)
+            close(((t_command *)g_data.cmds->content)->output_file);
+        free(g_data.cmds->content);
+        g_data.cmds = g_data.cmds->next;
+        free(tmp_list);
+    }
+    while (g_data.n_pipe_cmd)
+    {
+        tmp_list = g_data.n_pipe_cmd;
+        free(g_data.n_pipe_cmd->content);
+        g_data.n_pipe_cmd = g_data.n_pipe_cmd->next;
+        free(tmp_list);
+    }
+}
+
 void	ft_free_d_p(char **str)
 {
 	int		len;

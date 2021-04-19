@@ -1,19 +1,41 @@
 #include "minishell.h"
 
+
+void    ft_in_red_file(char **new_pipe, char **tmp_in, int j)
+{
+    char *file;
+    char *tmp_free;
+    int in;
+
+    in = 0;
+    file = ft_substr(*tmp_in, 0, j);
+    tmp_free = file;
+    file = get_other_variables(file);
+    free(tmp_free);
+    tmp_free = file;
+    file = remove_all_quotes(file);
+    if ((in = open(file, O_RDONLY)) == -1)
+        ft_printf("minishell : %s No such file or directory\n", file);
+    if (g_data.command->input_file > 0)
+        close(g_data.command->input_file);
+    g_data.command->input_file = in;
+    tmp_free = *new_pipe;
+    *new_pipe = ft_strjoin(*new_pipe, (*tmp_in) + j);
+    free(tmp_free);
+    free(*tmp_in);
+    free(file);
+}
+
 char    *ft_check_in(char *pipe_cmds)
 {
     char *new_pipe;
     char **str;
-    char *file;
     char *tmp_in;
-    int in;
     int i = 0;
     char *tmp_free;
-    char *tmp_free2;
+
     str = ft_split_pars(pipe_cmds, '<');
     new_pipe = ft_strdup("");
-    int k = 0;
-
     while (str[i])
     {
         if (i == 0 && *str[0] != '<')
@@ -25,7 +47,6 @@ char    *ft_check_in(char *pipe_cmds)
         }
         else
         {
-            in = 0;
             if (i == 0 && *str[0] == '<')
                tmp_in = ft_strtrim(str[i] + 1, " ");
             else
@@ -35,31 +56,14 @@ char    *ft_check_in(char *pipe_cmds)
             {
                 int cot = j++;
                 while (tmp_in[j] != tmp_in[cot] && tmp_in[j] != '\0')
-                {
                     j++;
-                }
             }
             else
             {
                 while (tmp_in[j] != ' ' && tmp_in[j] != '\0')
                     j++;
             }
-            file = ft_substr(tmp_in, 0, j);
-            tmp_free2 = file;
-            file = get_other_variables(file);
-            free(tmp_free2);
-            tmp_free2 = file;
-            file = remove_all_quotes(file);
-            if ((in = open(file, O_RDONLY)) == -1)
-                ft_printf("minishell : %s No such file or directory\n", file);
-            if (g_data.command->input_file > 0)
-                close(g_data.command->input_file);
-            g_data.command->input_file = in;
-            tmp_free = new_pipe;
-            new_pipe = ft_strjoin(new_pipe, tmp_in + j);
-            free(tmp_free);
-            free(tmp_in);
-            free(file);
+            ft_in_red_file(&new_pipe, &tmp_in, j);
             i++;
         }
     }

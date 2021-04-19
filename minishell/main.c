@@ -6,64 +6,12 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/15 14:05:20 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/16 13:27:43 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int     ft_check_builtin(t_command *command)
-{
-    if (!command->tokens[0])
-        return (0);
-    else if (!ft_strncmp(command->tokens[0], "export", 7))
-        return (1);
-    else if(!ft_strncmp(command->tokens[0], "env", 4))
-        return (1);
-    else if (!ft_strncmp(command->tokens[0], "unset", 6))
-        return (1);
-    else if (!ft_strncmp(command->tokens[0], "pwd", 4))
-        return (1);
-    else if (!ft_strncmp(command->tokens[0], "cd", 3))
-        return (1);
-    else if (!ft_strncmp(command->tokens[0], "echo", 5))
-        return (1);
-    else if (!ft_strncmp(command->tokens[0], "exit", 5))
-        return (1);
-    else
-        return 0;
-}
-
-// int     ft_exec(void *cmd)
-// {
-//     else if(!(ret = ft_check_bin()))
-//     {
-//         ft_printf("---%d\n", ret);
-//         return (g_data.ret = 127);
-//     }
-//     //ft_printf("%d\n", ret);
-//     else
-//         return (g_data.ret = 0);
-// }
-
-int     ft_exec_builtin(t_command *command)
-{
-    if (!ft_strncmp(command->tokens[0], "export", 7))
-        ft_export(command);
-    else if(!ft_strncmp(command->tokens[0], "env", 4))
-        ft_env(command);
-    else if (!ft_strncmp(command->tokens[0], "unset", 6))
-        return (ft_unset(command));
-    else if (!ft_strncmp(command->tokens[0], "pwd", 4))
-        ft_pwd();
-    else if (!ft_strncmp(command->tokens[0], "cd", 3))
-        ft_cd(command);
-    else if (!ft_strncmp(command->tokens[0], "echo", 5))
-        return (ft_echo(command));
-    else if (!ft_strncmp(command->tokens[0], "exit", 5))
-        ft_exit(command);
-    return (0);
-}
 
 void    ft_parse(char *line)
 {
@@ -78,7 +26,6 @@ void    ft_parse(char *line)
     while (cmds[i])
     {
         pipe_cmds = ft_split_pars(cmds[i], '|');
-        //command->pipe_pos = 0;
         j = 0;
         while (pipe_cmds[j])
         {
@@ -86,21 +33,17 @@ void    ft_parse(char *line)
             g_data.command->block = i;
             g_data.command->pipe_pos = j;
             new_pipe = ft_check_redirections(pipe_cmds[j]);
-            //ft_printf("---%s--\n", new_pipe);
-            //new_pipe = get_other_variables(new_pipe);
             g_data.command->tokens = ft_split_pars(new_pipe, ' ');
             free(new_pipe);
             int k = 0;
             while (g_data.command->tokens[k])
             {
-                //command->tokens[k] = remove_all_quotes(command->tokens[k]);
                 char *tmp_free = g_data.command->tokens[k];
                 g_data.command->tokens[k] = ft_strtrim(g_data.command->tokens[k], " ");
                 free(tmp_free);
                 k++;
             }
             g_data.command->n_tokens = k;
-            //ft_printf("in : %d - out : %d\n", command->input_file, command->output_file);
             if (g_data.cmds == NULL)
                 g_data.cmds = ft_lstnew(g_data.command);
             else
@@ -117,39 +60,6 @@ void    ft_parse(char *line)
         i++;
     }
     ft_free_d_p(cmds);
-
-    //i = 0;
-    // while (command->tokens[i])
-    // {
-    //     command->tokens[i] = ft_strtrim(command->tokens[i], " ");
-    //     i++;
-    // }
-}
-
-void    ft_stock_ret(void)
-{
-    char    *str;
-    t_list  *env_list;
-    int     exist;
-    char    *tmp_free;
-
-    exist = 0;
-    env_list = g_data.env_var;
-    str = ft_strjoin("?=", tmp_free = ft_itoa(g_data.ret));
-    free(tmp_free);
-    while (env_list)
-    {
-        if (*(char *)(env_list)->content == '?')
-        {
-            tmp_free = env_list->content;
-            env_list->content = str;
-            free(tmp_free);
-            exist = 1;
-        }
-        env_list = env_list->next;
-    }
-    if (!exist)
-        ft_lstadd_back(&g_data.env_var, ft_lstnew(str));
 }
 
 int     ft_check_syntax(char *line)
@@ -180,40 +90,15 @@ int    ft_prompt(int argc, char **argv)
             ft_printf("minishell 👽 %d > ", g_data.ret);
             ft_printf("\033[0m");
         }
-        //ft_printf("%s\n",line);
-        //get_line();
         get_next_line(1, &g_data.line);
-        //ft_strlen(g_data.line);
-        //ft_printf("len : %d, line_len : %d\n", len, line_len);
     }
-    //if (argc >=2)
     if (!ft_check_syntax(g_data.line))
         ft_parse(g_data.line);
-    // if (!len && !line_len)
-    // {
-    //     ft_printf("\nexit\n");
-    //     exit(0);
-    // }
     if (argc < 2)
         free(g_data.line);
     return 1;
 }
 
-void    ft_stock_envp(char **envp)
-{
-    int     i;
-    
-    i = 0;
-    g_data.env_var = NULL;
-    while (envp[i])
-    {
-        if (g_data.env_var == NULL)
-            g_data.env_var = ft_lstnew(envp[i]);
-        else
-            ft_lstadd_back(&g_data.env_var, ft_lstnew(envp[i]));
-        i++;
-    }
-}
 const char* __asan_default_options() { return "detect_leaks=0"; }
 
 void sighandler(int dummy)
@@ -235,206 +120,6 @@ void sighandler(int dummy)
         ft_printf("\n");
         g_data.ret = 130;
     }
-}
-
-void    ft_new_tokens(t_command *command,int len)
-{
-    char **tmp_double;
-    char **tmp_double2;
-    char **new_tokens;
-    int  count;
-    int  k;
-
-    k = 0;
-   
-    tmp_double2 = command->tokens;
-    new_tokens = malloc(sizeof(char*) * (len  + 1));
-    while (command->tokens[k])
-    {
-        count = 0;
-        tmp_double = ft_split_pars(command->tokens[k], ' ');
-        while (tmp_double[count])
-        {
-            new_tokens[k + count] = ft_strdup(tmp_double[count]);
-            count++;
-        }
-        ft_free_d_p(tmp_double);
-        k++;
-    }
-    new_tokens[len] = NULL;
-    command->tokens = new_tokens;
-    //ft_printf("new tokens : %p\n", command->tokens);
-    ft_free_d_p(tmp_double2);
-}
-
-void    ft_prepare_tokens(t_command *command)
-{
-    //t_list  *cmds_list;
-    char *tmp_free;
-    char **tmp_double;
-    int     k;
-    int     count;
-    int     len;
-
-    k = 0;
-    len = 0;
-    //ft_printf("prepare token : %p\n", command->tokens);
-    while (command->tokens[k])
-    {
-        count = 0;
-        //ft_printf("****%s***\n", ((t_command *)newlist->content)->tokens[k]);
-        tmp_free = command->tokens[k];
-        command->tokens[k] = get_other_variables(command->tokens[k]);
-        free(tmp_free);
-        tmp_double = ft_split_pars(command->tokens[k], ' ');
-        while (tmp_double[count])
-            count++;
-        len += count;
-        ft_free_d_p(tmp_double);
-        //if (ft_strncmp(((t_command *)newlist->content)->tokens[0], "export", 7 ) && ft_strncmp(((t_command *)newlist->content)->tokens[0], "unset", 6 ))
-        tmp_free = command->tokens[k];
-        command->tokens[k] = remove_all_quotes(command->tokens[k]);
-        free(tmp_free);
-        //ft_printf("====%s====\n", ((t_command *)newlist->content)->tokens[k]);
-        k++;
-    }
-    if (len > k)
-    {
-        ft_new_tokens(command, len);
-    }
-    //ft_printf("k : %d - len :%d\n",k,len);
-    
-}
-
-void    ft_builtin(t_command *command)
-{
-    int     std_out;
-    std_out = dup(1);
-    int std_in = dup(0);
-    if (command->input_file > 0)
-    {
-        dup2(command->input_file, 0);
-        close(command->input_file);
-    }
-    else
-        dup2(g_data.fdd, 0);
-    if (command->pipe_pos != g_data.num_pipes && g_data.num_pipes > 0)
-    {
-        dup2(g_data.fd[1], 1);
-    }
-    if (command->output_file != 1)
-    {
-        dup2(command->output_file, 1);
-        close(command->output_file);
-    }
-    ft_exec_builtin(command);
-    //ft_printf("%d", g_data.ret);
-    dup2(std_out, 1);
-    dup2(std_in, 0);
-    close(std_out);
-    close(std_in);
-}
-
-
-void    ft_bin(t_command *command)
-{
-    g_data.n_fork++;
-    if (!fork())
-    {
-        //ft_printf("fork\n");
-        int std_out = dup(1);
-        int std_in = dup(0);
-        //ft_printf("--in :%d\n", command->input_file);
-        //ft_printf("--out :%d\n", command->output_file);
-        //ft_printf("fdd : %d\n", g_data.fdd);
-        if (command->input_file > 0 && command->input_file < 1024)
-        {
-            //ft_printf("in :%d\n", command->input_file);
-            dup2(command->input_file, 0);
-            close(command->input_file);                            
-        }
-        else
-        {   
-            dup2(g_data.fdd, 0);
-            //close(g_data.fdd);
-        }
-        if (g_data.num_pipes > 0)
-        {
-            if (command->pipe_pos != g_data.num_pipes)
-                dup2(g_data.fd[1], 1);
-            close(g_data.fd[0]);
-            close(g_data.fd[1]);
-        }
-        if (command->output_file > 1 && command->output_file < 1024)
-        {
-            //ft_printf("out :%d\n", command->output_file);
-            dup2(command->output_file, 1);
-            close(command->output_file);
-        }
-        //ft_printf("fd[0] : %d - fd[1] : %d\n", g_data.fd[0], g_data.fd[1]);
-        ft_exec_bin(command);
-        dup2(std_out, 1);
-        dup2(std_in, 0);
-        close(std_out);
-        close(std_in);
-        ft_printf("minishell: %s: command not found\n", command->tokens[0]);
-        exit(g_data.ret = 127);
-    }
-}
-
-void    ft_close_fd()
-{
-    t_list  *tmp_list;
-
-    while (g_data.fd_close)
-    {
-        tmp_list = g_data.fd_close;
-       //ft_printf("close : %d\n", *(int *)(g_data.fd_close)->content);
-        //if (*(int *)(g_data.fd_close)->content > 2)
-            close(*(int *)(g_data.fd_close)->content);
-        free(g_data.fd_close->content);
-        g_data.fd_close = g_data.fd_close->next;
-        free(tmp_list);
-    }
-}
-
-void    ft_free_list()
-{
-    t_list  *tmp_list;
-
-    //if (!i)
-    //{
-    while (g_data.cmds)
-    {
-        tmp_list = g_data.cmds;
-        //printf("pree : %p\n", ((t_command *)g_data.cmds->content)->tokens);
-        ft_free_d_p(((t_command *)g_data.cmds->content)->tokens);
-        if (((t_command *)g_data.cmds->content)->input_file > 0)
-            close(((t_command *)g_data.cmds->content)->input_file);
-        if (((t_command *)g_data.cmds->content)->output_file > 1)
-            close(((t_command *)g_data.cmds->content)->output_file);
-        free(g_data.cmds->content);
-        g_data.cmds = g_data.cmds->next;
-        free(tmp_list);
-    }
-    while (g_data.n_pipe_cmd)
-    {
-        tmp_list = g_data.n_pipe_cmd;
-        free(g_data.n_pipe_cmd->content);
-        g_data.n_pipe_cmd = g_data.n_pipe_cmd->next;
-        free(tmp_list);
-    }
-    //}
-    // else
-    // {
-    //     while (g_data.env_var)
-    //     {
-    //         tmp_list = g_data.env_var;
-    //         free(g_data.env_var->content);
-    //         g_data.env_var = g_data.env_var->next;
-    //         free(tmp_list);
-    //     }
-    // }
 }
 
 int     main(int argc, char **argv, char **envp)
@@ -482,6 +167,13 @@ int     main(int argc, char **argv, char **envp)
                 //     newlist = newlist->next;
                 //     continue;
                 // }
+                int k = 0;
+                while (command->tokens[k])
+                {
+                    //ft_putstr_fd(command->tokens[k], 1);
+                    k++;
+                }
+                ft_printf("%d\n", k);
                 if (command->pipe_pos != g_data.num_pipes && g_data.num_pipes > 0)
                     pipe(g_data.fd);
                 if (ft_check_builtin(command))

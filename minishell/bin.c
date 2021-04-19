@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/15 12:59:24 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/15 17:10:25 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,28 +35,6 @@ char	*ft_get_path()
 		free (tmp);
 	}
 	return (path);
-}
-
-char	**ft_get_envp()
-{
-	int		list_len;
-	char	**envp;
-	t_list	*newlist;
-	int		i;
-
-	list_len = ft_lstsize(g_data.env_var);
-	newlist = g_data.env_var;
-	i = 0;
-	if (!(envp = malloc(sizeof (char*) * list_len)))
-		return (NULL);
-	while (newlist)
-	{
-		envp[i] = newlist->content;
-		newlist = newlist->next;
-		i++;
-	}
-	//envp[i] = NULL;
-	return (envp);
 }
 
 int		ft_exec_bin(t_command *command)
@@ -159,4 +137,50 @@ int		ft_exec_bin(t_command *command)
 		//ft_free_d_p(bins);
 	}
 	return (0);
+}
+
+void    ft_bin(t_command *command)
+{
+    g_data.n_fork++;
+    if (!fork())
+    {
+        //ft_printf("fork\n");
+        int std_out = dup(1);
+        int std_in = dup(0);
+        //ft_printf("--in :%d\n", command->input_file);
+        //ft_printf("--out :%d\n", command->output_file);
+        //ft_printf("fdd : %d\n", g_data.fdd);
+        if (command->input_file > 0 && command->input_file < 1024)
+        {
+            //ft_printf("in :%d\n", command->input_file);
+            dup2(command->input_file, 0);
+            close(command->input_file);                            
+        }
+        else
+        {   
+            dup2(g_data.fdd, 0);
+            //close(g_data.fdd);
+        }
+        if (g_data.num_pipes > 0)
+        {
+            if (command->pipe_pos != g_data.num_pipes)
+                dup2(g_data.fd[1], 1);
+            close(g_data.fd[0]);
+            close(g_data.fd[1]);
+        }
+        if (command->output_file > 1 && command->output_file < 1024)
+        {
+            //ft_printf("out :%d\n", command->output_file);
+            dup2(command->output_file, 1);
+            close(command->output_file);
+        }
+        //ft_printf("fd[0] : %d - fd[1] : %d\n", g_data.fd[0], g_data.fd[1]);
+        ft_exec_bin(command);
+        dup2(std_out, 1);
+        dup2(std_in, 0);
+        close(std_out);
+        close(std_in);
+        ft_printf("minishell: %s: command not found\n", command->tokens[0]);
+        exit(g_data.ret = 127);
+    }
 }
