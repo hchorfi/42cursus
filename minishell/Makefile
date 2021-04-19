@@ -8,6 +8,8 @@ SRCS = main.c\
 		get_next_line.c\
 		get_next_line_utils.c\
 		export.c\
+		export_utils.c\
+		export_utils2.c\
 		env.c\
 		unset.c\
 		pwd.c\
@@ -19,13 +21,14 @@ SRCS = main.c\
 		term.c\
 		parse/omary.c\
 		utils1.c\
+		utils2.c\
 		redirections.c\
 		builtin_utils.c\
 		tockens.c
 
 FLAGS = -Werror -Wextra -Wall
 
-ASAN =  -g -fsanitize=address
+ASAN =  -g #-fsanitize=address
 $(NAME) :
 	#make -C $(LIBFT_PATH)
 	#gcc -g $(SRCS) -L $(LIBFT_PATH) -l$(LIBFT_LIB) -o $(NAME)

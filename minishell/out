@@ -37,4 +37,8 @@ utils1.c
 vgcore.256
 =======
 bon
+<<<<<<< HEAD
 >>>>>>> 4df06250f7c66a8e0bce685d24022203c9f1cc0a
+=======
+export a aa aaa=hamza aaa+=chorfi bbb+=test LS="ls    -la";export;export aa=test;export;export aa;export;export aa=;export
+>>>>>>> eb74cb2e7d7f4a5e2162f4f303db1eba7e8d33a8

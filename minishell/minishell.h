@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/15 22:37:33 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/17 23:06:19 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,25 @@ char			*ft_get_export_var(char *exp_token);
 int				ft_export(t_command *command);
 
 /*
+** export_utils.c
+*/
+
+void	ft_print_export2(char *content, char *str_chr, char *var);
+int		ft_valid_export_var(t_command *command, char *export_var, char *token, char *str);
+char	*ft_get_export_var(char *exp_token);
+int		ft_sort_exp_cmp(char *i_content, char *j_content);
+void	ft_sort_export(void);
+
+/*
+** export_utils2.c
+*/
+
+void	ft_change(int j, char *token, char *old_var, t_list *newlist);
+int		can_change(char *content, char *token, char *old_var, char *export_var);
+char	*ft_get_oldvar(char *content);
+void	ft_free_exist(char *str_free, char *str, char c);
+
+/*
 ** env.c
 */
 
@@ -119,10 +138,9 @@ void			ft_stock_ret(void);
 ** unset.c
 */
 
-int				ft_unset();
-int				ft_valid_unset_var(char *unset_var);
+int				ft_unset(t_command *command);
 int				ft_chr_var(char *unset_var);
-int				ft_del_list(t_list **head, int position);
+int    			ft_del_list(t_list **head, int position, t_list *curr, t_list *prev);
 
 /*
 ** bin.c
@@ -152,6 +170,11 @@ void			ft_free_list();
 void			ft_close_fd();
 int				ft_strcmp(const char *s1, const char *s2);
 
+/*
+** utils2.c
+*/
+
+void	ft_putstrs_fd(char *s1, char *s2, char *s3, char *s4, char *s5);
 
 /*
 ** exit.c

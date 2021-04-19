@@ -1139,7 +1139,7 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x PATH="ATH=/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1153,8 +1153,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A=""$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x A="="$
+declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1168,8 +1168,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="""$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x A="=""$
+declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1183,8 +1183,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="\\"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x A="=\\"$
+declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1198,8 +1198,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="\$"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x A="=\$"$
+declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1213,8 +1213,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="	"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x A="=	"$
+declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1228,8 +1228,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="'"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x A="='"$
+declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1243,16 +1243,9 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="a"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x A="=a"$
+declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
-================================================================================
-
-|> WITH export A=\B\O\N\ \ \ \ \ \ \ JOURJESUIS; echo $A
-|---------------------------------------EXPECTED--------------------------------
-BON JOURJESUIS$
-|---------------------------------------ACTUAL----------------------------------
-BON       JOURJESUIS$
 ================================================================================
 
 |> WITH export A B C; env
@@ -1334,147 +1327,19 @@ minishell: syntax error near unexpected token `newline'$
 ================================================================================
 
 |> WITH echo >
+|  STATUS: expected 1 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `newline'$
 |---------------------------------------ACTUAL----------------------------------
-=================================================================$
-==10782==ERROR: AddressSanitizer: heap-use-after-free on address 0x6020000002b0 at pc 0x55891dfcffb8 bp 0x7fffec06b5f0 sp 0x7fffec06b5e0$
-READ of size 1 at 0x6020000002b0 thread T0$
-    #0 0x55891dfcffb7 in remove_all_quotes parse/split.c:482$
-    #1 0x55891dfd4445 in ft_out_red_file /home/devza/Desktop/42cursus/minishell/redirections.c:86$
-    #2 0x55891dfd511c in ft_check_redirections /home/devza/Desktop/42cursus/minishell/redirections.c:170$
-    #3 0x55891dfc88d8 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:35$
-    #4 0x55891dfc8dfc in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:96$
-    #5 0x55891dfc8f1b in main /home/devza/Desktop/42cursus/minishell/main.c:142$
-    #6 0x7fb64d26c0b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-    #7 0x55891dfc86ad in _start (/home/devza/Desktop/42cursus/minishell/minishell+0x36ad)$
 $
-0x6020000002b0 is located 0 bytes inside of 1-byte region [0x6020000002b0,0x6020000002b1)$
-freed by thread T0 here:$
-    #0 0x7fb64d5747cf in __interceptor_free (/lib/x86_64-linux-gnu/libasan.so.5+0x10d7cf)$
-    #1 0x55891dfd4428 in ft_out_red_file /home/devza/Desktop/42cursus/minishell/redirections.c:84$
-    #2 0x55891dfd511c in ft_check_redirections /home/devza/Desktop/42cursus/minishell/redirections.c:170$
-    #3 0x55891dfc88d8 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:35$
-    #4 0x55891dfc8dfc in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:96$
-    #5 0x55891dfc8f1b in main /home/devza/Desktop/42cursus/minishell/main.c:142$
-    #6 0x7fb64d26c0b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-$
-previously allocated by thread T0 here:$
-    #0 0x7fb64d574bc8 in malloc (/lib/x86_64-linux-gnu/libasan.so.5+0x10dbc8)$
-    #1 0x55891dfd649f in ft_substr (/home/devza/Desktop/42cursus/minishell/minishell+0x1149f)$
-    #2 0x55891dfd43ee in ft_out_red_file /home/devza/Desktop/42cursus/minishell/redirections.c:81$
-    #3 0x55891dfd511c in ft_check_redirections /home/devza/Desktop/42cursus/minishell/redirections.c:170$
-    #4 0x55891dfc88d8 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:35$
-    #5 0x55891dfc8dfc in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:96$
-    #6 0x55891dfc8f1b in main /home/devza/Desktop/42cursus/minishell/main.c:142$
-    #7 0x7fb64d26c0b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-$
-SUMMARY: AddressSanitizer: heap-use-after-free parse/split.c:482 in remove_all_quotes$
-Shadow bytes around the buggy address:$
-  0x0c047fff8000: fa fa 00 00 fa fa 00 00 fa fa 00 00 fa fa fd fa$
-  0x0c047fff8010: fa fa 07 fa fa fa 00 00 fa fa fd fa fa fa 07 fa$
-  0x0c047fff8020: fa fa fd fa fa fa fd fa fa fa 06 fa fa fa 01 fa$
-  0x0c047fff8030: fa fa fd fd fa fa fd fa fa fa fd fa fa fa fd fa$
-  0x0c047fff8040: fa fa fd fa fa fa 06 fa fa fa fd fa fa fa fd fa$
-=>0x0c047fff8050: fa fa 01 fa fa fa[fd]fa fa fa 01 fa fa fa fa fa$
-  0x0c047fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8090: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff80a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-Shadow byte legend (one shadow byte represents 8 application bytes):$
-  Addressable:           00$
-  Partially addressable: 01 02 03 04 05 06 07 $
-  Heap left redzone:       fa$
-  Freed heap region:       fd$
-  Stack left redzone:      f1$
-  Stack mid redzone:       f2$
-  Stack right redzone:     f3$
-  Stack after return:      f5$
-  Stack use after scope:   f8$
-  Global redzone:          f9$
-  Global init order:       f6$
-  Poisoned by user:        f7$
-  Container overflow:      fc$
-  Array cookie:            ac$
-  Intra object redzone:    bb$
-  ASan internal:           fe$
-  Left alloca redzone:     ca$
-  Right alloca redzone:    cb$
-  Shadow gap:              cc$
-==10782==ABORTING$
 ================================================================================
 
 |> WITH echo >>
+|  STATUS: expected 1 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `newline'$
 |---------------------------------------ACTUAL----------------------------------
-=================================================================$
-==10784==ERROR: AddressSanitizer: heap-use-after-free on address 0x6020000002b0 at pc 0x55dc5ff1efb8 bp 0x7fff11548910 sp 0x7fff11548900$
-READ of size 1 at 0x6020000002b0 thread T0$
-    #0 0x55dc5ff1efb7 in remove_all_quotes parse/split.c:482$
-    #1 0x55dc5ff23445 in ft_out_red_file /home/devza/Desktop/42cursus/minishell/redirections.c:86$
-    #2 0x55dc5ff2411c in ft_check_redirections /home/devza/Desktop/42cursus/minishell/redirections.c:170$
-    #3 0x55dc5ff178d8 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:35$
-    #4 0x55dc5ff17dfc in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:96$
-    #5 0x55dc5ff17f1b in main /home/devza/Desktop/42cursus/minishell/main.c:142$
-    #6 0x7eff9b1ee0b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-    #7 0x55dc5ff176ad in _start (/home/devza/Desktop/42cursus/minishell/minishell+0x36ad)$
 $
-0x6020000002b0 is located 0 bytes inside of 1-byte region [0x6020000002b0,0x6020000002b1)$
-freed by thread T0 here:$
-    #0 0x7eff9b4f67cf in __interceptor_free (/lib/x86_64-linux-gnu/libasan.so.5+0x10d7cf)$
-    #1 0x55dc5ff23428 in ft_out_red_file /home/devza/Desktop/42cursus/minishell/redirections.c:84$
-    #2 0x55dc5ff2411c in ft_check_redirections /home/devza/Desktop/42cursus/minishell/redirections.c:170$
-    #3 0x55dc5ff178d8 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:35$
-    #4 0x55dc5ff17dfc in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:96$
-    #5 0x55dc5ff17f1b in main /home/devza/Desktop/42cursus/minishell/main.c:142$
-    #6 0x7eff9b1ee0b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-$
-previously allocated by thread T0 here:$
-    #0 0x7eff9b4f6bc8 in malloc (/lib/x86_64-linux-gnu/libasan.so.5+0x10dbc8)$
-    #1 0x55dc5ff2549f in ft_substr (/home/devza/Desktop/42cursus/minishell/minishell+0x1149f)$
-    #2 0x55dc5ff233ee in ft_out_red_file /home/devza/Desktop/42cursus/minishell/redirections.c:81$
-    #3 0x55dc5ff2411c in ft_check_redirections /home/devza/Desktop/42cursus/minishell/redirections.c:170$
-    #4 0x55dc5ff178d8 in ft_parse /home/devza/Desktop/42cursus/minishell/main.c:35$
-    #5 0x55dc5ff17dfc in ft_prompt /home/devza/Desktop/42cursus/minishell/main.c:96$
-    #6 0x55dc5ff17f1b in main /home/devza/Desktop/42cursus/minishell/main.c:142$
-    #7 0x7eff9b1ee0b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-$
-SUMMARY: AddressSanitizer: heap-use-after-free parse/split.c:482 in remove_all_quotes$
-Shadow bytes around the buggy address:$
-  0x0c047fff8000: fa fa 00 00 fa fa 00 00 fa fa 00 00 fa fa fd fa$
-  0x0c047fff8010: fa fa 00 fa fa fa 00 00 fa fa fd fa fa fa 00 fa$
-  0x0c047fff8020: fa fa fd fa fa fa fd fa fa fa 06 fa fa fa 01 fa$
-  0x0c047fff8030: fa fa fd fd fa fa fd fa fa fa fd fa fa fa fd fa$
-  0x0c047fff8040: fa fa fd fa fa fa 06 fa fa fa fd fa fa fa fd fa$
-=>0x0c047fff8050: fa fa 01 fa fa fa[fd]fa fa fa 01 fa fa fa fa fa$
-  0x0c047fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8090: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff80a0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-Shadow byte legend (one shadow byte represents 8 application bytes):$
-  Addressable:           00$
-  Partially addressable: 01 02 03 04 05 06 07 $
-  Heap left redzone:       fa$
-  Freed heap region:       fd$
-  Stack left redzone:      f1$
-  Stack mid redzone:       f2$
-  Stack right redzone:     f3$
-  Stack after return:      f5$
-  Stack use after scope:   f8$
-  Global redzone:          f9$
-  Global init order:       f6$
-  Poisoned by user:        f7$
-  Container overflow:      fc$
-  Array cookie:            ac$
-  Intra object redzone:    bb$
-  ASan internal:           fe$
-  Left alloca redzone:     ca$
-  Right alloca redzone:    cb$
-  Shadow gap:              cc$
-==10784==ABORTING$
 ================================================================================
 
 |> WITH echo <
@@ -1532,5 +1397,1425 @@ minishell: syntax error near unexpected token `<<'$
 |---------------------------------------ACTUAL----------------------------------
 minishell : <<<< No such file or directory$
 bonjour$
+================================================================================
+
+|> WITH cat < doesnotexist
+TIMEOUT
+================================================================================
+
+|> WITH cat < doesntexist; echo $?
+TIMEOUT
+================================================================================
+
+|> WITH [SETUP echo bonjour > noperm; chmod 000 noperm] cat < noperm; echo $?
+TIMEOUT
+================================================================================
+
+|> WITH cat < doesntexist
+TIMEOUT
+================================================================================
+
+|> WITH [SETUP echo bonjour > noperm; chmod 000 noperm] cat < noperm
+TIMEOUT
+================================================================================
+
+|> WITH ; echo
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH  ;echo
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH  ; echo
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH echo a ; ;
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+a$
+================================================================================
+
+|> WITH echo a ; ;
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+a$
+================================================================================
+
+|> WITH ;
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH ; ;
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH ; ; ;
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH echo a ; ; echo b
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+a$
+b$
+================================================================================
+
+|> WITH ;;
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH ;;;
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH ;;;;;
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH echo a ;; echo b
+|  STATUS: expected 2 actual 127
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+a$
+minishell: ;: command not found$
+================================================================================
+
+|> WITH echo a ;;;;; echo b
+|  STATUS: expected 2 actual 127
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+a$
+minishell: ;;: command not found$
+================================================================================
+
+|> WITH echo|
+|  STATUS: expected 2 actual 0
+================================================================================
+
+|> WITH echo |
+|  STATUS: expected 2 actual 0
+================================================================================
+
+|> WITH echo | 
+|  STATUS: expected 2 actual 0
+================================================================================
+
+|> WITH |cat
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH | cat
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH  | cat
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH echo a | export A=a; echo $A
+|---------------------------------------EXPECTED--------------------------------
+$
+|---------------------------------------ACTUAL----------------------------------
+a$
+================================================================================
+
+|> WITH export A=a | cat; echo $A
+|---------------------------------------EXPECTED--------------------------------
+$
+|---------------------------------------ACTUAL----------------------------------
+a$
+================================================================================
+
+|> WITH echo bonjour | | cat -e
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH asdf | echo bonjour
+|  STATUS: expected 0 actual 127
+================================================================================
+
+|> WITH echo a ||| echo b
+|  STATUS: expected 2 actual 127
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+minishell: ||: command not found$
+================================================================================
+
+|> WITH ls asdfasdf | echo a
+|  STATUS: expected 0 actual 2
+================================================================================
+
+|> WITH < | a
+|  STATUS: expected 2 actual 127
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+minishell :  No such file or directory$
+minishell: a: command not found$
+================================================================================
+
+|> WITH > | a
+|  STATUS: expected 2 actual -6
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+free(): double free detected in tcache 2$
+================================================================================
+
+|> WITH >> | a
+|  STATUS: expected 2 actual -6
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+free(): double free detected in tcache 2$
+================================================================================
+
+|> WITH < ; a
+|  STATUS: expected 2 actual 127
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+minishell :  No such file or directory$
+minishell: a: command not found$
+================================================================================
+
+|> WITH > ; a
+|  STATUS: expected 2 actual -6
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+free(): double free detected in tcache 2$
+================================================================================
+
+|> WITH >> ; a
+|  STATUS: expected 2 actual -6
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+free(): double free detected in tcache 2$
+================================================================================
+
+|> WITH ; | a
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH ; < a
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH ; > a
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH ; >> a
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH | ; a
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH | < a
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH | > a
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH | >> a
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+syn err$
+================================================================================
+
+|> WITH > a ; a
+|  STATUS: expected 127 actual 126
+|---------------------------------------EXPECTED--------------------------------
+minishell: a: command not found$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH < a ; a
+|---------------------------------------EXPECTED--------------------------------
+minishell: a: No such file or directory$
+minishell: a: command not found$
+|---------------------------------------ACTUAL----------------------------------
+minishell : a No such file or directory$
+minishell: a: command not found$
+================================================================================
+
+|> WITH >> a ; a
+|  STATUS: expected 127 actual 126
+|---------------------------------------EXPECTED--------------------------------
+minishell: a: command not found$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  > >Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
+|  STATUS: expected 2 actual -6
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `>'$
+|---------------------------------------ACTUAL----------------------------------
+free(): double free detected in tcache 2$
+================================================================================
+
+|> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  < <Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
+|  STATUS: expected 2 actual 127
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `<'$
+|---------------------------------------ACTUAL----------------------------------
+minishell :  No such file or directory$
+minishell : Mollitia No such file or directory$
+minishell: Mollitia: command not found$
+================================================================================
+
+|> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  ; |Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
+|  STATUS: expected 2 actual 127
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `|'$
+|---------------------------------------ACTUAL----------------------------------
+minishell: Mollitia: command not found$
+minishell: Mollitia: command not found$
+================================================================================
+
+|> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  | ;Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
+|  STATUS: expected 2 actual 127
+|---------------------------------------EXPECTED--------------------------------
+minishell: syntax error near unexpected token `;'$
+|---------------------------------------ACTUAL----------------------------------
+minishell: Mollitia: command not found$
+minishell: Mollitia: command not found$
+================================================================================
+
+|> WITH echo $_
+|---------------------------------------EXPECTED--------------------------------
+/usr/bin/bash$
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH echo; echo $_
+|---------------------------------------EXPECTED--------------------------------
+$
+echo$
+|---------------------------------------ACTUAL----------------------------------
+$
+$
+================================================================================
+
+|> WITH env; echo $_
+|---------------------------------------EXPECTED--------------------------------
+PWD=/home/devza/.cache/minishell_test/sandbox$
+TERM=xterm-256color$
+SHLVL=1$
+PATH=/home/devza/.cache/minishell_test/bin$
+_=/home/devza/.cache/minishell_test/bin/env$
+env$
+|---------------------------------------ACTUAL----------------------------------
+PATH=/home/devza/.cache/minishell_test/bin$
+TERM=xterm-256color$
+?=0$
+$
+================================================================================
+
+|> WITH export A=a; echo $_
+|---------------------------------------EXPECTED--------------------------------
+A=a$
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH unset A; echo $_
+|---------------------------------------EXPECTED--------------------------------
+A$
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH echo a b c d; echo $_
+|---------------------------------------EXPECTED--------------------------------
+a b c d$
+d$
+|---------------------------------------ACTUAL----------------------------------
+a b c d$
+$
+================================================================================
+
+|> WITH cat -e /etc/shells; echo $_
+|---------------------------------------EXPECTED--------------------------------
+# /etc/shells: valid login shells$$
+/bin/sh$$
+/bin/bash$$
+/usr/bin/bash$$
+/bin/rbash$$
+/usr/bin/rbash$$
+/bin/dash$$
+/usr/bin/dash$$
+/bin/zsh$$
+/usr/bin/zsh$$
+/etc/shells$
+|---------------------------------------ACTUAL----------------------------------
+# /etc/shells: valid login shells$$
+/bin/sh$$
+/bin/bash$$
+/usr/bin/bash$$
+/bin/rbash$$
+/usr/bin/rbash$$
+/bin/dash$$
+/usr/bin/dash$$
+/bin/zsh$$
+/usr/bin/zsh$$
+$
+================================================================================
+
+|> WITH echo a; echo "$_"
+|---------------------------------------EXPECTED--------------------------------
+a$
+a$
+|---------------------------------------ACTUAL----------------------------------
+a$
+$
+================================================================================
+
+|> WITH echo a; echo "@$_@"
+|---------------------------------------EXPECTED--------------------------------
+a$
+@a@$
+|---------------------------------------ACTUAL----------------------------------
+a$
+@@$
+================================================================================
+
+|> WITH echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=''] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 1'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+2$
+|---------------------------------------ACTUAL----------------------------------
+1$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 2'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+3$
+|---------------------------------------ACTUAL----------------------------------
+2$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 3'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+4$
+|---------------------------------------ACTUAL----------------------------------
+3$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' ' 3''] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+ 3$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' '\t3''] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+	3$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' '\t\f\r 3''] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+	 3$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' '3 ''] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+3 $
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' '3\t''] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+3	$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' '3\r''] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+3$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' '3\t\f\r ''] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+3	 $
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' '3     a''] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+3     a$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' '3\t\t\ta''] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+3			a$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 0'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+0$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' -0'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+-0$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' -1'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+0$
+|---------------------------------------ACTUAL----------------------------------
+-1$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 255'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+256$
+|---------------------------------------ACTUAL----------------------------------
+255$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 256'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+257$
+|---------------------------------------ACTUAL----------------------------------
+256$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 2000000'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+minishell: warning: shell level (2000001) too high, resetting to 1$
+1$
+|---------------------------------------ACTUAL----------------------------------
+2000000$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' -2000000'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+0$
+|---------------------------------------ACTUAL----------------------------------
+-2000000$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 2147483647'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+0$
+|---------------------------------------ACTUAL----------------------------------
+2147483647$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' -2147483648'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+0$
+|---------------------------------------ACTUAL----------------------------------
+-2147483648$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 2147483648'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+0$
+|---------------------------------------ACTUAL----------------------------------
+2147483648$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' -2147483649'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+0$
+|---------------------------------------ACTUAL----------------------------------
+-2147483649$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 3147483648'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+0$
+|---------------------------------------ACTUAL----------------------------------
+3147483648$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' -3147483649'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+minishell: warning: shell level (1147483648) too high, resetting to 1$
+1$
+|---------------------------------------ACTUAL----------------------------------
+-3147483649$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 4294967295'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+0$
+|---------------------------------------ACTUAL----------------------------------
+4294967295$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 4294967296'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+4294967296$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' -9223372036854775808'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+-9223372036854775808$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 9223372036854775807'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+0$
+|---------------------------------------ACTUAL----------------------------------
+9223372036854775807$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' -9223372036854775809'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+-9223372036854775809$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 9223372036854775808'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+9223372036854775808$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 18446744073709551615'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+18446744073709551615$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 18446744073709551616'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+18446744073709551616$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' +1'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+2$
+|---------------------------------------ACTUAL----------------------------------
++1$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' +2'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+3$
+|---------------------------------------ACTUAL----------------------------------
++2$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' +3'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+4$
+|---------------------------------------ACTUAL----------------------------------
++3$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' +0'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
++0$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' +255'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+256$
+|---------------------------------------ACTUAL----------------------------------
++255$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' +256'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+257$
+|---------------------------------------ACTUAL----------------------------------
++256$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' +2000000'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+minishell: warning: shell level (2000001) too high, resetting to 1$
+1$
+|---------------------------------------ACTUAL----------------------------------
++2000000$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' +2147483647'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+0$
+|---------------------------------------ACTUAL----------------------------------
++2147483647$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' ++1'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+++1$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' ++2'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+++2$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' ++3'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+++3$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' ++0'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+++0$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' ++255'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+++255$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' ++256'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+++256$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' ++2000000'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+++2000000$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' ++2147483647'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+++2147483647$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' --1'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+--1$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' --2'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+--2$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' --3'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+--3$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' --0'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+--0$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' --255'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+--255$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' --256'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+--256$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' --2000000'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+--2000000$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' --2147483647'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+--2147483647$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' bonjour'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+bonjour$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 0_'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+0_$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' _0'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+1$
+|---------------------------------------ACTUAL----------------------------------
+_0$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 0123456789'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+minishell: warning: shell level (123456790) too high, resetting to 1$
+1$
+|---------------------------------------ACTUAL----------------------------------
+0123456789$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' -0123456789'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+0$
+|---------------------------------------ACTUAL----------------------------------
+-0123456789$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 00000000000000000000000000000000000000000000001'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+2$
+|---------------------------------------ACTUAL----------------------------------
+00000000000000000000000000000000000000000000001$
+================================================================================
+
+|> WITH [EXPORTS SHLVL=' 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001'] echo $SHLVL
+|---------------------------------------EXPECTED--------------------------------
+2$
+|---------------------------------------ACTUAL----------------------------------
+0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 000 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 001 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 002 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 003 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 004 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 005 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 006 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 007 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 010 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 020 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 030 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 040 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 050 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 060 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 070 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 200 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 400 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 600 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 644 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 222 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 1000 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 2000 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 3000 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 4000 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 5000 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 6000 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 7000 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 0000 ./path/a] [EXPORTS PATH='path'] a
+|---------------------------------------EXPECTED--------------------------------
+minishell: path/a: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: a: Permission denied$
+================================================================================
+
+|> WITH [SETUP mkdir -p path/a; cp /usr/bin/which path/a/b] [EXPORTS PATH='path'] a/b
+|  STATUS: expected 127 actual 1
+|---------------------------------------EXPECTED--------------------------------
+minishell: a/b: No such file or directory$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH [SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EXPORTS PATH='/asdfasdf'] somecmd
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: somecmd: command not found$
+|---------------------------------------ACTUAL----------------------------------
+bonjour$
+================================================================================
+
+|> WITH [SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EXPORTS PATH='/usr/asdf:/usr/lib/asdfasdf'] somecmd
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: somecmd: command not found$
+|---------------------------------------ACTUAL----------------------------------
+bonjour$
+================================================================================
+
+|> WITH [SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd; unset PATH] somecmd
+|  STATUS: expected 127 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: somecmd: command not found$
+|---------------------------------------ACTUAL----------------------------------
+bonjour$
+================================================================================
+
+|> WITH echo charles\ 
+|---------------------------------------EXPECTED--------------------------------
+charles $
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH echo \ \ \ \ \ \ \ \ 
+|---------------------------------------EXPECTED--------------------------------
+        $
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH echo \ \ \ \ \ \ \ \               \ \ \ \ \ \ 
+|---------------------------------------EXPECTED--------------------------------
+               $
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH  \                 echo bonjour
+|---------------------------------------EXPECTED--------------------------------
+minishell:  : command not found$
+|---------------------------------------ACTUAL----------------------------------
+minishell:                  echo: command not found$
+================================================================================
+
+|> WITH                  \                    echo bonjour
+|---------------------------------------EXPECTED--------------------------------
+minishell:  : command not found$
+|---------------------------------------ACTUAL----------------------------------
+minishell:                     echo: command not found$
+================================================================================
+
+|> WITH echo \
+|---------------------------------------EXPECTED--------------------------------
+$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH [EXPORTS A='foo ' B=' bar  ' C='baz '] echo $A"$B"$C"A"$B"$C"
+|---------------------------------------EXPECTED--------------------------------
+foo  bar  baz A bar baz $
+|---------------------------------------ACTUAL----------------------------------
+foo bar baz A bar baz$
+================================================================================
+
+|> WITH [EXPORTS A=' \  '] echo [$A]
+|---------------------------------------EXPECTED--------------------------------
+[ \ ]$
+|---------------------------------------ACTUAL----------------------------------
+[ \  ]$
+================================================================================
+
+|> WITH [EXPORTS A='bonjour'] echo \ \ \ \ \ \ \ $A\ \ \ \ \ \ 
+|---------------------------------------EXPECTED--------------------------------
+       bonjour      $
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH [EXPORTS A='bonjour je suis'] echo \ \ \ \ \ \ \ $A\ \ \ \ \ \ 
+|---------------------------------------EXPECTED--------------------------------
+       bonjour je suis      $
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH [EXPORTS A='  bonjour je suis  '] echo \ \ \ \ \ \ \ $A\ \ \ \ \ \ 
+|---------------------------------------EXPECTED--------------------------------
+        bonjour je suis       $
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH [EXPORTS A='bonjour je suis splited'] echo \ $A
+|---------------------------------------EXPECTED--------------------------------
+ bonjour je suis splited$
+|---------------------------------------ACTUAL----------------------------------
+bonjour je suis splited$
+================================================================================
+
+|> WITH [EXPORTS A='bonjour     je     suis    splited'] echo \ $A
+|---------------------------------------EXPECTED--------------------------------
+ bonjour je suis splited$
+|---------------------------------------ACTUAL----------------------------------
+bonjour je suis splited$
+================================================================================
+
+|> WITH [EXPORTS A='   bonjour     je     suis    splited   '] echo \ $A
+|---------------------------------------EXPECTED--------------------------------
+  bonjour je suis splited$
+|---------------------------------------ACTUAL----------------------------------
+bonjour je suis splited$
+================================================================================
+
+|> WITH [EXPORTS A='bonjour je suis splited'] echo $A\ 
+|---------------------------------------EXPECTED--------------------------------
+bonjour je suis splited $
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH [EXPORTS A='bonjour     je     suis    splited'] echo $A\ 
+|---------------------------------------EXPECTED--------------------------------
+bonjour je suis splited $
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH [EXPORTS A='   bonjour     je     suis    splited   '] echo $A\ 
+|---------------------------------------EXPECTED--------------------------------
+bonjour je suis splited  $
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH [EXPORTS A=''Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. ''] echo $A
+|---------------------------------------EXPECTED--------------------------------
+'Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. '$
+|---------------------------------------ACTUAL----------------------------------
+Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. $
+================================================================================
+
+|> WITH [EXPORTS A='fi le'] echo bonjour > $A
+|  STATUS: expected 1 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: $A: ambiguous redirect$
+|---------------------------------------ACTUAL----------------------------------
+|# FILE fi le
+|---------------------------------------EXPECTED--------------------------------
+FROM TEST: File not created
+|---------------------------------------ACTUAL----------------------------------
+bonjour$
+================================================================================
+
+|> WITH echo '
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: unexpected EOF while looking for matching `''$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH echo "
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: unexpected EOF while looking for matching `"'$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH echo '''
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: unexpected EOF while looking for matching `''$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH echo """
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: unexpected EOF while looking for matching `"'$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH echo '''''''''''''''''''''''''''''''''''''''''''
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: unexpected EOF while looking for matching `''$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH echo """""""""""""""""""""""""""""""""""""""""""
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: unexpected EOF while looking for matching `"'$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH echo "AH\"
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: unexpected EOF while looking for matching `"'$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH echo '\''
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: unexpected EOF while looking for matching `''$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH echo "\\""
+|  STATUS: expected 2 actual 0
+|---------------------------------------EXPECTED--------------------------------
+minishell: unexpected EOF while looking for matching `"'$
+|---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH echo\t\t\t\t\t\t\t\t\t\tfoo
+|  STATUS: expected 0 actual 127
+|---------------------------------------EXPECTED--------------------------------
+foo$
+|---------------------------------------ACTUAL----------------------------------
+minishell: echo										foo: command not found$
+================================================================================
+
+|> WITH \t\t\t\t\t\techo\tfoo
+|  STATUS: expected 0 actual 127
+|---------------------------------------EXPECTED--------------------------------
+foo$
+|---------------------------------------ACTUAL----------------------------------
+minishell: 						echo	foo: command not found$
+================================================================================
+
+|> WITH echo\tfoo\t\t\t\t\t\t
+|  STATUS: expected 0 actual 127
+|---------------------------------------EXPECTED--------------------------------
+foo$
+|---------------------------------------ACTUAL----------------------------------
+minishell: echo	foo						: command not found$
+================================================================================
+
+|> WITH \t\t\t\techo\t\t\t\tfoo\t\t\t\t
+|  STATUS: expected 0 actual 127
+|---------------------------------------EXPECTED--------------------------------
+foo$
+|---------------------------------------ACTUAL----------------------------------
+minishell: 				echo				foo				: command not found$
+================================================================================
+
+|> WITH \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t
+|  STATUS: expected 0 actual 127
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+minishell: 																					: command not found$
+================================================================================
+
+|> WITH             \t\t\t           \t\t\t       
+|  STATUS: expected 0 actual 127
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+minishell: 			: command not found$
 ================================================================================
 

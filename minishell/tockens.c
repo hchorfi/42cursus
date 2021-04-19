@@ -10,9 +10,9 @@ void    ft_new_tokens(t_command *command,int len)
     int  k;
 
     k = 0;
-   
     tmp_double2 = command->tokens;
     new_tokens = malloc(sizeof(char*) * (len  + 1));
+    len = 0;
     while (command->tokens[k])
     {
         count = 0;
@@ -20,10 +20,11 @@ void    ft_new_tokens(t_command *command,int len)
         while (tmp_double[count])
         {
             tmp_free = ft_strtrim(tmp_double[count], " ");
-            new_tokens[k + count] = ft_strdup(tmp_free);
+            new_tokens[len + count] = ft_strdup(tmp_free);
             free(tmp_free);
             count++;
         }
+        len += count;
         ft_free_d_p(tmp_double);
         k++;
     }
