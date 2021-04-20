@@ -1139,7 +1139,7 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x PATH="ATH=/home/devza/.cache/minishell_test/bin"$
+declare -x PATH="/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1153,8 +1153,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="="$
-declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
+declare -x A=""$
+declare -x PATH="/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1168,8 +1168,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="=""$
-declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
+declare -x A="""$
+declare -x PATH="/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1183,8 +1183,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="=\\"$
-declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
+declare -x A="\\"$
+declare -x PATH="/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1198,8 +1198,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="=\$"$
-declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
+declare -x A="\$"$
+declare -x PATH="/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1213,8 +1213,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="=	"$
-declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
+declare -x A="	"$
+declare -x PATH="/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1228,8 +1228,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="='"$
-declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
+declare -x A="'"$
+declare -x PATH="/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1243,8 +1243,8 @@ declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x A="=a"$
-declare -x PATH="TH=/home/devza/.cache/minishell_test/bin"$
+declare -x A="a"$
+declare -x PATH="/home/devza/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1261,14 +1261,6 @@ $
 ?=0$
 PATH=/home/devza/.cache/minishell_test/bin$
 TERM=xterm-256color
-================================================================================
-
-|> WITH [EXPORTS A='a'] unset 'A='; echo $A
-|---------------------------------------EXPECTED--------------------------------
-minishell: unset: `A=': not a valid identifier$
-a$
-|---------------------------------------ACTUAL----------------------------------
-a$
 ================================================================================
 
 |> WITH echo \t\v\f\r !#$%*+,-./0123456789:;=?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_abcdefghijklmnopqrstuvwxyz{}~
@@ -1592,6 +1584,12 @@ minishell: syntax error near unexpected token `|'$
 
 |> WITH asdf | echo bonjour
 |  STATUS: expected 0 actual 127
+|---------------------------------------EXPECTED--------------------------------
+bonjour$
+minishell: asdf: command not found$
+|---------------------------------------ACTUAL----------------------------------
+bominishell: asdf: command not found$
+njour$
 ================================================================================
 
 |> WITH echo a ||| echo b

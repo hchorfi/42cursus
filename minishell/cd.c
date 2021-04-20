@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 17:51:27 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/16 19:04:47 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/18 13:33:25 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,9 @@ int	ft_cd(t_command *command)
 	{
 		val = ft_get_home();
 		if (!val)
-		{
 			return (g_data.ret = 1);
-		}
 		if (*val == 0)
-		{
 			return (g_data.ret = 0);
-		}
 	}
 	if (!chdir(val))
 	{
