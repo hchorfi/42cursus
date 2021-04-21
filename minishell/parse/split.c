@@ -6,11 +6,30 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/04/15 12:29:49 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/21 14:49:18 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int				is_escaped(char *s, int j)
+{
+	int i = 0;
+	j--;
+	while (j >= 0 && s[j] == '\\')
+	{
+		j--;
+		i++;
+	}
+	return (i % 2);
+}
+
+int				chec_before(char *s, int i, char c)
+{
+	if (s[i - 1] == c && !is_escaped(s, i - 1))
+		return (0);
+	return (1);
+}
 
 static	int		countt(char *s, char c)
 {
@@ -20,8 +39,7 @@ static	int		countt(char *s, char c)
 	w = 0;
 	while (1)
 	{
-		if ((s[i] == c && i != 0 && s[i - 1] != c)
-			|| (s[i] == '\0' && i > 0 && s[i - 1] != c))
+		if (((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && chec_before(s, i, c) && !is_escaped(s, i))
 			w++;
 		if (s[i] == '\0')
 			break ;
@@ -47,17 +65,6 @@ static	int		ft_count (const char *s, int l)
 		i++;
 	}
 	return (i);
-}
-int				is_escaped(char *s, int j)
-{
-	int i = 0;
-	j--;
-	while (j >= 0 && s[j] == '\\')
-	{
-		j--;
-		i++;
-	}
-	return (i % 2);
 }
 int				check_char(char c)
 {
@@ -99,7 +106,7 @@ static	int		check_cots(char *s)
 		return(1);
 	return (0);
 }
-void			remove_tabs_check(char *s, char c)
+int				remove_tabs_check(char *s, char c)
 {
 	int i = 0;
 	while (s[i])
@@ -110,10 +117,12 @@ void			remove_tabs_check(char *s, char c)
 			while (s[i] == '\t' || s[i] == ' ')
 				i++;
 			if (s[i] == c)
-				printf("bash: syntax error near unexpected token"), exit(1);
+				return (1);
 		}
-		i++;
+		if (s[i] != '\0')
+			i++;
 	}
+	return (0);
 }
 char			*ft_stock(char *line, char *buff, int i)
 {
@@ -214,7 +223,7 @@ char			*ft_check_dollar_slash(char	*s)
 		{
 			value[c] = s[i];
 			if (s[i] != '\0')
-			i++,c++;
+				i++,c++;
 		}	
 	}
 	value[c] = '\0';
@@ -531,44 +540,54 @@ char			*remove_all_quotes(char *str)
 	// 	ptr = ft_strtrim(ptr, " ");
 	return(ptr);
 }
+
+void			init_3params(int *i, int *j, int *d)
+{
+	*i = 0;
+	*j = 0;
+	*d = 0;
+}
+
+int				my_ternary(int splited, int i, int d)
+{
+	if (splited == 1)
+		return (i + 1);
+	return (d);
+}
+
+
 char			**ft_split_pars(char *s, char c)
 {
-	size_t	i;
-	size_t	j;
-	size_t	d;
+	int	i;
+	int	j;
+	int	d;
 	char	**str;
 	char	*tmp_free;
-	if (!s)
-		return (NULL);
-	if (!s)
+
+	if (s)
 		s = ft_strtrim(s, " ");
-	if (!(str = (char **)malloc(sizeof(char *) * (countt((char *)s, c) + 1))))
-		return (NULL);
-	i = 0;
-	d = 0;
-	j = 0;
+	str = (char **)malloc(sizeof(char *) * (countt(s, c) + 1));
+	init_3params(&i, &j, &d);
 	int splited = 0;
 	while (2)
 	{
-		if (((((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && s[i - 1] != c)) && !is_escaped((char *)s, i))
+		if (((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && chec_before(s, i, c) && !is_escaped(s, i))
 		{
 			tmp_free = ft_substr(s, d, i - d);
 			if (check_cots(tmp_free))
 			{
-				if (!(str[j++] = ft_substr((char *)s, d, i - d)))
-				{
-					free(tmp_free);
-					return (ft_free(str, j - 1));
-				}
+				str[j++] = ft_substr(s, d, i - d);
 				splited = 1;
 			}
 			free(tmp_free);
 		}
-		d = (splited == 1 ? i + 1 : d);
+		d = my_ternary(splited, i, d);
 		splited = 0;
 		if (s[i++] == '\0')
 			break ;
 	}
 	str[j] = NULL;
+	if (s)
+		free (s);
 	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/17 23:06:19 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/21 17:00:16 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct	s_data
 	char		*line;
 	int 		count;
 	int     	his_count;
+	int			append;
 }				t_data;
 t_data			g_data;
 
@@ -186,8 +187,19 @@ int				ft_exit(t_command *command);
 ** redirections.c
 */
 
-char    *ft_check_redirections(char *pipe_cmds);
-char    *ft_check_in(char *pipe_cmds);
+char	*ft_check_redirections(char *pipe_cmds, int i, char *new_pipe);
+void	ft_check_redirections2(char **new_pipe, int *i, char *str);
+void	ft_in_red_file(char **new_pipe, char **tmp_in, int j);
+char    *ft_check_in(char *pipe_cmds, char *new_pipe, char *tmp_free, int i);
+void	ft_out_red_file(char *tmp_out, char **new_pipe);
+
+/*
+** redirections_utils.c
+*/
+
+int	ft_check_in2(char *tmp_in);
+int	ft_check_out(char **tmp_out);
+void	ft_out_red_file2(char *file, char *tmp_free, int out, int priority);
 
 /*
 ** builtin_utils.c

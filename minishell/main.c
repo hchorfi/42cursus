@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/18 14:26:53 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/21 16:54:20 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void    ft_parse(char *line)
             g_data.command = malloc(sizeof * g_data.command);
             g_data.command->block = i;
             g_data.command->pipe_pos = j;
-            new_pipe = ft_check_redirections(pipe_cmds[j]);
+            new_pipe = ft_check_redirections(pipe_cmds[j], 0, ft_strdup(""));
             g_data.command->tokens = ft_split_pars(new_pipe, ' ');
             free(new_pipe);
             int k = 0;
@@ -122,6 +122,20 @@ void sighandler(int dummy)
     }
 }
 
+int     check_input(t_list *newlist, int j)
+{
+    while(newlist && (((t_command *)newlist->content)->block == j))
+    {
+        if (((t_command *)newlist->content)->input_file == -1)
+        {
+            g_data.ret = 1;
+            return -1;
+        }
+        newlist = newlist->next;
+    }
+    return j;
+}
+
 int     main(int argc, char **argv, char **envp)
 {
     
@@ -157,39 +171,41 @@ int     main(int argc, char **argv, char **envp)
             {
                 command = (t_command *)newlist->content;
                 //ft_printf("main : %p\n", command->tokens);
-                ft_prepare_tokens(command);
-                //ft_printf("**in :%d\n", command->input_file);
-                //ft_printf("**out :%d\n", command->output_file);
-                //ft_printf("n pipe %d\n", g_data.num_pipes);
-                //ft_printf("%d : ****%s***\n", j, ((t_command *)newlist->content)->tokens[0]);
-                // if (command->tokens[0] == NULL)
-                // {
-                //     newlist = newlist->next;
-                //     continue;
-                // }
-                
-                if (command->pipe_pos != g_data.num_pipes && g_data.num_pipes > 0)
-                    pipe(g_data.fd);
-                if (ft_check_builtin(command))
+                if (check_input(g_data.cmds, j) != -1)
                 {
-                    //ft_printf("builtin\n");
-                    ft_builtin(command);
-                }
-                else if (command->tokens[0] != NULL && command->tokens[0][0] != '\0')
-                {
-                    //ft_printf("bin\n");
-                    ft_bin(command);
-                }
-                //waitpid(pid, NULL, 0);
-                if (g_data.num_pipes > 0)
-                {
-                    close(g_data.fd[1]);
-                    g_data.fdd = g_data.fd[0];
-                    tmp = malloc(sizeof(int));
-                    *tmp = g_data.fdd;
-                    //ft_printf("%d\n", tmp);
-                    ft_lstadd_back(&g_data.fd_close, ft_lstnew(tmp));
-                    //close(g_data.fd[0]);
+                    ft_prepare_tokens(command);
+                    //ft_printf("**in :%d\n", command->input_file);
+                    //ft_printf("**out :%d\n", command->output_file);
+                    //ft_printf("n pipe %d\n", g_data.num_pipes);
+                    //ft_printf("%d : ****%s***\n", j, ((t_command *)newlist->content)->tokens[0]);
+                    // if (command->tokens[0] == NULL)
+                    // {
+                    //     newlist = newlist->next;
+                    //     continue;
+                    // }
+                    if (command->pipe_pos != g_data.num_pipes && g_data.num_pipes > 0)
+                        pipe(g_data.fd);
+                    if (ft_check_builtin(command))
+                    {
+                        //ft_printf("builtin\n");
+                        ft_builtin(command);
+                    }
+                    else if (command->tokens[0] != NULL && command->tokens[0][0] != '\0')
+                    {
+                        //ft_printf("bin\n");
+                        ft_bin(command);
+                    }
+                    //waitpid(pid, NULL, 0);
+                    if (g_data.num_pipes > 0)
+                    {
+                        close(g_data.fd[1]);
+                        g_data.fdd = g_data.fd[0];
+                        tmp = malloc(sizeof(int));
+                        *tmp = g_data.fdd;
+                        //ft_printf("%d\n", tmp);
+                        ft_lstadd_back(&g_data.fd_close, ft_lstnew(tmp));
+                        //close(g_data.fd[0]);
+                    }
                 }
                 newlist = newlist->next;
             }

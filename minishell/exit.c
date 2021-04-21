@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 18:55:47 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/03/10 22:26:03 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/20 14:03:54 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,8 @@ int		ft_exit(t_command *command)
 		return (g_data.ret = 1);
 	}
 	else
+	{
+		ft_putstr_fd("exit\n", 2);
 		exit (0);
+	}
 }

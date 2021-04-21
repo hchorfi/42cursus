@@ -1076,6 +1076,12 @@ PATH=/home/devza/.cache/minishell_test/bin$$
 TERM=xterm-256color$
 ================================================================================
 
+|> WITH exit
+|---------------------------------------EXPECTED--------------------------------
+|---------------------------------------ACTUAL----------------------------------
+exit$
+================================================================================
+
 |> WITH exit '3\t\f\r '
 |  STATUS: expected 255 actual 3
 |---------------------------------------EXPECTED--------------------------------
@@ -1368,47 +1374,39 @@ minishell: syntax error near unexpected token `>>'$
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `<'$
 |---------------------------------------ACTUAL----------------------------------
-minishell : < No such file or directory$
+minishell: <: No such file or directory$
 bonjour$
 ================================================================================
 
 |> WITH [SETUP echo bonjour > bar] cat << << bar
-|  STATUS: expected 1 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `<<'$
 |---------------------------------------ACTUAL----------------------------------
-minishell : < No such file or directory$
-minishell : < No such file or directory$
-bonjour$
+minishell: <: No such file or directory$
+minishell: <: No such file or directory$
 ================================================================================
 
 |> WITH [SETUP echo bonjour > bar] cat <<<<< bar
-|  STATUS: expected 1 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `<<'$
 |---------------------------------------ACTUAL----------------------------------
-minishell : <<<< No such file or directory$
-bonjour$
-================================================================================
-
-|> WITH cat < doesnotexist
-TIMEOUT
-================================================================================
-
-|> WITH cat < doesntexist; echo $?
-TIMEOUT
+minishell: <<<<: No such file or directory$
 ================================================================================
 
 |> WITH [SETUP echo bonjour > noperm; chmod 000 noperm] cat < noperm; echo $?
-TIMEOUT
-================================================================================
-
-|> WITH cat < doesntexist
-TIMEOUT
+|---------------------------------------EXPECTED--------------------------------
+minishell: noperm: Permission denied$
+1$
+|---------------------------------------ACTUAL----------------------------------
+minishell: noperm: No such file or directory$
+1$
 ================================================================================
 
 |> WITH [SETUP echo bonjour > noperm; chmod 000 noperm] cat < noperm
-TIMEOUT
+|---------------------------------------EXPECTED--------------------------------
+minishell: noperm: Permission denied$
+|---------------------------------------ACTUAL----------------------------------
+minishell: noperm: No such file or directory$
 ================================================================================
 
 |> WITH ; echo
@@ -1420,19 +1418,19 @@ syn err$
 ================================================================================
 
 |> WITH  ;echo
-|  STATUS: expected 2 actual 0
+|  STATUS: expected 2 actual 127
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-$
+minishell: ;echo: command not found$
 ================================================================================
 
 |> WITH  ; echo
-|  STATUS: expected 2 actual 0
+|  STATUS: expected 2 actual 127
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-$
+minishell: ;: command not found$
 ================================================================================
 
 |> WITH echo a ; ;
@@ -1555,10 +1553,11 @@ syn err$
 ================================================================================
 
 |> WITH  | cat
-|  STATUS: expected 2 actual 0
+|  STATUS: expected 2 actual 127
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `|'$
 |---------------------------------------ACTUAL----------------------------------
+minishell: |: command not found$
 ================================================================================
 
 |> WITH echo a | export A=a; echo $A
@@ -1584,12 +1583,6 @@ minishell: syntax error near unexpected token `|'$
 
 |> WITH asdf | echo bonjour
 |  STATUS: expected 0 actual 127
-|---------------------------------------EXPECTED--------------------------------
-bonjour$
-minishell: asdf: command not found$
-|---------------------------------------ACTUAL----------------------------------
-bominishell: asdf: command not found$
-njour$
 ================================================================================
 
 |> WITH echo a ||| echo b
@@ -1609,24 +1602,23 @@ minishell: ||: command not found$
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `|'$
 |---------------------------------------ACTUAL----------------------------------
-minishell :  No such file or directory$
 minishell: a: command not found$
 ================================================================================
 
 |> WITH > | a
-|  STATUS: expected 2 actual -6
+|  STATUS: expected 2 actual 127
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `|'$
 |---------------------------------------ACTUAL----------------------------------
-free(): double free detected in tcache 2$
+minishell: a: command not found$
 ================================================================================
 
 |> WITH >> | a
-|  STATUS: expected 2 actual -6
+|  STATUS: expected 2 actual 127
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `|'$
 |---------------------------------------ACTUAL----------------------------------
-free(): double free detected in tcache 2$
+minishell: a: command not found$
 ================================================================================
 
 |> WITH < ; a
@@ -1634,24 +1626,23 @@ free(): double free detected in tcache 2$
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-minishell :  No such file or directory$
 minishell: a: command not found$
 ================================================================================
 
 |> WITH > ; a
-|  STATUS: expected 2 actual -6
+|  STATUS: expected 2 actual 127
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-free(): double free detected in tcache 2$
+minishell: a: command not found$
 ================================================================================
 
 |> WITH >> ; a
-|  STATUS: expected 2 actual -6
+|  STATUS: expected 2 actual 127
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-free(): double free detected in tcache 2$
+minishell: a: command not found$
 ================================================================================
 
 |> WITH ; | a
@@ -1726,15 +1717,6 @@ minishell: a: command not found$
 minishell: a: Permission denied$
 ================================================================================
 
-|> WITH < a ; a
-|---------------------------------------EXPECTED--------------------------------
-minishell: a: No such file or directory$
-minishell: a: command not found$
-|---------------------------------------ACTUAL----------------------------------
-minishell : a No such file or directory$
-minishell: a: command not found$
-================================================================================
-
 |> WITH >> a ; a
 |  STATUS: expected 127 actual 126
 |---------------------------------------EXPECTED--------------------------------
@@ -1752,13 +1734,11 @@ free(): double free detected in tcache 2$
 ================================================================================
 
 |> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  < <Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
-|  STATUS: expected 2 actual 127
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `<'$
 |---------------------------------------ACTUAL----------------------------------
-minishell :  No such file or directory$
-minishell : Mollitia No such file or directory$
-minishell: Mollitia: command not found$
+minishell: : No such file or directory$
+minishell: Mollitia: No such file or directory$
 ================================================================================
 
 |> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  ; |Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
@@ -1767,7 +1747,7 @@ minishell: Mollitia: command not found$
 minishell: syntax error near unexpected token `|'$
 |---------------------------------------ACTUAL----------------------------------
 minishell: Mollitia: command not found$
-minishell: Mollitia: command not found$
+minishell: |Mollitia: command not found$
 ================================================================================
 
 |> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  | ;Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
@@ -2575,35 +2555,32 @@ bonjour$
 |---------------------------------------EXPECTED--------------------------------
 charles $
 |---------------------------------------ACTUAL----------------------------------
-$
 ================================================================================
 
 |> WITH echo \ \ \ \ \ \ \ \ 
 |---------------------------------------EXPECTED--------------------------------
         $
 |---------------------------------------ACTUAL----------------------------------
-$
 ================================================================================
 
 |> WITH echo \ \ \ \ \ \ \ \               \ \ \ \ \ \ 
 |---------------------------------------EXPECTED--------------------------------
                $
 |---------------------------------------ACTUAL----------------------------------
-$
 ================================================================================
 
 |> WITH  \                 echo bonjour
+|  STATUS: expected 127 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell:  : command not found$
 |---------------------------------------ACTUAL----------------------------------
-minishell:                  echo: command not found$
 ================================================================================
 
 |> WITH                  \                    echo bonjour
+|  STATUS: expected 127 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell:  : command not found$
 |---------------------------------------ACTUAL----------------------------------
-minishell:                     echo: command not found$
 ================================================================================
 
 |> WITH echo \
@@ -2619,32 +2596,22 @@ foo  bar  baz A bar baz $
 foo bar baz A bar baz$
 ================================================================================
 
-|> WITH [EXPORTS A=' \  '] echo [$A]
-|---------------------------------------EXPECTED--------------------------------
-[ \ ]$
-|---------------------------------------ACTUAL----------------------------------
-[ \  ]$
-================================================================================
-
 |> WITH [EXPORTS A='bonjour'] echo \ \ \ \ \ \ \ $A\ \ \ \ \ \ 
 |---------------------------------------EXPECTED--------------------------------
        bonjour      $
 |---------------------------------------ACTUAL----------------------------------
-$
 ================================================================================
 
 |> WITH [EXPORTS A='bonjour je suis'] echo \ \ \ \ \ \ \ $A\ \ \ \ \ \ 
 |---------------------------------------EXPECTED--------------------------------
        bonjour je suis      $
 |---------------------------------------ACTUAL----------------------------------
-$
 ================================================================================
 
 |> WITH [EXPORTS A='  bonjour je suis  '] echo \ \ \ \ \ \ \ $A\ \ \ \ \ \ 
 |---------------------------------------EXPECTED--------------------------------
         bonjour je suis       $
 |---------------------------------------ACTUAL----------------------------------
-$
 ================================================================================
 
 |> WITH [EXPORTS A='bonjour je suis splited'] echo \ $A
@@ -2672,21 +2639,18 @@ bonjour je suis splited$
 |---------------------------------------EXPECTED--------------------------------
 bonjour je suis splited $
 |---------------------------------------ACTUAL----------------------------------
-$
 ================================================================================
 
 |> WITH [EXPORTS A='bonjour     je     suis    splited'] echo $A\ 
 |---------------------------------------EXPECTED--------------------------------
 bonjour je suis splited $
 |---------------------------------------ACTUAL----------------------------------
-$
 ================================================================================
 
 |> WITH [EXPORTS A='   bonjour     je     suis    splited   '] echo $A\ 
 |---------------------------------------EXPECTED--------------------------------
 bonjour je suis splited  $
 |---------------------------------------ACTUAL----------------------------------
-$
 ================================================================================
 
 |> WITH [EXPORTS A=''Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. ''] echo $A
@@ -2706,6 +2670,14 @@ minishell: $A: ambiguous redirect$
 FROM TEST: File not created
 |---------------------------------------ACTUAL----------------------------------
 bonjour$
+================================================================================
+
+|> WITH [EXPORTS A='fi le'] echo bonjour > "$A"
+|# FILE fi le
+|---------------------------------------EXPECTED--------------------------------
+bonjour$
+|---------------------------------------ACTUAL----------------------------------
+$
 ================================================================================
 
 |> WITH echo '
@@ -2769,6 +2741,22 @@ minishell: unexpected EOF while looking for matching `''$
 |---------------------------------------EXPECTED--------------------------------
 minishell: unexpected EOF while looking for matching `"'$
 |---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH echo bonjour > "fi le"
+|# FILE fi le
+|---------------------------------------EXPECTED--------------------------------
+bonjour$
+|---------------------------------------ACTUAL----------------------------------
+$
+================================================================================
+
+|> WITH echo bonjour > 'fi le'
+|# FILE fi le
+|---------------------------------------EXPECTED--------------------------------
+bonjour$
+|---------------------------------------ACTUAL----------------------------------
+$
 ================================================================================
 
 |> WITH echo\t\t\t\t\t\t\t\t\t\tfoo

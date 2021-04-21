@@ -23,6 +23,7 @@ SRCS = main.c\
 		utils1.c\
 		utils2.c\
 		redirections.c\
+		redirections_utils.c\
 		builtin_utils.c\
 		tockens.c
 
