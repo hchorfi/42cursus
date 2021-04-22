@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/21 17:00:16 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/21 23:57:02 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,10 +147,19 @@ int    			ft_del_list(t_list **head, int position, t_list *curr, t_list *prev);
 ** bin.c
 */
 
-int				ft_exec_bin(t_command *command);
-void			ft_free_d_p(char **str);
-void			ft_bin(t_command *command);
+void	ft_exec_check2(char **tokens, struct stat ps);
+void	ft_exec_check1(char **token, struct stat path_stat);
+void	ft_exec_bin2(char **bins, char *path, struct stat ps, char **token);
+int		ft_exec_bin(t_command *command);
+void	ft_bin(t_command *command);
 
+/*
+** bin_utils.c
+*/
+
+void	ft_exec_error(int error, char *token);
+void	ft_dup_in_out(int dup, int in, int out);
+char	*ft_get_path(void);
 
 /*
 ** main.c

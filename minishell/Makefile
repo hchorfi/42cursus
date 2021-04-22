@@ -15,6 +15,7 @@ SRCS = main.c\
 		pwd.c\
 		cd.c\
 		bin.c\
+		bin_utils.c\
 		parse/split.c\
 		echo.c\
 		exit.c\

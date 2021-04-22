@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/13 14:43:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/20 14:14:54 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/21 22:45:14 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void    ft_stock_ret(void)
         {
             tmp_free = env_list->content;
             env_list->content = str;
-            free(tmp_free);
+            //free(tmp_free);
             exist = 1;
         }
         env_list = env_list->next;

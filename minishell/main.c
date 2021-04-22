@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/21 16:54:20 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/21 17:20:40 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,11 +138,9 @@ int     check_input(t_list *newlist, int j)
 
 int     main(int argc, char **argv, char **envp)
 {
-    
     t_list *newlist;
     t_list *pipe_list;
     t_command *command;
-    int i;
     int j;
     ft_stock_envp(envp);
     g_data.ret = 0;
@@ -187,7 +185,7 @@ int     main(int argc, char **argv, char **envp)
                         pipe(g_data.fd);
                     if (ft_check_builtin(command))
                     {
-                        //ft_printf("builtin\n");
+                        //ft_iprintf("builtin\n");
                         ft_builtin(command);
                     }
                     else if (command->tokens[0] != NULL && command->tokens[0][0] != '\0')
