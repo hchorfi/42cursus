@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/21 23:57:02 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/25 17:06:59 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,8 +165,7 @@ char	*ft_get_path(void);
 ** main.c
 */
 
-int				ft_exec(void);
-void			ft_parse(char *line);
+void    		ft_parse(char *line, int j, int i);
 int				ft_prompt(int argc, char **argv);
 void			ft_stock_envp(char **envp);
 
@@ -222,11 +221,9 @@ void    ft_builtin(t_command *command);
 ** tockens.c
 */
 
-void    ft_prepare_tokens(t_command *command);
-void    ft_new_tokens(t_command *command,int len);
+void	ft_prepare_tokens(t_command *command, int k, int len);
+void	ft_new_tokens(t_command *command, int len, int k, char **tmp_double2);
 
 int		get_line(void);
-void    ft_parse(char *line);
-
 
 #endif

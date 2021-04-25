@@ -77,7 +77,8 @@ int	ft_strchr_set(char *str, char *set, char *token)
 		{
 			if (str[i] == set[j])
 			{
-				if (str[i] == '+' && token[i + 1] !='\0' && token[i + 1] == '=')
+				if (str[i] == '+' && token[i + 1] != '\0'
+					&& token[i + 1] == '=')
 				{
 					j++;
 					continue ;

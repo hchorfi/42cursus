@@ -6,13 +6,13 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 18:55:47 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/20 14:03:54 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/25 12:34:17 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_just_numbers(char *str)
+int	ft_just_numbers(char *str)
 {
 	int		i;
 	int		flag;
@@ -22,48 +22,62 @@ int		ft_just_numbers(char *str)
 		i++;
 	while (str[i] != '\0')
 	{
-		while (str[i] == ' ' || str[i] == '\t' || str[i] == '\r' || str[i] == '\f')
+		while (str[i] == ' ' || str[i] == '\t' || str[i] == '\r'
+			|| str[i] == '\f')
 			i++;
-		if(str[i] != '\0' && !ft_isdigit(str[i]))
+		if (str[i] != '\0' && !ft_isdigit(str[i]))
 			return (0);
 		if (str[i] != '\0' && str[i + 1] == '\r')
 			return (0);
 		if (str[i] != '\0')
 			i++;
 	}
-	return(1);
+	return (1);
 }
 
-int		ft_exit(t_command *command)
+int	ft_exit_error(int error, char *str)
 {
-	int		i;
-	if(command->n_tokens > 1)
+	//ft_putstr_fd("exit\n", 2);
+	if (error == 0)
+		exit (0);
+	else if (error == 1)
+	{
+		ft_putstrs_fd("minishell: exit: ", str, NULL, NULL, NULL);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		exit(g_data.ret = 255);
+	}
+	else if (error == 2)
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+	else if (error == 3)
+		exit(ft_atoi(str));
+	return (0);
+}
+
+int	ft_exit(t_command *command)
+{
+	int	i;
+
+	if (command->n_tokens > 1)
 	{
 		i = 1;
-		while (i < command->n_tokens )
+		while (i < command->n_tokens)
 		{
-			//ft_printf("--%s--\n",g_data.command->tokens[i]);
-			if(!ft_just_numbers(command->tokens[i]))
-			{
-				ft_printf("minishell: exit: %s: numeric argument required\n", command->tokens[i]);
-				exit(g_data.ret = 255);
-			}	
+			if (!ft_just_numbers(command->tokens[i]))
+				ft_exit_error(1, command->tokens[i]);
 			i++;
 		}
-		if(command->n_tokens == 2)
+		if (command->n_tokens == 2)
 		{
-			//ft_printf("%d\n", ft_atoi(g_data.command->tokens[1]));
-			if(ft_atoi(command->tokens[1]) == -1 && ft_strncmp(command->tokens[1], "-1", 3))
-				ft_printf("minishell: exit: %s: numeric argument required\n", command->tokens[1]);
-			exit(ft_atoi(command->tokens[1]));
+			if (ft_atoi(command->tokens[1]) == -1
+				&& ft_strncmp(command->tokens[1], "-1", 3))
+				ft_exit_error(1, command->tokens[i]);
+			ft_exit_error(3, command->tokens[1]);
 		}
 		else
-			ft_printf("minishell: exit: too many arguments\n");
+			ft_exit_error(2, NULL);
 		return (g_data.ret = 1);
 	}
 	else
-	{
-		ft_putstr_fd("exit\n", 2);
-		exit (0);
-	}
+		ft_exit_error(0, NULL);
+	return (0);
 }

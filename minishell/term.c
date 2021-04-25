@@ -210,7 +210,7 @@ int		get_line(void)
 				//press = 0;
 			}
 			//free(line);
-			ft_parse(g_data.line);
+			ft_parse(g_data.line, 0, 0);
 			//g_data.line = ft_strdup("");
 			break;
 		}

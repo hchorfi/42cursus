@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/04/21 14:49:18 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/25 15:02:25 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,9 +189,13 @@ char			*ft_variable_value(char *var)
         if (ft_strncmp(old_var, new_var, len) == 0)
         {   
             if (ft_strchr(newlist->content, '='))
+			{
+				//ft_free_exist(old_var, newlist->content, '=');
 				return (ft_strchr(newlist->content, '=') + 1);
+			}
         }
         newlist = newlist->next;
+		//ft_free_exist(old_var, newlist->content, '=');
     }
 	return ("");
 }

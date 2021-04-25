@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 17:51:27 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/21 17:33:30 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/25 11:49:21 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,22 @@ char	*ft_get_home(void)
 			newlist = newlist->next;
 		free(tmp);
 	}
-	ft_printf("minishell: cd: HOME not set\n");
+	return (NULL);
+}
+
+int	cd_error(int error, char *str)
+{
+	if (error == 1)
+	{
+		ft_putstrs_fd(
+			"minishell: ", str, ": No such file or directory\n", NULL, NULL);
+		return (g_data.ret = 1);
+	}
+	else if (error == 2)
+	{
+		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		return (g_data.ret = 1);
+	}
 	return (0);
 }
 
@@ -86,27 +101,24 @@ int	ft_cd(t_command *command)
 	char	*val;
 
 	if (!getcwd(oldpwd, PATH_MAX))
-		ft_printf("%s\n", strerror(errno));
-	val = NULL;
-	if (!(val = command->tokens[1]))
+		ft_putstrs_fd(strerror(errno), "\n", NULL, NULL, NULL);
+	val = command->tokens[1];
+	if (!val)
 	{
 		val = ft_get_home();
 		if (!val)
-			return (g_data.ret = 1);
+			return (cd_error(2, NULL));
 		if (*val == 0)
 			return (g_data.ret = 0);
 	}
 	if (!chdir(val))
 	{
 		if (!getcwd(pwd, PATH_MAX))
-			ft_printf("%s\n", strerror(errno));
+			ft_putstrs_fd(strerror(errno), "\n", NULL, NULL, NULL);
 		ft_change_pwd(pwd);
 		ft_change_oldpwd(oldpwd);
 		return (g_data.ret = 0);
 	}
 	else
-	{
-		ft_printf("minishell: %s: No such file or directory\n", val);
-		return (g_data.ret = 1);
-	}
+		return (cd_error(1, val));
 }

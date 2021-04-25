@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/21 23:52:56 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/25 11:29:05 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,13 @@ void	ft_exec_check2(char **tokens, struct stat ps)
 		else
 			ft_exec_error(2, tokens[0]);
 	}
-	if (ps.st_mode == S_IRWXU || ps.st_mode == S_IRWXO || ps.st_mode == S_IRWXG
-		|| ((ps.st_mode & S_IXUSR) && (ps.st_mode & S_IRUSR)))
+	if (tokens[0][0] == '.' || tokens[0][0] == '/')
 	{
 		execve(tokens[0], tokens, envp);
+		if (errno == 13)
+			ft_exec_error(3, tokens[0]);
 		exit (0);
 	}
-	else
-		ft_exec_error(3, tokens[0]);
 }
 
 void	ft_exec_check1(char **token, struct stat path_stat)

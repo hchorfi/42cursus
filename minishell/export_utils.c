@@ -27,7 +27,7 @@ void	ft_print_export2(char *content, char *str_chr, char *var)
 int	ft_valid_export_var(
 	t_command *command, char *export_var, char *token, char *str)
 {
-	if(!ft_strcmp(str, "unset") && ft_strchr(token, '='))
+	if (!ft_strcmp(str, "unset") && ft_strchr(token, '='))
 	{
 		ft_putstrs_fd(
 			"minishell: ", str, ": `", token, "': not a valid identifier\n");

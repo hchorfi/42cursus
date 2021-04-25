@@ -1,85 +1,85 @@
 |> WITH echo $PWD; echo $OLDPWD; cd .; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
-/home/devza/.cache/minishell_test/sandbox$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ..; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test$
-/home/devza/.cache/minishell_test$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test$
+/root/.cache/minishell_test$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-/home/devza/.cache/minishell_test$
+/root/.cache/minishell_test$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ../..; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache$
-/home/devza/.cache$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache$
+/root/.cache$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-/home/devza/.cache$
+/root/.cache$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ../../..; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza$
-/home/devza$
-/home/devza/.cache/minishell_test/sandbox$
+/root$
+/root$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-/home/devza$
+/root$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ../../../..; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home$
-/home$
-/home/devza/.cache/minishell_test/sandbox$
+/$
+/$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-/home$
+/$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ../../../../..; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -90,11 +90,11 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd ../../../../../..; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -105,11 +105,11 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd /; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -120,59 +120,59 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd ''; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
-/home/devza/.cache/minishell_test/sandbox$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
 minishell: : No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ' '; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 minishell: cd:  : No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
 $
 $
 minishell:  : No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 $
 ================================================================================
 
-|> WITH [EXPORTS HOME='/home/devza'] echo $PWD; echo $OLDPWD; cd $HOME; pwd; echo $PWD; echo $OLDPWD
+|> WITH [EXPORTS HOME='/root'] echo $PWD; echo $OLDPWD; cd $HOME; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza$
-/home/devza$
-/home/devza/.cache/minishell_test/sandbox$
+/root$
+/root$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-/home/devza$
+/root$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd /; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -183,11 +183,11 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd /.; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -198,11 +198,11 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd /./; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -213,11 +213,11 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd /././././; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -228,11 +228,11 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd //; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -243,11 +243,11 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd ///; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -258,11 +258,11 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd ////; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -273,11 +273,11 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd //////////////////////////////////////////////////////; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -288,7 +288,7 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 minishell: cd: HOME not set$
 $
@@ -299,12 +299,12 @@ minishell: cd: HOME not set$
 $
 ================================================================================
 
-|> WITH [EXPORTS HOME='/home/devza'] echo $PWD; echo $OLDPWD; cd; echo $PWD; echo $OLDPWD
+|> WITH [EXPORTS HOME='/root'] echo $PWD; echo $OLDPWD; cd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza$
-/home/devza/.cache/minishell_test/sandbox$
+/root$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -314,96 +314,96 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd ' /'; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 minishell: cd:  /: No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
 $
 $
 minishell:  /: No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ' / '; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 minishell: cd:  / : No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
 $
 $
 minishell:  / : No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd '                  /'; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 minishell: cd:                   /: No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
 $
 $
 minishell:                   /: No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd '                  /              '; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 minishell: cd:                   /              : No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
 $
 $
 minishell:                   /              : No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd ' // '; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 minishell: cd:  // : No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
 $
 $
 minishell:  // : No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd //home; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /home$
 /home$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -414,238 +414,208 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd ' //home'; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 minishell: cd:  //home: No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
 $
 $
 minishell:  //home: No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd '     //home    '; pwd; echo $PWD; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 minishell: cd:      //home    : No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
 $
 $
 minishell:      //home    : No such file or directory$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 001 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 002 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 003 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 004 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 005 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 006 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 007 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 010 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 020 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 030 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 040 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 050 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 060 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 070 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 100 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -654,22 +624,20 @@ $
 
 |> WITH [SETUP mkdir -m 200 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 300 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -678,22 +646,20 @@ $
 
 |> WITH [SETUP mkdir -m 400 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 500 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -702,22 +668,20 @@ $
 
 |> WITH [SETUP mkdir -m 600 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 700 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -726,9 +690,9 @@ $
 
 |> WITH [SETUP mkdir -m 755 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -737,22 +701,20 @@ $
 
 |> WITH [SETUP mkdir -m 644 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 311 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -761,9 +723,9 @@ $
 
 |> WITH [SETUP mkdir -m 111 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -772,22 +734,20 @@ $
 
 |> WITH [SETUP mkdir -m 222 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 333 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -796,9 +756,9 @@ $
 
 |> WITH [SETUP mkdir -m 0777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -807,100 +767,86 @@ $
 
 |> WITH [SETUP mkdir -m 1000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 2000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 3000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 4000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 5000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 6000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 7000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH [SETUP mkdir -m 1777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -909,9 +855,9 @@ $
 
 |> WITH [SETUP mkdir -m 2777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -920,9 +866,9 @@ $
 
 |> WITH [SETUP mkdir -m 3777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -931,9 +877,9 @@ $
 
 |> WITH [SETUP mkdir -m 4777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -942,9 +888,9 @@ $
 
 |> WITH [SETUP mkdir -m 5777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -953,9 +899,9 @@ $
 
 |> WITH [SETUP mkdir -m 6777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -964,9 +910,9 @@ $
 
 |> WITH [SETUP mkdir -m 7777 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
@@ -975,23 +921,21 @@ $
 
 |> WITH [SETUP mkdir -m 0000 d] echo $PWD; echo $OLDPWD; cd d; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
-minishell: cd: d: Permission denied$
-$
+/root/.cache/minishell_test/sandbox$
 |---------------------------------------ACTUAL----------------------------------
 $
 $
-minishell: d: No such file or directory$
 $
 ================================================================================
 
 |> WITH echo $PWD; echo $OLDPWD; cd /; echo $PWD; echo $OLDPWD; unset PWD; cd /dev; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 |---------------------------------------ACTUAL----------------------------------
 $
@@ -1003,10 +947,10 @@ $
 
 |> WITH echo $PWD; echo $OLDPWD; cd /; echo $PWD; echo $OLDPWD; export PWD=bonjour; cd /dev; echo $OLDPWD
 |---------------------------------------EXPECTED--------------------------------
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 $
 /$
-/home/devza/.cache/minishell_test/sandbox$
+/root/.cache/minishell_test/sandbox$
 bonjour$
 |---------------------------------------ACTUAL----------------------------------
 $
@@ -1019,67 +963,57 @@ $
 |> WITH env
 |---------------------------------------EXPECTED--------------------------------
 $
-PATH=/home/devza/.cache/minishell_test/bin$
-PWD=/home/devza/.cache/minishell_test/sandbox$
+PATH=/root/.cache/minishell_test/bin$
+PWD=/root/.cache/minishell_test/sandbox$
 SHLVL=1$
 TERM=xterm-256color$
-_=/home/devza/.cache/minishell_test/bin/env
+_=/root/.cache/minishell_test/bin/env
 |---------------------------------------ACTUAL----------------------------------
 $
-?=0$
-PATH=/home/devza/.cache/minishell_test/bin$
+PATH=/root/.cache/minishell_test/bin$
 TERM=xterm-256color
 ================================================================================
 
 |> WITH [SETUP export A=a] env
 |---------------------------------------EXPECTED--------------------------------
 $
-PATH=/home/devza/.cache/minishell_test/bin$
-PWD=/home/devza/.cache/minishell_test/sandbox$
+PATH=/root/.cache/minishell_test/bin$
+PWD=/root/.cache/minishell_test/sandbox$
 SHLVL=1$
 TERM=xterm-256color$
-_=/home/devza/.cache/minishell_test/bin/env
+_=/root/.cache/minishell_test/bin/env
 |---------------------------------------ACTUAL----------------------------------
 $
-?=0$
-PATH=/home/devza/.cache/minishell_test/bin$
+PATH=/root/.cache/minishell_test/bin$
 TERM=xterm-256color
 ================================================================================
 
 |> WITH [SETUP export A=a B=b C=c] env
 |---------------------------------------EXPECTED--------------------------------
 $
-PATH=/home/devza/.cache/minishell_test/bin$
-PWD=/home/devza/.cache/minishell_test/sandbox$
+PATH=/root/.cache/minishell_test/bin$
+PWD=/root/.cache/minishell_test/sandbox$
 SHLVL=1$
 TERM=xterm-256color$
-_=/home/devza/.cache/minishell_test/bin/env
+_=/root/.cache/minishell_test/bin/env
 |---------------------------------------ACTUAL----------------------------------
 $
-?=0$
-PATH=/home/devza/.cache/minishell_test/bin$
+PATH=/root/.cache/minishell_test/bin$
 TERM=xterm-256color
 ================================================================================
 
 |> WITH [SETUP export A=a B=b C=c] env | cat -e
 |---------------------------------------EXPECTED--------------------------------
 $
-PATH=/home/devza/.cache/minishell_test/bin$$
-PWD=/home/devza/.cache/minishell_test/sandbox$$
+PATH=/root/.cache/minishell_test/bin$$
+PWD=/root/.cache/minishell_test/sandbox$$
 SHLVL=1$$
 TERM=xterm-256color$$
-_=/home/devza/.cache/minishell_test/bin/env$
+_=/root/.cache/minishell_test/bin/env$
 |---------------------------------------ACTUAL----------------------------------
 $
-?=0$$
-PATH=/home/devza/.cache/minishell_test/bin$$
-TERM=xterm-256color$
-================================================================================
-
-|> WITH exit
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-exit$
+PATH=/root/.cache/minishell_test/bin$
+TERM=xterm-256color
 ================================================================================
 
 |> WITH exit '3\t\f\r '
@@ -1092,13 +1026,13 @@ minishell: exit: 3	 : numeric argument required$
 |> WITH exit 4294967295
 |---------------------------------------EXPECTED--------------------------------
 |---------------------------------------ACTUAL----------------------------------
-minishell: exit: 4294967295: numeric argument required$
+minishell: exit: : numeric argument required$
 ================================================================================
 
 |> WITH exit 9223372036854775807
 |---------------------------------------EXPECTED--------------------------------
 |---------------------------------------ACTUAL----------------------------------
-minishell: exit: 9223372036854775807: numeric argument required$
+minishell: exit: : numeric argument required$
 ================================================================================
 
 |> WITH exit -9223372036854775809
@@ -1106,6 +1040,20 @@ minishell: exit: 9223372036854775807: numeric argument required$
 |---------------------------------------EXPECTED--------------------------------
 minishell: exit: -9223372036854775809: numeric argument required$
 |---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH exit 9223372036854775808
+|---------------------------------------EXPECTED--------------------------------
+minishell: exit: 9223372036854775808: numeric argument required$
+|---------------------------------------ACTUAL----------------------------------
+minishell: exit: : numeric argument required$
+================================================================================
+
+|> WITH exit 18446744073709551615
+|---------------------------------------EXPECTED--------------------------------
+minishell: exit: 18446744073709551615: numeric argument required$
+|---------------------------------------ACTUAL----------------------------------
+minishell: exit: : numeric argument required$
 ================================================================================
 
 |> WITH exit 18446744073709551616
@@ -1118,7 +1066,7 @@ minishell: exit: 18446744073709551616: numeric argument required$
 |> WITH exit -0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001
 |---------------------------------------EXPECTED--------------------------------
 |---------------------------------------ACTUAL----------------------------------
-minishell: exit: -0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001: numeric argument required$
+minishell: exit: : numeric argument required$
 ================================================================================
 
 |> WITH exit -9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -1126,6 +1074,13 @@ minishell: exit: -00000000000000000000000000000000000000000000000000000000000000
 |---------------------------------------EXPECTED--------------------------------
 minishell: exit: -9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999: numeric argument required$
 |---------------------------------------ACTUAL----------------------------------
+================================================================================
+
+|> WITH exit 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
+|---------------------------------------EXPECTED--------------------------------
+minishell: exit: 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999: numeric argument required$
+|---------------------------------------ACTUAL----------------------------------
+minishell: exit: : numeric argument required$
 ================================================================================
 
 |> WITH exit 0 bonjour
@@ -1136,16 +1091,23 @@ minishell: exit: too many arguments$
 minishell: exit: bonjour: numeric argument required$
 ================================================================================
 
+|> WITH exit 99999999999999999999999999999999999999999999999999999; echo should have exited
+|---------------------------------------EXPECTED--------------------------------
+minishell: exit: 99999999999999999999999999999999999999999999999999999: numeric argument required$
+|---------------------------------------ACTUAL----------------------------------
+minishell: exit: : numeric argument required$
+================================================================================
+
 |> WITH export
 |---------------------------------------EXPECTED--------------------------------
 $
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
+declare -x PWD="/root/.cache/minishell_test/sandbox"$
 declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1153,14 +1115,14 @@ declare -x TERM="xterm-256color"
 |---------------------------------------EXPECTED--------------------------------
 $
 declare -x A=""$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
+declare -x PWD="/root/.cache/minishell_test/sandbox"$
 declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A=""$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1168,14 +1130,14 @@ declare -x TERM="xterm-256color"
 |---------------------------------------EXPECTED--------------------------------
 $
 declare -x A="\""$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
+declare -x PWD="/root/.cache/minishell_test/sandbox"$
 declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A="""$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1183,14 +1145,14 @@ declare -x TERM="xterm-256color"
 |---------------------------------------EXPECTED--------------------------------
 $
 declare -x A="\\"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
+declare -x PWD="/root/.cache/minishell_test/sandbox"$
 declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A="\\"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1198,14 +1160,14 @@ declare -x TERM="xterm-256color"
 |---------------------------------------EXPECTED--------------------------------
 $
 declare -x A="\$"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
+declare -x PWD="/root/.cache/minishell_test/sandbox"$
 declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A="\$"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1213,14 +1175,14 @@ declare -x TERM="xterm-256color"
 |---------------------------------------EXPECTED--------------------------------
 $
 declare -x A="	"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
+declare -x PWD="/root/.cache/minishell_test/sandbox"$
 declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A="	"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1228,14 +1190,14 @@ declare -x TERM="xterm-256color"
 |---------------------------------------EXPECTED--------------------------------
 $
 declare -x A="'"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
+declare -x PWD="/root/.cache/minishell_test/sandbox"$
 declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A="'"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
@@ -1243,29 +1205,28 @@ declare -x TERM="xterm-256color"
 |---------------------------------------EXPECTED--------------------------------
 $
 declare -x A="a"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
-declare -x PWD="/home/devza/.cache/minishell_test/sandbox"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
+declare -x PWD="/root/.cache/minishell_test/sandbox"$
 declare -x SHLVL="1"$
 declare -x TERM="xterm-256color"
 |---------------------------------------ACTUAL----------------------------------
 $
 declare -x A="a"$
-declare -x PATH="/home/devza/.cache/minishell_test/bin"$
+declare -x PATH="/root/.cache/minishell_test/bin"$
 declare -x TERM="xterm-256color"
 ================================================================================
 
 |> WITH export A B C; env
 |---------------------------------------EXPECTED--------------------------------
 $
-PATH=/home/devza/.cache/minishell_test/bin$
-PWD=/home/devza/.cache/minishell_test/sandbox$
+PATH=/root/.cache/minishell_test/bin$
+PWD=/root/.cache/minishell_test/sandbox$
 SHLVL=1$
 TERM=xterm-256color$
-_=/home/devza/.cache/minishell_test/bin/env
+_=/root/.cache/minishell_test/bin/env
 |---------------------------------------ACTUAL----------------------------------
 $
-?=0$
-PATH=/home/devza/.cache/minishell_test/bin$
+PATH=/root/.cache/minishell_test/bin$
 TERM=xterm-256color
 ================================================================================
 
@@ -1279,7 +1240,7 @@ minishell: =?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_abcdefghijklmnopqrstuvwxyz{}~: comma
 ================================================================================
 
 |> WITH [SETUP touch a b c; echo bonjour > a; cp /usr/bin/cat ls] ls . a b c
-|  STATUS: expected 0 actual 1
+|  STATUS: expected 0 actual 127
 |---------------------------------------EXPECTED--------------------------------
 a$
 b$
@@ -1291,16 +1252,7 @@ b$
 c$
 ls$
 |---------------------------------------ACTUAL----------------------------------
-ls: .: Is a directory$
-bonjour$
-================================================================================
-
-|> WITH [SETUP touch _] _
-|  STATUS: expected 127 actual 126
-|---------------------------------------EXPECTED--------------------------------
-minishell: _: command not found$
-|---------------------------------------ACTUAL----------------------------------
-minishell: _: Permission denied$
+minishell: ls: command not found$
 ================================================================================
 
 |> WITH >
@@ -1391,22 +1343,6 @@ minishell: <: No such file or directory$
 minishell: syntax error near unexpected token `<<'$
 |---------------------------------------ACTUAL----------------------------------
 minishell: <<<<: No such file or directory$
-================================================================================
-
-|> WITH [SETUP echo bonjour > noperm; chmod 000 noperm] cat < noperm; echo $?
-|---------------------------------------EXPECTED--------------------------------
-minishell: noperm: Permission denied$
-1$
-|---------------------------------------ACTUAL----------------------------------
-minishell: noperm: No such file or directory$
-1$
-================================================================================
-
-|> WITH [SETUP echo bonjour > noperm; chmod 000 noperm] cat < noperm
-|---------------------------------------EXPECTED--------------------------------
-minishell: noperm: Permission denied$
-|---------------------------------------ACTUAL----------------------------------
-minishell: noperm: No such file or directory$
 ================================================================================
 
 |> WITH ; echo
@@ -1709,22 +1645,6 @@ minishell: syntax error near unexpected token `|'$
 syn err$
 ================================================================================
 
-|> WITH > a ; a
-|  STATUS: expected 127 actual 126
-|---------------------------------------EXPECTED--------------------------------
-minishell: a: command not found$
-|---------------------------------------ACTUAL----------------------------------
-minishell: a: Permission denied$
-================================================================================
-
-|> WITH >> a ; a
-|  STATUS: expected 127 actual 126
-|---------------------------------------EXPECTED--------------------------------
-minishell: a: command not found$
-|---------------------------------------ACTUAL----------------------------------
-minishell: a: Permission denied$
-================================================================================
-
 |> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  > >Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
 |  STATUS: expected 2 actual -6
 |---------------------------------------EXPECTED--------------------------------
@@ -1777,16 +1697,15 @@ $
 
 |> WITH env; echo $_
 |---------------------------------------EXPECTED--------------------------------
-PWD=/home/devza/.cache/minishell_test/sandbox$
+PWD=/root/.cache/minishell_test/sandbox$
 TERM=xterm-256color$
 SHLVL=1$
-PATH=/home/devza/.cache/minishell_test/bin$
-_=/home/devza/.cache/minishell_test/bin/env$
+PATH=/root/.cache/minishell_test/bin$
+_=/root/.cache/minishell_test/bin/env$
 env$
 |---------------------------------------ACTUAL----------------------------------
-PATH=/home/devza/.cache/minishell_test/bin$
+PATH=/root/.cache/minishell_test/bin$
 TERM=xterm-256color$
-?=0$
 $
 ================================================================================
 
@@ -1823,8 +1742,6 @@ $
 /usr/bin/rbash$$
 /bin/dash$$
 /usr/bin/dash$$
-/bin/zsh$$
-/usr/bin/zsh$$
 /etc/shells$
 |---------------------------------------ACTUAL----------------------------------
 # /etc/shells: valid login shells$$
@@ -1835,8 +1752,6 @@ $
 /usr/bin/rbash$$
 /bin/dash$$
 /usr/bin/dash$$
-/bin/zsh$$
-/usr/bin/zsh$$
 $
 ================================================================================
 
@@ -2331,21 +2246,7 @@ minishell: path/a: Permission denied$
 minishell: a: Permission denied$
 ================================================================================
 
-|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 001 ./path/a] [EXPORTS PATH='path'] a
-|---------------------------------------EXPECTED--------------------------------
-minishell: path/a: Permission denied$
-|---------------------------------------ACTUAL----------------------------------
-minishell: a: Permission denied$
-================================================================================
-
 |> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 002 ./path/a] [EXPORTS PATH='path'] a
-|---------------------------------------EXPECTED--------------------------------
-minishell: path/a: Permission denied$
-|---------------------------------------ACTUAL----------------------------------
-minishell: a: Permission denied$
-================================================================================
-
-|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 003 ./path/a] [EXPORTS PATH='path'] a
 |---------------------------------------EXPECTED--------------------------------
 minishell: path/a: Permission denied$
 |---------------------------------------ACTUAL----------------------------------
@@ -2359,28 +2260,7 @@ minishell: path/a: Permission denied$
 minishell: a: Permission denied$
 ================================================================================
 
-|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 005 ./path/a] [EXPORTS PATH='path'] a
-|---------------------------------------EXPECTED--------------------------------
-minishell: path/a: Permission denied$
-|---------------------------------------ACTUAL----------------------------------
-minishell: a: Permission denied$
-================================================================================
-
 |> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 006 ./path/a] [EXPORTS PATH='path'] a
-|---------------------------------------EXPECTED--------------------------------
-minishell: path/a: Permission denied$
-|---------------------------------------ACTUAL----------------------------------
-minishell: a: Permission denied$
-================================================================================
-
-|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 007 ./path/a] [EXPORTS PATH='path'] a
-|---------------------------------------EXPECTED--------------------------------
-minishell: path/a: Permission denied$
-|---------------------------------------ACTUAL----------------------------------
-minishell: a: Permission denied$
-================================================================================
-
-|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 010 ./path/a] [EXPORTS PATH='path'] a
 |---------------------------------------EXPECTED--------------------------------
 minishell: path/a: Permission denied$
 |---------------------------------------ACTUAL----------------------------------
@@ -2394,13 +2274,6 @@ minishell: path/a: Permission denied$
 minishell: a: Permission denied$
 ================================================================================
 
-|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 030 ./path/a] [EXPORTS PATH='path'] a
-|---------------------------------------EXPECTED--------------------------------
-minishell: path/a: Permission denied$
-|---------------------------------------ACTUAL----------------------------------
-minishell: a: Permission denied$
-================================================================================
-
 |> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 040 ./path/a] [EXPORTS PATH='path'] a
 |---------------------------------------EXPECTED--------------------------------
 minishell: path/a: Permission denied$
@@ -2408,21 +2281,7 @@ minishell: path/a: Permission denied$
 minishell: a: Permission denied$
 ================================================================================
 
-|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 050 ./path/a] [EXPORTS PATH='path'] a
-|---------------------------------------EXPECTED--------------------------------
-minishell: path/a: Permission denied$
-|---------------------------------------ACTUAL----------------------------------
-minishell: a: Permission denied$
-================================================================================
-
 |> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 060 ./path/a] [EXPORTS PATH='path'] a
-|---------------------------------------EXPECTED--------------------------------
-minishell: path/a: Permission denied$
-|---------------------------------------ACTUAL----------------------------------
-minishell: a: Permission denied$
-================================================================================
-
-|> WITH [SETUP mkdir path && cp /usr/bin/which ./path/a && chmod 070 ./path/a] [EXPORTS PATH='path'] a
 |---------------------------------------EXPECTED--------------------------------
 minishell: path/a: Permission denied$
 |---------------------------------------ACTUAL----------------------------------
@@ -2527,28 +2386,52 @@ minishell: a/b: No such file or directory$
 |---------------------------------------ACTUAL----------------------------------
 ================================================================================
 
-|> WITH [SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EXPORTS PATH='/asdfasdf'] somecmd
-|  STATUS: expected 127 actual 0
+|> WITH [SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EXPORTS PATH=''] somecmd
+|  STATUS: expected 0 actual 127
 |---------------------------------------EXPECTED--------------------------------
-minishell: somecmd: command not found$
-|---------------------------------------ACTUAL----------------------------------
 bonjour$
+|---------------------------------------ACTUAL----------------------------------
+minishell: somecmd: command not found$
 ================================================================================
 
-|> WITH [SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EXPORTS PATH='/usr/asdf:/usr/lib/asdfasdf'] somecmd
-|  STATUS: expected 127 actual 0
+|> WITH [SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EXPORTS PATH=':'] somecmd
+|  STATUS: expected 0 actual 127
 |---------------------------------------EXPECTED--------------------------------
-minishell: somecmd: command not found$
-|---------------------------------------ACTUAL----------------------------------
 bonjour$
+|---------------------------------------ACTUAL----------------------------------
+minishell: somecmd: command not found$
 ================================================================================
 
-|> WITH [SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd; unset PATH] somecmd
-|  STATUS: expected 127 actual 0
+|> WITH [SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EXPORTS PATH='::::::::'] somecmd
+|  STATUS: expected 0 actual 127
 |---------------------------------------EXPECTED--------------------------------
-minishell: somecmd: command not found$
-|---------------------------------------ACTUAL----------------------------------
 bonjour$
+|---------------------------------------ACTUAL----------------------------------
+minishell: somecmd: command not found$
+================================================================================
+
+|> WITH [SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EXPORTS PATH='/bin:'] somecmd
+|  STATUS: expected 0 actual 127
+|---------------------------------------EXPECTED--------------------------------
+bonjour$
+|---------------------------------------ACTUAL----------------------------------
+minishell: somecmd: command not found$
+================================================================================
+
+|> WITH [SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EXPORTS PATH=':/bin'] somecmd
+|  STATUS: expected 0 actual 127
+|---------------------------------------EXPECTED--------------------------------
+bonjour$
+|---------------------------------------ACTUAL----------------------------------
+minishell: somecmd: command not found$
+================================================================================
+
+|> WITH [SETUP echo '#!/bin/sh\necho bonjour' > somecmd; chmod +x somecmd] [EXPORTS PATH=':/bin:'] somecmd
+|  STATUS: expected 0 actual 127
+|---------------------------------------EXPECTED--------------------------------
+bonjour$
+|---------------------------------------ACTUAL----------------------------------
+minishell: somecmd: command not found$
 ================================================================================
 
 |> WITH echo charles\ 
