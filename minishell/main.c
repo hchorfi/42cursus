@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/25 17:23:07 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/27 12:31:35 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ int	ft_check_syntax(char *line)
 int	ft_prompt(int argc, char **argv)
 {
 	if (argc >= 2)
+	{
 		g_data.line = argv[2];
+		ft_parse(g_data.line, 0, 0);
+	}
 	else
 	{
 		if (g_data.ret == 0)
@@ -95,12 +98,13 @@ int	ft_prompt(int argc, char **argv)
 			ft_printf("minishell 👽 %d > ", g_data.ret);
 			ft_printf("\033[0m");
 		}
-		get_next_line(1, &g_data.line);
+		get_line();
+		//get_next_line(1, &g_data.line);
 	}
-	if (!ft_check_syntax(g_data.line))
-		ft_parse(g_data.line, 0, 0);
-	if (argc < 2)
-		free(g_data.line);
+	//if (!ft_check_syntax(g_data.line))
+		//ft_parse(g_data.line, 0, 0);
+	//if (argc < 2)
+		//free(g_data.line);
 	return (0);
 }
 

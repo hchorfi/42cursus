@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+
+
 int	nbr_length(int n)
 {
 	int	i = 0;
@@ -53,13 +55,31 @@ int		putchar_tc(int tc)
 
 void	ft_add_line_to_his()
 {
-	t_list *nlist;
-	nlist = g_data.history;
-	if(g_data.history == NULL)
-		g_data.history = ft_lstnew(ft_strdup(g_data.line));
-	else
+	t_list *head;
+	t_list *prev;
+	t_list *tail;
+	t_list *newlist;
+	//ft_printf("%d\n", ft_lstsize(g_data.history));
+	if (ft_lstsize(g_data.history) == 1)
 	{
-		ft_lstadd_back(&g_data.history, ft_lstnew(ft_strdup(g_data.line)));
+		
+		//ft_printf("1 : %p\n", g_data.history);
+		ft_lstadd_front(&g_data.history, ft_lstnew(ft_strdup(g_data.line)));
+		//ft_printf("2 : %p\n", g_data.history->next);
+		g_data.history->prev = NULL;
+		//ft_printf("2 : %p\n", g_data.history->prev);
+		ft_lstlast(g_data.history)->prev = g_data.history;
+	}
+	else if (ft_lstsize(g_data.history) > 1)
+	{
+		head = g_data.history;
+		tail = ft_lstlast(g_data.history);
+		prev = ft_lstlast(g_data.history)->prev;
+		newlist = ft_lstnew(ft_strdup(g_data.line));
+		newlist->next = prev->next;
+		prev->next = newlist;
+		newlist->prev = prev; 
+		newlist->next->prev = newlist;
 	}
 }
 
@@ -113,12 +133,25 @@ void	down(int *count, int *his_count)
 
 void	delete_end(int *col, int *row, char *cm, char *ce)
 {
+	char *tmp_free;
 	if (*col != 0 && *col > 17)
 		--(*col);
 	tputs(tgoto(cm, *col, *row), 1, putchar_tc);
 	tputs(ce, 1, putchar_tc);
-	//free(*line);
+	tmp_free = g_data.line;
 	g_data.line = ft_substr(g_data.line, 0, ft_strlen(g_data.line) - 1);
+	free(tmp_free);
+}
+
+void	ft_print_list()
+{
+	t_list *list = g_data.history;
+
+	while(list)
+	{
+		ft_printf("----\nprev : %p\nnode : |%s| - %p\nnext : %p\n----\n", list->prev, list->content, list, list->next);
+		list = list->next;
+	}
 }
 
 int		get_line(void)
@@ -144,7 +177,14 @@ int		get_line(void)
 	char *charater;
 	char  *strtmp;
     char *tmp_free;
-
+	t_list *list;
+	list = ft_lstlast(g_data.history);
+	//ft_printf("%d\n", ft_lstsize(g_data.history));
+	if (!ft_lstsize(g_data.history))
+	{
+		g_data.history = ft_lstnew(ft_strdup(""));
+		g_data.history->prev = NULL;
+	}
 	while (read(0, &c, sizeof(c)) > 0)
 	{
 		//printf("%d\n", c);
@@ -152,48 +192,56 @@ int		get_line(void)
 		//col = ft_strlen(line);
 		if (c == DOWN_ARROW)
 		{
-			down(&g_data.count, &g_data.his_count);
-			strtmp = tgetstr("ce", NULL);
-			write(1, "\r", 1);
-			if (g_data.ret == 0)
+			//down(&g_data.count, &g_data.his_count);
+			if (list && list->next)
 			{
-				ft_printf("\033[0;32m");
-				ft_printf("minishell 👽 %d > ", g_data.ret);
-				ft_printf("\033[0m");
+				strtmp = tgetstr("ce", NULL);
+				write(1, "\r", 1);
+				if (g_data.ret == 0)
+				{
+					ft_printf("\033[0;32m");
+					ft_printf("minishell 👽 %d > ", g_data.ret);
+					ft_printf("\033[0m");
+				}
+				else
+				{
+					ft_printf("\033[0;31m");
+					ft_printf("minishell 👽 %d > ", g_data.ret);
+					ft_printf("\033[0m");
+				}
+				write(1, strtmp, strlen(strtmp));
+				list = list->next;
+				ft_putstr_fd(list->content, 1);
 			}
-			else
-			{
-				ft_printf("\033[0;31m");
-				ft_printf("minishell 👽 %d > ", g_data.ret);
-				ft_printf("\033[0m");
-			}
-			write(1, strtmp, strlen(strtmp));
-			ft_putstr_fd(g_data.line, 1);
 			//free(line);
 			//line = ft_strdup("");
 		}
 		else if (c == UP_ARROW)
 		{
-			up(&g_data.count);
+			//up(&g_data.count);
 			//write(1, "up\n", 3);
-			ft_putstr_fd(g_data.line, 1);
+			//ft_putstr_fd(g_data.line, 1);
 			//printf("%d\n",count);
-			strtmp = tgetstr("ce", NULL);
-			write(1, "\r", 1);
-			if (g_data.ret == 0)
+			if (list && list->prev)
 			{
-				ft_printf("\033[0;32m");
-				ft_printf("minishell 👽 %d > ", g_data.ret);
-				ft_printf("\033[0m");
+				strtmp = tgetstr("ce", NULL);
+				write(1, "\r", 1);
+				if (g_data.ret == 0)
+				{
+					ft_printf("\033[0;32m");
+					ft_printf("minishell 👽 %d > ", g_data.ret);
+					ft_printf("\033[0m");
+				}
+				else
+				{
+					ft_printf("\033[0;31m");
+					ft_printf("minishell 👽 %d > ", g_data.ret);
+					ft_printf("\033[0m");
+				}
+				write(1, strtmp, strlen(strtmp));
+				list = list->prev;
+				ft_putstr_fd(list->content, 1);
 			}
-			else
-			{
-				ft_printf("\033[0;31m");
-				ft_printf("minishell 👽 %d > ", g_data.ret);
-				ft_printf("\033[0m");
-			}
-			write(1, strtmp, strlen(strtmp));
-			ft_putstr_fd(g_data.line, 1);
 			//free(line);
 			//line = ft_strdup("");
 		}
@@ -207,10 +255,13 @@ int		get_line(void)
 				ft_add_line_to_his();
 				g_data.his_count++;
 				g_data.count = g_data.his_count;
+				list = ft_lstlast(g_data.history);
 				//press = 0;
 			}
 			//free(line);
-			ft_parse(g_data.line, 0, 0);
+			if (*(g_data.line) != 0)
+				ft_parse(g_data.line, 0, 0);
+			ft_print_list();
 			//g_data.line = ft_strdup("");
 			break;
 		}
@@ -225,7 +276,7 @@ int		get_line(void)
 				charater[1] = '\0';
 				tmp_free = g_data.line;
 				g_data.line = ft_strjoin(g_data.line, charater);
-				//free(tmp_free);
+				free(tmp_free);
 				free(charater);
 			}
 		}
