@@ -210,8 +210,13 @@ int		get_line(void)
 					ft_printf("\033[0m");
 				}
 				write(1, strtmp, strlen(strtmp));
-				list = list->next;
-				ft_putstr_fd(list->content, 1);
+				if (*(char *)list->next->content == 0)
+					ft_putstr_fd(g_data.line, 1);
+				else
+				{
+					list = list->next;
+					ft_putstr_fd(list->content, 1);
+				}
 			}
 			//free(line);
 			//line = ft_strdup("");
@@ -261,7 +266,7 @@ int		get_line(void)
 			//free(line);
 			if (*(g_data.line) != 0)
 				ft_parse(g_data.line, 0, 0);
-			ft_print_list();
+			//ft_print_list();
 			//g_data.line = ft_strdup("");
 			break;
 		}
