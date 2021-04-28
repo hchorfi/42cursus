@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/27 12:31:35 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/27 20:55:55 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,8 @@ void	ft_exec(t_command *command)
 		ft_lstadd_back(&g_data.fd_close, ft_lstnew(tmp));
 	}
 }
+
+const char* __asan_default_options() { return "detect_leaks=0"; }
 
 int	main(int argc, char **argv, char **envp)
 {

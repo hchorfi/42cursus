@@ -210,13 +210,12 @@ int		get_line(void)
 					ft_printf("\033[0m");
 				}
 				write(1, strtmp, strlen(strtmp));
-				if (*(char *)list->next->content == 0)
-					ft_putstr_fd(g_data.line, 1);
-				else
+				if (*(char *)list->next->content != 0)
 				{
 					list = list->next;
-					ft_putstr_fd(list->content, 1);
+					g_data.line = list->content;
 				}
+				ft_putstr_fd(g_data.line, 1);
 			}
 			//free(line);
 			//line = ft_strdup("");
@@ -245,7 +244,8 @@ int		get_line(void)
 				}
 				write(1, strtmp, strlen(strtmp));
 				list = list->prev;
-				ft_putstr_fd(list->content, 1);
+				g_data.line = list->content;
+				ft_putstr_fd(g_data.line, 1);
 			}
 			//free(line);
 			//line = ft_strdup("");
@@ -266,7 +266,7 @@ int		get_line(void)
 			//free(line);
 			if (*(g_data.line) != 0)
 				ft_parse(g_data.line, 0, 0);
-			//ft_print_list();
+			ft_print_list();
 			//g_data.line = ft_strdup("");
 			break;
 		}
@@ -279,9 +279,9 @@ int		get_line(void)
 				charater = malloc(sizeof(char) * 2);
 				charater[0] = (char)c;
 				charater[1] = '\0';
-				tmp_free = g_data.line;
+				//tmp_free = g_data.line;
 				g_data.line = ft_strjoin(g_data.line, charater);
-				free(tmp_free);
+				//free(tmp_free);
 				free(charater);
 			}
 		}
