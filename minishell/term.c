@@ -158,7 +158,9 @@ int		get_line(void)
 {
 	/* change term settings */
 	struct termios term;
-	tcgetattr(STDIN_FILENO, &term);
+	struct termios orig_term;
+	tcgetattr(STDIN_FILENO, &orig_term);
+	term = orig_term;
 	term.c_lflag &= ~ICANON;
 	term.c_lflag &= ~ECHO;
 	term.c_cc[VMIN] = 1;
@@ -177,9 +179,12 @@ int		get_line(void)
 	char *charater;
 	char  *strtmp;
     char *tmp_free;
+	int press;
 	t_list *list;
+	char *tmp_line;
 	list = ft_lstlast(g_data.history);
 	//ft_printf("%d\n", ft_lstsize(g_data.history));
+	press = 0;
 	if (!ft_lstsize(g_data.history))
 	{
 		g_data.history = ft_lstnew(ft_strdup(""));
@@ -210,11 +215,8 @@ int		get_line(void)
 					ft_printf("\033[0m");
 				}
 				write(1, strtmp, strlen(strtmp));
-				if (*(char *)list->next->content != 0)
-				{
-					list = list->next;
-					g_data.line = list->content;
-				}
+				list = list->next;
+				g_data.line = ft_strdup(list->content);
 				ft_putstr_fd(g_data.line, 1);
 			}
 			//free(line);
@@ -226,6 +228,11 @@ int		get_line(void)
 			//write(1, "up\n", 3);
 			//ft_putstr_fd(g_data.line, 1);
 			//printf("%d\n",count);
+			if (!press)
+			{
+				press = 1;
+				ft_lstlast(g_data.history)->content = ft_strdup(g_data.line);
+			}
 			if (list && list->prev)
 			{
 				strtmp = tgetstr("ce", NULL);
@@ -244,29 +251,34 @@ int		get_line(void)
 				}
 				write(1, strtmp, strlen(strtmp));
 				list = list->prev;
-				g_data.line = list->content;
+				g_data.line = ft_strdup(list->content);
 				ft_putstr_fd(g_data.line, 1);
 			}
 			//free(line);
 			//line = ft_strdup("");
 		}
 		else if (c == BACKSPACE)
+		{
+			//list = ft_lstlast(g_data.history);
+			press = 0;
 			delete_end(&col, &row, cm, ce);
+		}
 		else if (c == NEW_LINE)
 		{
 			write(1, "\n", 1);
+			press = 0;
 			if (*(g_data.line) != 0)
 			{
 				ft_add_line_to_his();
 				g_data.his_count++;
 				g_data.count = g_data.his_count;
 				list = ft_lstlast(g_data.history);
-				//press = 0;
 			}
 			//free(line);
 			if (*(g_data.line) != 0)
 				ft_parse(g_data.line, 0, 0);
-			ft_print_list();
+			//ft_print_list();
+			tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_term);
 			//g_data.line = ft_strdup("");
 			break;
 		}
@@ -274,6 +286,7 @@ int		get_line(void)
 		{
 			col++;
 			write(0, &c, 1);
+			press = 0;
 			if (c != '\n' && ft_isprint(c))
 			{
 				charater = malloc(sizeof(char) * 2);
@@ -281,6 +294,8 @@ int		get_line(void)
 				charater[1] = '\0';
 				//tmp_free = g_data.line;
 				g_data.line = ft_strjoin(g_data.line, charater);
+				tmp_line = g_data.line;
+				//ft_lstlast(list)->content = g_data.line;
 				//free(tmp_free);
 				free(charater);
 			}

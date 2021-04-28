@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/27 20:55:55 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/28 16:17:40 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_parse2(int i, int j, char *pipe_cmd)
 	g_data.command->pipe_pos = j;
 	new_pipe = ft_check_redirections(pipe_cmd, 0, ft_strdup(""));
 	g_data.command->tokens = ft_split_pars(new_pipe, ' ');
-	free(new_pipe);
+	//free(new_pipe);
 	k = 0;
 	while (g_data.command->tokens[k])
 	{

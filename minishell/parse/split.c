@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/04/26 12:01:17 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/28 16:18:16 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -568,7 +568,7 @@ char			**ft_split_pars(char *s, char c)
 	char	**str;
 	char	*tmp_free;
 
-	if (s != NULL)
+	if (s != NULL && *s != '\0')
 		s = ft_strtrim(s, " ");
 	str = (char **)malloc(sizeof(char *) * (countt(s, c) + 1));
 	init_3params(&i, &j, &d);
