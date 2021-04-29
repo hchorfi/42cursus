@@ -6,13 +6,13 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/04/28 16:18:16 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/29 17:20:59 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int				is_escaped(char *s, int j)
+int	is_escaped(char *s, int j)
 {
 	int i = 0;
 	j--;
@@ -24,14 +24,14 @@ int				is_escaped(char *s, int j)
 	return (i % 2);
 }
 
-int				chec_before(char *s, int i, char c)
+int	chec_before(char *s, int i, char c)
 {
 	if (s[i - 1] == c && !is_escaped(s, i - 1))
 		return (0);
 	return (1);
 }
 
-static	int		countt(char *s, char c)
+static int	countt(char *s, char c)
 {
 	int i;
 	int w;
@@ -47,7 +47,8 @@ static	int		countt(char *s, char c)
 	}
 	return (w);
 }
-static	char	**ft_free(char **s, int j)
+
+static char	**ft_free(char **s, int j)
 {
 	while (j)
 	{
@@ -56,7 +57,8 @@ static	char	**ft_free(char **s, int j)
 	free(s);
 	return (NULL);
 }
-static	int		ft_count (const char *s, int l)
+
+static int	ft_count (const char *s, int l)
 {
 	int i;
 	i = 0;
@@ -66,7 +68,8 @@ static	int		ft_count (const char *s, int l)
 	}
 	return (i);
 }
-int				check_char(char c)
+
+int	check_char(char c)
 {
 	if (c == ' ' || c == '"' || c == '\'' || c == '/' ||
 		c == '$' || c == ':' || c == '=' || c == '|' ||
@@ -75,7 +78,8 @@ int				check_char(char c)
 					return(1);
 	return (0);
 }
-static	int		check_cots(char *s)
+
+static int	check_cots(char *s)
 {
 	int i;
 	int s_quote;
@@ -106,7 +110,8 @@ static	int		check_cots(char *s)
 		return(1);
 	return (0);
 }
-int				remove_tabs_check(char *s, char c)
+
+int	remove_tabs_check(char *s, char c)
 {
 	int i = 0;
 	while (s[i])
@@ -124,7 +129,8 @@ int				remove_tabs_check(char *s, char c)
 	}
 	return (0);
 }
-char			*ft_stock(char *line, char *buff, int i)
+
+char	*ft_stock(char *line, char *buff, int i)
 {
 	char	*newline;
 	int		len;
@@ -149,7 +155,7 @@ char			*ft_stock(char *line, char *buff, int i)
 	return (newline);
 }
 //k here is the index after $
-char			*ft_put_variable(char *str, int k, int j)
+char	*ft_put_variable(char *str, int k, int j)
 {
 	char *var;
 	int i = 0;
@@ -163,7 +169,7 @@ char			*ft_put_variable(char *str, int k, int j)
 	var[i] = '\0';
 	return (var);
 }
-char			*ft_variable_value(char *var)
+char	*ft_variable_value(char *var)
 {
 	t_list  *newlist;
     char    *new_var;
@@ -190,16 +196,16 @@ char			*ft_variable_value(char *var)
         {   
             if (ft_strchr(newlist->content, '='))
 			{
-				//ft_free_exist(old_var, newlist->content, '=');
+				free(old_var);
 				return (ft_strchr(newlist->content, '=') + 1);
 			}
         }
+		ft_free_exist(old_var, newlist->content, '=');
         newlist = newlist->next;
-		//ft_free_exist(old_var, newlist->content, '=');
     }
 	return ("");
 }
-char			*ft_check_dollar_slash(char	*s)
+char	*ft_check_dollar_slash(char	*s)
 {
 	int i = 0;
 	int c = 0;
@@ -233,7 +239,7 @@ char			*ft_check_dollar_slash(char	*s)
 	value[c] = '\0';
 	return (value);
 }
-char			*ft_replace_variable(char *str, char *value, int k, int j)
+char	*ft_replace_variable(char *str, char *value, int k, int j)
 {
 	int i = 0;
 	char *ptr;
@@ -266,7 +272,7 @@ char			*ft_replace_variable(char *str, char *value, int k, int j)
 //j is going to be where the variable name finishes
 //i is the end of the string you ll search on
 // var is the variable after $ if it meets requirements ' ' or '\0'
-char			*ft_get_variables(char *str, int start, int i)
+char	*ft_get_variables(char *str, int start, int i)
 {
 	char *var;
 	int j;
@@ -274,6 +280,7 @@ char			*ft_get_variables(char *str, int start, int i)
 	int s_quote;
 	char *value;
 	int d_quote = 0;
+	char *tmp_free;
 	s_quote = 0;
 	k = 0;
 	j = start;
@@ -315,16 +322,19 @@ char			*ft_get_variables(char *str, int start, int i)
 	}
 	var = ft_put_variable(str, k, j);
 	value = ft_variable_value(var);
+	free(var);
 	value = ft_check_dollar_slash(value);
 	str = ft_replace_variable(str, value, k, j);
+	free(value);
 	return (str);
 }
-char			*get_other_variables(char *str)
+char	*get_other_variables(char *str)
 {	
 	int i = 0;
 	int dollar = 0;
 	int s_quote = 0;
 	int d_quote = 0;
+	char *tmp_free;
 	while (str[i])
 	{
 		if (str[i] == '\"' && !(is_escaped(str, i)))
@@ -353,13 +363,18 @@ char			*get_other_variables(char *str)
 		str = ft_get_variables(str, 0, ft_strlen(str));
 		i++;
 	}
-	//ft_printf("--%s--\n", str);
 	if (!str || *str == '\0')
 		return (str);
 	else
-		return (ft_strtrim(str, " "));
+	{	
+		tmp_free = str;
+		str = ft_strtrim(str, " ");
+		if (i > 0)
+			free(tmp_free);
+		return (str);
+	}
 }
-void			fill_with(char *s, int  start, int len, char c)
+void	fill_with(char *s, int  start, int len, char c)
 {
 	int i;
 	i = 0;
@@ -369,7 +384,7 @@ void			fill_with(char *s, int  start, int len, char c)
 		i++;
 	}
 }
-char			*ft_remove_slashes(char *str, int start, int end)
+char	*ft_remove_slashes(char *str, int start, int end)
 {
 	int i = start;
 	int count = 0;
@@ -413,7 +428,7 @@ char			*ft_remove_slashes(char *str, int start, int end)
 	back[j] = '\0';
 	return (back);
 }
-char			*ft_remove_slashes_2(char *str, int start, int end)
+char	*ft_remove_slashes_2(char *str, int start, int end)
 {
 	int i;
 	int count;
@@ -481,7 +496,7 @@ char			*ft_remove_slashes_2(char *str, int start, int end)
 	back[j] = '\0';
 	return (back);
 }
-char			*remove_all_quotes(char *str)
+char	*remove_all_quotes(char *str)
 {
 	int s_quote = 0;
 	int d_quote = 0;
@@ -540,27 +555,24 @@ char			*remove_all_quotes(char *str)
 			break ;
 		}
 	}
-	// if (trim == 0)
-	// 	ptr = ft_strtrim(ptr, " ");
 	return(ptr);
 }
 
-void			init_3params(int *i, int *j, int *d)
+void	init_3params(int *i, int *j, int *d)
 {
 	*i = 0;
 	*j = 0;
 	*d = 0;
 }
 
-int				my_ternary(int splited, int i, int d)
+int	my_ternary(int splited, int i, int d)
 {
 	if (splited == 1)
 		return (i + 1);
 	return (d);
 }
 
-
-char			**ft_split_pars(char *s, char c)
+char	**ft_split_pars(char *s, char c)
 {
 	int	i;
 	int	j;
@@ -568,7 +580,7 @@ char			**ft_split_pars(char *s, char c)
 	char	**str;
 	char	*tmp_free;
 
-	if (s != NULL && *s != '\0')
+	if (s != NULL)
 		s = ft_strtrim(s, " ");
 	str = (char **)malloc(sizeof(char *) * (countt(s, c) + 1));
 	init_3params(&i, &j, &d);

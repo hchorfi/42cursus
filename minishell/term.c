@@ -263,6 +263,14 @@ int		get_line(void)
 			press = 0;
 			delete_end(&col, &row, cm, ce);
 		}
+		else if (c == CTRLD)
+		{
+			if (g_data.line && ft_strlen(g_data.line) == 0)
+			{
+				ft_putstr_fd("exit\n", 2);
+				exit(0);
+			}
+		}
 		else if (c == NEW_LINE)
 		{
 			write(1, "\n", 1);
@@ -285,6 +293,7 @@ int		get_line(void)
 		else
 		{
 			col++;
+			//ft_printf("|%d|\n", c);
 			write(0, &c, 1);
 			press = 0;
 			if (c != '\n' && ft_isprint(c))

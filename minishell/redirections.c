@@ -59,15 +59,19 @@ void	ft_out_red_file(char *tmp_out, char **new_pipe)
 	char		*file;
 	char		*tmp_free;
 	int			j;
+	int			i;
 
 	tmp_free = tmp_out;
 	tmp_out = ft_strtrim(tmp_out, " ");
 	j = ft_check_out(&tmp_out);
+	i = 0;
+	while (tmp_out[i] == '\'' || tmp_out[i] == '\"')
+		i++;
 	free(tmp_free);
-	file = ft_substr(tmp_out, 0, j);
-	ft_out_red_file2(file, NULL, 0, 0);
+	file = ft_substr(tmp_out, i, j);
+	ft_out_red_file2(file, tmp_out[0], 0, 0);
 	tmp_free = *new_pipe;
-	*new_pipe = ft_strjoin(*new_pipe, tmp_out + j);
+	*new_pipe = ft_strjoin(*new_pipe, tmp_out + j + i);
 	free(tmp_free);
 	if (g_data.append == 1)
 		free(tmp_out - 1);

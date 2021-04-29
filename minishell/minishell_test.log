@@ -1346,11 +1346,11 @@ minishell: <<<<: No such file or directory$
 ================================================================================
 
 |> WITH ; echo
-|  STATUS: expected 2 actual 127
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: ;: command not found$
+syn err$
 ================================================================================
 
 |> WITH  ;echo
@@ -1390,22 +1390,23 @@ a$
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
+syn err$
 ================================================================================
 
 |> WITH ; ;
-|  STATUS: expected 2 actual 127
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: ;: command not found$
+syn err$
 ================================================================================
 
 |> WITH ; ; ;
-|  STATUS: expected 2 actual 127
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: ;: command not found$
+syn err$
 ================================================================================
 
 |> WITH echo a ; ; echo b
@@ -1422,6 +1423,7 @@ b$
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
+syn err$
 ================================================================================
 
 |> WITH ;;;
@@ -1429,6 +1431,7 @@ minishell: syntax error near unexpected token `;'$
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
+syn err$
 ================================================================================
 
 |> WITH ;;;;;
@@ -1436,6 +1439,7 @@ minishell: syntax error near unexpected token `;'$
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
+syn err$
 ================================================================================
 
 |> WITH echo a ;; echo b
@@ -1469,19 +1473,19 @@ minishell: ;;: command not found$
 ================================================================================
 
 |> WITH |cat
-|  STATUS: expected 2 actual 127
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `|'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: |cat: command not found$
+syn err$
 ================================================================================
 
 |> WITH | cat
-|  STATUS: expected 2 actual 127
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `|'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: |: command not found$
+syn err$
 ================================================================================
 
 |> WITH  | cat
@@ -1578,224 +1582,83 @@ minishell: a: command not found$
 ================================================================================
 
 |> WITH ; | a
-|  STATUS: expected 2 actual 127
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: a: command not found$
-minishell: ;: command not found$
+syn err$
 ================================================================================
 
 |> WITH ; < a
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: a: No such file or directory$
+syn err$
 ================================================================================
 
 |> WITH ; > a
-|  STATUS: expected 2 actual 127
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: ;: command not found$
+syn err$
 ================================================================================
 
 |> WITH ; >> a
-|  STATUS: expected 2 actual 127
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `;'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: ;: command not found$
+syn err$
 ================================================================================
 
 |> WITH | ; a
-|  STATUS: expected 2 actual 127
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `|'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: a: command not found$
+syn err$
 ================================================================================
 
 |> WITH | < a
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `|'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: a: No such file or directory$
+syn err$
 ================================================================================
 
 |> WITH | > a
-|  STATUS: expected 2 actual 127
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `|'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: |: command not found$
+syn err$
 ================================================================================
 
 |> WITH | >> a
-|  STATUS: expected 2 actual 127
+|  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `|'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: |: command not found$
+syn err$
 ================================================================================
 
 |> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  > >Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
+|  STATUS: expected 2 actual -6
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `>'$
 |---------------------------------------ACTUAL----------------------------------
-=================================================================$
-==9206==ERROR: AddressSanitizer: heap-use-after-free on address 0x602000000170 at pc 0x55bea594b7f0 bp 0x7ffda0cd9320 sp 0x7ffda0cd9310$
-READ of size 1 at 0x602000000170 thread T0$
-    #0 0x55bea594b7ef in remove_all_quotes parse/split.c:495$
-    #1 0x55bea5950562 in ft_out_red_file2 /minishell/redirections_utils.c:60$
-    #2 0x55bea594f7a6 in ft_out_red_file /minishell/redirections.c:68$
-    #3 0x55bea594fd04 in ft_check_redirections /minishell/redirections.c:109$
-    #4 0x55bea5943834 in ft_parse2 /minishell/main.c:24$
-    #5 0x55bea5943b71 in ft_parse /minishell/main.c:55$
-    #6 0x55bea5943d81 in ft_prompt /minishell/main.c:85$
-    #7 0x55bea594424f in main /minishell/main.c:184$
-    #8 0x7f704a8650b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-    #9 0x55bea59436ad in _start (/minishell/minishell+0x36ad)$
-$
-0x602000000170 is located 0 bytes inside of 1-byte region [0x602000000170,0x602000000171)$
-freed by thread T0 here:$
-    #0 0x7f704ab6d7cf in __interceptor_free (/lib/x86_64-linux-gnu/libasan.so.5+0x10d7cf)$
-    #1 0x55bea5950545 in ft_out_red_file2 /minishell/redirections_utils.c:58$
-    #2 0x55bea594f7a6 in ft_out_red_file /minishell/redirections.c:68$
-    #3 0x55bea594fd04 in ft_check_redirections /minishell/redirections.c:109$
-    #4 0x55bea5943834 in ft_parse2 /minishell/main.c:24$
-    #5 0x55bea5943b71 in ft_parse /minishell/main.c:55$
-    #6 0x55bea5943d81 in ft_prompt /minishell/main.c:85$
-    #7 0x55bea594424f in main /minishell/main.c:184$
-    #8 0x7f704a8650b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-$
-previously allocated by thread T0 here:$
-    #0 0x7f704ab6dbc8 in malloc (/lib/x86_64-linux-gnu/libasan.so.5+0x10dbc8)$
-    #1 0x55bea59519e4 in ft_substr (/minishell/minishell+0x119e4)$
-    #2 0x55bea594f781 in ft_out_red_file /minishell/redirections.c:67$
-    #3 0x55bea594fd04 in ft_check_redirections /minishell/redirections.c:109$
-    #4 0x55bea5943834 in ft_parse2 /minishell/main.c:24$
-    #5 0x55bea5943b71 in ft_parse /minishell/main.c:55$
-    #6 0x55bea5943d81 in ft_prompt /minishell/main.c:85$
-    #7 0x55bea594424f in main /minishell/main.c:184$
-    #8 0x7f704a8650b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-$
-SUMMARY: AddressSanitizer: heap-use-after-free parse/split.c:495 in remove_all_quotes$
-Shadow bytes around the buggy address:$
-  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00$
-  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00$
-  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00$
-  0x0c047fff8000: fa fa 00 00 fa fa 00 00 fa fa fd fa fa fa fd fa$
-  0x0c047fff8010: fa fa 02 fa fa fa fd fd fa fa fd fa fa fa fd fa$
-=>0x0c047fff8020: fa fa fd fa fa fa fd fa fa fa 01 fa fa fa[fd]fa$
-  0x0c047fff8030: fa fa 01 fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-Shadow byte legend (one shadow byte represents 8 application bytes):$
-  Addressable:           00$
-  Partially addressable: 01 02 03 04 05 06 07 $
-  Heap left redzone:       fa$
-  Freed heap region:       fd$
-  Stack left redzone:      f1$
-  Stack mid redzone:       f2$
-  Stack right redzone:     f3$
-  Stack after return:      f5$
-  Stack use after scope:   f8$
-  Global redzone:          f9$
-  Global init order:       f6$
-  Poisoned by user:        f7$
-  Container overflow:      fc$
-  Array cookie:            ac$
-  Intra object redzone:    bb$
-  ASan internal:           fe$
-  Left alloca redzone:     ca$
-  Right alloca redzone:    cb$
-  Shadow gap:              cc$
-==9206==ABORTING$
+free(): double free detected in tcache 2$
 ================================================================================
 
 |> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  < <Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `<'$
 |---------------------------------------ACTUAL----------------------------------
-=================================================================$
-==9208==ERROR: AddressSanitizer: heap-use-after-free on address 0x602000000110 at pc 0x5576d57d97f0 bp 0x7ffe85ff1d60 sp 0x7ffe85ff1d50$
-READ of size 1 at 0x602000000110 thread T0$
-    #0 0x5576d57d97ef in remove_all_quotes parse/split.c:495$
-    #1 0x5576d57dd01a in ft_in_red_file /minishell/redirections.c:14$
-    #2 0x5576d57dd5b1 in ft_check_in /minishell/redirections.c:50$
-    #3 0x5576d57dd8f4 in ft_check_redirections2 /minishell/redirections.c:83$
-    #4 0x5576d57ddbb3 in ft_check_redirections /minishell/redirections.c:102$
-    #5 0x5576d57d1834 in ft_parse2 /minishell/main.c:24$
-    #6 0x5576d57d1b71 in ft_parse /minishell/main.c:55$
-    #7 0x5576d57d1d81 in ft_prompt /minishell/main.c:85$
-    #8 0x5576d57d224f in main /minishell/main.c:184$
-    #9 0x7f66ee1670b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-    #10 0x5576d57d16ad in _start (/minishell/minishell+0x36ad)$
-$
-0x602000000110 is located 0 bytes inside of 1-byte region [0x602000000110,0x602000000111)$
-freed by thread T0 here:$
-    #0 0x7f66ee46f7cf in __interceptor_free (/lib/x86_64-linux-gnu/libasan.so.5+0x10d7cf)$
-    #1 0x5576d57dd006 in ft_in_red_file /minishell/redirections.c:12$
-    #2 0x5576d57dd5b1 in ft_check_in /minishell/redirections.c:50$
-    #3 0x5576d57dd8f4 in ft_check_redirections2 /minishell/redirections.c:83$
-    #4 0x5576d57ddbb3 in ft_check_redirections /minishell/redirections.c:102$
-    #5 0x5576d57d1834 in ft_parse2 /minishell/main.c:24$
-    #6 0x5576d57d1b71 in ft_parse /minishell/main.c:55$
-    #7 0x5576d57d1d81 in ft_prompt /minishell/main.c:85$
-    #8 0x5576d57d224f in main /minishell/main.c:184$
-    #9 0x7f66ee1670b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-$
-previously allocated by thread T0 here:$
-    #0 0x7f66ee46fbc8 in malloc (/lib/x86_64-linux-gnu/libasan.so.5+0x10dbc8)$
-    #1 0x5576d57df9e4 in ft_substr (/minishell/minishell+0x119e4)$
-    #2 0x5576d57dcfde in ft_in_red_file /minishell/redirections.c:9$
-    #3 0x5576d57dd5b1 in ft_check_in /minishell/redirections.c:50$
-    #4 0x5576d57dd8f4 in ft_check_redirections2 /minishell/redirections.c:83$
-    #5 0x5576d57ddbb3 in ft_check_redirections /minishell/redirections.c:102$
-    #6 0x5576d57d1834 in ft_parse2 /minishell/main.c:24$
-    #7 0x5576d57d1b71 in ft_parse /minishell/main.c:55$
-    #8 0x5576d57d1d81 in ft_prompt /minishell/main.c:85$
-    #9 0x5576d57d224f in main /minishell/main.c:184$
-    #10 0x7f66ee1670b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-$
-SUMMARY: AddressSanitizer: heap-use-after-free parse/split.c:495 in remove_all_quotes$
-Shadow bytes around the buggy address:$
-  0x0c047fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00$
-  0x0c047fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00$
-  0x0c047fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00$
-  0x0c047fff8000: fa fa 00 00 fa fa 00 00 fa fa 01 fa fa fa 00 00$
-  0x0c047fff8010: fa fa fd fa fa fa 02 fa fa fa fd fa fa fa 01 fa$
-=>0x0c047fff8020: fa fa[fd]fa fa fa 01 fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8060: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c047fff8070: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-Shadow byte legend (one shadow byte represents 8 application bytes):$
-  Addressable:           00$
-  Partially addressable: 01 02 03 04 05 06 07 $
-  Heap left redzone:       fa$
-  Freed heap region:       fd$
-  Stack left redzone:      f1$
-  Stack mid redzone:       f2$
-  Stack right redzone:     f3$
-  Stack after return:      f5$
-  Stack use after scope:   f8$
-  Global redzone:          f9$
-  Global init order:       f6$
-  Poisoned by user:        f7$
-  Container overflow:      fc$
-  Array cookie:            ac$
-  Intra object redzone:    bb$
-  ASan internal:           fe$
-  Left alloca redzone:     ca$
-  Right alloca redzone:    cb$
-  Shadow gap:              cc$
-==9208==ABORTING$
+minishell: : No such file or directory$
+minishell: Mollitia: No such file or directory$
 ================================================================================
 
 |> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  ; |Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
@@ -2610,63 +2473,10 @@ $
 ================================================================================
 
 |> WITH [EXPORTS A='foo ' B=' bar  ' C='baz '] echo $A"$B"$C"A"$B"$C"
-|  STATUS: expected 0 actual 1
 |---------------------------------------EXPECTED--------------------------------
 foo  bar  baz A bar baz $
 |---------------------------------------ACTUAL----------------------------------
-=================================================================$
-==10260==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x606000000058 at pc 0x56235ab622b6 bp 0x7ffe25d03c70 sp 0x7ffe25d03c60$
-WRITE of size 8 at 0x606000000058 thread T0$
-    #0 0x56235ab622b5 in ft_new_tokens /minishell/tockens.c:27$
-    #1 0x56235ab62604 in ft_prepare_tokens /minishell/tockens.c:55$
-    #2 0x56235ab55000 in ft_exec /minishell/main.c:150$
-    #3 0x56235ab55357 in main /minishell/main.c:199$
-    #4 0x7f7338ce90b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-    #5 0x56235ab546ad in _start (/minishell/minishell+0x36ad)$
-$
-0x606000000058 is located 0 bytes to the right of 56-byte region [0x606000000020,0x606000000058)$
-allocated by thread T0 here:$
-    #0 0x7f7338ff1bc8 in malloc (/lib/x86_64-linux-gnu/libasan.so.5+0x10dbc8)$
-    #1 0x56235ab620a2 in ft_new_tokens /minishell/tockens.c:10$
-    #2 0x56235ab62604 in ft_prepare_tokens /minishell/tockens.c:55$
-    #3 0x56235ab55000 in ft_exec /minishell/main.c:150$
-    #4 0x56235ab55357 in main /minishell/main.c:199$
-    #5 0x7f7338ce90b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)$
-$
-SUMMARY: AddressSanitizer: heap-buffer-overflow /minishell/tockens.c:27 in ft_new_tokens$
-Shadow bytes around the buggy address:$
-  0x0c0c7fff7fb0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00$
-  0x0c0c7fff7fc0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00$
-  0x0c0c7fff7fd0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00$
-  0x0c0c7fff7fe0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00$
-  0x0c0c7fff7ff0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00$
-=>0x0c0c7fff8000: fa fa fa fa 00 00 00 00 00 00 00[fa]fa fa fa fa$
-  0x0c0c7fff8010: fd fd fd fd fd fd fd fa fa fa fa fa fa fa fa fa$
-  0x0c0c7fff8020: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c0c7fff8030: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c0c7fff8040: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-  0x0c0c7fff8050: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa$
-Shadow byte legend (one shadow byte represents 8 application bytes):$
-  Addressable:           00$
-  Partially addressable: 01 02 03 04 05 06 07 $
-  Heap left redzone:       fa$
-  Freed heap region:       fd$
-  Stack left redzone:      f1$
-  Stack mid redzone:       f2$
-  Stack right redzone:     f3$
-  Stack after return:      f5$
-  Stack use after scope:   f8$
-  Global redzone:          f9$
-  Global init order:       f6$
-  Poisoned by user:        f7$
-  Container overflow:      fc$
-  Array cookie:            ac$
-  Intra object redzone:    bb$
-  ASan internal:           fe$
-  Left alloca redzone:     ca$
-  Right alloca redzone:    cb$
-  Shadow gap:              cc$
-==10260==ABORTING$
+foo bar baz A bar baz$
 ================================================================================
 
 |> WITH [EXPORTS A='bonjour'] echo \ \ \ \ \ \ \ $A\ \ \ \ \ \ 
@@ -2745,14 +2555,6 @@ FROM TEST: File not created
 bonjour$
 ================================================================================
 
-|> WITH [EXPORTS A='fi le'] echo bonjour > "$A"
-|# FILE fi le
-|---------------------------------------EXPECTED--------------------------------
-bonjour$
-|---------------------------------------ACTUAL----------------------------------
-$
-================================================================================
-
 |> WITH echo '
 |  STATUS: expected 2 actual 0
 |---------------------------------------EXPECTED--------------------------------
@@ -2814,22 +2616,6 @@ minishell: unexpected EOF while looking for matching `''$
 |---------------------------------------EXPECTED--------------------------------
 minishell: unexpected EOF while looking for matching `"'$
 |---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH echo bonjour > "fi le"
-|# FILE fi le
-|---------------------------------------EXPECTED--------------------------------
-bonjour$
-|---------------------------------------ACTUAL----------------------------------
-$
-================================================================================
-
-|> WITH echo bonjour > 'fi le'
-|# FILE fi le
-|---------------------------------------EXPECTED--------------------------------
-bonjour$
-|---------------------------------------ACTUAL----------------------------------
-$
 ================================================================================
 
 |> WITH echo\t\t\t\t\t\t\t\t\t\tfoo

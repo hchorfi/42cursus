@@ -49,13 +49,15 @@ int	ft_check_out(char **tmp_out)
 	return (j);
 }
 
-void	ft_out_red_file2(char *file, char *tmp_free, int out, int priority)
+void	ft_out_red_file2(char *file, char c, int out, int priority)
 {
 	struct stat	path_stat;
+	char		*tmp_free;
 
-	tmp_free = file;
+	if (c != '\'')
+	{tmp_free = file;
 	file = get_other_variables(file);
-	free(tmp_free);
+	free(tmp_free);}
 	tmp_free = file;
 	file = remove_all_quotes(file);
 	free(tmp_free);

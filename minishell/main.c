@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/28 16:17:40 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/29 14:59:59 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_parse2(int i, int j, char *pipe_cmd)
 	g_data.command->pipe_pos = j;
 	new_pipe = ft_check_redirections(pipe_cmd, 0, ft_strdup(""));
 	g_data.command->tokens = ft_split_pars(new_pipe, ' ');
-	//free(new_pipe);
+	free(new_pipe);
 	k = 0;
 	while (g_data.command->tokens[k])
 	{
@@ -82,7 +82,7 @@ int	ft_prompt(int argc, char **argv)
 	if (argc >= 2)
 	{
 		g_data.line = argv[2];
-		ft_parse(g_data.line, 0, 0);
+		//ft_parse(g_data.line, 0, 0);
 	}
 	else
 	{
@@ -98,13 +98,13 @@ int	ft_prompt(int argc, char **argv)
 			ft_printf("minishell 👽 %d > ", g_data.ret);
 			ft_printf("\033[0m");
 		}
-		get_line();
-		//get_next_line(1, &g_data.line);
+		//get_line();
+		get_next_line(1, &g_data.line);
 	}
-	//if (!ft_check_syntax(g_data.line))
-		//ft_parse(g_data.line, 0, 0);
-	//if (argc < 2)
-		//free(g_data.line);
+	if (!ft_check_syntax(g_data.line))
+		ft_parse(g_data.line, 0, 0);
+	if (argc < 2)
+		free(g_data.line);
 	return (0);
 }
 

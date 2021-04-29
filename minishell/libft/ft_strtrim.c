@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <hchorfi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 18:25:34 by hchorfi           #+#    #+#             */
-/*   Updated: 2020/10/15 12:54:47 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/29 11:44:54 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static	int		rtrim(char const *s1, char const *set, int l1)
 
 	i = 0;
 	j = 0;
+	start = 0;
 	while (s1[i] != '\0')
 	{
 		while (set[j] != '\0')

@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/25 17:06:59 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/29 13:47:45 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define UP_ARROW 4283163
 # define DOWN_ARROW 4348699
 # define NEW_LINE 10
+# define CTRLD 4
 
 
 typedef struct	s_command
@@ -207,7 +208,7 @@ void	ft_out_red_file(char *tmp_out, char **new_pipe);
 
 int	ft_check_in2(char *tmp_in);
 int	ft_check_out(char **tmp_out);
-void	ft_out_red_file2(char *file, char *tmp_free, int out, int priority);
+void	ft_out_red_file2(char *file, char c, int out, int priority);
 
 /*
 ** builtin_utils.c
