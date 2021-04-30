@@ -1023,18 +1023,6 @@ minishell: exit: 3	 : numeric argument required$
 |---------------------------------------ACTUAL----------------------------------
 ================================================================================
 
-|> WITH exit 4294967295
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: exit: : numeric argument required$
-================================================================================
-
-|> WITH exit 9223372036854775807
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: exit: : numeric argument required$
-================================================================================
-
 |> WITH exit -9223372036854775809
 |  STATUS: expected 255 actual 0
 |---------------------------------------EXPECTED--------------------------------
@@ -1046,14 +1034,12 @@ minishell: exit: -9223372036854775809: numeric argument required$
 |---------------------------------------EXPECTED--------------------------------
 minishell: exit: 9223372036854775808: numeric argument required$
 |---------------------------------------ACTUAL----------------------------------
-minishell: exit: : numeric argument required$
 ================================================================================
 
 |> WITH exit 18446744073709551615
 |---------------------------------------EXPECTED--------------------------------
 minishell: exit: 18446744073709551615: numeric argument required$
 |---------------------------------------ACTUAL----------------------------------
-minishell: exit: : numeric argument required$
 ================================================================================
 
 |> WITH exit 18446744073709551616
@@ -1061,12 +1047,6 @@ minishell: exit: : numeric argument required$
 |---------------------------------------EXPECTED--------------------------------
 minishell: exit: 18446744073709551616: numeric argument required$
 |---------------------------------------ACTUAL----------------------------------
-================================================================================
-
-|> WITH exit -0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001
-|---------------------------------------EXPECTED--------------------------------
-|---------------------------------------ACTUAL----------------------------------
-minishell: exit: : numeric argument required$
 ================================================================================
 
 |> WITH exit -9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -1080,7 +1060,6 @@ minishell: exit: -99999999999999999999999999999999999999999999999999999999999999
 |---------------------------------------EXPECTED--------------------------------
 minishell: exit: 9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999: numeric argument required$
 |---------------------------------------ACTUAL----------------------------------
-minishell: exit: : numeric argument required$
 ================================================================================
 
 |> WITH exit 0 bonjour
@@ -1095,7 +1074,6 @@ minishell: exit: bonjour: numeric argument required$
 |---------------------------------------EXPECTED--------------------------------
 minishell: exit: 99999999999999999999999999999999999999999999999999999: numeric argument required$
 |---------------------------------------ACTUAL----------------------------------
-minishell: exit: : numeric argument required$
 ================================================================================
 
 |> WITH export
@@ -1321,36 +1299,18 @@ minishell: syntax error near unexpected token `>>'$
 |---------------------------------------ACTUAL----------------------------------
 ================================================================================
 
-|> WITH [SETUP echo bonjour > bar] cat << < bar
-|  STATUS: expected 1 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `<'$
-|---------------------------------------ACTUAL----------------------------------
-minishell: <: No such file or directory$
-bonjour$
-================================================================================
-
 |> WITH [SETUP echo bonjour > bar] cat << << bar
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `<<'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: <: No such file or directory$
-minishell: <: No such file or directory$
+minishell: syntax error near unexpected token `<'$
 ================================================================================
 
 |> WITH [SETUP echo bonjour > bar] cat <<<<< bar
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `<<'$
 |---------------------------------------ACTUAL----------------------------------
-minishell: <<<<: No such file or directory$
-================================================================================
-
-|> WITH ; echo
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
+minishell: syntax error near unexpected token `<'$
 ================================================================================
 
 |> WITH  ;echo
@@ -1369,95 +1329,8 @@ minishell: syntax error near unexpected token `;'$
 minishell: ;: command not found$
 ================================================================================
 
-|> WITH echo a ; ;
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-a$
-================================================================================
-
-|> WITH echo a ; ;
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-a$
-================================================================================
-
-|> WITH ;
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH ; ;
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH ; ; ;
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH echo a ; ; echo b
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-a$
-b$
-================================================================================
-
-|> WITH ;;
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH ;;;
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH ;;;;;
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH echo a ;; echo b
-|  STATUS: expected 2 actual 127
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-a$
-minishell: ;: command not found$
-================================================================================
-
-|> WITH echo a ;;;;; echo b
-|  STATUS: expected 2 actual 127
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-a$
-minishell: ;;: command not found$
+|> WITH [SETUP touch a b c d; mkdir m1 m2 m3; echo bonjour > a] ls -l | cat -e < a
+|  STATUS: expected 0 actual 141
 ================================================================================
 
 |> WITH echo|
@@ -1470,22 +1343,6 @@ minishell: ;;: command not found$
 
 |> WITH echo | 
 |  STATUS: expected 2 actual 0
-================================================================================
-
-|> WITH |cat
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH | cat
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
 ================================================================================
 
 |> WITH  | cat
@@ -1510,23 +1367,8 @@ $
 a$
 ================================================================================
 
-|> WITH echo bonjour | | cat -e
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
-|---------------------------------------ACTUAL----------------------------------
-================================================================================
-
 |> WITH asdf | echo bonjour
 |  STATUS: expected 0 actual 127
-================================================================================
-
-|> WITH echo a ||| echo b
-|  STATUS: expected 2 actual 127
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
-|---------------------------------------ACTUAL----------------------------------
-minishell: ||: command not found$
 ================================================================================
 
 |> WITH ls asdfasdf | echo a
@@ -1581,84 +1423,12 @@ minishell: syntax error near unexpected token `;'$
 minishell: a: command not found$
 ================================================================================
 
-|> WITH ; | a
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH ; < a
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH ; > a
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH ; >> a
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `;'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH | ; a
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH | < a
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH | > a
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
-|> WITH | >> a
-|  STATUS: expected 2 actual 0
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `|'$
-|---------------------------------------ACTUAL----------------------------------
-syn err$
-================================================================================
-
 |> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  > >Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
 |  STATUS: expected 2 actual -6
 |---------------------------------------EXPECTED--------------------------------
 minishell: syntax error near unexpected token `>'$
 |---------------------------------------ACTUAL----------------------------------
 free(): double free detected in tcache 2$
-================================================================================
-
-|> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  < <Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 
-|---------------------------------------EXPECTED--------------------------------
-minishell: syntax error near unexpected token `<'$
-|---------------------------------------ACTUAL----------------------------------
-minishell: : No such file or directory$
-minishell: Mollitia: No such file or directory$
 ================================================================================
 
 |> WITH Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum.  ; |Mollitia asperiores assumenda excepturi et ipsa. Nihil corporis facere aut a rem consequatur. Quas molestiae corporis et quibusdam maiores. Molestiae sed unde aut at sed. Deserunt quidem quidem aspernatur pariatur vel illum voluptatum. Culpa unde dolor aspernatur sit. Mollitia tenetur sed eaque autem placeat a aut in. Ipsam ea consequuntur omnis. Non et qui vel corrupti similique eum aut voluptatibus. Iste consequatur voluptatum et omnis debitis. Sit quia neque nihil consequatur sint. Velit libero ut aut et et rerum. Placeat cumque incidunt non repellat sunt perspiciatis ullam. Repellendus repudiandae nostrum quia quis corrupti. Rerum veniam earum cumque pariatur accusantium voluptatum omnis. Alias ut et et adipisci. Tempore omnis numquam ullam et animi et eveniet. Dolor itaque distinctio in. Magnam rerum quia est laboriosam repellat perspiciatis eos. Consequuntur quae corrupti atque. Numquam enim ut ut. Perspiciatis ut maxime et libero quo voluptas consequatur illum. Pariatur porro dolor cumque molestiae harum. 

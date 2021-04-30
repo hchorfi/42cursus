@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/29 14:59:59 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/30 15:00:15 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,29 @@ int	ft_check_syntax(char *line)
 {
 	if (*line == '|' || *line == ';')
 	{
-		ft_printf("syn err\n");
-		return (1);
+		printf("minishell: syntax error near unexpected token `%c'\n", *line);
+		return (g_data.ret = 2);
 	}
+	if ((*line == '|') || remove_tabs_check(line, '|'))
+    {
+        printf("minishell: syntax error near unexpected token `|'\n");
+        return (g_data.ret = 2);
+    }
+    if ((*line == ';') || remove_tabs_check(line, ';'))
+    {
+        printf("minishell: syntax error near unexpected token `;'\n");
+        return (g_data.ret = 2);
+    }
+	// if (remove_tabs_check(line, '>'))
+    // {
+    //     printf("minishell: syntax error near unexpected token `>'\n");
+    //     return (g_data.ret = 2);
+    // }
+	if (remove_tabs_check(line, '<'))
+    {
+        printf("minishell: syntax error near unexpected token `<'\n");
+        return (g_data.ret = 2);
+    }
 	return (0);
 }
 
@@ -82,7 +102,8 @@ int	ft_prompt(int argc, char **argv)
 	if (argc >= 2)
 	{
 		g_data.line = argv[2];
-		//ft_parse(g_data.line, 0, 0);
+		if (!ft_check_syntax(g_data.line))
+			ft_parse(g_data.line, 0, 0);
 	}
 	else
 	{
@@ -98,11 +119,11 @@ int	ft_prompt(int argc, char **argv)
 			ft_printf("minishell 👽 %d > ", g_data.ret);
 			ft_printf("\033[0m");
 		}
-		//get_line();
-		get_next_line(1, &g_data.line);
+		get_line();
+		//get_next_line(1, &g_data.line);
 	}
-	if (!ft_check_syntax(g_data.line))
-		ft_parse(g_data.line, 0, 0);
+	//if (!ft_check_syntax(g_data.line))
+		//ft_parse(g_data.line, 0, 0);
 	if (argc < 2)
 		free(g_data.line);
 	return (0);
@@ -110,22 +131,24 @@ int	ft_prompt(int argc, char **argv)
 
 void	sighandler(int dummy)
 {
-	if (g_data.n_fork == 0)
+	//ft_printf("%d\n", g_data.n_fork);
+	//ft_printf("%d\n", dummy);
+	if (dummy == SIGINT)
 	{
-		//ft_printf("%d\n", g_data.ret);
-		ft_printf("\n");
-		ft_printf("\033[0;32m");
-		// if (g_data.ret == 130)
-		//     g_data.ret = 130;
-		// else
-		//     g_data.ret = 1;
-		ft_printf("minishell 👽 %d > ", g_data.ret = 1);
-		ft_printf("\033[0m");
+		if (g_data.n_fork == 0)
+		{
+			ft_printf("\n");
+			ft_printf("\033[0;32m");
+			ft_printf("minishell 👽 %d > ", g_data.ret = 1);
+			ft_printf("\033[0m");
+		}
+		else
+			ft_printf("\n");
 	}
-	else
+	else if (dummy == SIGQUIT)
 	{
-		ft_printf("\n");
-		g_data.ret = 130;
+		if (g_data.n_fork > 0)
+			ft_printf("Quit: 3\n");
 	}
 }
 
@@ -177,9 +200,9 @@ int	main(int argc, char **argv, char **envp)
 	g_data.ret = 0;
 	g_data.count = 0;
 	g_data.his_count = 0;
-	//signal(SIGQUIT, intHandler);
 	while (1)
 	{
+		signal(SIGQUIT, sighandler);
 		signal(SIGINT, sighandler);
 		j = ft_prompt(argc, argv);
 		newlist = g_data.cmds;
@@ -203,7 +226,11 @@ int	main(int argc, char **argv, char **envp)
 			while (g_data.n_fork > 0)
 			{
 				wait(&g_data.ret);
-				g_data.ret /= 256;
+				if (WIFSIGNALED(g_data.ret))
+					g_data.ret = WTERMSIG(g_data.ret) + 128;
+				if (WIFEXITED(g_data.ret))
+					g_data.ret = WEXITSTATUS(g_data.ret);
+				//g_data.ret /= 256;
 				g_data.n_fork--;
 			}
 			pipe_list = pipe_list->next;

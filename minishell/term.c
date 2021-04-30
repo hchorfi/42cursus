@@ -1,6 +1,7 @@
 #include "minishell.h"
 
-
+int len;
+int init_row;
 
 int	nbr_length(int n)
 {
@@ -134,8 +135,18 @@ void	down(int *count, int *his_count)
 void	delete_end(int *col, int *row, char *cm, char *ce)
 {
 	char *tmp_free;
-	if (*col != 0 && *col > 17)
+
+	if (*row > tgetnum("li"))
+		*row = tgetnum("li");
+	if ((*col > len && *row > init_row) || *col > len || *row == tgetnum("li"))
+	{
 		--(*col);
+	}
+	else if (*row == tgetnum("li") || *row > init_row) 
+	{
+		(*row)--;
+		*col = tgetnum("co");
+	}
 	tputs(tgoto(cm, *col, *row), 1, putchar_tc);
 	tputs(ce, 1, putchar_tc);
 	tmp_free = g_data.line;
@@ -157,6 +168,7 @@ void	ft_print_list()
 int		get_line(void)
 {
 	/* change term settings */
+	len = 17;
 	struct termios term;
 	struct termios orig_term;
 	tcgetattr(STDIN_FILENO, &orig_term);
@@ -175,6 +187,7 @@ int		get_line(void)
 	int c = 0;
 	int row;
 	int col;
+	col = 17;
 	g_data.line = ft_strdup("");
 	char *charater;
 	char  *strtmp;
@@ -190,10 +203,12 @@ int		get_line(void)
 		g_data.history = ft_lstnew(ft_strdup(""));
 		g_data.history->prev = NULL;
 	}
+	get_cursor_position(&col, &row);
+	init_row = row;
 	while (read(0, &c, sizeof(c)) > 0)
 	{
 		//printf("%d\n", c);
-		get_cursor_position(&col, &row);
+		get_cursor_position(&col, &row);	
 		//col = ft_strlen(line);
 		if (c == DOWN_ARROW)
 		{
@@ -284,20 +299,40 @@ int		get_line(void)
 			}
 			//free(line);
 			if (*(g_data.line) != 0)
-				ft_parse(g_data.line, 0, 0);
+			{
+				if (!ft_check_syntax(g_data.line))
+					ft_parse(g_data.line, 0, 0);	
+			}
+			ft_putnbr_fd(row, 2);
+			ft_putnbr_fd(init_row, 2);
 			//ft_print_list();
+			// ft_putnbr_fd(tgetnum("co") ,2);
+			// write(1, ":", 1);
+			// ft_putnbr_fd(tgetnum("li") ,2);
+			// write(1, "/", 1);
+			// ft_putnbr_fd(col, 2);
+			// write(1, ":", 1);
+			// ft_putnbr_fd(row, 2);
 			tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_term);
 			//g_data.line = ft_strdup("");
 			break;
 		}
 		else
 		{
-			col++;
-			//ft_printf("|%d|\n", c);
-			write(0, &c, 1);
 			press = 0;
 			if (c != '\n' && ft_isprint(c))
 			{
+				if (col == tgetnum("co"))
+				{	
+					row++;
+					//ft_putnbr_fd(row, 2);
+					col = 0;
+					len = 0;
+				}
+				else
+					col++;
+				//ft_printf("|%d|\n", c);
+				write(0, &c, 1);
 				charater = malloc(sizeof(char) * 2);
 				charater[0] = (char)c;
 				charater[1] = '\0';

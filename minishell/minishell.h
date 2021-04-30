@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/29 13:47:45 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/30 11:33:50 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,5 +226,9 @@ void	ft_prepare_tokens(t_command *command, int k, int len);
 void	ft_new_tokens(t_command *command, int len, int k, char **tmp_double2);
 
 int		get_line(void);
+
+void	sighandler(int dummy);
+int				remove_tabs_check(char *s, char c);
+int	ft_check_syntax(char *line);
 
 #endif
