@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 18:55:47 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/25 12:34:17 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/30 12:33:47 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,10 @@ int	ft_exit(t_command *command)
 		}
 		if (command->n_tokens == 2)
 		{
+			if (!ft_strcmp(command->tokens[1], "-1"))
+				exit(g_data.ret = 255);
 			if (ft_atoi(command->tokens[1]) == -1
-				&& ft_strncmp(command->tokens[1], "-1", 3))
+				&& !ft_strcmp(command->tokens[1], "-1"))
 				ft_exit_error(1, command->tokens[i]);
 			ft_exit_error(3, command->tokens[1]);
 		}

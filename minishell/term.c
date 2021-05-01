@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-
+int len;
 
 int	nbr_length(int n)
 {
@@ -134,8 +134,17 @@ void	down(int *count, int *his_count)
 void	delete_end(int *col, int *row, char *cm, char *ce)
 {
 	char *tmp_free;
-	if (*col != 0 && *col > 17)
+	if (*row == g_data.init_row)
+		len = 17;
+	if ((*col > len && *row > g_data.init_row) || *col > len)
+	{
 		--(*col);
+	}
+	else if (*row > g_data.init_row) 
+	{
+		(*row)--;
+		*col = tgetnum("co");
+	}
 	tputs(tgoto(cm, *col, *row), 1, putchar_tc);
 	tputs(ce, 1, putchar_tc);
 	tmp_free = g_data.line;
@@ -157,6 +166,7 @@ void	ft_print_list()
 int		get_line(void)
 {
 	/* change term settings */
+	len = 17;
 	struct termios term;
 	struct termios orig_term;
 	tcgetattr(STDIN_FILENO, &orig_term);
@@ -190,10 +200,13 @@ int		get_line(void)
 		g_data.history = ft_lstnew(ft_strdup(""));
 		g_data.history->prev = NULL;
 	}
+	get_cursor_position(&col, &row);
+	g_data.init_row = row;
+	col = 17;
 	while (read(0, &c, sizeof(c)) > 0)
 	{
 		//printf("%d\n", c);
-		get_cursor_position(&col, &row);
+		get_cursor_position(&col, &row);	
 		//col = ft_strlen(line);
 		if (c == DOWN_ARROW)
 		{
@@ -263,6 +276,14 @@ int		get_line(void)
 			press = 0;
 			delete_end(&col, &row, cm, ce);
 		}
+		else if (c == CTRLD)
+		{
+			if (g_data.line && ft_strlen(g_data.line) == 0)
+			{
+				ft_putstr_fd("exit\n", 2);
+				exit(0);
+			}
+		}
 		else if (c == NEW_LINE)
 		{
 			write(1, "\n", 1);
@@ -276,19 +297,51 @@ int		get_line(void)
 			}
 			//free(line);
 			if (*(g_data.line) != 0)
-				ft_parse(g_data.line, 0, 0);
-			//ft_print_list();
+			{
+				if (!ft_check_syntax(g_data.line))
+					ft_parse(g_data.line, 0, 0);	
+			}
+			// write(1, "init row :",11);
+			// ft_putnbr_fd(g_data.init_row, 2);
+			// write(1, "\nrow :",7);
+			// ft_putnbr_fd(row, 2);
+			// write(1, "\nco : li ",10);
+			// //ft_print_list();
+			// ft_putnbr_fd(tgetnum("co") ,2);
+			// write(1, ":", 1);
+			// ft_putnbr_fd(tgetnum("li") ,2);
+			// write(1, "\n col : row ", 13);
+			// ft_putnbr_fd(col, 2);
+			// write(1, ":", 1);
+			// ft_putnbr_fd(row, 2);
+			// write(1, "\n",1);
+			// ft_putnbr_fd(len, 2);
+			// write(1, "\n",1);
 			tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_term);
 			//g_data.line = ft_strdup("");
 			break;
 		}
 		else
 		{
-			col++;
-			write(0, &c, 1);
 			press = 0;
 			if (c != '\n' && ft_isprint(c))
 			{
+				col++;
+				if (col == tgetnum("co") && row < tgetnum("li"))
+				{	
+					row++;
+					col = 0;
+					len = 0;
+				}
+				if (col == 0 && row == tgetnum("li"))
+				{
+					
+					// ft_putnbr_fd(row, 2);
+					// ft_putnbr_fd(tgetnum("li"), 2);
+					g_data.init_row--;
+				}
+				//ft_printf("|%d|\n", c);
+				write(0, &c, 1);
 				charater = malloc(sizeof(char) * 2);
 				charater[0] = (char)c;
 				charater[1] = '\0';

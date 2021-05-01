@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/25 17:06:59 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/04/30 21:58:25 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define UP_ARROW 4283163
 # define DOWN_ARROW 4348699
 # define NEW_LINE 10
+# define CTRLD 4
 
 
 typedef struct	s_command
@@ -62,6 +63,7 @@ typedef struct	s_data
 	int 		count;
 	int     	his_count;
 	int			append;
+	int			init_row;
 }				t_data;
 t_data			g_data;
 
@@ -207,7 +209,7 @@ void	ft_out_red_file(char *tmp_out, char **new_pipe);
 
 int	ft_check_in2(char *tmp_in);
 int	ft_check_out(char **tmp_out);
-void	ft_out_red_file2(char *file, char *tmp_free, int out, int priority);
+void	ft_out_red_file2(char *file, char c, int out, int priority);
 
 /*
 ** builtin_utils.c
@@ -225,5 +227,11 @@ void	ft_prepare_tokens(t_command *command, int k, int len);
 void	ft_new_tokens(t_command *command, int len, int k, char **tmp_double2);
 
 int		get_line(void);
+
+void	sighandler(int dummy);
+int				remove_tabs_check(char *s, char c);
+int	ft_check_syntax(char *line);
+void	get_cursor_position(int *col, int *rows);
+int	nbr_length(int n);
 
 #endif

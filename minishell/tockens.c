@@ -49,6 +49,7 @@ void	ft_prepare_tokens(t_command *command, int k, int len)
 		tmp_free = command->tokens[k];
 		command->tokens[k] = remove_all_quotes(command->tokens[k]);
 		free(tmp_free);
+		//ft_printf("%p\n", command->tokens[k]);
 		k++;
 	}
 	if (len > k)
