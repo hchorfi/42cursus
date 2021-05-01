@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/04/29 17:20:59 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/01 17:06:52 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	is_escaped(char *s, int j)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	j--;
 	while (j >= 0 && s[j] == '\\')
 	{
@@ -33,13 +35,15 @@ int	chec_before(char *s, int i, char c)
 
 static int	countt(char *s, char c)
 {
-	int i;
-	int w;
+	int	i;
+	int	w;
+
 	i = 0;
 	w = 0;
 	while (1)
 	{
-		if (((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && chec_before(s, i, c) && !is_escaped(s, i))
+		if (((s[i] == c && i != 0) || (s[i] == '\0' && i > 0))
+			&& chec_before(s, i, c) && !is_escaped(s, i))
 			w++;
 		if (s[i] == '\0')
 			break ;
@@ -58,9 +62,10 @@ static char	**ft_free(char **s, int j)
 	return (NULL);
 }
 
-static int	ft_count (const char *s, int l)
+static int	ft_count(const char *s, int l)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (i < l && s[i] != '\0')
 	{
@@ -71,21 +76,17 @@ static int	ft_count (const char *s, int l)
 
 int	check_char(char c)
 {
-	if (c == ' ' || c == '"' || c == '\'' || c == '/' ||
-		c == '$' || c == ':' || c == '=' || c == '|' ||
-			c == ',' || c == '\\' || c == '\'' ||
-				c == '"' || c == '[' || c == ']' || c == '@')
-					return(1);
+	if (c == ' ' || c == '"' || c == '\'' || c == '/' || c == '$' || c == ':'
+		|| c == '=' || c == '|' || c == ',' || c == '\\' || c == '\''
+		|| c == '"' || c == '[' || c == ']' || c == '@')
+		return (1);
 	return (0);
 }
 
-static int	check_cots(char *s)
+static int	check_cots(char *s, int d_quote, int s_quote)
 {
-	int i;
-	int s_quote;
-	int d_quote;
-	d_quote = 0;
-	s_quote = 0;
+	int	i;
+
 	i = 0;
 	while (s[i])
 	{
@@ -107,13 +108,15 @@ static int	check_cots(char *s)
 			i++;
 	}
 	if (s_quote == 0 && d_quote == 0)
-		return(1);
+		return (1);
 	return (0);
 }
 
 int	remove_tabs_check(char *s, char c)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (s[i])
 	{
 		if (s[i] == c && s[i - 1] != '\\')
@@ -135,10 +138,12 @@ char	*ft_stock(char *line, char *buff, int i)
 	char	*newline;
 	int		len;
 	int		j;
+
 	j = 0;
-	len = (line ? ft_strlen(line) : 0);
-	if (!(newline = (char *)malloc(len + i + 1)))
-		return (0);
+	len = 0;
+	if (line)
+		len = ft_strlen(line);
+	newline = (char *)malloc(len + i + 1);
 	while (j < len)
 	{
 		newline[j] = line[j];
@@ -154,11 +159,13 @@ char	*ft_stock(char *line, char *buff, int i)
 	newline[j] = '\0';
 	return (newline);
 }
-//k here is the index after $
+
 char	*ft_put_variable(char *str, int k, int j)
 {
-	char *var;
-	int i = 0;
+	char	*var;
+	int		i;
+
+	i = 0;
 	k++;
 	var = (char *)malloc(j - k + 2);
 	while (i <= j - k)
@@ -169,56 +176,49 @@ char	*ft_put_variable(char *str, int k, int j)
 	var[i] = '\0';
 	return (var);
 }
+
 char	*ft_variable_value(char *var)
 {
-	t_list  *newlist;
-    char    *new_var;
-    char    *old_var;
-    char    *tmp_str;
-    int     tmp_len;
-    int     len;
-    newlist = g_data.env_var;
-    new_var = var;
-    while (newlist)
-    {
-        if ((tmp_str = ft_strchr(newlist->content, '=')))
-        {
-            tmp_len = ft_strlen(tmp_str);
-            len = ft_strlen(newlist->content);
-            old_var = ft_substr(newlist->content, 0, len - tmp_len);
-        }
-        else
-        {
-            old_var = newlist->content;
-            len = ft_strlen(old_var);
-        }
-        if (ft_strncmp(old_var, new_var, len) == 0)
-        {   
-            if (ft_strchr(newlist->content, '='))
+	t_list	*newlist;
+	char	*old_var;
+	char	*tmp_str;
+	int		tmp_len;
+	int		len;
+
+	newlist = g_data.env_var;
+	while (newlist)
+	{
+		old_var = ft_get_oldvar(newlist->content);
+		if (ft_strcmp(old_var, var) == 0)
+		{
+			if (ft_strchr(newlist->content, '='))
 			{
 				free(old_var);
 				return (ft_strchr(newlist->content, '=') + 1);
 			}
-        }
+		}
 		ft_free_exist(old_var, newlist->content, '=');
-        newlist = newlist->next;
-    }
+		newlist = newlist->next;
+	}
 	return ("");
 }
-char	*ft_check_dollar_slash(char	*s)
+
+int	ft_ch_do(int i, int c, char *s)
 {
-	int i = 0;
-	int c = 0;
-	char *value;
 	while (s[i])
 	{
 		if (s[i] == '\\')
 			c++;
 		i++;
 	}
-	value = (char *)malloc(ft_strlen(s) + c + 1);
-	i = 0;
-	c = 0;
+	return (c);
+}
+
+char	*ft_check_dollar_slash(char	*s, int i, int c)
+{
+	char	*value;
+
+	value = (char *)malloc(ft_strlen(s) + ft_ch_do(0, 0, s) + 1);
 	while (s[i])
 	{
 		if (s[i] == '\\')
@@ -229,34 +229,48 @@ char	*ft_check_dollar_slash(char	*s)
 			c++;
 			i++;
 		}
-		else 
+		else
 		{
 			value[c] = s[i];
 			if (s[i] != '\0')
-				i++,c++;
+			{
+				i++;
+				c++;
+			}
 		}	
 	}
 	value[c] = '\0';
 	return (value);
 }
+
+int	ft_rep_var_2(int value_len, char *value, char *ptr, int *i)
+{
+	int	x;
+
+	x = 0;
+	while (x < value_len)
+	{
+		ptr[*i + x] = value[x];
+		x++;
+	}
+	return (x);
+}
+
 char	*ft_replace_variable(char *str, char *value, int k, int j)
 {
-	int i = 0;
-	char *ptr;
-	int value_len = ft_strlen(value);
+	int		i;
+	char	*ptr;
+	int		value_len;
+
+	i = 0;
+	value_len = ft_strlen(value);
 	ptr = (char *)malloc(value_len + ft_strlen(str) - j + k + 1);
 	while (i < k)
 	{
 		ptr[i] = str[i];
 		i++;
 	}
-	int x = 0;
-	while (x < value_len)
-	{
-		ptr[i + x] = value[x];
-		x++;
-	}
-	i = i + x;
+	i = i + ft_rep_var_2(value_len, value, ptr, &i);
 	j++;
 	while (str[j])
 	{
@@ -267,44 +281,40 @@ char	*ft_replace_variable(char *str, char *value, int k, int j)
 	ptr[i] = '\0';
 	return (ptr);
 }
-// start is index of starting the search
-//k is you found the $
-//j is going to be where the variable name finishes
-//i is the end of the string you ll search on
-// var is the variable after $ if it meets requirements ' ' or '\0'
-char	*ft_get_variables(char *str, int start, int i)
+
+void	ft_get_var3(int *s_quote, int *d_quote, int *j, char *str)
 {
-	char *var;
-	int j;
-	int k;
-	int s_quote;
-	char *value;
-	int d_quote = 0;
-	char *tmp_free;
+	if (str[*j] == '\"' && !(is_escaped(str, *j)))
+	{
+		if (*d_quote == 0)
+			*d_quote = 1;
+		else
+			*d_quote = 0;
+		(*j)++;
+	}
+	if (str[*j] == '\'' && !(is_escaped(str, *j)) && *d_quote == 0)
+	{
+		if (*s_quote == 0)
+			*s_quote = 1;
+		else
+			*s_quote = 0;
+		(*j)++;
+	}
+}
+
+int	ft_get_var2(int j, char *str, int *k, int i)
+{
+	int		s_quote;
+	int		d_quote;
+
 	s_quote = 0;
-	k = 0;
-	j = start;
+	d_quote = 0;
 	while (j < i)
 	{
-		if (str[j] == '\"' && !(is_escaped(str, j)))
-		{
-			if (d_quote == 0)
-				d_quote = 1;
-			else
-				d_quote = 0;
-			j++;
-		}
-		if (str[j] == '\'' && !(is_escaped(str, j)) && d_quote == 0)
-		{
-			if (s_quote == 0)
-				s_quote = 1;
-			else
-				s_quote = 0;
-			j++;
-		}
+		ft_get_var3(&s_quote, &d_quote, &j, str);
 		if (str[j] == '$' && s_quote == 0 && !(is_escaped(str, j)))
 		{	
-			k = j;
+			*k = j;
 			while (++j < i)
 			{
 				if (check_char(str[j]))
@@ -314,7 +324,18 @@ char	*ft_get_variables(char *str, int start, int i)
 		}
 		j++;
 	}
-	j--;
+	return (j);
+}
+
+char	*ft_get_variables(char *str, int start, int i)
+{
+	char	*var;
+	int		j;
+	int		k;
+	char	*value;
+
+	k = 0;
+	j = ft_get_var2(start, str, &k, i) - 1;
 	if (k == j)
 	{
 		str = ft_replace_variable(str, "$", k, j);
@@ -323,27 +344,25 @@ char	*ft_get_variables(char *str, int start, int i)
 	var = ft_put_variable(str, k, j);
 	value = ft_variable_value(var);
 	free(var);
-	value = ft_check_dollar_slash(value);
+	value = ft_check_dollar_slash(value, 0, 0);
 	str = ft_replace_variable(str, value, k, j);
 	free(value);
 	return (str);
 }
-char	*get_other_variables(char *str)
-{	
-	int i = 0;
-	int dollar = 0;
-	int s_quote = 0;
-	int d_quote = 0;
-	char *tmp_free;
+
+int	get_other_var2(char *str, int i, int d_quote, int s_quote)
+{
+	int	dollar;
+
+	dollar = 0;
 	while (str[i])
 	{
-		if (str[i] == '\"' && !(is_escaped(str, i)))
+		if (str[i] == '\"' && !(is_escaped(str, i++)))
 		{
 			if (d_quote == 0)
 				d_quote = 1;
 			else
 				d_quote = 0;
-			i++;
 		}
 		if (str[i] == '\'' && !(is_escaped((char *)str, i)) && d_quote == 0)
 		{
@@ -357,6 +376,16 @@ char	*get_other_variables(char *str)
 		if (str[i] != '\0')
 			i++;
 	}
+	return (dollar);
+}
+
+char	*get_other_variables(char *str)
+{	
+	int		i;
+	int		dollar;
+	char	*tmp_free;
+
+	dollar = get_other_var2(str, 0, 0, 0);
 	i = 0;
 	while (i < dollar)
 	{
@@ -374,9 +403,11 @@ char	*get_other_variables(char *str)
 		return (str);
 	}
 }
-void	fill_with(char *s, int  start, int len, char c)
+
+void	fill_with(char *s, int start, int len, char c)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (i < len)
 	{
@@ -384,6 +415,7 @@ void	fill_with(char *s, int  start, int len, char c)
 		i++;
 	}
 }
+
 char	*ft_remove_slashes(char *str, int start, int end)
 {
 	int i = start;
@@ -590,7 +622,7 @@ char	**ft_split_pars(char *s, char c)
 		if (((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && chec_before(s, i, c) && !is_escaped(s, i))
 		{
 			tmp_free = ft_substr(s, d, i - d);
-			if (check_cots(tmp_free))
+			if (check_cots(tmp_free, 0, 0))
 			{
 				str[j++] = ft_substr(s, d, i - d);
 				splited = 1;

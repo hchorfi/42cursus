@@ -1371,10 +1371,6 @@ a$
 |  STATUS: expected 0 actual 127
 ================================================================================
 
-|> WITH [SETUP touch a b c] ls  | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls
-|  STATUS: expected 0 actual 141
-================================================================================
-
 |> WITH ls asdfasdf | echo a
 |  STATUS: expected 0 actual 2
 ================================================================================

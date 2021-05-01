@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/01 13:42:56 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/01 14:47:17 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,7 @@ int		get_line(void);
 void	sighandler(int dummy);
 int				remove_tabs_check(char *s, char c);
 int	ft_check_syntax(char *line);
-void	get_cursor_position(int *col, int *rows);
+void	get_cursor_position(int *col, int *rows, int a, int i);
 int	nbr_length(int n);
 void	ft_init_term(void);
 

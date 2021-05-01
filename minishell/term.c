@@ -1,11 +1,12 @@
 #include "minishell.h"
 
-int len;
+int	len;
 
 int	nbr_length(int n)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	if (n <= 0)
 		i++;
 	while (n != 0)
@@ -16,10 +17,8 @@ int	nbr_length(int n)
 	return (i);
 }
 
-void	get_cursor_position(int *col, int *rows)
+void	get_cursor_position(int *col, int *rows, int a, int i)
 {
-	int		a = 0;
-	int		i = 1;
 	char	buf[255];
 	int		ret;
 	int		temp;
@@ -45,109 +44,71 @@ void	get_cursor_position(int *col, int *rows)
 	}
 }
 
-int		putchar_tc(int tc)
+int	putchar_tc(int tc)
 {
 	write(1, &tc, 1);
 	return (0);
 }
 
-void	ft_add_line_to_his()
+void	ft_add_line_to_his(void)
 {
-	t_list *head;
-	t_list *prev;
-	t_list *tail;
-	t_list *newlist;
+	t_list	*prev;
+	t_list	*tail;
+	t_list	*newlist;
+
 	if (ft_lstsize(g_data.history) == 1)
 	{
-		
 		ft_lstadd_front(&g_data.history, ft_lstnew(ft_strdup(g_data.line)));
 		g_data.history->prev = NULL;
 		ft_lstlast(g_data.history)->prev = g_data.history;
 	}
 	else if (ft_lstsize(g_data.history) > 1)
 	{
-		head = g_data.history;
 		tail = ft_lstlast(g_data.history);
 		prev = ft_lstlast(g_data.history)->prev;
 		newlist = ft_lstnew(ft_strdup(g_data.line));
 		newlist->next = prev->next;
 		prev->next = newlist;
-		newlist->prev = prev; 
+		newlist->prev = prev;
 		newlist->next->prev = newlist;
-	}
-}
-
-char    *ft_print_his(int i, t_list *newlist, int work)
-{
-   int j = 0;
-
-   while (newlist)
-   {
-       if (j == i)
-       {
-           return (newlist->content);
-       }
-       newlist = newlist->next;
-       j++;
-   }
-	return (NULL);
-}
-
-void	up(int *count)
-{
-	if (*count != 0)
-	{
-		(*count)--;
-		g_data.line = ft_print_his(*count, g_data.history, 0);
-	}
-	
-}
-
-void	down(int *count, int *his_count)
-{
-	if (*count < *his_count - 1)
-	{
-		(*count)++;
-		g_data.line = ft_print_his(*count, g_data.history, 0);
 	}
 }
 
 void	delete_end(int *col, int *row)
 {
-	char *tmp_free;
-	char *cm = tgetstr("cm", NULL);
-	char *ce = tgetstr("ce", NULL);
+	char	*tmp_free;
+
 	if (*row == g_data.init_row)
 		len = 17;
 	if ((*col > len && *row > g_data.init_row) || *col > len)
 	{
 		--(*col);
 	}
-	else if (*row > g_data.init_row) 
+	else if (*row > g_data.init_row)
 	{
 		(*row)--;
 		*col = tgetnum("co");
 	}
-	tputs(tgoto(cm, *col, *row), 1, putchar_tc);
-	tputs(ce, 1, putchar_tc);
+	tputs(tgoto(tgetstr("cm", NULL), *col, *row), 1, putchar_tc);
+	tputs(tgetstr("ce", NULL), 1, putchar_tc);
 	if (ft_strlen(g_data.line) > 0)
 		g_data.line[ft_strlen(g_data.line) - 1] = '\0';
 }
-
-void	ft_print_list()
-{
-	t_list *list = g_data.history;
-
-	while(list)
-	{
-		ft_printf("----\nprev : %p\nnode : |%s| - %p\nnext : %p\n----\n", list->prev, list->content, list, list->next);
-		list = list->next;
-	}
-}
+/*
+**void	ft_print_list()
+**{
+**	t_list *list = g_data.history;
+**
+**	while(list)
+**	{
+**		ft_printf("----\nprev : %p\nnode : |%s| - %p\nnext : %p\n----\n", list->prev, list->content, list, list->next);
+**		list = list->next;
+**	}
+**}
+*/
 
 void	ft_init_term(void)
 {
-
 	tcgetattr(STDIN_FILENO, &g_data.orig_term);
 	g_data.term = g_data.orig_term;
 	g_data.term.c_lflag &= ~ICANON;
@@ -179,12 +140,12 @@ int		get_line(void)
 		g_data.history = ft_lstnew(ft_strdup(""));
 		g_data.history->prev = NULL;
 	}
-	get_cursor_position(&col, &row);
+	get_cursor_position(&col, &row, 0, 1);
 	g_data.init_row = row;
 	col = 17;
 	while (read(0, &c, sizeof(c)) > 0)
 	{
-		get_cursor_position(&col, &row);	
+		get_cursor_position(&col, &row, 0, 1);	
 		if (c == DOWN_ARROW)
 		{
 			if (list && list->next)
@@ -289,12 +250,7 @@ int		get_line(void)
 					len = 0;
 				}
 				if (col == 0 && row == tgetnum("li"))
-				{
-					
-					ft_putnbr_fd(row, 2);
-					ft_putnbr_fd(tgetnum("li"), 2);
 					g_data.init_row--;
-				}
 				write(0, &c, 1);
 				charater = malloc(sizeof(char) * 2);
 				charater[0] = (char)c;

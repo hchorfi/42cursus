@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/01 13:42:30 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/01 14:51:39 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,6 @@ int	ft_prompt(int argc, char **argv)
 
 void	sighandler(int dummy)
 {
-	//ft_printf("%d\n", g_data.n_fork);
-	//ft_printf("%d\n", dummy);
 	int col, row;
 	if (dummy == SIGINT)
 	{
@@ -145,10 +143,8 @@ void	sighandler(int dummy)
 		}
 		else
 			ft_printf("\n");
-		//free(g_data.line);
-		//g_data.line = ft_strdup("");
 		ft_init_term();
-		get_cursor_position(&col, &row);
+		get_cursor_position(&col, &row, 0, 1);
 		g_data.init_row = row;
 		tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_data.orig_term);
 	}

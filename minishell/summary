@@ -168,3 +168,70 @@ quote
 
 preprocess/spaces .......................... all PASS
 preprocess/quote  .......................... 50/52
+void	ft_get_var3(int *s_quote, int *d_quote, int *j, char *str)
+{
+	if (str[*j] == '\"' && !(is_escaped(str, *j)))
+	{
+		if (*d_quote == 0)
+			*d_quote = 1;
+		else
+			*d_quote = 0;
+		(*j)++;
+	}
+	if (str[*j] == '\'' && !(is_escaped(str, *j)) && *d_quote == 0)
+	{
+		if (*s_quote == 0)
+			*s_quote = 1;
+		else
+			*s_quote = 0;
+		(*j)++;
+	}
+}
+
+int	ft_get_var2(int j, char *str, int *k, int i)
+{
+	int		s_quote;
+	int		d_quote;
+
+	s_quote = 0;
+	d_quote = 0;
+	while (j < i)
+	{
+		ft_get_var3(&s_quote, &d_quote, &j, str);
+		if (str[j] == '$' && s_quote == 0 && !(is_escaped(str, j)))
+		{	
+			*k = j;
+			while (++j < i)
+			{
+				if (check_char(str[j]))
+					break ;
+			}
+			break ;
+		}
+		j++;
+	}
+	return (j);
+}
+
+char	*ft_get_variables(char *str, int start, int i)
+{
+	char	*var;
+	int		j;
+	int		k;
+	char	*value;
+
+	k = 0;
+	j = ft_get_var2(start, str, &k, i) - 1;
+	if (k == j)
+	{
+		str = ft_replace_variable(str, "$", k, j);
+		return (str);
+	}
+	var = ft_put_variable(str, k, j);
+	value = ft_variable_value(var);
+	free(var);
+	value = ft_check_dollar_slash(value, 0, 0);
+	str = ft_replace_variable(str, value, k, j);
+	free(value);
+	return (str);
+}
