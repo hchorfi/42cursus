@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/30 21:58:25 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/01 13:42:56 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct	s_data
 	int     	his_count;
 	int			append;
 	int			init_row;
+	struct termios term;
+	struct termios orig_term;
 }				t_data;
 t_data			g_data;
 
@@ -233,5 +235,6 @@ int				remove_tabs_check(char *s, char c);
 int	ft_check_syntax(char *line);
 void	get_cursor_position(int *col, int *rows);
 int	nbr_length(int n);
+void	ft_init_term(void);
 
 #endif

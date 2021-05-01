@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/04/30 21:59:20 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/01 13:42:30 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,10 +145,12 @@ void	sighandler(int dummy)
 		}
 		else
 			ft_printf("\n");
-		free(g_data.line);
-		g_data.line = ft_strdup("");
+		//free(g_data.line);
+		//g_data.line = ft_strdup("");
+		ft_init_term();
 		get_cursor_position(&col, &row);
 		g_data.init_row = row;
+		tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_data.orig_term);
 	}
 	else if (dummy == SIGQUIT)
 	{
