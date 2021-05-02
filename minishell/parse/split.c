@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/05/01 17:06:52 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/02 00:11:37 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -416,13 +416,13 @@ void	fill_with(char *s, int start, int len, char c)
 	}
 }
 
-char	*ft_remove_slashes(char *str, int start, int end)
+int	ft_remove_slashes3(int i, char *str, int end)
 {
-	int i = start;
-	int count = 0;
-	int len = 0;
-	char *back;
-	int j;
+	int	len;
+	int	count;
+
+	len = 0;
+	count = 0;
 	while (i < end)
 	{
 		if (str[i] == '\\')
@@ -436,30 +436,47 @@ char	*ft_remove_slashes(char *str, int start, int end)
 	}
 	if (count)
 		len += count / 2;
-	back = malloc(sizeof(char) * (len  + 1));
-	i = start;
-	j = 0;
+	return (len);
+}
+
+void	ft_remove_slashes4(char *str, char **back, int end, int i)
+{
+	int count;
+	int	j;
+
 	count = 0;
+	j = 0;
 	while (i < end)
 	{
 		if (str[i] == '\\')
 			count++;
 		else
 		{
-			fill_with(back, j, count / 2, '\\');
+			fill_with(*back, j, count / 2, '\\');
 			j += count / 2;
 			count = 0;
-			back[j] = str[i];
+			(*back)[j] = str[i];
 			j++;
 		}
 		i++;
 	}
 	if (count)
-		fill_with(back, j, count / 2, '\\');
+		fill_with(*back, j, count / 2, '\\');
 	j += count / 2;
-	back[j] = '\0';
+	(*back)[j] = '\0';
+}
+
+char	*ft_remove_slashes(char *str, int start, int end)
+{
+	int len;
+	char *back;
+
+	len = ft_remove_slashes3(start, str, end);
+	back = malloc(sizeof(char) * (len  + 1));
+	ft_remove_slashes4(str, &back, end, start);
 	return (back);
 }
+
 char	*ft_remove_slashes_2(char *str, int start, int end)
 {
 	int i;
