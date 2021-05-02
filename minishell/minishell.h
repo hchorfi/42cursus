@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/01 14:47:17 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/02 15:15:58 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ typedef struct	s_data
 	int			num_pipes;
 	int			n_fork;
 	char		*line;
-	int 		count;
-	int     	his_count;
 	int			append;
 	int			init_row;
+	int			press;
 	struct termios term;
 	struct termios orig_term;
+	t_list		*term_list;
 }				t_data;
 t_data			g_data;
 

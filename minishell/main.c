@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/01 14:51:39 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/02 14:54:13 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,6 @@ int	main(int argc, char **argv, char **envp)
 
 	ft_stock_envp(envp);
 	g_data.ret = 0;
-	g_data.count = 0;
-	g_data.his_count = 0;
 	while (1)
 	{
 		signal(SIGQUIT, sighandler);

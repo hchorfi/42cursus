@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/05/02 00:11:37 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/02 13:52:41 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -477,16 +477,13 @@ char	*ft_remove_slashes(char *str, int start, int end)
 	return (back);
 }
 
-char	*ft_remove_slashes_2(char *str, int start, int end)
+int	ft_remove_slashes_5(char *str, int i, int end)
 {
-	int i;
-	int count;
 	int len;
-	char *back;
-	int j;
-	count = 0;
+	int count;
+
 	len = 0;
-	i = start;
+	count = 0;
 	while (i < end)
 	{
 		if (str[i] == '\\')
@@ -509,33 +506,36 @@ char	*ft_remove_slashes_2(char *str, int start, int end)
 	}
 	if (count)
 		len += count / 2;
+	return (len);
+}
+
+void	ft_remove_slashes_7()
+{
+	
+}
+
+char	*ft_remove_slashes_6(char *str, int i, int end, int len)
+{
+	char	*back;
+	int		count;
+	int		j;
+
 	back = malloc(sizeof(char) * (len  + 1));
-	i = start;
-	j = 0;
 	count = 0;
+	j = 0;
 	while (i < end)
 	{
 		if (str[i] == '\\')
 			count++;
 		else
 		{
-			if ((str[i] == '$' || str[i] == '"') && (count % 2))
-			{
-				fill_with(back, j, (count / 2), '\\');
-				j += count / 2;
-				count = 0;
-				back[j] = str[i];
-				j++;
-			}
-			else
-			{
+			if (!((str[i] == '$' || str[i] == '"') && (count % 2)))
 				count++;
-				fill_with(back, j, count / 2, '\\');
-				j += count / 2;
-				count = 0;
-				back[j] = str[i];
-				j++;
-			}
+			fill_with(back, j, count / 2, '\\');
+			j += count / 2;
+			count = 0;
+			back[j] = str[i];
+			j++;
 		}
 		i++;
 	}
@@ -543,6 +543,15 @@ char	*ft_remove_slashes_2(char *str, int start, int end)
 		fill_with(back, j, count / 2, '\\');
 	j += count / 2;
 	back[j] = '\0';
+	return (back);
+}
+
+char	*ft_remove_slashes_2(char *str, int start, int end)
+{
+	int len;
+	char *back;
+	len = ft_remove_slashes_5(str, start, end);
+	back = ft_remove_slashes_6(str, start, end, len);
 	return (back);
 }
 char	*remove_all_quotes(char *str)
