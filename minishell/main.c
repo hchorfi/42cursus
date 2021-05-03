@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/03 15:07:02 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 16:07:08 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,9 +195,10 @@ int	main(int argc, char **argv, char **envp)
 	t_list		*pipe_list;
 	t_command	*command;
 	int			j;
+	int			mini;
 
-	ft_stock_envp(envp);
 	g_data.ret = 0;
+	ft_stock_envp(envp);
 	while (1)
 	{
 		signal(SIGQUIT, sighandler);
@@ -207,7 +208,6 @@ int	main(int argc, char **argv, char **envp)
 		pipe_list = g_data.n_pipe_cmd;
 		while (pipe_list)
 		{
-			ft_stock_ret();
 			g_data.num_pipes = *(int *)pipe_list->content;
 			g_data.fdd = 0;
 			g_data.n_fork = 0;
@@ -233,6 +233,7 @@ int	main(int argc, char **argv, char **envp)
 			}
 			pipe_list = pipe_list->next;
 			j++;
+			ft_stock_ret();
 		}
 		if (argc >= 2)
 		{
@@ -242,8 +243,8 @@ int	main(int argc, char **argv, char **envp)
 		ft_free_list();
 		if (argc < 2)
 		{	
-			ft_putstr_fd("\n\nleak report\n------------\n ", 2);
-			system("leaks minishell");
+			//ft_putstr_fd("\n\nleak report\n------------\n ", 2);
+			//system("leaks minishell");
 		}
 	}
 	return (0);

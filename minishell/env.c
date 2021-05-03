@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/13 14:43:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/03 15:08:54 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 17:33:10 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,32 @@ void	ft_stock_ret(void)
 	t_list	*env_list;
 	int		exist;
 	char	*tmp_free;
+	char	*tmp_free2;
 
-	exist = 0;
+	//exist = 0;
 	env_list = g_data.env_var;
-	str = ft_strjoin("?=", tmp_free = ft_itoa(g_data.ret));
-	free(tmp_free);
 	while (env_list)
 	{
 		if (*(char *)(env_list)->content == '?')
 		{
+			//ft_printf("ok\n");
+			tmp_free2 = ft_itoa(g_data.ret);
+			str = ft_strjoin("?=", tmp_free2);
 			tmp_free = env_list->content;
+			//ft_printf("bfor : %p |%s|\n",tmp_free, tmp_free);
 			env_list->content = str;
+			//ft_printf("after : %p |%s|\n",env_list->content, env_list->content);
+			free(tmp_free2);
 			free(tmp_free);
-			exist = 1;
+			tmp_free = NULL;
+			ft_printf("%s\n", tmp_free);
+			break;
+			//exist = 1;
 		}
 		env_list = env_list->next;
 	}
-	if (!exist)
-		ft_lstadd_back(&g_data.env_var, ft_lstnew(str));
+	// if (!exist)
+	// 	ft_lstadd_back(&g_data.env_var, ft_lstnew(str));
 }
 
 char	**ft_get_envp(void)
@@ -63,8 +71,10 @@ char	**ft_get_envp(void)
 
 void	ft_stock_envp(char **envp)
 {
-	int	i;
-
+	int		i;
+	char	*str;
+	char	*tmp_free;
+	
 	i = 0;
 	g_data.env_var = NULL;
 	while (envp[i])
@@ -75,6 +85,7 @@ void	ft_stock_envp(char **envp)
 			ft_lstadd_back(&g_data.env_var, ft_lstnew(envp[i]));
 		i++;
 	}
+	ft_lstadd_back(&g_data.env_var, ft_lstnew(ft_strdup("?=0")));
 }
 
 int	ft_env(t_command *command)
