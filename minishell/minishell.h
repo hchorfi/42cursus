@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/03 13:49:14 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 14:57:59 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ int				ft_strcmp(const char *s1, const char *s2);
 ** utils2.c
 */
 
-void	ft_putstrs_fd(char *s1, char *s2, char *s3, char *s4, char *s5);
+void	ft_putstrs_fd(char *s1, char *s2, char *s3, char *s4);
 
 /*
 ** exit.c

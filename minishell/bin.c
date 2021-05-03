@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/30 10:57:12 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 15:05:27 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	ft_exec_bin2(char **bins, char *path, struct stat ps, char **token)
 		if (!stat(file, &ps))
 		{
 			execve(file, token, envp);
-			ft_putstrs_fd("minishell: ", token[0], ": ", strerror(errno), "\n");
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstrs_fd(token[0], ": ", strerror(errno), "\n");
 			exit(126);
 		}
 		i++;
@@ -99,8 +100,6 @@ void	ft_bin(t_command *command)
 	g_data.n_fork++;
 	if (!fork())
 	{
-		//signal(SIGINT, SIG_DFL);
-		//signal(SIGINT, sighandler);
 		std_out = dup(1);
 		std_in = dup(0);
 		ft_dup_in_out(0, command->input_file, command->output_file);

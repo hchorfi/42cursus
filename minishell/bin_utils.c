@@ -5,22 +5,22 @@ void	ft_exec_error(int error, char *token)
 	ft_putstr_fd("minishell: ", 2);
 	if (error == 1)
 	{
-		ft_putstrs_fd(token, ": command not found\n", NULL, NULL, NULL);
+		ft_putstrs_fd(token, ": command not found\n", NULL, NULL);
 		exit(127);
 	}
 	else if (error == 2)
 	{
-		ft_putstrs_fd(token, ": Is a directory\n", NULL, NULL, NULL);
+		ft_putstrs_fd(token, ": Is a directory\n", NULL, NULL);
 		exit(126);
 	}
 	else if (error == 3)
 	{
-		ft_putstrs_fd(token, ": Permission denied\n", NULL, NULL, NULL);
+		ft_putstrs_fd(token, ": Permission denied\n", NULL, NULL);
 		exit(126);
 	}
 	else if (error == 4)
 	{
-		ft_putstrs_fd(token, ": No such file or directory\n", NULL, NULL, NULL);
+		ft_putstrs_fd(token, ": No such file or directory\n", NULL, NULL);
 		exit(127);
 	}
 }

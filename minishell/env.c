@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/13 14:43:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/29 17:48:51 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 15:08:54 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	ft_env(t_command *command)
 		{
 			if (ft_strchr(newlist->content, '=')
 				&& *(char *)(newlist)->content != '?')
-				ft_putstrs_fd(newlist->content, "\n", NULL, NULL, NULL);
+				ft_putstrs_fd(newlist->content, "\n", NULL, NULL);
 			newlist = newlist->next;
 		}
 	}

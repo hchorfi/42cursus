@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/03 12:40:27 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 15:07:02 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,6 @@ int	ft_prompt(int argc, char **argv)
 
 void	sighandler(int dummy)
 {
-	int col, row;
 	if (dummy == SIGINT)
 	{
 		g_data.line[0] = '\0';

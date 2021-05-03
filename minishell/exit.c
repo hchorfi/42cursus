@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 18:55:47 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/03 12:40:32 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 14:58:45 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_exit_error(int error, char *str)
 		exit (0);
 	else if (error == 1)
 	{
-		ft_putstrs_fd("minishell: exit: ", str, NULL, NULL, NULL);
+		ft_putstrs_fd("minishell: exit: ", str, NULL, NULL);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		exit(g_data.ret = 255);
 	}

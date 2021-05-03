@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 17:51:27 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/25 11:49:21 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 14:58:26 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	cd_error(int error, char *str)
 	if (error == 1)
 	{
 		ft_putstrs_fd(
-			"minishell: ", str, ": No such file or directory\n", NULL, NULL);
+			"minishell: ", str, ": No such file or directory\n", NULL);
 		return (g_data.ret = 1);
 	}
 	else if (error == 2)
@@ -101,7 +101,7 @@ int	ft_cd(t_command *command)
 	char	*val;
 
 	if (!getcwd(oldpwd, PATH_MAX))
-		ft_putstrs_fd(strerror(errno), "\n", NULL, NULL, NULL);
+		ft_putstrs_fd(strerror(errno), "\n", NULL, NULL);
 	val = command->tokens[1];
 	if (!val)
 	{
@@ -114,7 +114,7 @@ int	ft_cd(t_command *command)
 	if (!chdir(val))
 	{
 		if (!getcwd(pwd, PATH_MAX))
-			ft_putstrs_fd(strerror(errno), "\n", NULL, NULL, NULL);
+			ft_putstrs_fd(strerror(errno), "\n", NULL, NULL);
 		ft_change_pwd(pwd);
 		ft_change_oldpwd(oldpwd);
 		return (g_data.ret = 0);

@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 13:30:46 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/03 13:32:36 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 15:03:59 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	down_key(void)
 	if (g_data.term_list && g_data.term_list->next)
 	{
 		write(1, "\r", 1);
-		ft_putstrs_fd("\033[0;32m", "minishell 👽 > ", "\033[0m", NULL, NULL);
+		ft_putstrs_fd("\033[0;32m", "minishell 👽 > ", "\033[0m", NULL);
 		write(1, tgetstr("ce", NULL), strlen(tgetstr("ce", NULL)));
 		g_data.term_list = g_data.term_list->next;
 		tmp_free = g_data.line;
@@ -60,7 +60,7 @@ void	up_key(void)
 	if (g_data.term_list && g_data.term_list->prev)
 	{
 		write(1, "\r", 1);
-		ft_putstrs_fd("\033[0;32m", "minishell 👽 > ", "\033[0m", NULL, NULL);
+		ft_putstrs_fd("\033[0;32m", "minishell 👽 > ", "\033[0m", NULL);
 		write(1, tgetstr("ce", NULL), strlen(tgetstr("ce", NULL)));
 		g_data.term_list = g_data.term_list->prev;
 		tmp_free = g_data.line;

@@ -16,7 +16,7 @@ void	ft_in_red_file(char **new_pipe, char **tmp_in, int j)
 	in = open(file, O_RDONLY);
 	if (in == -1)
 		ft_putstrs_fd(
-			"minishell: ", file, ": No such file or directory\n", NULL, NULL);
+			"minishell: ", file, ": No such file or directory\n", NULL);
 	if (g_data.command->input_file > 0)
 		close(g_data.command->input_file);
 	g_data.command->input_file = in;

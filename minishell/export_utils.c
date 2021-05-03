@@ -12,7 +12,7 @@ void	ft_print_export2(char *content, char *str_chr, char *var)
 	chr_len = ft_strlen(str_chr);
 	str = content + len - chr_len + 1;
 	var = ft_substr(content, 0, len - chr_len + 1);
-	ft_putstrs_fd(var, "\"", NULL, NULL, NULL);
+	ft_putstrs_fd(var, "\"", NULL, NULL);
 	while (str[i] != '\0')
 	{
 		if (str[i] == '\\' || str[i] == '$')
@@ -24,15 +24,18 @@ void	ft_print_export2(char *content, char *str_chr, char *var)
 	free(var);
 }
 
+int	ft_export_error(char *str, char *token)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstrs_fd(str, ": `", token, "': not a valid identifier\n");
+	return (g_data.ret = 1);
+}
+
 int	ft_valid_export_var(
 	t_command *command, char *export_var, char *token, char *str)
 {
 	if (!ft_strcmp(str, "unset") && ft_strchr(token, '='))
-	{
-		ft_putstrs_fd(
-			"minishell: ", str, ": `", token, "': not a valid identifier\n");
-		return (g_data.ret = 1);
-	}
+		return (ft_export_error(str, token));
 	if (export_var[0] == '_'
 		|| (export_var[0] == '#' && command->n_tokens == 2))
 		return (0);
@@ -40,9 +43,7 @@ int	ft_valid_export_var(
 		|| (export_var[0] != '#' && ft_strchr_set(
 				export_var, "$&|;-+=~!@^%{} []:?.#/,\'\\\"", token)))
 	{
-		ft_putstrs_fd(
-			"minishell: ", str, ": `", token, "': not a valid identifier\n");
-		return (g_data.ret = 1);
+		return (ft_export_error(str, token));
 	}
 	return (0);
 }
