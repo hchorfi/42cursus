@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/02 15:15:58 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 13:49:14 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,30 @@ typedef struct	s_data
 	int			n_fork;
 	char		*line;
 	int			append;
-	int			init_row;
 	int			press;
 	struct termios term;
 	struct termios orig_term;
 	t_list		*term_list;
 }				t_data;
 t_data			g_data;
+
+
+/*
+** term_keys.c
+*/
+
+void	ft_new_line(void);
+void	down_key(void);
+void	up_key(void);
+void	delete_end(int *col);
+void	ft_ctrld(void);
+
+/*
+** term_utils.c
+*/
+
+void	ft_up_down(int c, int *col);
+void	ft_add_line_to_his(void);
 
 /*
 ** echo.c

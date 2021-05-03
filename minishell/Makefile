@@ -20,6 +20,8 @@ SRCS = main.c\
 		echo.c\
 		exit.c\
 		term.c\
+		term_keys.c\
+		term_utils.c\
 		utils1.c\
 		utils2.c\
 		redirections.c\

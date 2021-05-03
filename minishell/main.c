@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/02 23:07:52 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 12:40:27 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ void	sighandler(int dummy)
 	if (dummy == SIGINT)
 	{
 		g_data.line[0] = '\0';
+		*(char *)(ft_lstlast(g_data.history)->content) = '\0';
 		if (g_data.n_fork == 0)
 		{
 			ft_printf("\n");
@@ -144,8 +145,6 @@ void	sighandler(int dummy)
 		}
 		else
 			ft_printf("\n");
-		ft_init_term();
-		tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_data.orig_term);
 	}
 	else if (dummy == SIGQUIT)
 	{
@@ -242,6 +241,11 @@ int	main(int argc, char **argv, char **envp)
 			return (g_data.ret);
 		}
 		ft_free_list();
+		if (argc < 2)
+		{	
+			ft_putstr_fd("\n\nleak report\n------------\n ", 2);
+			system("leaks minishell");
+		}
 	}
 	return (0);
 }
