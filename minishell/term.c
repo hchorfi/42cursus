@@ -78,27 +78,50 @@ void	delete_end(int *col, int *row)
 {
 	char	*tmp_free;
 	//ft_putstr(g_data.line);
-	if (*row == g_data.init_row)
-		len = 17;
-	if ((*col > len && *row > g_data.init_row) || *col > len)
-	{
-		--(*col);
-		write(1, tgetstr("le", NULL), ft_strlen(tgetstr("le", NULL)));
-		tputs(tgetstr("ce", NULL), 1, putchar_tc);
-	}
-	else if (*row > g_data.init_row)
-	{
-		(*row)--;
-		write(1, tgetstr("up", NULL), ft_strlen(tgetstr("up", NULL)));
-		*col = 0;
-		while (*col < tgetnum("co"))
-		{
-			write(1, tgetstr("nd", NULL), ft_strlen(tgetstr("nd", NULL)));
-			(*col)++;
-		}
-	}	
+	// if (*row == g_data.init_row)
+	// 	len = 17;
+	// if ((*col > len && *row > g_data.init_row) || *col > len)
+	// {
+	// 	--(*col);
+	// 	write(1, tgetstr("le", NULL), ft_strlen(tgetstr("le", NULL)));
+	// 	tputs(tgetstr("ce", NULL), 1, putchar_tc);
+	// }
+	// else if (*row > g_data.init_row)
+	// {
+	// 	(*row)--;
+	// 	write(1, tgetstr("up", NULL), ft_strlen(tgetstr("up", NULL)));
+	// 	*col = 0;
+	// 	while (*col < tgetnum("co"))
+	// 	{
+	// 		write(1, tgetstr("nd", NULL), ft_strlen(tgetstr("nd", NULL)));
+	// 		(*col)++;
+	// 	}
+	// }
+
 	if (ft_strlen(g_data.line) > 0)
+	{
+		if (*col > tgetnum("co"))
+			*col = *col % tgetnum("co");
+		if (*col > 0)
+			(*col)--;
+		if (*col == 0)
+		{
+			write(1, tgetstr("le", NULL), ft_strlen(tgetstr("le", NULL)));
+			tputs(tgetstr("ce", NULL), 1, putchar_tc);
+			write(1, tgetstr("up", NULL), ft_strlen(tgetstr("up", NULL)));
+			while (*col < tgetnum("co"))
+			{
+				write(1, tgetstr("nd", NULL), ft_strlen(tgetstr("nd", NULL)));
+				(*col)++;
+			}
+		}
+		else
+		{
+			write(1, tgetstr("le", NULL), ft_strlen(tgetstr("le", NULL)));
+			tputs(tgetstr("ce", NULL), 1, putchar_tc);
+		}
 		g_data.line[ft_strlen(g_data.line) - 1] = '\0';
+	}
 }
 
 void	ft_print_list()
@@ -135,13 +158,13 @@ void	down_key()
 		if (g_data.ret == 0)
 		{
 			ft_printf("\033[0;32m");
-			ft_printf("minishell 👽 %d > ", g_data.ret);
+			ft_printf("minishell 👽 > ");
 			ft_printf("\033[0m");
 		}
 		else
 		{
 			ft_printf("\033[0;31m");
-			ft_printf("minishell 👽 %d > ", g_data.ret);
+			ft_printf("minishell 👽 > ");
 			ft_printf("\033[0m");
 		}
 		write(1, tgetstr("ce", NULL), strlen(tgetstr("ce", NULL)));
@@ -169,13 +192,13 @@ void	up_key()
 		if (g_data.ret == 0)
 		{
 			ft_printf("\033[0;32m");
-			ft_printf("minishell 👽 %d > ", g_data.ret);
+			ft_printf("minishell 👽 > ");
 			ft_printf("\033[0m");
 		}
 		else
 		{
 			ft_printf("\033[0;31m");
-			ft_printf("minishell 👽 %d > ", g_data.ret);
+			ft_printf("minishell 👽 > ");
 			ft_printf("\033[0m");
 		}
 		write(1, tgetstr("ce", NULL), strlen(tgetstr("ce", NULL)));
@@ -206,19 +229,27 @@ int		get_line(void)
 		g_data.history = ft_lstnew(ft_strdup(""));
 		g_data.history->prev = NULL;
 	}
-	get_cursor_position(&col, &row, 0, 1);
+	//get_cursor_position(&col, &row, 0, 1);
 	g_data.init_row = row;
-	col = 17;
+	col = 16;
 	while (read(0, &c, sizeof(c)) > 0)
 	{
-		get_cursor_position(&col, &row, 0, 1);	
+		//get_cursor_position(&col, &row, 0, 1);	
 		if (c == DOWN_ARROW)
 		{
 			down_key();
+			if (ft_strlen(g_data.line))
+				col = ft_strlen(g_data.line) + 16;
+			else
+				col = 16;
 		}
 		else if (c == UP_ARROW)
 		{
 			up_key();
+			if (ft_strlen(g_data.line))
+				col = ft_strlen(g_data.line) + 16;
+			else
+				col = 16;
 		}
 		else if (c == BACKSPACE)
 		{
@@ -247,7 +278,8 @@ int		get_line(void)
 				if (!ft_check_syntax(g_data.line))
 					ft_parse(g_data.line, 0, 0);	
 			}
-			ft_print_list();
+			// ft_print_list();
+			//ft_putnbr_fd(col, 2);
 			tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_data.orig_term);
 			break;
 		}
@@ -256,16 +288,18 @@ int		get_line(void)
 			g_data.press = 0;
 			if (c != '\n' && ft_isprint(c))
 			{
-				col++;
-				if (col == tgetnum("co") && row < tgetnum("li"))
-				{	
-					row++;
-					col = 0;
-					len = 0;
-				}
-				if (col == 0 && row == tgetnum("li"))
-					g_data.init_row--;
+				//if (col == 0 && row == tgetnum("li"))
+					//g_data.init_row--;
 				write(0, &c, 1);
+				if (col == tgetnum("co"))
+				{	
+					//row++;
+					write(1, tgetstr("do", NULL), ft_strlen(tgetstr("do", NULL)));
+					col = 1;
+					//len = 0;
+				}
+				else
+					col++;
 				charater = malloc(sizeof(char) * 2);
 				charater[0] = (char)c;
 				charater[1] = '\0';

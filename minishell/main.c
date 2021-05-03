@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/02 14:54:13 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/02 23:07:52 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,13 @@ int	ft_prompt(int argc, char **argv)
 		if (g_data.ret == 0)
 		{
 			ft_printf("\033[0;32m");
-			ft_printf("minishell 👽 %d > ", g_data.ret);
+			ft_printf("minishell 👽 > ");
 			ft_printf("\033[0m");
 		}
 		else
 		{
 			ft_printf("\033[0;31m");
-			ft_printf("minishell 👽 %d > ", g_data.ret);
+			ft_printf("minishell 👽 > ");
 			ft_printf("\033[0m");
 		}
 		get_line();
@@ -134,18 +134,17 @@ void	sighandler(int dummy)
 	int col, row;
 	if (dummy == SIGINT)
 	{
+		g_data.line[0] = '\0';
 		if (g_data.n_fork == 0)
 		{
 			ft_printf("\n");
 			ft_printf("\033[0;32m");
-			ft_printf("minishell 👽 %d > ", g_data.ret = 1);
+			ft_printf("minishell 👽 > ");
 			ft_printf("\033[0m");
 		}
 		else
 			ft_printf("\n");
 		ft_init_term();
-		get_cursor_position(&col, &row, 0, 1);
-		g_data.init_row = row;
 		tcsetattr(STDIN_FILENO, TCSAFLUSH, &g_data.orig_term);
 	}
 	else if (dummy == SIGQUIT)
