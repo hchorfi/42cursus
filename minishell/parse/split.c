@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/05/02 13:52:41 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 21:53:05 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,12 @@ char	*ft_variable_value(char *var)
 	int		tmp_len;
 	int		len;
 
+	if (!ft_strcmp(var, "?"))
+	{
+		//ft_printf("%s\n", var);
+		g_data.rett = ft_itoa(g_data.ret);
+		return (g_data.rett);
+	}
 	newlist = g_data.env_var;
 	while (newlist)
 	{

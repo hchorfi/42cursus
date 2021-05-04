@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/03 16:07:08 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 21:55:58 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void	ft_exec(t_command *command)
 	}
 }
 
-const char* __asan_default_options() { return "detect_leaks=0"; }
+//const char* __asan_default_options() { return "detect_leaks=0"; }
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -208,6 +208,7 @@ int	main(int argc, char **argv, char **envp)
 		pipe_list = g_data.n_pipe_cmd;
 		while (pipe_list)
 		{
+			g_data.rett = NULL;
 			g_data.num_pipes = *(int *)pipe_list->content;
 			g_data.fdd = 0;
 			g_data.n_fork = 0;
@@ -233,7 +234,9 @@ int	main(int argc, char **argv, char **envp)
 			}
 			pipe_list = pipe_list->next;
 			j++;
-			ft_stock_ret();
+			if (g_data.rett != NULL)
+				free(g_data.rett);
+			//ft_stock_ret();
 		}
 		if (argc >= 2)
 		{

@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/03 16:02:24 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/03 21:52:27 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct	s_data
 	struct termios term;
 	struct termios orig_term;
 	t_list		*term_list;
+	char		*rett;
 }				t_data;
 t_data			g_data;
 
