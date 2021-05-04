@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 18:55:47 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/04 14:18:25 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/04 22:38:05 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,8 @@ int	ft_exit_error(int error, char *str)
 	return (0);
 }
 
-int	ft_exit(t_command *command)
+int	ft_exit(t_command *command, int i)
 {
-	int	i;
-
 	if (command->n_tokens > 1)
 	{
 		i = 1;

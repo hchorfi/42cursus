@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 16:35:17 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/04 14:20:35 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/04 22:43:44 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	ft_export(t_command *cmd)
 	i = 1;
 	g_data.ret = 0;
 	if (cmd->n_tokens == 1
-		|| (cmd->n_tokens = 2 && cmd->tokens[1][0] == '#'))
+		|| (cmd->n_tokens == 2 && cmd->tokens[1][0] == '#'))
 		ft_print_export(g_data.env_var);
 	else
 	{

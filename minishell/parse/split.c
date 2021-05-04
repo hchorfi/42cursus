@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/05/04 15:52:25 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/04 22:18:55 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,12 +185,6 @@ char	*ft_variable_value(char *var)
 	int		tmp_len;
 	int		len;
 
-	// if (!ft_strcmp(var, "?"))
-	// {
-	// 	//ft_printf("%s\n", var);
-	// 	g_data.rett = ft_itoa(g_data.ret);
-	// 	return (g_data.rett);
-	// }
 	newlist = g_data.env_var;
 	while (newlist)
 	{
@@ -447,7 +441,7 @@ int	ft_remove_slashes3(int i, char *str, int end)
 
 void	ft_remove_slashes4(char *str, char **back, int end, int i)
 {
-	int count;
+	int	count;
 	int	j;
 
 	count = 0;
@@ -474,19 +468,19 @@ void	ft_remove_slashes4(char *str, char **back, int end, int i)
 
 char	*ft_remove_slashes(char *str, int start, int end)
 {
-	int len;
-	char *back;
+	int		len;
+	char	*back;
 
 	len = ft_remove_slashes3(start, str, end);
-	back = malloc(sizeof(char) * (len  + 1));
+	back = malloc(sizeof(char) * (len + 1));
 	ft_remove_slashes4(str, &back, end, start);
 	return (back);
 }
 
 int	ft_remove_slashes_5(char *str, int i, int end)
 {
-	int len;
-	int count;
+	int	len;
+	int	count;
 
 	len = 0;
 	count = 0;
@@ -497,16 +491,13 @@ int	ft_remove_slashes_5(char *str, int i, int end)
 		else
 		{
 			if ((str[i] == '$' || str[i] == '"') && (count % 2))
-			{
 				len += (count / 2) + 1;
-				count = 0;
-			}
 			else
 			{
 				count++;
 				len += count / 2 + 1;
-				count = 0;
 			}
+			count = 0;
 		}
 		i++;
 	}
@@ -515,9 +506,12 @@ int	ft_remove_slashes_5(char *str, int i, int end)
 	return (len);
 }
 
-void	ft_remove_slashes_7()
+void	ft_remove_slashes_7(int count, int *j, char **back)
 {
-	
+	if (count)
+		fill_with(*back, *j, count / 2, '\\');
+	(*j) += count / 2;
+	(*back)[*j] = '\0';
 }
 
 char	*ft_remove_slashes_6(char *str, int i, int end, int len)
@@ -526,7 +520,7 @@ char	*ft_remove_slashes_6(char *str, int i, int end, int len)
 	int		count;
 	int		j;
 
-	back = malloc(sizeof(char) * (len  + 1));
+	back = malloc(sizeof(char) * (len + 1));
 	count = 0;
 	j = 0;
 	while (i < end)
@@ -545,21 +539,20 @@ char	*ft_remove_slashes_6(char *str, int i, int end, int len)
 		}
 		i++;
 	}
-	if (count)
-		fill_with(back, j, count / 2, '\\');
-	j += count / 2;
-	back[j] = '\0';
+	ft_remove_slashes_7(count, &j, &back);
 	return (back);
 }
 
 char	*ft_remove_slashes_2(char *str, int start, int end)
 {
-	int len;
-	char *back;
+	int		len;
+	char	*back;
+
 	len = ft_remove_slashes_5(str, start, end);
 	back = ft_remove_slashes_6(str, start, end, len);
 	return (back);
 }
+
 char	*remove_all_quotes(char *str)
 {
 	int s_quote = 0;

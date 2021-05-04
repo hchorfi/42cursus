@@ -5,8 +5,6 @@ LIBFT_PATH = ./libft
 LIBFT_LIB = ft
 
 SRCS = main.c\
-		get_next_line.c\
-		get_next_line_utils.c\
 		export.c\
 		export_utils.c\
 		export_utils2.c\

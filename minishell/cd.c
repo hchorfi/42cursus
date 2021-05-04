@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 17:51:27 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/04 15:42:39 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/04 22:26:42 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_change_pwd(char *val)
 {
 	char	*tmp;
 	t_list	*newlist;
-	char 	*tmp_free;
+	char	*tmp_free;
 
 	newlist = g_data.env_var;
 	while (newlist)

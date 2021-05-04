@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static int		ft_nn(unsigned int n, int i)
+static int	ft_nn(unsigned int n, int i)
 {
 	if (n <= 9)
 		i++;
@@ -28,7 +28,7 @@ static int		ft_nn(unsigned int n, int i)
 	return (i);
 }
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char			*itoa;
 	int				i;
@@ -44,8 +44,7 @@ char			*ft_itoa(int n)
 	else
 		nb = n;
 	len = ft_nn(nb, i);
-	if (!(itoa = malloc(sizeof(char) * (len + 1))))
-		return (NULL);
+	itoa = malloc(sizeof(char) * (len + 1));
 	itoa[len--] = '\0';
 	while (len >= i)
 	{

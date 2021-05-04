@@ -24,13 +24,6 @@ void	ft_print_export2(char *content, char *str_chr, char *var)
 	free(var);
 }
 
-int	ft_export_error(char *str, char *token)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstrs_fd(str, ": `", token, "': not a valid identifier\n");
-	return (g_data.ret = 1);
-}
-
 int	ft_valid_export_var(
 	t_command *command, char *export_var, char *token, char *str)
 {

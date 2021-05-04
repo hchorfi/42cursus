@@ -10,19 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
-static	int check_n(char *args)
+static	int	check_n(char *args)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (args[0] == '-')
 		i++;
 	else
 		return (0);
-	while(args[i])
+	while (args[i])
 	{
 		if (args[i] == 'n')
 			i++;
@@ -32,18 +31,13 @@ static	int check_n(char *args)
 	return (1);
 }
 
-int			ft_echo(t_command *command)
+int	ft_echo(t_command *command, int i, int n)
 {
-	int		i;
-	int		n;
-
-	n = 0;
 	if (!command->tokens[1])
 	{
 		write(1, "\n", 1);
 		return (0);
 	}
-	i = 1;
 	while (command->tokens[i])
 	{
 		if (!(check_n(command->tokens[i])))
@@ -54,12 +48,11 @@ int			ft_echo(t_command *command)
 	while (command->tokens[i])
 	{
 		ft_putstr_fd(command->tokens[i], 1);
-		if (command->tokens[i + 1])	
+		if (command->tokens[i + 1])
 			ft_putchar_fd(' ', 1);
 		if (!command->tokens[i + 1] && n == 0)
 			ft_putchar_fd('\n', 1);
 		i++;
-		
 	}
 	return (g_data.ret = 0);
 }

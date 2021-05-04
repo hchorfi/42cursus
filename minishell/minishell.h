@@ -6,14 +6,13 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/04 15:34:23 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/04 22:56:55 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "get_next_line.h"
 # include "libft/libft.h"
 # include "ft_printf/ft_printf.h"
 # include <sys/types.h>
@@ -26,6 +25,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <termcap.h>
+# include <fcntl.h>
 
 # define BACKSPACE 127
 # define LEFT_ARROW 4479771
@@ -34,7 +34,6 @@
 # define DOWN_ARROW 4348699
 # define NEW_LINE 10
 # define CTRLD 4
-
 
 typedef struct	s_command
 {
@@ -93,7 +92,7 @@ void	ft_add_line_to_his(void);
 ** echo.c
 */
 
-int				ft_echo(t_command *command);
+int				ft_echo(t_command *command, int i, int n);
 int				is_quote(char c);
 
 /*
@@ -148,6 +147,7 @@ void	ft_change(int j, char *token, char *old_var, t_list *newlist);
 int		can_change(char *content, char *token, char *old_var, char *export_var);
 char	*ft_get_oldvar(char *content);
 void	ft_free_exist(char *str_free, char *str, char c);
+int		ft_export_error(char *str, char *token);
 
 /*
 ** env.c
@@ -214,7 +214,7 @@ void	ft_putstrs_er(char *s1, char *s2, char *s3, char *s4);
 ** exit.c
 */
 
-int				ft_exit(t_command *command);
+int	ft_exit(t_command *command, int i);
 
 /*
 ** redirections.c

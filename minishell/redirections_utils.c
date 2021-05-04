@@ -49,15 +49,24 @@ int	ft_check_out(char **tmp_out)
 	return (j);
 }
 
+void	ft_close_get_out(int out)
+{
+	if (g_data.command->output_file > 1)
+		close(g_data.command->output_file);
+	g_data.command->output_file = out;
+}
+
 void	ft_out_red_file2(char *file, char c, int out, int priority)
 {
 	struct stat	path_stat;
 	char		*tmp_free;
 
 	if (c != '\'')
-	{tmp_free = file;
-	file = get_other_variables(file);
-	free(tmp_free);}
+	{
+		tmp_free = file;
+		file = get_other_variables(file);
+		free(tmp_free);
+	}
 	tmp_free = file;
 	file = remove_all_quotes(file);
 	free(tmp_free);
@@ -73,7 +82,5 @@ void	ft_out_red_file2(char *file, char c, int out, int priority)
 			out = open(file, O_RDWR | O_CREAT | O_APPEND, 0777);
 		free(file);
 	}
-	if (g_data.command->output_file > 1)
-		close(g_data.command->output_file);
-	g_data.command->output_file = out;
+	ft_close_get_out(out);
 }

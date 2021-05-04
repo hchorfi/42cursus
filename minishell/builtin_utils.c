@@ -35,9 +35,9 @@ int	ft_exec_builtin(t_command *command)
 	else if (!ft_strncmp(command->tokens[0], "cd", 3))
 		ft_cd(command);
 	else if (!ft_strncmp(command->tokens[0], "echo", 5))
-		return (ft_echo(command));
+		return (ft_echo(command, 1, 0));
 	else if (!ft_strncmp(command->tokens[0], "exit", 5))
-		ft_exit(command);
+		ft_exit(command, 0);
 	return (0);
 }
 
@@ -56,9 +56,7 @@ void	ft_builtin(t_command *command)
 	else
 		dup2(g_data.fdd, 0);
 	if (command->pipe_pos != g_data.num_pipes && g_data.num_pipes > 0)
-	{
 		dup2(g_data.fd[1], 1);
-	}
 	if (command->output_file != 1)
 	{
 		dup2(command->output_file, 1);

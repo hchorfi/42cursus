@@ -62,3 +62,10 @@ void	ft_change(int j, char *token, char *old_var, t_list *newlist)
 		free(tmp_free);
 	}
 }
+
+int	ft_export_error(char *str, char *token)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstrs_fd(str, ": `", token, "': not a valid identifier\n");
+	return (g_data.ret = 1);
+}

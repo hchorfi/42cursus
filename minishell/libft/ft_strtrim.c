@@ -12,11 +12,11 @@
 
 #include "libft.h"
 
-static	int		rtrim(char const *s1, char const *set, int l1)
+static	int	rtrim(char const *s1, char const *set, int l1)
 {
-	int i;
-	int j;
-	int start;
+	int	i;
+	int	j;
+	int	start;
 
 	i = 0;
 	j = 0;
@@ -39,7 +39,7 @@ static	int		rtrim(char const *s1, char const *set, int l1)
 	return (start);
 }
 
-static int		ltrim(char const *s1, char const *set, int start, int l1)
+static	int	ltrim(char const *s1, char const *set, int start, int l1)
 {
 	int		j;
 	int		last;
@@ -65,7 +65,7 @@ static int		ltrim(char const *s1, char const *set, int start, int l1)
 	return (last);
 }
 
-char			*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		l1;
 	int		i;
@@ -79,8 +79,7 @@ char			*ft_strtrim(char const *s1, char const *set)
 	start = rtrim(s1, set, l1);
 	i = 0;
 	last = ltrim(s1, set, start, l1);
-	if (!(strtrim = malloc((last - start + 2) * sizeof(char))))
-		return (NULL);
+	strtrim = malloc((last - start + 2) * sizeof(char));
 	l1 = last - start + 1;
 	while (i < l1)
 	{

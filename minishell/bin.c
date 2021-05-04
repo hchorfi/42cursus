@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/04 14:25:22 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/04 21:42:59 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	ft_exec_bin(t_command *command)
 			&& command->tokens[0][0] == '.' && command->tokens[0][1] == '/'))
 			ft_exec_error(4, command->tokens[0]);
 		path = ft_get_path();
-		bins = ft_split(path, ':');
+		bins = ft_split(path, ':', 0);
 		if (!path || *path == '\0' || !bins)
 			ft_exec_error(4, command->tokens[0]);
 		ft_exec_bin2(bins, path, path_stat, command->tokens);
