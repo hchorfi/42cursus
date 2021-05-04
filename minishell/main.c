@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/03 21:55:58 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/04 15:44:30 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,9 +234,9 @@ int	main(int argc, char **argv, char **envp)
 			}
 			pipe_list = pipe_list->next;
 			j++;
-			if (g_data.rett != NULL)
-				free(g_data.rett);
-			//ft_stock_ret();
+			//if (g_data.rett != NULL)
+				//free(g_data.rett);
+			ft_stock_ret();
 		}
 		if (argc >= 2)
 		{

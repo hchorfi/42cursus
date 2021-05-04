@@ -1012,8 +1012,8 @@ TERM=xterm-256color$$
 _=/root/.cache/minishell_test/bin/env$
 |---------------------------------------ACTUAL----------------------------------
 $
-PATH=/root/.cache/minishell_test/bin$
-TERM=xterm-256color
+PATH=/root/.cache/minishell_test/bin$$
+TERM=xterm-256color$
 ================================================================================
 
 |> WITH exit '3\t\f\r '
@@ -1369,6 +1369,10 @@ a$
 
 |> WITH asdf | echo bonjour
 |  STATUS: expected 0 actual 127
+================================================================================
+
+|> WITH [SETUP touch a b c] ls  | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls | ls
+|  STATUS: expected 0 actual 141
 ================================================================================
 
 |> WITH ls asdfasdf | echo a

@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/03 21:52:27 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/04 15:34:23 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ typedef struct	s_data
 	struct termios orig_term;
 	t_list		*term_list;
 	char		*rett;
+	char		*pwd;
+	char		*oldpwd;
 }				t_data;
 t_data			g_data;
 
@@ -206,6 +208,7 @@ int				ft_strcmp(const char *s1, const char *s2);
 */
 
 void	ft_putstrs_fd(char *s1, char *s2, char *s3, char *s4);
+void	ft_putstrs_er(char *s1, char *s2, char *s3, char *s4);
 
 /*
 ** exit.c

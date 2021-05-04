@@ -20,7 +20,7 @@ void	ft_print_export2(char *content, char *str_chr, char *var)
 		write(1, &str[i], 1);
 		i++;
 	}
-	ft_putstr_fd("\"\n", 2);
+	ft_putstr_fd("\"\n", 1);
 	free(var);
 }
 

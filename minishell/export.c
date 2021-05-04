@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 16:35:17 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/27 13:47:16 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/04 14:20:35 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ void	ft_print_export(t_list *newlist)
 			newlist = newlist->next;
 			continue ;
 		}
-		ft_putstr_fd("declare -x ", 2);
+		ft_putstr_fd("declare -x ", 1);
 		str_chr = ft_strchr(newlist->content, '=');
 		if (str_chr)
 			ft_print_export2(newlist->content, str_chr, NULL);
 		else
 		{
 			ft_putstr_fd(newlist->content, 1);
-			ft_putstr_fd("\n", 2);
+			ft_putstr_fd("\n", 1);
 		}
 		newlist = newlist->next;
 	}

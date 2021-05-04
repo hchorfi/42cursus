@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/13 15:13:16 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/03 21:17:27 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/04 15:05:38 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_del_list(t_list **head, int position, t_list *curr, t_list *prev)
 	else if (position == 1)
 	{
 		*head = curr->next;
-		//free(curr->content);
+		free(curr->content);
 		free(curr);
 		curr = NULL;
 	}
@@ -34,7 +34,7 @@ int	ft_del_list(t_list **head, int position, t_list *curr, t_list *prev)
 			position--;
 		}
 		prev->next = curr->next;
-		//free(curr->content);
+		free(curr->content);
 		free(curr);
 		curr = NULL;
 	}

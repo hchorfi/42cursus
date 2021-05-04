@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/03 15:23:42 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/04 14:25:22 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_exec_bin2(char **bins, char *path, struct stat ps, char **token)
 		{
 			execve(file, token, envp);
 			ft_putstr_fd("minishell: ", 2);
-			ft_putstrs_fd(token[0], ": ", strerror(errno), "\n");
+			ft_putstrs_er(token[0], ": ", strerror(errno), "\n");
 			exit(126);
 		}
 		i++;

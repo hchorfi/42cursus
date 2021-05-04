@@ -64,13 +64,13 @@ void	ft_out_red_file2(char *file, char c, int out, int priority)
 	if (g_data.append == 0)
 	{
 		priority = 1;
-		out = open(file, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+		out = open(file, O_RDWR | O_CREAT | O_TRUNC, 0777);
 		free(file);
 	}
 	else
 	{
 		if (priority == 0 || stat(file, &path_stat))
-			out = open(file, O_RDWR | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
+			out = open(file, O_RDWR | O_CREAT | O_APPEND, 0777);
 		free(file);
 	}
 	if (g_data.command->output_file > 1)

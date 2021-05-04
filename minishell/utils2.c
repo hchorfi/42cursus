@@ -3,6 +3,18 @@
 void	ft_putstrs_fd(char *s1, char *s2, char *s3, char *s4)
 {
 	if (s1 != NULL)
+		ft_putstr_fd(s1, 1);
+	if (s2 != NULL)
+		ft_putstr_fd(s2, 1);
+	if (s3 != NULL)
+		ft_putstr_fd(s3, 1);
+	if (s4 != NULL)
+		ft_putstr_fd(s4, 1);
+}
+
+void	ft_putstrs_er(char *s1, char *s2, char *s3, char *s4)
+{
+	if (s1 != NULL)
 		ft_putstr_fd(s1, 2);
 	if (s2 != NULL)
 		ft_putstr_fd(s2, 2);

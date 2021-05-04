@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 17:51:27 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/03 14:58:26 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/04 15:42:39 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,17 @@ int	ft_change_oldpwd(char *val)
 {
 	char	*tmp;
 	t_list	*newlist;
+	char	*tmp_free;
 
 	newlist = g_data.env_var;
 	while (newlist)
 	{
 		tmp = ft_substr(newlist->content, 0, 7);
 		if (!ft_strncmp(tmp, "OLDPWD=", 8))
-		{
+		{	
+			tmp_free = newlist->content;
 			newlist->content = ft_strjoin("OLDPWD=", val);
+			free(tmp_free);
 			free(tmp);
 			return (0);
 		}
@@ -38,6 +41,7 @@ int	ft_change_pwd(char *val)
 {
 	char	*tmp;
 	t_list	*newlist;
+	char 	*tmp_free;
 
 	newlist = g_data.env_var;
 	while (newlist)
@@ -45,7 +49,9 @@ int	ft_change_pwd(char *val)
 		tmp = ft_substr(newlist->content, 0, 4);
 		if (!ft_strncmp(tmp, "PWD=", 5))
 		{
+			tmp_free = newlist->content;
 			newlist->content = ft_strjoin("PWD=", val);
+			free(tmp_free);
 			free(tmp);
 			return (0);
 		}
@@ -82,7 +88,7 @@ int	cd_error(int error, char *str)
 {
 	if (error == 1)
 	{
-		ft_putstrs_fd(
+		ft_putstrs_er(
 			"minishell: ", str, ": No such file or directory\n", NULL);
 		return (g_data.ret = 1);
 	}
@@ -101,7 +107,7 @@ int	ft_cd(t_command *command)
 	char	*val;
 
 	if (!getcwd(oldpwd, PATH_MAX))
-		ft_putstrs_fd(strerror(errno), "\n", NULL, NULL);
+		ft_putstrs_er(strerror(errno), "\n", NULL, NULL);
 	val = command->tokens[1];
 	if (!val)
 	{
@@ -114,7 +120,7 @@ int	ft_cd(t_command *command)
 	if (!chdir(val))
 	{
 		if (!getcwd(pwd, PATH_MAX))
-			ft_putstrs_fd(strerror(errno), "\n", NULL, NULL);
+			ft_putstrs_er(strerror(errno), "\n", NULL, NULL);
 		ft_change_pwd(pwd);
 		ft_change_oldpwd(oldpwd);
 		return (g_data.ret = 0);
