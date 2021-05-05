@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/05/05 16:10:47 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/05 17:07:53 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -553,62 +553,72 @@ char	*ft_remove_slashes_2(char *str, int start, int end)
 	return (back);
 }
 
+
+int 	remove_all2(int *i, char *str, int *s_quote, int *d_quote)
+{
+	char *s;
+	int start;
+ 
+	if (str[*i] == '\'' && (*s_quote) == 0 && (*d_quote) == 0 && !(is_escaped(str, *i)))
+	{
+		(*s_quote) = 1;
+		s = ft_remove_slashes(str, start, *i);
+		g_data.ptr = ft_stock(g_data.ptr, s, ft_strlen(s));
+		start = (*i) + 1;
+		free(s);
+		(*i)++;
+	}
+	if (str[(*i)] == '\'' && (*s_quote) == 1)
+	{
+		s = ft_substr(str, start, (*i) - start);
+		g_data.ptr = ft_stock(g_data.ptr, s, (*i) - start);
+		start = (*i) + 1;
+		free(s);
+		(*s_quote) = 0;
+	}
+	if (str[(*i)] == '"' && (*d_quote) == 0 && (*s_quote) == 0 && !(is_escaped(str, (*i))))
+	{
+		(*d_quote) = 1;
+		s = ft_remove_slashes(str, start, (*i));
+		g_data.ptr = ft_stock(g_data.ptr, s, ft_strlen(s));
+		start = (*i) + 1;
+		free(s);
+		(*i)++;
+	}
+	if (str[(*i)] == '"' && (*d_quote) == 1 && str[(*i)] != '\0' && !(is_escaped(str, (*i))))
+	{
+		s = ft_remove_slashes_2(str, start, (*i));
+		g_data.ptr = ft_stock(g_data.ptr, s, ft_strlen(s));
+		start = (*i) + 1;
+		(*d_quote) = 0;
+		free(s);
+	}
+	return start;
+}
+
 char	*remove_all_quotes(char *str)
 {
 	int s_quote = 0;
 	int d_quote = 0;
 	int start = 0;
 	int i = 0;
-	char *ptr;
 	char *s;
-	ptr = ft_strdup("");
+
+	g_data.ptr = ft_strdup("");
 	while(str[i])
 	{
-		if (str[i] == '\'' && s_quote == 0 && d_quote == 0 && !(is_escaped(str, i)))
-		{
-			s_quote = 1;
-			s = ft_remove_slashes(str, start, i);
-			ptr = ft_stock(ptr, s, ft_strlen(s));
-			start = i + 1;
-			free(s);
-			i++;
-		}
-		if (str[i] == '\'' && s_quote == 1)
-		{
-			s = ft_substr(str, start, i - start);
-			ptr = ft_stock(ptr, s, i - start);
-			start = i + 1;
-			free(s);
-			s_quote = 0;
-		}
-		if (str[i] == '"' && d_quote == 0 && s_quote == 0 && !(is_escaped(str, i)))
-		{
-			d_quote = 1;
-			s = ft_remove_slashes(str, start, i);
-			ptr = ft_stock(ptr, s, ft_strlen(s));
-			start = i + 1;
-			free(s);
-			i++;
-		}
-		if (str[i] == '"' && d_quote == 1 && str[i] != '\0' && !(is_escaped(str, i)))
-		{
-		 	s = ft_remove_slashes_2(str, start, i);
-			ptr = ft_stock(ptr, s, ft_strlen(s));
-			start = i + 1;
-			d_quote = 0;
-			free(s);
-		}
+		start = remove_all2(&i, str, &s_quote, &d_quote);
 		if (str[i] != '\0')	
 			i++;
 		if (str[i] == '\0')
 		{
 			s = ft_remove_slashes(str, start, i);
-			ptr = ft_stock(ptr, s, ft_strlen(s));
+			g_data.ptr = ft_stock(g_data.ptr, s, ft_strlen(s));
 			free(s);
 			break ;
 		}
 	}
-	return(ptr);
+	return(g_data.ptr);
 }
 
 void	init_3params(int *i, int *j, int *d)
