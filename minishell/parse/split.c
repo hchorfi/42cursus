@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 17:14:39 by anassif           #+#    #+#             */
-/*   Updated: 2021/05/04 22:18:55 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/05 16:10:47 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -561,8 +561,6 @@ char	*remove_all_quotes(char *str)
 	int i = 0;
 	char *ptr;
 	char *s;
-	int trim = 0;
-	int hh = 0;
 	ptr = ft_strdup("");
 	while(str[i])
 	{
@@ -572,7 +570,6 @@ char	*remove_all_quotes(char *str)
 			s = ft_remove_slashes(str, start, i);
 			ptr = ft_stock(ptr, s, ft_strlen(s));
 			start = i + 1;
-			trim = 1;
 			free(s);
 			i++;
 		}
@@ -590,7 +587,6 @@ char	*remove_all_quotes(char *str)
 			s = ft_remove_slashes(str, start, i);
 			ptr = ft_stock(ptr, s, ft_strlen(s));
 			start = i + 1;
-			trim = 1;
 			free(s);
 			i++;
 		}
@@ -622,29 +618,29 @@ void	init_3params(int *i, int *j, int *d)
 	*d = 0;
 }
 
-int	my_ternary(int splited, int i, int d)
+int	my_ternary(int *splited, int i, int d)
 {
-	if (splited == 1)
+	if (*splited == 1)
+	{
+		*splited = 0;
 		return (i + 1);
+	}
+	*splited = 0;
 	return (d);
 }
 
-char	**ft_split_pars(char *s, char c)
+char	**split_parse2(char *s, char **str, char c, int splited)
 {
-	int	i;
-	int	j;
-	int	d;
-	char	**str;
 	char	*tmp_free;
+	int		i;
+	int		j;
+	int		d;
 
-	if (s != NULL)
-		s = ft_strtrim(s, " ");
-	str = (char **)malloc(sizeof(char *) * (countt(s, c) + 1));
 	init_3params(&i, &j, &d);
-	int splited = 0;
 	while (2)
 	{
-		if (((s[i] == c && i != 0) || (s[i] == '\0' && i > 0)) && chec_before(s, i, c) && !is_escaped(s, i))
+		if (((s[i] == c && i != 0) || (s[i] == '\0' && i > 0))
+			&& chec_before(s, i, c) && !is_escaped(s, i))
 		{
 			tmp_free = ft_substr(s, d, i - d);
 			if (check_cots(tmp_free, 0, 0))
@@ -654,12 +650,23 @@ char	**ft_split_pars(char *s, char c)
 			}
 			free(tmp_free);
 		}
-		d = my_ternary(splited, i, d);
-		splited = 0;
+		d = my_ternary(&splited, i, d);
 		if (s[i++] == '\0')
 			break ;
 	}
 	str[j] = NULL;
+	return (str);
+}
+
+char	**ft_split_pars(char *s, char c)
+{
+	char	**str;
+	int j;
+
+	if (s != NULL)
+		s = ft_strtrim(s, " ");
+	str = (char **)malloc(sizeof(char *) * (countt(s, c) + 1));
+	str = split_parse2(s, str, c, 0);
 	if (s)
 		free (s);
 	return (str);

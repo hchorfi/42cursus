@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/04 22:54:45 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/05 15:13:58 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,28 +67,48 @@ void	ft_parse(char *line, int j, int i)
 	ft_free_d_p(cmds);
 }
 
+int ft_check_syntax_last(char *line)
+{
+	int	len;
+
+	if (line)
+		len = ft_strlen(line) - 1;
+	while (line[len] == ' ')
+		len--;
+	if (line[len] == '|' || line[len] == '>' || line[len] == '<')
+	{
+		printf("minishell: syntax error near unexpected token `newline'\n");
+		return (0);
+	}
+	return (1);
+}
+
 int	ft_check_syntax(char *line)
 {
+	while (line && *line == ' ')
+		line++;
 	if (*line == '|' || *line == ';')
 	{
 		printf("minishell: syntax error near unexpected token `%c'\n", *line);
 		return (g_data.ret = 2);
 	}
 	if ((*line == '|') || remove_tabs_check(line, '|'))
-    {
-        printf("minishell: syntax error near unexpected token `|'\n");
-        return (g_data.ret = 2);
-    }
-    if ((*line == ';') || remove_tabs_check(line, ';'))
-    {
-        printf("minishell: syntax error near unexpected token `;'\n");
-        return (g_data.ret = 2);
-    }
+	{
+		printf("minishell: syntax error near unexpected token `|'\n");
+		return (g_data.ret = 2);
+	}
+	if ((*line == ';') || remove_tabs_check(line, ';'))
+	{
+		printf("minishell: syntax error near unexpected token `;'\n");
+		return (g_data.ret = 2);
+	}
 	if (remove_tabs_check(line, '<'))
-    {
-        printf("minishell: syntax error near unexpected token `<'\n");
-        return (g_data.ret = 2);
-    }
+	{
+		printf("minishell: syntax error near unexpected token `<'\n");
+		return (g_data.ret = 2);
+	}
+	if (!ft_check_syntax_last(line))
+		return (g_data.ret = 2);
 	return (0);
 }
 
@@ -102,23 +122,9 @@ int	ft_prompt(int argc, char **argv)
 	}
 	else
 	{
-		if (g_data.ret == 0)
-		{
-			ft_printf("\033[0;32m");
-			ft_printf("minishell 👽 > ");
-			ft_printf("\033[0m");
-		}
-		else
-		{
-			ft_printf("\033[0;31m");
-			ft_printf("minishell 👽 > ");
-			ft_printf("\033[0m");
-		}
+		ft_putstrs_fd("\033[0;32m", "minishell 👽 > ", "\033[0m", NULL);
 		get_line();
-		//get_next_line(1, &g_data.line);
 	}
-	//if (!ft_check_syntax(g_data.line))
-		//ft_parse(g_data.line, 0, 0);
 	if (argc < 2)
 		free(g_data.line);
 	return (0);
@@ -131,12 +137,7 @@ void	sighandler(int dummy)
 		g_data.line[0] = '\0';
 		*(char *)(ft_lstlast(g_data.history)->content) = '\0';
 		if (g_data.n_fork == 0)
-		{
-			ft_printf("\n");
-			ft_printf("\033[0;32m");
-			ft_printf("minishell 👽 > ");
-			ft_printf("\033[0m");
-		}
+			ft_putstrs_fd("\n", "\033[0;32m", "minishell 👽 > ", "\033[0m");
 		else
 			ft_printf("\n");
 	}
@@ -184,31 +185,54 @@ void	ft_exec(t_command *command)
 
 //const char* __asan_default_options() { return "detect_leaks=0"; }
 
+void	init2(int *num_pipe)
+{
+	g_data.num_pipes = *num_pipe;
+	g_data.fdd = 0;
+	g_data.n_fork = 0;
+	g_data.fd[0] = 0;
+	g_data.fd[1] = 1;
+}
+
+void	ft_close_and_ret(int *j, t_list **pipe_list)
+{
+	ft_close_fd();
+	while (g_data.n_fork > 0)
+	{
+		wait(&g_data.ret);
+		if (WIFSIGNALED(g_data.ret))
+			g_data.ret = WTERMSIG(g_data.ret) + 128;
+		if (WIFEXITED(g_data.ret))
+			g_data.ret = WEXITSTATUS(g_data.ret);
+		g_data.n_fork--;
+	}
+	*pipe_list = (*pipe_list)->next;
+	(*j)++;
+}
+
+void	init1(int argc, char **argv, t_list **newlist, t_list **pipe_list, int *j)
+{
+	signal(SIGQUIT, sighandler);
+	signal(SIGINT, sighandler);
+	*j = ft_prompt(argc, argv);
+	*newlist = g_data.cmds;
+	*pipe_list = g_data.n_pipe_cmd;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_list		*newlist;
 	t_list		*pipe_list;
 	t_command	*command;
 	int			j;
-	int			mini;
 
-	g_data.ret = 0;
 	ft_stock_envp(envp);
 	while (1)
 	{
-		signal(SIGQUIT, sighandler);
-		signal(SIGINT, sighandler);
-		j = ft_prompt(argc, argv);
-		newlist = g_data.cmds;
-		pipe_list = g_data.n_pipe_cmd;
+		init1(argc, argv, &newlist, &pipe_list, &j);
 		while (pipe_list)
 		{
-			g_data.rett = NULL;
-			g_data.num_pipes = *(int *)pipe_list->content;
-			g_data.fdd = 0;
-			g_data.n_fork = 0;
-			g_data.fd[0] = 0;
-			g_data.fd[1] = 1;
+			init2(pipe_list->content);
 			while (newlist && (((t_command *)newlist->content)->block == j))
 			{
 				command = (t_command *)newlist->content;
@@ -216,21 +240,7 @@ int	main(int argc, char **argv, char **envp)
 					ft_exec(command);
 				newlist = newlist->next;
 			}
-			ft_close_fd();
-			while (g_data.n_fork > 0)
-			{
-				wait(&g_data.ret);
-				if (WIFSIGNALED(g_data.ret))
-					g_data.ret = WTERMSIG(g_data.ret) + 128;
-				if (WIFEXITED(g_data.ret))
-					g_data.ret = WEXITSTATUS(g_data.ret);
-				//g_data.ret /= 256;
-				g_data.n_fork--;
-			}
-			pipe_list = pipe_list->next;
-			j++;
-			//if (g_data.rett != NULL)
-				//free(g_data.rett);
+			ft_close_and_ret(&j, &pipe_list);
 			ft_stock_ret();
 		}
 		if (argc >= 2)
@@ -239,11 +249,6 @@ int	main(int argc, char **argv, char **envp)
 			return (g_data.ret);
 		}
 		ft_free_list();
-		if (argc < 2)
-		{	
-			//ft_putstr_fd("\n\nleak report\n------------\n ", 2);
-			//system("leaks minishell");
-		}
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/13 14:43:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/04 22:37:08 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/05 14:04:53 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	ft_stock_envp(char **envp)
 	char	*tmp_free;
 
 	i = 0;
+	g_data.ret = 0;
 	g_data.env_var = NULL;
 	while (envp[i])
 	{

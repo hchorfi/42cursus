@@ -45,7 +45,6 @@ char	*ft_get_path(void)
 {
 	char	*path;
 	char	*tmp;
-	int		len;
 	t_list	*newlist;
 
 	newlist = g_data.env_var;
