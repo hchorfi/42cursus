@@ -15,6 +15,12 @@ SRCS = main.c\
 		bin.c\
 		bin_utils.c\
 		parse/split.c\
+		parse/split_utils1.c\
+		parse/split_utils2.c\
+		parse/split_utils3.c\
+		parse/split_utils4.c\
+		parse/split_utils5.c\
+		parse/split_utils6.c\
 		echo.c\
 		exit.c\
 		term.c\
