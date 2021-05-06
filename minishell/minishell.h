@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/05 16:38:57 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/06 13:57:35 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ typedef struct	s_data
 	struct termios orig_term;
 	t_list		*term_list;
 	char		*ptr;
-	
+	int			sq;
+	int			dq;
 }				t_data;
 t_data			g_data;
 
@@ -92,7 +93,7 @@ void	ft_add_line_to_his(void);
 */
 
 int				ft_echo(t_command *command, int i, int n);
-int				is_quote(char c);
+static	int	check_n(char *args);
 
 /*
 ** split.c
@@ -112,6 +113,12 @@ char	**csplit(const char *s, char c);
 */
 
 int				ft_cd(t_command *command);
+int				ft_change_oldpwd(char *val);
+int	ft_change_pwd(char *val);
+char	*ft_get_home(void);
+int	cd_error(int error, char *str);
+
+
 
 /*
 ** pwd.c
@@ -123,9 +130,9 @@ int				ft_pwd(void);
 ** export.c
 */
 
-int				ft_valid_export_var(t_command *command, char *export_var, char *token, char *str);
-int				ft_exist_export_var(char *export_var, char *token);
-char			*ft_get_export_var(char *exp_token);
+int	ft_exist_var(char *export_var, char *token, int j, t_list *newlist);
+void	ft_print_export(t_list *newlist);
+void	ft_add_to_ex_list(char *token);
 int				ft_export(t_command *command);
 
 /*
@@ -214,6 +221,9 @@ void	ft_putstrs_er(char *s1, char *s2, char *s3, char *s4);
 */
 
 int	ft_exit(t_command *command, int i);
+int	ft_just_numbers(char *str);
+int	ft_exit_error(int error, char *str);
+
 
 /*
 ** redirections.c
@@ -232,6 +242,7 @@ void	ft_out_red_file(char *tmp_out, char **new_pipe);
 int	ft_check_in2(char *tmp_in);
 int	ft_check_out(char **tmp_out);
 void	ft_out_red_file2(char *file, char c, int out, int priority);
+void	ft_close_get_out(int out);
 
 /*
 ** builtin_utils.c
@@ -248,13 +259,107 @@ void    ft_builtin(t_command *command);
 void	ft_prepare_tokens(t_command *command, int k, int len);
 void	ft_new_tokens(t_command *command, int len, int k, char **tmp_double2);
 
+/*
+** split_utils.c
+*/
+
+char	*get_other_variables(char *str);
+char	*ft_remove_slashes(char *str, int start, int end);
+char	*remove_all_quotes(char *str);
+char	**split_parse2(char *s, char **str, char c, int splited);
+char	**ft_split_pars(char *s, char c);
+
+/*
+** split_utils1.c
+*/
+
+int	is_escaped(char *s, int j);
+int	chec_before(char *s, int i, char c);
+int	countt(char *s, char c);
+char	**ft_free(char **s, int j);
+int	ft_count(const char *s, int l);
+
+/*
+** split_util2.c
+*/
+
+int	check_char(char c);
+int	check_cots(char *s, int d_quote, int s_quote);
+int	remove_tabs_check(char *s, char c);
+char	*ft_stock(char *line, char *buff, int i);
+char	*ft_put_variable(char *str, int k, int j);
+
+/*
+** split_util3.c
+*/
+
+int	ft_ch_do(int i, int c, char *s);
+int	ft_rep_var_2(int value_len, char *value, char *ptr, int *i);
+char	*ft_replace_variable(char *str, char *value, int k, int j);
+void	ft_get_var3(int *s_quote, int *d_quote, int *j, char *str);
+int	ft_get_var2(int j, char *str, int *k, int i);
+
+/*
+** split_util4.c
+*/
+
+int	ft_remove_slashes3(int i, char *str, int end);
+void	ft_remove_slashes4(char *str, char **back, int end, int i);
+void	ft_remove_slashes_7(int count, int *j, char **back);
+char	*ft_remove_slashes_6(char *str, int i, int end, int len);
+char	*ft_remove_slashes_2(char *str, int start, int end);
+
+/*
+** split_util5.c
+*/
+
+void	init_3params(int *i, int *j, int *d);
+int	my_ternary(int *splited, int i, int d);
+void	ft_remove_all1(char *str, int *i, int *start);
+void	ft_remove_all2(char *str, int *i, int *start);
+int	ft_remove_slashes_5(char *str, int i, int end);
+
+/*
+** split_util6.c
+*/
+
+int	get_other_var2(char *str, int i, int d_quote, int s_quote);
+void	fill_with(char *s, int start, int len, char c);
+char	*ft_variable_value(char *var);
+char	*ft_check_dollar_slash(char	*s, int i, int c);
+char	*ft_get_variables(char *str, int start, int i);
+
+/*
+** term_keys.c
+*/
+
+void	ft_new_line(void);
+void	down_key(void);
+void	up_key(void);
+void	delete_end(int *col);
+void	ft_ctrld(void);
+
+/*
+** term_utils.c
+*/
+
+void	ft_up_down(int c, int *col);
+void	ft_add_line_to_his(void);
+
+/*
+** term.c
+*/
+
 int		get_line(void);
+void	ft_init_get_line(int *col);
+void	ft_get_char(int c, int *col);
+void	ft_init_term(void);
+
+/*
+** main.c
+*/
 
 void	sighandler(int dummy);
-int				remove_tabs_check(char *s, char c);
 int	ft_check_syntax(char *line);
-void	get_cursor_position(int *col, int *rows, int a, int i);
-int	nbr_length(int n);
-void	ft_init_term(void);
 
 #endif
