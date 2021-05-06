@@ -6,7 +6,7 @@
 #    By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/06 14:33:51 by hchorfi           #+#    #+#              #
-#    Updated: 2021/05/06 14:39:56 by hchorfi          ###   ########.fr        #
+#    Updated: 2021/05/06 15:06:44 by hchorfi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCS = main.c\
 		term_utils.c\
 		utils1.c\
 		utils2.c\
+		utils3.c\
 		redirections.c\
 		redirections_utils.c\
 		builtin_utils.c\
@@ -48,7 +49,7 @@ FLAGS = -Werror -Wextra -Wall
 ASAN =  -g #-fsanitize=address
 $(NAME) :
 	make -C $(LIBFT_PATH)
-	gcc -g $(ASAN) $(SRCS) libft/libft.a ft_printf/libftprintf.a -lncurses -o $(NAME)
+	gcc -g $(ASAN) $(SRCS) libft/libft.a -lncurses -o $(NAME)
 	
 all: $(NAME)
 

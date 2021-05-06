@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/06 14:54:16 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/06 15:07:28 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "libft/libft.h"
-# include "ft_printf/ft_printf.h"
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
@@ -49,10 +48,10 @@ typedef struct	s_data
 {
 	t_list		*env_var;
 	t_list		*history;
-	t_list		*cmds;            //all commands
+	t_list		*cmds;
 	t_list		*n_pipe_cmd;
 	t_list		*fd_close;
-	t_command	*command;         //one pipe lina or command
+	t_command	*command;
 	int			ret;
 	int			fd[2];
 	int			fdd;
@@ -219,6 +218,15 @@ int ft_check_syntax_last(char *line);
 int	ft_check_syntax2(char *line);
 int	ft_check_syntax(char *line);
 
+/*
+** utils2.c
+*/
+
+void	init2(int *num_pipe);
+void	ft_close_and_ret(int *j, t_list **pipe_list);
+void	init1(char **argv, t_list **newlist, t_list **pipe_list, int *j);
+int	check_input(t_list *newlist, int j);
+void	ft_parse2(int i, int j, char *pipe_cmd);
 
 /*
 ** exit.c

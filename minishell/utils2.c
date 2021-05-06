@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 14:35:37 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/06 14:52:19 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/06 15:02:08 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_putstrs_er(char *s1, char *s2, char *s3, char *s4)
 		ft_putstr_fd(s4, 2);
 }
 
-int ft_check_syntax_last(char *line)
+int	ft_check_syntax_last(char *line)
 {
 	int	len;
 
