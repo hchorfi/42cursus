@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/05 15:13:58 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/06 14:54:51 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,51 +67,6 @@ void	ft_parse(char *line, int j, int i)
 	ft_free_d_p(cmds);
 }
 
-int ft_check_syntax_last(char *line)
-{
-	int	len;
-
-	if (line)
-		len = ft_strlen(line) - 1;
-	while (line[len] == ' ')
-		len--;
-	if (line[len] == '|' || line[len] == '>' || line[len] == '<')
-	{
-		printf("minishell: syntax error near unexpected token `newline'\n");
-		return (0);
-	}
-	return (1);
-}
-
-int	ft_check_syntax(char *line)
-{
-	while (line && *line == ' ')
-		line++;
-	if (*line == '|' || *line == ';')
-	{
-		printf("minishell: syntax error near unexpected token `%c'\n", *line);
-		return (g_data.ret = 2);
-	}
-	if ((*line == '|') || remove_tabs_check(line, '|'))
-	{
-		printf("minishell: syntax error near unexpected token `|'\n");
-		return (g_data.ret = 2);
-	}
-	if ((*line == ';') || remove_tabs_check(line, ';'))
-	{
-		printf("minishell: syntax error near unexpected token `;'\n");
-		return (g_data.ret = 2);
-	}
-	if (remove_tabs_check(line, '<'))
-	{
-		printf("minishell: syntax error near unexpected token `<'\n");
-		return (g_data.ret = 2);
-	}
-	if (!ft_check_syntax_last(line))
-		return (g_data.ret = 2);
-	return (0);
-}
-
 int	ft_prompt(int argc, char **argv)
 {
 	if (argc >= 2)
@@ -139,12 +94,12 @@ void	sighandler(int dummy)
 		if (g_data.n_fork == 0)
 			ft_putstrs_fd("\n", "\033[0;32m", "minishell 👽 > ", "\033[0m");
 		else
-			ft_printf("\n");
+			ft_putstr_fd("\n", 1);
 	}
 	else if (dummy == SIGQUIT)
 	{
 		if (g_data.n_fork > 0)
-			ft_printf("Quit: 3\n");
+			ft_putstr_fd("Quit: 3\n", 1);
 	}
 }
 
@@ -182,8 +137,6 @@ void	ft_exec(t_command *command)
 		ft_lstadd_back(&g_data.fd_close, ft_lstnew(tmp));
 	}
 }
-
-//const char* __asan_default_options() { return "detect_leaks=0"; }
 
 void	init2(int *num_pipe)
 {

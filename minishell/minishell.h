@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/06 13:57:35 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/06 14:54:16 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,6 +215,10 @@ int				ft_strcmp(const char *s1, const char *s2);
 
 void	ft_putstrs_fd(char *s1, char *s2, char *s3, char *s4);
 void	ft_putstrs_er(char *s1, char *s2, char *s3, char *s4);
+int ft_check_syntax_last(char *line);
+int	ft_check_syntax2(char *line);
+int	ft_check_syntax(char *line);
+
 
 /*
 ** exit.c
@@ -345,6 +349,7 @@ void	ft_ctrld(void);
 
 void	ft_up_down(int c, int *col);
 void	ft_add_line_to_his(void);
+
 
 /*
 ** term.c

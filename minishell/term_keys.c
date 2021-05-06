@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 13:30:46 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/04 14:21:52 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/06 14:22:30 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,6 @@ void	ft_ctrld(void)
 	if (g_data.line && ft_strlen(g_data.line) == 0)
 	{
 		ft_putstr_fd("exit\n", 2);
-		exit(0);
+		exit(g_data.ret);
 	}
 }
