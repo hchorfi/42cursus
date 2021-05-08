@@ -22,8 +22,7 @@ char	*ft_strdup(const char *s1)
 	i = 0;
 	while (s1[len] != '\0')
 		len++;
-	if (!(str = malloc(sizeof(char) * (len + 1))))
-		return (NULL);
+	str = malloc(sizeof(char) * (len + 1));
 	while (s1[i] != '\0')
 	{
 		str[i] = s1[i];

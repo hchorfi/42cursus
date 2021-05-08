@@ -30,8 +30,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		mlen = slen - start + 1;
 	else
 		mlen = len + 1;
-	if (!(substr = malloc(mlen * sizeof(char))))
-		return (NULL);
+	substr = malloc(mlen * sizeof(char));
 	while (s[start] != '\0' && i < len)
 		substr[i++] = s[start++];
 	substr[i] = '\0';

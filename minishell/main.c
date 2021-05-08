@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/06 15:05:38 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/06 15:10:48 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,6 @@ int	main(int argc, char **argv, char **envp)
 			}
 			ft_close_and_ret(&j, &pipe_list);
 			ft_stock_ret();
-		}
-		if (argc >= 2)
-		{
-			argc = 0;
-			return (g_data.ret);
 		}
 		ft_free_list();
 	}

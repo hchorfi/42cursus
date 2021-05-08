@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 11:33:01 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/04/07 18:40:25 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/08 16:11:59 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_list   *ft_init_stacks(int argc, char **argv, int stack)
     t_list  *b;
     int     i;
     int     *val;
-    
+
     i = 1;
     b = NULL;
     a = NULL;
@@ -52,17 +52,33 @@ void    ft_print_stacks(t_list **a_head, t_list **b_head)
     t_list  *b;
     a = *a_head;
     b = *b_head;
-    while (a)
+    int link_len;
+    int aa;
+
+    if (ft_lstsize(a) > ft_lstsize(b))
+        link_len = ft_lstsize(a);
+    else
+        link_len = ft_lstsize(b);
+    while (link_len)
     {
-        printf("%10d", *(int *)a->content);
-        if(b)
+        if(a)
         {
-            printf("  %10d\n", *(int *)b->content);
-            b = b->next;
+            printf("%10d", *(int *)a->content);
+            a = a->next;
+            aa = 0;
         }
         else
-            printf(" \n");
-        a = a->next;
+            aa = 1;
+        if (b)
+        {
+            if (aa == 0)
+                printf("  %10d", *(int *)b->content);
+            else
+                printf("  %20d", *(int *)b->content);
+            b = b->next;
+        }
+        printf(" \n");
+        link_len--;
     }
     printf("----------  ----------\n");
     printf("(stack  a)  (stack b )\n");
@@ -198,12 +214,14 @@ void    ft_rrr(t_list **a, t_list **b)
 int    ft_check_stack_ops(t_list **a, t_list **b)
 {
     char *line;
+    int  ret;
 
     printf("a : %p\n", *a);
     printf("b : %p\n", *b);
     while (1)
     {
-        get_next_line(1, &line);
+        ret = get_next_line(1, &line);
+        printf("opp : %s\n", line);
         if (!strcmp(line, "sa"))
         {
             ft_swap_stack(*(&a));
@@ -248,8 +266,17 @@ int    ft_check_stack_ops(t_list **a, t_list **b)
         {
             ft_rrr(*(&a), *(&b));
         }
+        else if (ret == 1 && ft_strlen(line) == 0)
+        {
+            continue ;
+        }
+        else if (ret == 0 && ft_strlen(line) == 0)
+        {
+            return (0);
+        }
         else
         {
+            printf("ret : %d - len : %d - line : %s\n", ret, ft_strlen(line), line);
             printf("Error\n");
             return (1);
         }
@@ -258,6 +285,17 @@ int    ft_check_stack_ops(t_list **a, t_list **b)
     return (0);
 }
 
+void    ft_check_sorting(t_list **a, t_list **b)
+{
+    int a;
+    int a_nx
+    b = ft_atoi();
+    while (*a && (*a)->next)
+    {
+        if (ft_strcmp())
+    }
+    
+}
 
 int main(int argc, char **argv)
 {
@@ -279,5 +317,7 @@ int main(int argc, char **argv)
     ft_print_stacks(&a, &b);
     if (ft_check_stack_ops(&a, &b))
         return (1);
+    else
+        ft_check_sorting(&a, &b);
     return (0);
 }

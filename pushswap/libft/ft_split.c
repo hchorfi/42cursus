@@ -12,10 +12,10 @@
 
 #include "libft.h"
 
-static int		ft_nw(char *s, char c)
+static int	ft_nw(char *s, char c)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -36,9 +36,9 @@ static int		ft_nw(char *s, char c)
 	return (j);
 }
 
-static int		ft_w(char *s, char c, int i)
+static int	ft_w(char *s, char c, int i)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (s[i] != c && s[i] != '\0')
@@ -49,17 +49,16 @@ static int		ft_w(char *s, char c, int i)
 	return (len);
 }
 
-char			**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c, int k)
 {
 	char	**split;
 	int		i;
 	int		j;
-	int		k;
 
-	k = 0;
 	i = 0;
 	j = 0;
-	if (!s || !(split = malloc(sizeof(char *) * (ft_nw((char *)s, c) + 1))))
+	split = malloc(sizeof(char *) * (ft_nw((char *)s, c) + 1));
+	if (!s || !split)
 		return (0);
 	while (s[i] != '\0')
 	{

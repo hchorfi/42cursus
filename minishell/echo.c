@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static	int	check_n(char *args)
+int	check_n(char *args)
 {
 	int	i;
 

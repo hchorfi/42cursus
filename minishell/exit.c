@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/10 18:55:47 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/04 22:38:05 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/06 15:27:44 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_just_numbers(char *str)
 
 int	ft_exit_error(int error, char *str)
 {
-	//ft_putstr_fd("exit\n", 2);
+	ft_putstr_fd("exit\n", 2);
 	if (error == 0)
 		exit (g_data.ret);
 	else if (error == 1)
