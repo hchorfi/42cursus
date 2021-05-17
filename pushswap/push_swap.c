@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 11:33:01 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/08 16:11:59 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/09 23:33:07 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_list   *ft_init_stacks(int argc, char **argv, int stack)
     a = NULL;
     if (stack == 0)
     {
-        printf("b : %p\n", b);
+        // printf("b : %p\n", b);
         return (b);
     }
     else
@@ -39,7 +39,7 @@ t_list   *ft_init_stacks(int argc, char **argv, int stack)
                 ft_lstadd_back(&a, ft_lstnew(val));
             i++;            
         }
-        printf("a : %p\n", a);
+        // printf("a : %p\n", a);
         return (a);
     }
 }
@@ -216,12 +216,12 @@ int    ft_check_stack_ops(t_list **a, t_list **b)
     char *line;
     int  ret;
 
-    printf("a : %p\n", *a);
-    printf("b : %p\n", *b);
+    // printf("a : %p\n", *a);
+    // printf("b : %p\n", *b);
     while (1)
     {
         ret = get_next_line(1, &line);
-        printf("opp : %s\n", line);
+        // printf("opp : %s\n", line);
         if (!strcmp(line, "sa"))
         {
             ft_swap_stack(*(&a));
@@ -276,25 +276,34 @@ int    ft_check_stack_ops(t_list **a, t_list **b)
         }
         else
         {
-            printf("ret : %d - len : %d - line : %s\n", ret, ft_strlen(line), line);
+            // printf("ret : %d - len : %d - line : %s\n", ret, ft_strlen(line), line);
             printf("Error\n");
             return (1);
         }
-        ft_print_stacks(*(&a), *(&b));
+        // ft_print_stacks(*(&a), *(&b));
     }
     return (0);
 }
 
-void    ft_check_sorting(t_list **a, t_list **b)
+int ft_check_sorting(t_list *a, t_list *b)
 {
-    int a;
-    int a_nx
-    b = ft_atoi();
-    while (*a && (*a)->next)
+    while (a && a->next)
     {
-        if (ft_strcmp())
+        // ft_putnbr_fd(*(int *)a->content, 1);
+        // ft_putstr_fd(" : ", 1);
+        // ft_putnbr_fd(*(int *)a->next->content, 1);
+        // ft_putstr_fd("\n", 1);
+        if ((*(int *)a->content) < (*(int *)a->next->content))
+            a = a->next;
+        else
+        {
+            ft_putstr_fd("ko\n", 1);
+            return (1);
+        }
     }
-    
+    if (ft_lstsize(b) == 0 && !b)
+        ft_putstr_fd("ok\n", 1);
+    return (0);
 }
 
 int main(int argc, char **argv)
@@ -311,13 +320,12 @@ int main(int argc, char **argv)
     }
     a = ft_init_stacks(argc, argv, 1);
     b = ft_init_stacks(argc, argv, 0);
-    printf("a : %p\n", a);
-    printf("b : %p\n", b);
-    printf("init stacks\n");
-    ft_print_stacks(&a, &b);
+    // printf("a : %p\n", a);
+    // printf("b : %p\n", b);
+    // printf("init stacks\n");
+    // ft_print_stacks(&a, &b);
     if (ft_check_stack_ops(&a, &b))
         return (1);
-    else
-        ft_check_sorting(&a, &b);
+    ft_check_sorting(a, b);
     return (0);
 }
