@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 14:54:36 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/19 19:03:24 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/19 23:20:20 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@
 # include <stdlib.h>
 # include <pthread.h>
 
-typedef struct  s_ph_data
-{
-    int ph_number;
-    int tt_die;
-    int tt_eat;
-    int tt_sleep;
-}               t_ph_data;
 
 typedef struct  s_data
 {
@@ -35,6 +28,15 @@ typedef struct  s_data
     pthread_mutex_t *f_mutex;
     pthread_t	    *thread;
 }               t_data;
+
+typedef struct  s_ph_data
+{
+    int ph_number;
+    int tt_die;
+    int tt_eat;
+    int tt_sleep;
+    t_data      *data;
+}               t_ph_data;
 
 /*
 ** error.c
