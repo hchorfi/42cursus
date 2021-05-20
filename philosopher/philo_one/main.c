@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 14:52:14 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/19 23:35:53 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/20 18:31:39 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int mail = 0;
 
-void	ft_init(int argc, char **argv, t_data *data, t_ph_data *ph_data)
+void	ft_init(int argc, char **argv, t_data *data, t_philo *philo)
 {
 	int i;
 
@@ -26,16 +26,17 @@ void	ft_init(int argc, char **argv, t_data *data, t_ph_data *ph_data)
 		data->max_ph_eat = -1;
 	while (i < data->n_philos)
 	{
-		ph_data[i].ph_number = i + 1;
-		ph_data[i].tt_die = ft_atoi(argv[2]);
-		ph_data[i].tt_eat = ft_atoi(argv[3]);
-		ph_data[i].tt_sleep = ft_atoi(argv[4]);
+		philo[i].ph_number = i + 1;
+		philo[i].tt_die = ft_atoi(argv[2]);
+		philo[i].tt_eat = ft_atoi(argv[3]);
+		philo[i].tt_sleep = ft_atoi(argv[4]);
+		philo[i].data = data;
 		pthread_mutex_init(&(data->f_mutex)[i], NULL);
 		i++;
 	}
 }
 
-void	ft_print_philo_data(t_ph_data *ph_data, t_data *data)
+void	ft_print_philo_data(t_philo *philo, t_data *data)
 {
 	int i;
 
@@ -46,16 +47,16 @@ void	ft_print_philo_data(t_ph_data *ph_data, t_data *data)
 	printf("**************\n");
 	while (i < data->n_philos)
 	{
-		printf("%d philo number %d \n", i, ph_data[i].ph_number);
+		printf("%d philo number %d \n", i, philo[i].ph_number);
 		printf("----------------\n");
-		printf("time_to_die : %d\n", ph_data[i].tt_die);
-		printf("time_to_eat : %d\n", ph_data[i].tt_eat);
-		printf("time_to_sleep : %d\n\n", ph_data[i].tt_sleep);
+		printf("time_to_die : %d\n", philo[i].tt_die);
+		printf("time_to_eat : %d\n", philo[i].tt_eat);
+		printf("time_to_sleep : %d\n\n", philo[i].tt_sleep);
 		i++;
 	}
 }
 
-void	ft_clear(t_ph_data *ph_data, t_data *data)
+void	ft_clear(t_philo *philo, t_data *data)
 {
 	int	i;
 	
@@ -65,34 +66,37 @@ void	ft_clear(t_ph_data *ph_data, t_data *data)
 		pthread_mutex_destroy(&(data->f_mutex)[i]);
 		i++;
 	}
-	free(ph_data);
+	free(philo);
 	free(data->thread);
 }
 
-void	*ft_routine(void *v_ph_data)
+void	*ft_routine(void *v_philo)
 {
 	t_data *data;
-	t_ph_data *ph_data;
+	t_philo *philo;
 	
-	//n_data = (t_data *)data;
-	ph_data = (t_ph_data *)v_ph_data;
-	data = ph_data->data;
-	//printf("%p\n", &data->f_mutex[0]);
-	pthread_mutex_lock(&(ph_data->data->f_mutex)[0]);
-	mail++;
-	pthread_mutex_unlock(&(data->f_mutex)[0]);
-	// pthread_mutex_lock(&ph_data->data->f_mutex[ph_data->ph_number - 1]);
-	// printf("philo %d take a fork\n", ph_data->ph_number);
-	// pthread_mutex_lock(&ph_data->data->f_mutex[(ph_data->ph_number - 1) % ph_data->data->n_philos]);
-	// printf("philo %d take a fork\n", ph_data->ph_number);
-	// printf("philo %d eating\n", ph_data->ph_number);
-	// sleep(2);
-	// pthread_mutex_unlock(&ph_data->data->f_mutex[ph_data->ph_number - 1]);
-	// pthread_mutex_unlock(&ph_data->data->f_mutex[(ph_data->ph_number - 1) % ph_data->data->n_philos]);
+	philo = (t_philo *)v_philo;
+	//printf(N);
+	//mail++;
+	data = philo->data;
+	//printf("%d\n", philo->ph_number);
+	while (1)
+	{
+		pthread_mutex_lock(&(data->f_mutex)[RIGHT]);
+		printf("philo %d take right fork\n", philo->ph_number);
+		pthread_mutex_lock(&(data->f_mutex)[LEFT]);
+		printf("philo %d take left fork\n", philo->ph_number);
+		
+		printf("philo %d eating\n", philo->ph_number);
+		sleep(2);
+		pthread_mutex_unlock(&(data->f_mutex)[LEFT]);
+		pthread_mutex_unlock(&(data->f_mutex)[RIGHT]);
+		sleep(2);
+	}
 	return ((void*)0);
 }
 
-void	ft_thread(t_ph_data *ph_data, t_data *data)
+void	ft_thread(t_philo *philo, t_data *data)
 {
 	int i;
 
@@ -100,9 +104,9 @@ void	ft_thread(t_ph_data *ph_data, t_data *data)
 	while (i < data->n_philos)
 	{
 		//data->ph_counter = i;
-		pthread_create(&data->thread[i], NULL, &ft_routine, ph_data);
+		pthread_create(&data->thread[i], NULL, &ft_routine, philo);
 		//printf("thread %d created\n", i);
-		ph_data++;
+		philo++;
 		i++;
 	}
 	i = 0;
@@ -116,18 +120,18 @@ void	ft_thread(t_ph_data *ph_data, t_data *data)
 
 int main(int argc, char **argv)
 {
-	t_data		data;
-	t_ph_data	*ph_data;
+	t_data		data; 
+	t_philo		*philo;
 
 	if (argc == 5 || argc == 6)
 	{
-		ph_data = malloc(sizeof(t_ph_data) * ft_atoi(argv[1]));
+		philo = malloc(sizeof(t_philo) * ft_atoi(argv[1]));
 		data.thread = malloc(sizeof(pthread_t) * ft_atoi(argv[1]));
 		data.f_mutex = malloc(sizeof(pthread_mutex_t) * ft_atoi(argv[1]));
-		ft_init(argc, argv, &data, ph_data);
-		ft_thread(ph_data, &data);
-		//ft_print_philo_data(ph_data, &data);
-		ft_clear(ph_data, &data);
+		ft_init(argc, argv, &data, philo);
+		ft_thread(philo, &data);
+		//ft_print_philo_data(philo, &data);
+		ft_clear(philo, &data);
 		printf("%d\n", mail);
 	}
 	else
