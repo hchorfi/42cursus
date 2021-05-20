@@ -6,11 +6,19 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 15:00:51 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/18 18:36:42 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/20 22:01:33 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
+
+unsigned long	time_now(void)
+{
+	static struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
 
 int	ft_atoi(const char *str)
 {
