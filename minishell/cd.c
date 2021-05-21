@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/16 17:51:27 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/05 15:18:38 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/21 15:10:46 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	ft_change_oldpwd(char *val)
 			newlist = newlist->next;
 		free(tmp);
 	}
+	ft_lstadd_back(&g_data.env_var, ft_lstnew(ft_strjoin("OLDPWD=", val)));
 	return (0);
 }
 
@@ -59,6 +60,7 @@ int	ft_change_pwd(char *val)
 			newlist = newlist->next;
 		free(tmp);
 	}
+	ft_lstadd_back(&g_data.env_var, ft_lstnew(ft_strjoin("PWD=", val)));
 	return (0);
 }
 

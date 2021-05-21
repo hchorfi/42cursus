@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 16:53:07 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/06 15:43:49 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/21 18:27:10 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_command
 	int			output_file;
 	int			pipe_pos;
 	int			block;
+	int			check_pos;
 }				t_command;
 
 typedef struct s_data

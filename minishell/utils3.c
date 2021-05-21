@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 14:57:37 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/06 15:05:13 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/21 20:37:04 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,25 @@ void	init1(char **argv, t_list **newlist, t_list **pipe_list, int *j)
 
 int	check_input(t_list *newlist, int j)
 {
+	int i ;
+
+	i = -1;
 	while (newlist && (((t_command *)newlist->content)->block == j))
 	{
-		if (((t_command *)newlist->content)->input_file == -1)
+		if (((t_command *)newlist->content)->check_pos > -1)
 		{
 			g_data.ret = 1;
-			return (-1);
+			i = ((t_command *)newlist->content)->check_pos;
+			//return (-1);
 		}
 		newlist = newlist->next;
+		if (newlist && (((t_command *)newlist->content)->block == j))
+		{
+			((t_command *)newlist->content)->pipe_pos = ((t_command *)newlist->content)->pipe_pos - (i + 1);
+			g_data.num_pipes = ((t_command *)newlist->content)->pipe_pos;
+		}
 	}
-	return (j);
+	return (i);
 }
 
 void	ft_parse2(int i, int j, char *pipe_cmd)
@@ -72,6 +81,7 @@ void	ft_parse2(int i, int j, char *pipe_cmd)
 	g_data.command = malloc(sizeof * g_data.command);
 	g_data.command->block = i;
 	g_data.command->pipe_pos = j;
+	g_data.command->check_pos = -1;
 	new_pipe = ft_check_redirections(pipe_cmd, 0, ft_strdup(""));
 	g_data.command->tokens = ft_split_pars(new_pipe, ' ');
 	free(new_pipe);

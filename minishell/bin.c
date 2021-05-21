@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/17 14:05:25 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/05 13:49:57 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/21 21:30:45 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	ft_exec_check2(char **tokens, struct stat ps)
 	{
 		if (tokens[0][0] != '.' && tokens[0][0] != '/'
 			&& tokens[0][ft_strlen(tokens[0]) - 1] != '/')
+		{
 			ft_exec_error(1, tokens[0]);
+		}
 		else
 			ft_exec_error(2, tokens[0]);
 	}
@@ -37,7 +39,9 @@ void	ft_exec_check2(char **tokens, struct stat ps)
 void	ft_exec_check1(char **token, struct stat path_stat)
 {
 	if (!ft_strncmp(token[0], "..", 3))
+	{
 		ft_exec_error(1, token[0]);
+	}
 	if (!ft_strncmp(token[0], ".", 2))
 	{
 		ft_putstr_fd("minishell: .: filename argument required\n", 2);
@@ -78,8 +82,8 @@ int	ft_exec_bin(t_command *command)
 
 	if (!stat(command->tokens[0], &path_stat))
 		ft_exec_check1(command->tokens, path_stat);
-	else
-	{
+	//else
+	//{
 		if (command->tokens[0][0] == '/' || (ft_strlen(command->tokens[0]) > 2
 			&& command->tokens[0][0] == '.' && command->tokens[0][1] == '/'))
 			ft_exec_error(4, command->tokens[0]);
@@ -90,7 +94,7 @@ int	ft_exec_bin(t_command *command)
 		if (!path || *path == '\0' || !bins)
 			ft_exec_error(4, command->tokens[0]);
 		ft_exec_bin2(bins, path, path_stat, command->tokens);
-	}
+	//}
 	return (0);
 }
 

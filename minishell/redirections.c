@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hchorfi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 14:34:34 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/06 14:34:38 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/21 18:38:01 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ void	ft_in_red_file(char **new_pipe, char **tmp_in, int j)
 	free(tmp_free);
 	in = open(file, O_RDONLY);
 	if (in == -1)
+	{
 		ft_putstrs_er(
 			"minishell: ", file, ": No such file or directory\n", NULL);
+		g_data.command->check_pos = g_data.command->pipe_pos;
+	}
 	if (g_data.command->input_file > 0)
 		close(g_data.command->input_file);
 	g_data.command->input_file = in;

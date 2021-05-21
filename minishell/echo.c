@@ -17,6 +17,8 @@ int	check_n(char *args)
 	int	i;
 
 	i = 0;
+	if (args[0] == '-' && args[1] != 'n')
+		return (0);
 	if (args[0] == '-')
 		i++;
 	else
@@ -48,7 +50,7 @@ int	ft_echo(t_command *command, int i, int n)
 	while (command->tokens[i])
 	{
 		ft_putstr_fd(command->tokens[i], 1);
-		if (command->tokens[i + 1])
+		if (command->tokens[i + 1] && command->tokens[i][0] != '\0')
 			ft_putchar_fd(' ', 1);
 		if (!command->tokens[i + 1] && n == 0)
 			ft_putchar_fd('\n', 1);

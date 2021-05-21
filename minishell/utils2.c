@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 14:35:37 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/06 15:26:55 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/21 12:40:34 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,16 @@ int	ft_check_syntax(char *line)
 	if (*line == '|' || *line == ';')
 	{
 		printf("minishell: syntax error near unexpected token `%c'\n", *line);
-		return (g_data.ret = 2);
+		return (g_data.ret = 258);
 	}
 	if ((*line == '|') || remove_tabs_check(line, '|'))
 	{
 		printf("minishell: syntax error near unexpected token `|'\n");
-		return (g_data.ret = 2);
+		return (g_data.ret = 258);
 	}
 	if (!ft_check_syntax2(line))
-		return (g_data.ret = 2);
+		return (g_data.ret = 258);
 	if (!ft_check_syntax_last(line))
-		return (g_data.ret = 2);
+		return (g_data.ret = 258);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 13:30:46 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/06 14:22:30 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/21 12:28:35 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void	ft_new_line(void)
 	if (*(g_data.line) != 0)
 	{
 		if (!ft_check_syntax(g_data.line))
+		{
 			ft_parse(g_data.line, 0, 0);
+			ft_stock_ret();
+		}
 	}
 	tcsetattr(STDIN_FILENO, TCSANOW, &g_data.orig_term);
 }

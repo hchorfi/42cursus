@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/06 15:10:48 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/21 20:42:54 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,14 @@ void	sighandler(int dummy)
 void	ft_exec(t_command *command)
 {
 	int	*tmp;
-
+	//ft_putstr_fd(command->tokens[0], 1);
 	ft_prepare_tokens(command, 0, 0);
 	if (command->pipe_pos != g_data.num_pipes && g_data.num_pipes > 0)
+	{
+		//ft_putstr_fd("pipe\n", 1);
+		//ft_putnbr_fd(command->pipe_pos, 1);
 		pipe(g_data.fd);
+	}
 	if (ft_check_builtin(command))
 		ft_builtin(command);
 	else if (command->tokens[0] != NULL && command->tokens[0][0] != '\0')
@@ -114,9 +118,30 @@ int	main(int argc, char **argv, char **envp)
 			while (newlist && (((t_command *)newlist->content)->block == j))
 			{
 				command = (t_command *)newlist->content;
-				if (check_input(g_data.cmds, j) != -1)
+				//ft_putstr_fd(((t_command *)newlist->content)->tokens[0], 1);
+				//ft_putnbr_fd(command->check_pos, 1);
+				//ft_putstr_fd("\n", 1);
+				int k;
+				if ((k = check_input(newlist, j)) > -1)
+				{
+					//ft_putstr_fd("ok\n", 1);
+					int i = 0;
+					while (i <= k)
+					{
+						newlist = newlist->next;
+						i++;
+					}
+					//((t_command *)newlist->content)->pipe_pos = 
+				}
+				else
+				{
+					//ft_putstr_fd(((t_command *)newlist->content)->tokens[0], 1);
+					//ft_putnbr_fd(command->pipe_pos, 1);
 					ft_exec(command);
-				newlist = newlist->next;
+					newlist = newlist->next;
+				}
+				
+				//if (check_input(g_data.cmds, j) != -1)
 			}
 			ft_close_and_ret(&j, &pipe_list);
 			ft_stock_ret();
