@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/22 22:39:14 by devza             #+#    #+#             */
-/*   Updated: 2021/05/21 20:42:54 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/22 10:51:50 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	sighandler(int dummy)
 			ft_putstrs_fd("\n", "\033[0;32m", "minishell 👽 > ", "\033[0m");
 		else
 			ft_putstr_fd("\n", 1);
+		g_data.ret = 1;
 	}
 	else if (dummy == SIGQUIT)
 	{

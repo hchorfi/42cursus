@@ -6,7 +6,7 @@
 /*   By: hchorfi <hchorfi@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 14:34:17 by hchorfi           #+#    #+#             */
-/*   Updated: 2021/05/21 16:02:10 by hchorfi          ###   ########.fr       */
+/*   Updated: 2021/05/22 11:01:37 by hchorfi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ void	ft_out_red_file2(char *file, char c, int out, int priority)
 		tmp_free = file;
 		file = get_other_variables(file);
 		if (*file == '\0')
+		{
 			ft_putstrs_er("minishell: ", tmp_free, ": ambiguous redirect\n", NULL);
+			g_data.ret = 1;
+		}
 		free(tmp_free);
 	}
 	tmp_free = file;
